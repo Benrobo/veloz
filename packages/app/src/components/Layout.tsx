@@ -5,7 +5,7 @@ import SideBar from "./Navbar/SideBar";
 interface LayoutProps {
   children?: React.ReactNode;
   className?: React.ComponentProps<"div">["className"];
-  activePage?: string;
+  activePage: string;
 }
 
 function Layout({ children, activePage, className }: LayoutProps) {
@@ -17,7 +17,7 @@ function Layout({ children, activePage, className }: LayoutProps) {
       )}
     >
       <div className="w-full h-full hideScrollBar flex">
-        <SideBar />
+        <SideBar activePage={activePage} />
         <div className="z-upper">{children}</div>
       </div>
     </div>
