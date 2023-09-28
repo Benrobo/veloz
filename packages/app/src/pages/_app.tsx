@@ -1,4 +1,6 @@
+import { ComponentLayout } from "@/components/Layout";
 import { ppB, ppEB, ppReg, ppSB } from "@/config/font";
+import LayoutContextProvider from "@/context/LayoutContext";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 
@@ -15,7 +17,11 @@ export default function App({ Component, pageProps }: AppProps) {
           }
         `}
       </style>
-      <Component {...pageProps} />
+      <LayoutContextProvider>
+        <ComponentLayout>
+          <Component {...pageProps} />
+        </ComponentLayout>
+      </LayoutContextProvider>
     </>
   );
 }

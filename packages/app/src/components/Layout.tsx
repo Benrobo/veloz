@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 import SideBar from "./Navbar/SideBar";
+import { LayoutContext } from "@/context/LayoutContext";
 
 interface LayoutProps {
   children?: React.ReactNode;
@@ -9,11 +10,34 @@ interface LayoutProps {
 }
 
 function Layout({ children, activePage, className }: LayoutProps) {
+  const { setActivePage } = useContext(LayoutContext);
+
+  useEffect(() => {
+    setActivePage(activePage);
+  }, []);
+
+  return (
+    <div
+      className={twMerge("w-full relative h-screen overflow-y-auto", className)}
+    >
+      {children}
+    </div>
+  );
+}
+
+export default Layout;
+
+export function ComponentLayout({
+  children,
+}: {
+  children: React.ReactElement;
+}) {
+  const { activePage } = useContext(LayoutContext);
+
   return (
     <div
       className={twMerge(
-        "w-full relative h-screen overflow-y-auto bg-dark-200",
-        className
+        "w-full relative h-screen overflow-y-auto bg-dark-100"
       )}
     >
       <div className="w-full h-full hideScrollBar flex">
@@ -23,5 +47,3 @@ function Layout({ children, activePage, className }: LayoutProps) {
     </div>
   );
 }
-
-export default Layout;
