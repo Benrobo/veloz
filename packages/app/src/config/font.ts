@@ -6,6 +6,12 @@ export const ppReg = Poppins({
   weight: ["400"],
 });
 
+export const ppL = Poppins({
+  subsets: ["latin"],
+  variable: "--font-ppL",
+  weight: ["300"],
+});
+
 // bold poppins
 export const ppB = Poppins({
   subsets: ["latin"],

@@ -100,6 +100,7 @@ const config: Config = {
         ppB: ["var(--font-ppB)"],
         ppEB: ["var(--font-ppEB)"],
         ppSB: ["var(--font-ppSB)"],
+        ppL: ["var(--font-ppL)"],
       },
     },
   },
