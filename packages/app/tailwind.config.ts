@@ -42,6 +42,18 @@ const config: Config = {
           600: "#330000",
           700: "#000000",
         },
+        orange: {
+          100: "#FF8A65",
+          200: "rgba(255, 138, 101, 0.3)",
+        },
+        blue: {
+          100: "#3B82F6",
+          200: "rgba(59, 130, 246, 0.3)",
+        },
+        green: {
+          100: "#22C55E",
+          200: "rgba(34, 197, 94, 0.3)",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
