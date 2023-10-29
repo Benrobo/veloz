@@ -1,7 +1,7 @@
 import { Box, CloudFog, Convertshape, Crown, Nebulas } from "iconsax-react";
 import React from "react";
 
-type ProjectType = "Vortex" | "Apex" | "Serenity" | "Nebula" | "Odyssey";
+export type ProjectType = "Vortex" | "Apex" | "Serenity" | "Nebula" | "Odyssey";
 
 interface ProjectCardProps {
   name: string;
@@ -10,12 +10,19 @@ interface ProjectCardProps {
   label: ProjectType;
 }
 
-function ProjectCard({ id, name, description, label }: ProjectCardProps) {
+function ProjectCard({
+  id,
+  name,
+  description,
+  label,
+  ...props
+}: ProjectCardProps) {
   return (
     <button
       id={id}
       key={id}
       className="w-auto min-w-[300px] h-auto rounded-lg bg-dark-200 flex flex-col items-start justify-start gap-2 py-5 px-5 border-solid border-[1px] border-white-600 transition-colors hover:bg-dark-300 "
+      {...props}
     >
       {renderProjectIcons(label ?? "Odyssey")}
       <p className="text-white-100 font-ppSB">{name ?? "Project Name"}</p>
