@@ -17,8 +17,25 @@ function Projects() {
         </div>
       </div>
       <br />
-      <div className="w-full px-3 py-3 flex flex-wrap items-center justify-start">
-        <ProjectCard />
+      <div className="w-full px-3 py-3 flex flex-wrap items-center justify-start gap-3">
+        <ProjectCard
+          name="Event App"
+          description="Source code for event app"
+          label="Vortex"
+          id="dscsc"
+        />
+        <ProjectCard
+          name="Saas 2"
+          description="Source code for my saas app"
+          label="Nebula"
+          id="dscsc"
+        />
+        <ProjectCard
+          name="Saas 2.0"
+          description="Source code for my saas 2.0 app"
+          label="Odyssey"
+          id="dscsc"
+        />
       </div>
     </Layout>
   );
