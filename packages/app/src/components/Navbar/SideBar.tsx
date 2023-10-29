@@ -35,7 +35,7 @@ function SideBar({ activePage }: SidebarProps) {
       <div className="w-full mt-5 px-4 flex flex-col items-center justify-center gap-3">
         {/* home item */}
         <Link
-          href="/"
+          href="/dashboard"
           className={twMerge(
             "w-full h-auto group px-4 py-3 rounded-lg  flex items-center justify-start gap-2 font-ppReg transition ease-in-out text-[14px]",
             buttonStyle(activePage, "home").btn

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import SideBar from "./Navbar/SideBar";
 import { LayoutContext } from "@/context/LayoutContext";
@@ -34,6 +34,13 @@ export function ComponentLayout({
   children: React.ReactElement;
 }) {
   const { activePage } = useContext(LayoutContext);
+  const [pathname, setPathname] = useState("");
+  const validPages = ["dashboard", "projects", "billing"];
+
+  useEffect(() => {
+    const { pathname } = window.location;
+    setPathname(pathname.replace("/", ""));
+  }, [pathname]);
 
   return (
     <div
@@ -41,13 +48,17 @@ export function ComponentLayout({
         "w-full relative h-screen overflow-y-auto hideScrollBar bg-dark-100"
       )}
     >
-      <div className="w-full h-full flex">
-        <SideBar activePage={activePage} />
-        <div className="w-full z-upper">
-          <TopBar />
-          {children}
+      {validPages.includes(pathname) ? (
+        <div className="w-full h-full flex">
+          <SideBar activePage={activePage} />
+          <div className="w-full z-upper">
+            <TopBar />
+            {children}
+          </div>
         </div>
-      </div>
+      ) : (
+        children
+      )}
     </div>
   );
 }
