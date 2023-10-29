@@ -1,6 +1,7 @@
 import Layout from "@/components/Layout";
-import ProjectCard from "@/components/Projects/card";
+import ProjectCard, { ProjectType } from "@/components/Projects/card";
 import { Button } from "@/components/ui/button";
+import { projectTempData } from "@/data/project";
 import { Flash } from "iconsax-react";
 import React from "react";
 
@@ -18,24 +19,14 @@ function Projects() {
       </div>
       <br />
       <div className="w-full px-3 py-3 flex flex-wrap items-center justify-start gap-3">
-        <ProjectCard
-          name="Event App"
-          description="Source code for event app"
-          label="Vortex"
-          id="dscsc"
-        />
-        <ProjectCard
-          name="Saas 2"
-          description="Source code for my saas app"
-          label="Nebula"
-          id="dscsc"
-        />
-        <ProjectCard
-          name="Saas 2.0"
-          description="Source code for my saas 2.0 app"
-          label="Odyssey"
-          id="dscsc"
-        />
+        {projectTempData.map((d) => (
+          <ProjectCard
+            name={d.name}
+            description={d.description}
+            label={d.label as ProjectType}
+            id={d.id}
+          />
+        ))}
       </div>
     </Layout>
   );
