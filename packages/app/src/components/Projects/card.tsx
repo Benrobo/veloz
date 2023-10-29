@@ -1,4 +1,4 @@
-import { Box, Convertshape, Nebulas } from "iconsax-react";
+import { Box, CloudFog, Convertshape, Crown, Nebulas } from "iconsax-react";
 import React from "react";
 
 type ProjectType = "Vortex" | "Apex" | "Serenity" | "Nebula" | "Odyssey";
@@ -6,7 +6,7 @@ type ProjectType = "Vortex" | "Apex" | "Serenity" | "Nebula" | "Odyssey";
 function ProjectCard() {
   return (
     <button className="w-auto min-w-[300px] h-auto rounded-lg bg-dark-200 flex flex-col items-start justify-start gap-2 py-5 px-5 border-solid border-[1px] border-white-600 transition-colors hover:bg-dark-300 ">
-      {renderProjectIcons("Apex")}
+      {renderProjectIcons("Odyssey")}
       <p className="text-white-100 font-ppSB">Project Name</p>
       <p className="text-white-300 font-ppR text-[12px] ">
         Project description
@@ -42,6 +42,24 @@ function renderProjectIcons(type: ProjectType) {
       <Nebulas
         size="40"
         className="text-blue-100 p-[8px] bg-blue-200 rounded-md "
+        variant="Broken"
+      />
+    );
+  }
+  if (type === "Serenity") {
+    icon = (
+      <CloudFog
+        size="40"
+        className="text-pink-100 p-[8px] bg-pink-200 rounded-md "
+        variant="Broken"
+      />
+    );
+  }
+  if (type === "Odyssey") {
+    icon = (
+      <Crown
+        size="40"
+        className="text-teal-100 p-[8px] bg-teal-200 rounded-md "
         variant="Broken"
       />
     );
