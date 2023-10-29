@@ -54,6 +54,14 @@ const config: Config = {
           100: "#22C55E",
           200: "rgba(34, 197, 94, 0.3)",
         },
+        pink: {
+          100: "#E4295D",
+          200: "rgba(228, 41, 93, 0.3)",
+        },
+        teal: {
+          100: "#21B6A2",
+          200: "rgba(33, 182, 162, 0.3)",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
