@@ -8,7 +8,7 @@ export const ProjectLabels = [
   "Odyssey",
 ];
 
-export const projectTempData = [
+export const projectTempData: VelozProjectType[] = [
   {
     name: "Event App",
     label: "Apex",
