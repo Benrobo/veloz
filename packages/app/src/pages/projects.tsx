@@ -4,9 +4,14 @@ import Slidebar from "@/components/Projects/Slidebar";
 import { Button } from "@/components/ui/button";
 import { projectTempData } from "@/data/project";
 import { Flash } from "iconsax-react";
-import React from "react";
+import React, { useState } from "react";
 
 function Projects() {
+  const [slideBarOpen, setSlideBarOpen] = useState(false);
+  const [selectedProjId, setSelectedProjId] = useState<any>("");
+
+  const toggleSlideBar = () => setSlideBarOpen(!slideBarOpen);
+
   return (
     <Layout activePage="projects">
       <div className="w-full h-auto py-3 px-3 flex items-center justify-between border-b-solid border-b-white-600 border-b-[1px] ">
@@ -26,12 +31,21 @@ function Projects() {
             description={d.description}
             label={d.label as ProjectType}
             id={d.id}
+            onClick={() => {
+              setSelectedProjId(d.id);
+              setSlideBarOpen(true);
+            }}
           />
         ))}
       </div>
 
       {/* project slide modal */}
-      <Slidebar />
+      <Slidebar
+        onClose={toggleSlideBar}
+        proj_id={selectedProjId}
+        projects={projectTempData}
+        isOpen={slideBarOpen}
+      />
     </Layout>
   );
 }

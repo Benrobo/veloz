@@ -49,9 +49,9 @@ export function ComponentLayout({
       )}
     >
       {validPages.includes(pathname) ? (
-        <div className="w-full h-full flex">
+        <div className="w-full h-screen flex">
           <SideBar activePage={activePage} />
-          <div className="w-full z-upper">
+          <div className="w-full z-upper  overflow-hidden">
             <TopBar />
             {children}
           </div>

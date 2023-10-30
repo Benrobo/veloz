@@ -3,7 +3,7 @@ import React from "react";
 
 export type ProjectType = "Vortex" | "Apex" | "Serenity" | "Nebula" | "Odyssey";
 
-interface ProjectCardProps {
+interface ProjectCardProps extends React.HTMLProps<HTMLButtonElement> {
   name: string;
   id: any;
   description?: string;
@@ -18,6 +18,7 @@ function ProjectCard({
   ...props
 }: ProjectCardProps) {
   return (
+    // @ts-expect-error
     <button
       id={id}
       key={id}
