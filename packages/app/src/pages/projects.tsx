@@ -39,7 +39,7 @@ function Projects() {
         ))}
       </div>
 
-      {/* project slide modal */}
+      {/* */}
       <Slidebar
         onClose={toggleSlideBar}
         proj_id={selectedProjId}
