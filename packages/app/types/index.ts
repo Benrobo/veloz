@@ -5,11 +5,9 @@ export interface VelozProjectType {
   id: any;
   description?: string;
   label: ProjectType;
-  stacks: [
-    {
-      title: "frontend" | "backend" | "payment" | "database" | "mailing";
-      stacks: string[];
-    }
-  ];
+  stacks: {
+    title: "frontend" | "backend" | "payment" | "database" | "mailing";
+    stacks: string[];
+  }[];
   download_link?: string;
 }
