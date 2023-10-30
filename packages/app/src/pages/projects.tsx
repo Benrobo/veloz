@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
-import ProjectCard, { ProjectType } from "@/components/Projects/card";
+import ProjectCard, { ProjectType } from "@/components/Projects/Card";
+import Slidebar from "@/components/Projects/Slidebar";
 import { Button } from "@/components/ui/button";
 import { projectTempData } from "@/data/project";
 import { Flash } from "iconsax-react";
@@ -14,7 +15,7 @@ function Projects() {
           <p className="text-white-100 font-ppSB text-[18px] ">Projects</p>
         </div>
         <div className="right flex items-center justify-center gap-2">
-          <Button variant="destructive">Create Project</Button>
+          <Button variant="primary">Create Project</Button>
         </div>
       </div>
       <br />
@@ -28,6 +29,9 @@ function Projects() {
           />
         ))}
       </div>
+
+      {/* project slide modal */}
+      <Slidebar />
     </Layout>
   );
 }
