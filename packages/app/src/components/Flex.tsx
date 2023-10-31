@@ -62,6 +62,24 @@ export function FlexRowStart({ children, className, ...props }: FlexProps) {
   );
 }
 
+export function FlexRowStartCenter({
+  children,
+  className,
+  ...props
+}: FlexProps) {
+  return (
+    <div
+      className={twMerge(
+        "w-auto flex items-center justify-start gap-3",
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
 export function FlexRowEnd({ children, className, ...props }: FlexProps) {
   return (
     <div
