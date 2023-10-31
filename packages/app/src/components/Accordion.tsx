@@ -25,6 +25,17 @@ function Accordion({
   ...props
 }: AccordionProps) {
   const [open, setOpen] = useState(false);
+
+  const preventAccordionFromClosing = (e: any) => {
+    // prevent accordion from automatically closing
+    const invalidKbCode = ["space", "enter"];
+    const kbcode = e.code.toLowerCase();
+    if (invalidKbCode.includes(kbcode)) {
+      e.preventDefault();
+      setOpen(true);
+    }
+  };
+
   return (
     // @ts-expect-error
     <button
@@ -33,6 +44,7 @@ function Accordion({
         className
       )}
       {...props}
+      data-name="veloz-accordion"
       onClick={(e: any) => {
         const target = e.target;
         const parent = target.parentElement;
@@ -45,6 +57,7 @@ function Accordion({
           setOpen(!open);
         }
       }}
+      onKeyDownCapture={preventAccordionFromClosing}
     >
       <FlexRowStartBtw className="w-full">
         <FlexRowCenter>
