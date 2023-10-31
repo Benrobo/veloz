@@ -33,7 +33,18 @@ function Accordion({
         className
       )}
       {...props}
-      onClick={() => setOpen(!open)}
+      onClick={(e: any) => {
+        const target = e.target;
+        const parent = target.parentElement;
+        const btn =
+          parent.tagName.toLowerCase() === "button"
+            ? parent
+            : parent.querySelector("button");
+        const name = btn?.name;
+        if (props?.name === name) {
+          setOpen(!open);
+        }
+      }}
     >
       <FlexRowStartBtw className="w-full">
         <FlexRowCenter>
