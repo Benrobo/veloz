@@ -10,6 +10,7 @@ import {
 import {
   Database,
   DownloadCloud,
+  KeyRound,
   Mailbox,
   PiggyBank,
   Server,
@@ -22,6 +23,8 @@ import Accordion from "../Accordion";
 import { Wallet } from "iconsax-react";
 import { ProjectType } from "./Card";
 import { VelozProjectType } from "../../../types";
+import ProjectStatus from "./Badge";
+import Editor from "../Editor";
 
 interface SidebarProps {
   onClose: () => void;
@@ -40,7 +43,8 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
       <div className="w-fit min-w-[400px] md:min-w-[450px] h-screen overflow-y-scroll bg-dark-100 absolute top-[-2em] right-[-1em] border-l-solid border-l-[.5px] border-l-white-600  pb-[4em]">
         <FlexRowStartBtw className="py-5 px-5">
           <FlexColStart className="w-full px-3 py-2">
-            <p className="text-white-100 font-ppSB text-[20px] ">
+            <ProjectStatus status={selectedProj?.status} />
+            <p className="text-white-100 relative font-ppSB text-[20px] ">
               {selectedProj?.name ?? "Project Name"}
             </p>
             <p className="text-white-200 font-ppR text-[12px] ">
@@ -66,7 +70,7 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
           </FlexRowEnd>
         </FlexRowStartBtw>
         <br />
-        <FlexColStart className="w-full px-5 py-2">
+        <FlexColStart className="w-full px-5 py-2 pb-9 border-b-solid border-b-[.5px] border-b-white-600">
           {selectedProj?.stacks?.map((stack) =>
             stack.title === "frontend" ? (
               <Accordion
@@ -74,6 +78,7 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
                 leftIcon={
                   <Theater className="text-white-300 group-hover:text-white-100" />
                 }
+                name={"frontend"}
               >
                 <FlexColStart className="w-full px-3 py-2">
                   <RenderStacks tech_stacks={stack.stacks} />
@@ -85,6 +90,7 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
                 leftIcon={
                   <Server className="text-white-300 group-hover:text-white-100" />
                 }
+                name={"backend"}
               >
                 <FlexColStart className="w-full px-3 py-2">
                   <RenderStacks tech_stacks={stack.stacks} />
@@ -96,6 +102,7 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
                 leftIcon={
                   <Database className="text-white-300 group-hover:text-white-100" />
                 }
+                name={"database"}
               >
                 <FlexColStart className="w-full px-3 py-2">
                   <RenderStacks tech_stacks={stack.stacks} />
@@ -107,6 +114,7 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
                 leftIcon={
                   <PiggyBank className="text-white-300 group-hover:text-white-100" />
                 }
+                name={"payment"}
               >
                 <FlexColStart className="w-full px-3 py-2">
                   <RenderStacks tech_stacks={stack.stacks} />
@@ -118,6 +126,7 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
                 leftIcon={
                   <Mailbox className="text-white-300 group-hover:text-white-100" />
                 }
+                name={"mailing"}
               >
                 <FlexColStart className="w-full px-3 py-2">
                   <RenderStacks tech_stacks={stack.stacks} />
@@ -125,6 +134,25 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
               </Accordion>
             ) : null
           )}
+        </FlexColStart>
+        <br />
+        <FlexColStart className="w-full px-5 py-2 pb-9 border-b-solid border-b-[.5px] border-b-white-600">
+          <p className="text-white-100 relative font-ppSB text-[15px] ">
+            Environmental Variables
+          </p>
+          <p className="text-white-300 font-ppR text-[12px] ">
+            Project managed environmental variable
+          </p>
+          <br />
+          <Accordion
+            leftIcon={
+              <KeyRound className="text-white-300 group-hover:text-white-100" />
+            }
+            title=".env"
+            name="environmental-variable"
+          >
+            <Editor />
+          </Accordion>
         </FlexColStart>
       </div>
     </Modal>
