@@ -15,6 +15,7 @@ export const projectTempData: VelozProjectType[] = [
     description: "Source code for my event app",
     id: 1,
     download_link: "",
+    status: "done",
     stacks: [
       {
         title: "backend",
@@ -36,6 +37,7 @@ export const projectTempData: VelozProjectType[] = [
     description: "Development of an online marketplace",
     id: 2,
     download_link: "",
+    status: "done",
     stacks: [
       {
         title: "backend",
@@ -57,6 +59,7 @@ export const projectTempData: VelozProjectType[] = [
     description: "Creating a fitness and well-being application",
     id: 3,
     download_link: "",
+    status: "failed",
     stacks: [
       {
         title: "frontend",
@@ -78,6 +81,7 @@ export const projectTempData: VelozProjectType[] = [
     description: "Building a website for astronomy enthusiasts",
     id: 4,
     download_link: "",
+    status: "pending",
     stacks: [
       {
         title: "frontend",
@@ -95,6 +99,7 @@ export const projectTempData: VelozProjectType[] = [
     description: "Blogging platform for travel enthusiasts",
     id: 5,
     download_link: "",
+    status: "done",
     stacks: [
       {
         title: "backend",

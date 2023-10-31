@@ -29,6 +29,7 @@ function Projects() {
           <ProjectCard
             name={d.name}
             description={d.description}
+            status={d.status}
             label={d.label as ProjectType}
             id={d.id}
             onClick={() => {
