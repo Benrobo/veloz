@@ -4,6 +4,7 @@ import Slidebar from "@/components/Projects/Slidebar";
 import { Button } from "@/components/ui/button";
 import { projectTempData } from "@/data/project";
 import { Flash } from "iconsax-react";
+import Link from "next/link";
 import React, { useState } from "react";
 
 function Projects() {
@@ -20,7 +21,9 @@ function Projects() {
           <p className="text-white-100 font-ppSB text-[18px] ">Projects</p>
         </div>
         <div className="right flex items-center justify-center gap-2">
-          <Button variant="primary">Create Project</Button>
+          <Link href={"/projects/create"}>
+            <Button variant="primary">Create Project</Button>
+          </Link>
         </div>
       </div>
       <br />
