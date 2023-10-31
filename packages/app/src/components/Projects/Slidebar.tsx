@@ -20,8 +20,6 @@ import {
 import Link from "next/link";
 import RenderStacks from "../Stacks/Render";
 import Accordion from "../Accordion";
-import { Wallet } from "iconsax-react";
-import { ProjectType } from "./Card";
 import { VelozProjectType } from "../../../types";
 import ProjectStatus from "./Badge";
 import Editor from "../Editor";
