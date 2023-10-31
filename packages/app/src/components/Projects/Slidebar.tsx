@@ -151,7 +151,7 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
             title=".env"
             name="environmental-variable"
           >
-            <Editor />
+            <Editor lineNumbers="off" readonly defaultValue={`const a = 23`} />
           </Accordion>
         </FlexColStart>
       </div>
