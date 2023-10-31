@@ -41,6 +41,15 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
   return (
     <Modal isOpen={isOpen} isBlurBg>
       <div className="w-fit min-w-[400px] md:min-w-[450px] h-screen overflow-y-scroll bg-dark-100 absolute top-[-2em] right-[-1em] border-l-solid border-l-[.5px] border-l-white-600  pb-[4em]">
+        <button
+          className="w-[50px] h-[50px] outline-none fixed top-[-12px] right-[-25px]"
+          onClick={onClose}
+        >
+          <X
+            size={25}
+            className="bg-red-600 p-[6px] transition-all text-red-305"
+          />
+        </button>
         <FlexRowStartBtw className="py-5 px-5">
           <FlexColStart className="w-full px-3 py-2">
             <ProjectStatus status={selectedProj?.status} />
@@ -58,15 +67,6 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
                 className="text-orange-100 p-[6px] transition-all rounded-sm hover:bg-orange-200"
               />
             </Link>
-            <button
-              className="w-[50px] h-[50px] outline-none absolute top-0 right-[-23px]"
-              onClick={onClose}
-            >
-              <X
-                size={25}
-                className="bg-red-600 p-[6px] transition-all text-red-305"
-              />
-            </button>
           </FlexRowEnd>
         </FlexRowStartBtw>
         <br />
@@ -151,7 +151,12 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
             title=".env"
             name="environmental-variable"
           >
-            <Editor lineNumbers="off" readonly defaultValue={`const a = 23`} />
+            <Editor
+              lineNumbers="off"
+              readonly
+              defaultValue={selectedProj?.env ?? `//Nothing here`}
+              wordWrap="on"
+            />
           </Accordion>
         </FlexColStart>
       </div>
