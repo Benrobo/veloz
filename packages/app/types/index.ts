@@ -11,4 +11,5 @@ export interface VelozProjectType {
   }[];
   download_link?: string;
   status: "pending" | "done" | "failed";
+  env?: string | null;
 }
