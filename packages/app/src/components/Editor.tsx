@@ -11,6 +11,7 @@ interface EditorProps {
   language?: string;
   readonly?: boolean;
   lineNumbers?: "off" | "on" | "interval" | "relative";
+  wordWrap?: "off" | "on";
 }
 
 export default function Editor({
@@ -21,24 +22,48 @@ export default function Editor({
   theme,
   readonly,
   lineNumbers,
+  wordWrap,
 }: EditorProps) {
+  const [editorHeight, setEditorHeight] = useState(0);
+  const container = useRef(null);
+
   useEffect(() => {
-    // setEditorTheme(monaco);
+    const containerHeight =
+      (container?.current as any)?.scrollHeight +
+        (defaultValue as string).length ?? 0;
+    setEditorHeight(containerHeight);
   }, []);
+
   return (
-    <MonacoEditor
-      className={twMerge("h-[40vh] bg-dark-200", className)}
-      defaultLanguage={language ?? "typescript"}
-      defaultValue={"\n" + defaultValue ?? "// some comment"}
-      theme={theme ?? "vs-dark"}
-      onChange={(e: any) => {
-        onChangeText && onChangeText(e.target.value);
+    <div
+      style={{
+        minHeight: "30px",
+        height: `${editorHeight}px`,
       }}
-      options={{
-        readOnly: readonly,
-        domReadOnly: true,
-        lineNumbers,
-      }}
-    />
+      ref={container}
+    >
+      <MonacoEditor
+        className={twMerge("h-auto bg-dark-200", className)}
+        defaultLanguage={language ?? "typescript"}
+        defaultValue={defaultValue ?? "// some comment"}
+        theme={theme ?? "vs-dark"}
+        onChange={(e: any) => {
+          onChangeText && onChangeText(e.target.value);
+        }}
+        options={{
+          readOnly: readonly,
+          domReadOnly: true,
+          lineNumbers,
+          wordWrap,
+          smoothScrolling: true,
+          minimap: { enabled: false },
+          scrollbar: {
+            vertical: "hidden",
+            horizontal: "hidden",
+            handleMouseWheel: false,
+          },
+        }}
+      />
+    </div>
   );
 }
