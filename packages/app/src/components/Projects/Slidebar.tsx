@@ -25,6 +25,7 @@ import { ProjectType } from "./Card";
 import { VelozProjectType } from "../../../types";
 import ProjectStatus from "./Badge";
 import Editor from "../Editor";
+import { Button } from "../ui/button";
 
 interface SidebarProps {
   onClose: () => void;
@@ -148,7 +149,7 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
             leftIcon={
               <KeyRound className="text-white-300 group-hover:text-white-100" />
             }
-            title=".env"
+            title="Secrets"
             name="environmental-variable"
           >
             <Editor
@@ -158,6 +159,19 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
               wordWrap="on"
             />
           </Accordion>
+        </FlexColStart>
+        <br />
+        <FlexColStart className="w-full px-5 py-2 pb-9 ">
+          <p className="text-white-105 relative font-ppSB text-[15px] ">
+            Danger Zone
+          </p>
+          <p className="text-white-200 font-ppSB text-[12px] flex flex-col ">
+            Once you delete a project, there is no going back. Please be
+            certain.
+          </p>
+          <Button variant={"destructive"} className="font-ppSB mt-3">
+            Delete project
+          </Button>
         </FlexColStart>
       </div>
     </Modal>
