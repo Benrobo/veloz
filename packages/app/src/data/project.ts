@@ -30,6 +30,7 @@ export const projectTempData: VelozProjectType[] = [
         stacks: ["mysql"],
       },
     ],
+    env: null, // No environmental variables required for this project
   },
   {
     name: "E-commerce Platform",
@@ -52,6 +53,17 @@ export const projectTempData: VelozProjectType[] = [
         stacks: ["stripe"],
       },
     ],
+    env: `
+DATABASE_URL='postgresql://postgres:@localhost:5432/myecommerce'
+
+NODE_ENV='production'
+
+JWT_SECRET='another-secret-key'
+
+CLOUDINARY_NAME='ecommerce-cloud'
+
+STRIPE_API_KEY='stripe-api-for-ecommerce'
+`,
   },
   {
     name: "Health and Wellness App",
@@ -74,6 +86,7 @@ export const projectTempData: VelozProjectType[] = [
         stacks: ["sendgrid"],
       },
     ],
+    env: null, // No environmental variables required for this project
   },
   {
     name: "Astronomy Portal",
@@ -92,6 +105,13 @@ export const projectTempData: VelozProjectType[] = [
         stacks: ["stripe"],
       },
     ],
+    env: `
+DATABASE_URL='astronomy-database-url'
+
+NODE_ENV='development'
+
+SOME_OTHER_VARIABLE='some-value'
+`,
   },
   {
     name: "Travel Blog",
@@ -118,5 +138,12 @@ export const projectTempData: VelozProjectType[] = [
         stacks: ["sendgrid"],
       },
     ],
+    env: `
+DATABASE_URL='travel-blog-db'
+
+NODE_ENV='production'
+
+ANOTHER_VARIABLE='another-value'
+`,
   },
 ];
