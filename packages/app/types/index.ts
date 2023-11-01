@@ -7,6 +7,7 @@ export type TechStackCategory =
   | "payment"
   | "database"
   | "mailing"
+  | "authentication"
   | "codebase_acrhitecture";
 
 export interface VelozProjectType {
