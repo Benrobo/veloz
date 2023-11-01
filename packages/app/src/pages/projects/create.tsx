@@ -25,6 +25,7 @@ import Accordion from "@/components/Accordion";
 import RenderStacks, {
   RenderSelectableStacks,
 } from "@/components/Stacks/Render";
+import FreemiumModal from "@/components/FreemiumModal";
 
 function CreateProject() {
   const [projType, setProjType] = useState<ProjectType>();
@@ -33,10 +34,6 @@ function CreateProject() {
   const [selectedStacks, setSelectedStacks] = useState<CodebaseArchitectureMap>(
     {} as CodebaseArchitectureMap
   );
-
-  useEffect(() => {
-    setProjType(randomProjectType() as ProjectType);
-  }, []);
 
   function updateStacksState(
     key: string,
@@ -53,7 +50,6 @@ function CreateProject() {
         delete updatedStacks[techCategory];
         setSelectedStacks(updatedStacks);
         console.log("DELETED");
-        console.log(selectedStacks);
       } else {
         // update selected stack
         mapCat.stack = key;
@@ -61,7 +57,6 @@ function CreateProject() {
         mapCat.category = techCategory;
         setSelectedStacks((prev: any) => ({ ...prev, [techCategory]: mapCat }));
         console.log("UPDATED");
-        console.log(selectedStacks);
       }
     } else {
       // add to selected Stacks
@@ -81,7 +76,11 @@ function CreateProject() {
   }
 
   useEffect(() => {
-    // console.log(selectedStacks);
+    setProjType(randomProjectType() as ProjectType);
+  }, []);
+
+  useEffect(() => {
+    console.log(selectedStacks);
   }, [selectedStacks]);
 
   return (
