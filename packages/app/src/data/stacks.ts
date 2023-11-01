@@ -152,6 +152,34 @@ const TECH_STACKS = [
     available: false,
     supported_architecture: ["monolith", "monorepo"],
   },
+  // Authentication service
+  {
+    name: "JWT",
+    key: "jsonwebtoken",
+    img: "/images/auth/jwt.png",
+    pricing_plan: "BASIC_PKG",
+    category: "authentication",
+    available: true,
+    supported_architecture: ["monolith", "monorepo"],
+  },
+  {
+    name: "Clerk",
+    key: "clerk",
+    img: "/images/auth/clerk.png",
+    pricing_plan: "STANDARD_PKG",
+    category: "authentication",
+    available: true,
+    supported_architecture: ["monolith", "monorepo"],
+  },
+  {
+    name: "Passage",
+    key: "passage",
+    img: "/images/auth/passage.png",
+    pricing_plan: "STANDARD_PKG",
+    category: "authentication",
+    available: false,
+    supported_architecture: ["monolith", "monorepo"],
+  },
 ] satisfies TechStacks[];
 
 export default TECH_STACKS;
