@@ -22,9 +22,27 @@ const TECH_STACKS = [
   },
   // Frontend
   {
+    name: "Vanilla JS",
+    key: "vanillajs",
+    img: "/images/tech_stacks/javascript.svg",
+    pricing_plan: "BASIC_PKG",
+    category: "frontend",
+    available: true,
+    supported_architecture: ["monolith", "monorepo"],
+  },
+  {
     name: "nextjs",
     key: "nextjs",
     img: "/images/tech_stacks/nextjs.svg",
+    pricing_plan: "BASIC_PKG",
+    category: "frontend",
+    available: true,
+    supported_architecture: ["monolith", "monorepo"],
+  },
+  {
+    name: "React + Vite",
+    key: "react",
+    img: "/images/tech_stacks/react.svg",
     pricing_plan: "BASIC_PKG",
     category: "frontend",
     available: true,
@@ -38,7 +56,16 @@ const TECH_STACKS = [
     pricing_plan: "BASIC_PKG",
     category: "design_system",
     available: true,
-    supported_architecture: ["monolith"],
+    supported_architecture: ["monolith", "monorepo"],
+  },
+  {
+    name: "Sass",
+    key: "sass",
+    img: "/images/tech_stacks/sass.svg",
+    pricing_plan: "BASIC_PKG",
+    category: "design_system",
+    available: false,
+    supported_architecture: ["monolith", "monorepo"],
   },
   // BACKEND
   {
