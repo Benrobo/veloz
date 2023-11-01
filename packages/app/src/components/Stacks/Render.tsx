@@ -142,7 +142,10 @@ export function RenderSelectableStacks({
               </FlexColCenter>
             )}
 
-            <FlexColCenter key={stack.key} className="w-full h-[70px]">
+            <FlexColCenter
+              key={stack.key}
+              className="w-full min-h-[85px] h-fit "
+            >
               <Image
                 width={
                   stackWithExtendedHeight.includes(stack.key)
