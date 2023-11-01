@@ -1,4 +1,4 @@
-import { VelozProjectType } from "../../types";
+import { ProjectSideBarConfigType, VelozProjectType } from "../../types";
 
 export const ProjectLabels = [
   "Vortex",
@@ -147,3 +147,18 @@ ANOTHER_VARIABLE='another-value'
 `,
   },
 ];
+
+export const ProjectSideBarConfig = [
+  {
+    title: "Project Details",
+    key: "details",
+  },
+  {
+    title: "Tech Stacks",
+    key: "tech_stacks",
+  },
+  {
+    title: "Secrets",
+    key: "secrets",
+  },
+] satisfies ProjectSideBarConfigType[];
