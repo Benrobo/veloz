@@ -200,11 +200,7 @@ function CreateProject() {
                   </FlexRowStartCenter>
                 </Accordion>
                 {/* Frontend Section */}
-                <Accordion
-                  name="frontend"
-                  title="Frontend Frameworks"
-                  className="w-full"
-                >
+                <Accordion name="frontend" title="Frontend" className="w-full">
                   <FlexRowStartCenter>
                     <RenderSelectableStacks
                       category={"frontend"}
@@ -223,6 +219,17 @@ function CreateProject() {
                   <FlexRowStartCenter>
                     <RenderSelectableStacks
                       category={"design_system"}
+                      updateStacksState={updateStacksState}
+                      selecedStacks={selectedStacks}
+                    />
+                  </FlexRowStartCenter>
+                </Accordion>
+
+                {/* Backend Section */}
+                <Accordion name="backend" title="Backend" className="w-full">
+                  <FlexRowStartCenter>
+                    <RenderSelectableStacks
+                      category={"backend"}
                       updateStacksState={updateStacksState}
                       selecedStacks={selectedStacks}
                     />
