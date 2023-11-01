@@ -28,7 +28,7 @@ function ProjectCard({
       className="w-auto min-w-[300px] h-auto relative rounded-lg bg-dark-200 flex flex-col items-start justify-start gap-2 py-5 px-5 border-solid border-[1px] border-white-600 transition-colors hover:bg-dark-300 "
       {...props}
     >
-      {renderProjectIcons(label ?? "Odyssey")}
+      <RenderProjectIcons type={label ?? "Odyssey"} />
       <div className="absolute top-1 right-2">
         <ProjectStatus status={status} />
       </div>
@@ -42,7 +42,7 @@ function ProjectCard({
 
 export default ProjectCard;
 
-function renderProjectIcons(type: ProjectType) {
+export function RenderProjectIcons({ type }: { type: ProjectType }) {
   let icon = null;
   if (type === "Vortex") {
     icon = (
