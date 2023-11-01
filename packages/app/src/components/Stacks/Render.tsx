@@ -100,7 +100,8 @@ export function RenderSelectableStacks({
   updateStacksState,
   selecedStacks,
 }: RenderSelectableStacksProps) {
-  const { userPlan } = useContext(DataContext);
+  const { userPlan, togglePremiumModalVisibility, setPkgPlan } =
+    useContext(DataContext);
   const tech_stacks = TECH_STACKS.filter((stk) => stk.category === category);
 
   function handleStackSelection(key: string, name: string) {
@@ -124,6 +125,14 @@ export function RenderSelectableStacks({
             )}
             onClick={() => {
               if (!stack.available) return;
+              if (
+                stack.available &&
+                !isUserEligibleForStack(stack.key, userPlan)
+              ) {
+                setPkgPlan(stack.pricing_plan);
+                togglePremiumModalVisibility();
+                return;
+              }
               handleStackSelection(stack.key, stack.name);
             }}
             disabled={!stack.available}
@@ -139,9 +148,13 @@ export function RenderSelectableStacks({
 
             {stack.available &&
               !isUserEligibleForStack(stack.key, userPlan) && (
-                <FlexColCenter className="w-full h-full absolute top-0 left-0 backdrop-blur-[1px] ">
+                <FlexColCenter className="w-full h-full absolute top-0 left-0 backdrop-blur-[1.5px] ">
                   <Image
-                    src={"/images/diamond.png"}
+                    src={
+                      stack.pricing_plan === "STANDARD_PKG"
+                        ? "/images/diamond.png"
+                        : "/images/diamond-2.png"
+                    }
                     width={30}
                     height={0}
                     alt="premium"
