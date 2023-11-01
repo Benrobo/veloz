@@ -17,7 +17,13 @@ type StackObj = { name: string; key: string; img: string };
 
 const stackWithWhiteBg = ["nextjs"];
 const stackWithRoundedCorners = ["nextjs"];
-const stackWithExtendedHeight = ["stripe", "mysql"];
+const stackWithExtendedHeight = [
+  "stripe",
+  "mysql",
+  "golang",
+  "laravel",
+  "nodejs",
+];
 
 function RenderStacks({ tech_stacks }: RenderStacksProps) {
   const validStacks: StackObj[] = [];
@@ -131,16 +137,17 @@ export function RenderSelectableStacks({
               </FlexColCenter>
             )}
 
-            {!isUserEligibleForStack(stack.key, userPlan) && (
-              <FlexColCenter className="w-full h-full absolute top-0 left-0 backdrop-blur-[1px] ">
-                <Image
-                  src={"/images/diamond.png"}
-                  width={30}
-                  height={0}
-                  alt="premium"
-                />
-              </FlexColCenter>
-            )}
+            {stack.available &&
+              !isUserEligibleForStack(stack.key, userPlan) && (
+                <FlexColCenter className="w-full h-full absolute top-0 left-0 backdrop-blur-[1px] ">
+                  <Image
+                    src={"/images/diamond.png"}
+                    width={30}
+                    height={0}
+                    alt="premium"
+                  />
+                </FlexColCenter>
+              )}
 
             <FlexColCenter
               key={stack.key}
@@ -161,10 +168,11 @@ export function RenderSelectableStacks({
                   stackWithRoundedCorners.includes(stack.key)
                     ? "rounded-[50%]"
                     : "",
-                  stackWithWhiteBg.includes(stack.key) ? "bg-white-105" : ""
+                  stackWithWhiteBg.includes(stack.key) ? "bg-white-105" : "",
+                  stack.key === "nextjs-api" ? "scale-[3] mt-2" : ""
                 )}
               />
-              <span className="px-2 py-1 text-[10px] text-white-100 rounded-md bg-dark-200 font-ppR">
+              <span className="px-2 py-1 mt-2 text-[10px] text-white-100 rounded-md bg-dark-200 font-ppR">
                 {stack.name}
               </span>
             </FlexColCenter>

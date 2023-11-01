@@ -42,6 +42,15 @@ const TECH_STACKS = [
   },
   // BACKEND
   {
+    name: "Nextjs API",
+    key: "nextjs-api",
+    img: "/images/tech_stacks/nextjs-api.png",
+    pricing_plan: "BASIC_PKG",
+    category: "backend",
+    available: true,
+    supported_architecture: ["monolith", "monorepo"],
+  },
+  {
     name: "nodejs",
     key: "nodejs",
     img: "/images/tech_stacks/nodejs.svg",
@@ -51,13 +60,32 @@ const TECH_STACKS = [
     supported_architecture: ["monolith"],
   },
   {
+    name: "Golang",
+    key: "golang",
+    img: "/images/tech_stacks/golang.svg",
+    pricing_plan: "STANDARD_PKG",
+    category: "backend",
+    available: true,
+    supported_architecture: ["monolith"],
+  },
+  {
+    name: "Laravel",
+    key: "laravel",
+    img: "/images/tech_stacks/laravel.svg",
+    pricing_plan: "PRO_PKG",
+    category: "backend",
+    available: false,
+    supported_architecture: ["monolith"],
+  },
+  // Database
+  {
     name: "mysql",
     key: "mysql",
     img: "/images/tech_stacks/mysql.svg",
     pricing_plan: "BASIC_PKG",
-    category: "backend",
+    category: "database",
     available: true,
-    supported_architecture: ["monolith"],
+    supported_architecture: ["monolith", "monorepo"],
   },
   //   Payment Services
   {
