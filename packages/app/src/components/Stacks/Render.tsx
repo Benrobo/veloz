@@ -1,10 +1,12 @@
 import TECH_STACKS from "@/data/stacks";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FlexColCenter, FlexColEnd, FlexRowStart } from "../Flex";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
 import { CodebaseArchitectureMap, TechStackCategory } from "../../../types";
-import { cn } from "@/lib/utils";
+import { cn, isUserEligibleForStack } from "@/lib/utils";
+import { Gem } from "lucide-react";
+import { DataContext } from "@/context/DataContext";
 
 interface RenderStacksProps {
   tech_stacks: string[];
@@ -92,7 +94,9 @@ export function RenderSelectableStacks({
   updateStacksState,
   selecedStacks,
 }: RenderSelectableStacksProps) {
+  const { userPlan } = useContext(DataContext);
   const tech_stacks = TECH_STACKS.filter((stk) => stk.category === category);
+
   function handleStackSelection(key: string, name: string) {
     const techCategory = category as TechStackCategory;
     updateStacksState(key, name, techCategory);
@@ -107,14 +111,38 @@ export function RenderSelectableStacks({
           <button
             key={stack.key}
             className={cn(
-              "px-3 py-2 rounded-md border-solid border-[1px] border-white-600 ",
+              "min-w-[100px] relative px-3 py-2 rounded-md border-solid border-[1px] border-white-600 overflow-hidden ",
               selectedStackExists && selectedStackExists.stack === stack.key
                 ? "border-orange-100"
                 : ""
             )}
-            onClick={() => handleStackSelection(stack.key, stack.name)}
+            onClick={() => {
+              if (!stack.available) return;
+              handleStackSelection(stack.key, stack.name);
+            }}
+            disabled={!stack.available}
           >
-            <FlexColCenter key={stack.key} className="w-fit h-[70px]">
+            {/* Coming soon badge */}
+            {!stack.available && (
+              <FlexColCenter className="w-full h-full absolute top-0 left-0 backdrop-blur-[1px] ">
+                <span className="px-2 py-1 rounded-[30px] bg-orange-301 border-solid border-[.5px] border-white-600 text-orange-100 font-ppSB text-[9px] ">
+                  Coming Soon
+                </span>
+              </FlexColCenter>
+            )}
+
+            {!isUserEligibleForStack(stack.key, userPlan) && (
+              <FlexColCenter className="w-full h-full absolute top-0 left-0 backdrop-blur-[1px] ">
+                <Image
+                  src={"/images/diamond.png"}
+                  width={30}
+                  height={0}
+                  alt="premium"
+                />
+              </FlexColCenter>
+            )}
+
+            <FlexColCenter key={stack.key} className="w-full h-[70px]">
               <Image
                 width={
                   stackWithExtendedHeight.includes(stack.key)
