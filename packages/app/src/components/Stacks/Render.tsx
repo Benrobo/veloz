@@ -74,17 +74,6 @@ function RenderStacks({ tech_stacks }: RenderStacksProps) {
 
 export default RenderStacks;
 
-/**
- * - Selectable (only able to select one stack per category)
- * - Show if stack is available or not. (coming soon badge)
- * - Show premium badge if stack is considered available for a specific plan users only.
- * {
- *  "frontend":{
- *   "stack": ""
- *  }
- * }
- */
-
 interface RenderSelectableStacksProps {
   category?: TechStackCategory;
   updateStacksState: (
