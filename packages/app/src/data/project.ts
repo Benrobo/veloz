@@ -162,3 +162,26 @@ export const ProjectSideBarConfig = [
     key: "secrets",
   },
 ] satisfies ProjectSideBarConfigType[];
+
+export const TestProjectEnv = [
+  {
+    name: "test project name",
+    id: 1,
+    env: `
+{
+  "DATABASE_URL":"",
+  "NODE_ENV": "development"
+}
+    `,
+  },
+  {
+    name: "temp app",
+    id: 2,
+    env: `
+{
+  "API_URL":"",
+  "CLERK_SECRET": "32e2d32d23@#"
+}
+    `,
+  },
+];
