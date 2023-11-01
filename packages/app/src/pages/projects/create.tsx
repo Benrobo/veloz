@@ -18,6 +18,8 @@ import {
   PackageCheck,
   Paintbrush2,
   Server,
+  Shield,
+  ShieldPlus,
   Theater,
   WalletCards,
 } from "lucide-react";
@@ -306,6 +308,22 @@ function CreateProject() {
                     />
                   </FlexRowStartCenter>
                 </Accordion>
+
+                {/* Authentication */}
+                <Accordion
+                  name="authentication"
+                  title="Authentication"
+                  className="w-full"
+                  leftIcon={renderAccdIcon("authentication")}
+                >
+                  <FlexRowStartCenter>
+                    <RenderSelectableStacks
+                      category={"authentication"}
+                      updateStacksState={updateStacksState}
+                      selecedStacks={selectedStacks}
+                    />
+                  </FlexRowStartCenter>
+                </Accordion>
               </FlexColStart>
             )}
           </FlexColStart>
@@ -386,6 +404,9 @@ function renderAccdIcon(category: TechStackCategory) {
   }
   if (category === "mailing") {
     icon = <Mails className="group-hover:text-white-100 text-white-300" />;
+  }
+  if (category === "authentication") {
+    icon = <Shield className="group-hover:text-white-100 text-white-300" />;
   }
 
   return icon as ReactElement;
