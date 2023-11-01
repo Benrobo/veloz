@@ -14,17 +14,75 @@ import { ProjectType, RenderProjectIcons } from "@/components/Projects/Card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { ProjectSideBarConfigKeysType } from "../../../types";
+import {
+  CodebaseArchitecture,
+  CodebaseArchitectureMap,
+  ProjectSideBarConfigKeysType,
+  TechStackCategory,
+} from "../../../types";
 import { ProjectSideBarConfig } from "@/data/project";
+import Accordion from "@/components/Accordion";
+import RenderStacks, {
+  RenderSelectableStacks,
+} from "@/components/Stacks/Render";
 
 function CreateProject() {
   const [projType, setProjType] = useState<ProjectType>();
   const [activeSection, setActiveSection] =
     useState<ProjectSideBarConfigKeysType>("details");
+  const [selectedStacks, setSelectedStacks] = useState<CodebaseArchitectureMap>(
+    {} as CodebaseArchitectureMap
+  );
 
   useEffect(() => {
     setProjType(randomProjectType() as ProjectType);
   }, []);
+
+  function updateStacksState(
+    key: string,
+    name: string,
+    category: TechStackCategory
+  ) {
+    const techCategory = category as TechStackCategory;
+    const stackCategoryExists = selectedStacks && selectedStacks[techCategory];
+    if (typeof stackCategoryExists !== "undefined") {
+      const mapCat = stackCategoryExists as CodebaseArchitecture;
+      if (mapCat !== null && (mapCat as CodebaseArchitecture)?.stack === key) {
+        // delete selected stack
+        const updatedStacks = { ...selectedStacks } as CodebaseArchitectureMap;
+        delete updatedStacks[techCategory];
+        setSelectedStacks(updatedStacks);
+        console.log("DELETED");
+        console.log(selectedStacks);
+      } else {
+        // update selected stack
+        mapCat.stack = key;
+        mapCat.name = name;
+        mapCat.category = techCategory;
+        setSelectedStacks((prev: any) => ({ ...prev, [techCategory]: mapCat }));
+        console.log("UPDATED");
+        console.log(selectedStacks);
+      }
+    } else {
+      // add to selected Stacks
+      setSelectedStacks(
+        (prev: any) =>
+          ({
+            ...prev,
+            [techCategory as TechStackCategory]: {
+              stack: key,
+              name,
+              category: techCategory,
+            },
+          } as CodebaseArchitectureMap)
+      );
+      console.log("CREATED");
+    }
+  }
+
+  useEffect(() => {
+    // console.log(selectedStacks);
+  }, [selectedStacks]);
 
   return (
     <Layout activePage="projects">
@@ -43,24 +101,31 @@ function CreateProject() {
         </Link>
 
         {/* project header */}
-        <FlexRowStart className="w-auto px-3 py-0 ">
-          <FlexColCenter>
-            <RenderProjectIcons type={projType as ProjectType} />
-          </FlexColCenter>
-          <FlexColStart>
-            <p className="text-white-100 font-ppSB text-[12px] leading-none m-0 p-0">
-              Untitled
-            </p>
-            <p className="text-white-200 font-ppR text-[11px] leading-none m-0 p-0">
-              description
-            </p>
-          </FlexColStart>
-        </FlexRowStart>
+        <FlexRowStartBtw className="w-auto px-3 py-0 ">
+          <FlexRowStart>
+            <FlexColCenter>
+              <RenderProjectIcons type={projType as ProjectType} />
+            </FlexColCenter>
+            <FlexColStart>
+              <p className="text-white-100 font-ppSB text-[12px] leading-none m-0 p-0">
+                Untitled
+              </p>
+              <p className="text-white-200 font-ppR text-[11px] leading-none m-0 p-0">
+                description
+              </p>
+            </FlexColStart>
+          </FlexRowStart>
+          <Button variant={"primary"} className="font-ppR text-[12px]" disabled>
+            Save Changes
+          </Button>
+        </FlexRowStartBtw>
 
         <FlexRowStart className="mt-9">
-          <FlexColStart className="w-fit px-3 py-2">
+          {/* Sidebar */}
+          <FlexColStart className="w-fit min-w-[11.9em] px-3 py-2">
             {ProjectSideBarConfig.map((cf) => (
               <Button
+                key={cf.key}
                 variant={"secondary"}
                 className={cn(
                   "w-full bg-dark-100 font-ppR border-solid border-[1px] border-transparent group hover:text-white-100 hover:bg-dark-200 hover:border-white-600 transition-all ",
@@ -103,6 +168,48 @@ function CreateProject() {
                 className="bg-dark-200 min-w-[20em] placeholder:text-gray-100 font-ppR border-white-600 focus-visible:ring-2 text-white-100"
                 placeholder="Description"
               />
+            </FlexColStart>
+          )}
+
+          {/* Tech Stack Section */}
+          {activeSection === "tech_stacks" && (
+            <FlexColStart className="w-full">
+              <h1 className="text-white-100 text-[20px] font-ppB mt-2">
+                Preferred Technology
+              </h1>
+              <br />
+              <Accordion
+                name="codebase_architecture"
+                title="Codebase architecture"
+                className="w-full"
+              >
+                <FlexRowStart className="mb-3">
+                  <p className="text-white-300 font-ppR text-[12px]">
+                    Monorepo architecture is defaulted to yarn-workspaces.
+                  </p>
+                </FlexRowStart>
+                <FlexRowStartCenter>
+                  <RenderSelectableStacks
+                    category={"codebase_acrhitecture"}
+                    updateStacksState={updateStacksState}
+                    selecedStacks={selectedStacks}
+                  />
+                </FlexRowStartCenter>
+              </Accordion>
+              <br />
+              <Accordion
+                name="frontend"
+                title="Frontend Frameworks"
+                className="w-full"
+              >
+                <FlexRowStartCenter>
+                  <RenderSelectableStacks
+                    category={"frontend"}
+                    updateStacksState={updateStacksState}
+                    selecedStacks={selectedStacks}
+                  />
+                </FlexRowStartCenter>
+              </Accordion>
             </FlexColStart>
           )}
         </FlexRowStart>
