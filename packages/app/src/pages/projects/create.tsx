@@ -81,14 +81,30 @@ function CreateProject() {
               </Button>
             ))}
           </FlexColStart>
-          <FlexColStart className="w-fit">
-            <h1 className="text-white-100">Details</h1>
-            <Input
-              type="text"
-              className="bg-dark-200 placeholder:text-gray-100 font-ppR border-white-600 focus-visible:ring-2 text-white-100"
-              placeholder="project name"
-            />
-          </FlexColStart>
+
+          {/* Details section */}
+          {activeSection === "details" && (
+            <FlexColStart className="w-fit">
+              <h1 className="text-white-100 font-ppB mt-2">Details</h1>
+              <br />
+              <label className="text-gray-100 font-ppR text-[12px] ">
+                Project Name
+              </label>
+              <Input
+                type="text"
+                className="bg-dark-200 placeholder:text-gray-100 font-ppR border-white-600 focus-visible:ring-2 text-white-100"
+                placeholder="Name"
+              />
+              <label className="text-gray-100 font-ppR text-[12px] mt-3">
+                Project Description
+              </label>
+              <Input
+                type="text"
+                className="bg-dark-200 min-w-[20em] placeholder:text-gray-100 font-ppR border-white-600 focus-visible:ring-2 text-white-100"
+                placeholder="Description"
+              />
+            </FlexColStart>
+          )}
         </FlexRowStart>
       </div>
     </Layout>
