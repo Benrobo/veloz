@@ -15,7 +15,7 @@ function Layout({ children, activePage, className }: LayoutProps) {
 
   useEffect(() => {
     setActivePage(activePage);
-  }, []);
+  }, [activePage]);
 
   return (
     <div
@@ -35,7 +35,7 @@ export function ComponentLayout({
 }) {
   const { activePage } = useContext(LayoutContext);
   const [pathname, setPathname] = useState("");
-  const validPages = ["dashboard", "projects", "billing"];
+  const validPages = ["dashboard", "projects", "billing", "projects/create"];
 
   useEffect(() => {
     const { pathname } = window.location;
