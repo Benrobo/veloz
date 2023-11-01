@@ -13,3 +13,13 @@ export interface VelozProjectType {
   status: "pending" | "done" | "failed";
   env?: string | null;
 }
+
+export type ProjectSideBarConfigKeysType =
+  | "details"
+  | "tech_stacks"
+  | "secrets";
+
+export type ProjectSideBarConfigType = {
+  title: string;
+  key: string;
+};
