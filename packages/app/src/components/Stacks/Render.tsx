@@ -107,7 +107,7 @@ export function RenderSelectableStacks({
           <button
             key={stack.key}
             className={cn(
-              "min-w-[100px] relative px-3 py-2 rounded-md border-solid border-[1px] border-white-600 overflow-hidden ",
+              "min-w-[120px] min-h-[120px] relative px-3 py-2 rounded-md border-solid border-[1px] border-white-600 overflow-hidden ",
               selectedStackExists && selectedStackExists.stack === stack.key
                 ? "border-orange-100"
                 : ""
