@@ -30,6 +30,7 @@ function Projects() {
       <div className="w-full px-3 py-3 flex flex-wrap items-center justify-start gap-3">
         {projectTempData.map((d) => (
           <ProjectCard
+            key={d.id}
             name={d.name}
             description={d.description}
             status={d.status}
