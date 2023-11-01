@@ -86,7 +86,7 @@ function CreateProject() {
 
   return (
     <Layout activePage="projects">
-      <div className="w-full h-[100vh] relative px-4">
+      <div className="w-full h-[100vh] overflow-y-hidden relative px-4">
         {/* back link */}
         <Link href="/projects" className="underline">
           <FlexRowStartCenter className="w-auto px-3 py-7 group ">
@@ -146,72 +146,91 @@ function CreateProject() {
               </Button>
             ))}
           </FlexColStart>
+          <FlexColStart className="w-full h-screen overflow-scroll hideScrollBar2 pb-[20em] px-3">
+            {/* Details section */}
+            {activeSection === "details" && (
+              <FlexColStart className="w-fit">
+                <h1 className="text-white-100 font-ppB mt-2">Details</h1>
+                <br />
+                <label className="text-gray-100 font-ppR text-[12px] ">
+                  Project Name
+                </label>
+                <Input
+                  type="text"
+                  className="bg-dark-200 placeholder:text-gray-100 font-ppR border-white-600 focus-visible:ring-2 text-white-100"
+                  placeholder="Name"
+                />
+                <label className="text-gray-100 font-ppR text-[12px] mt-3">
+                  Project Description
+                </label>
+                <Input
+                  type="text"
+                  className="bg-dark-200 min-w-[20em] placeholder:text-gray-100 font-ppR border-white-600 focus-visible:ring-2 text-white-100"
+                  placeholder="Description"
+                />
+              </FlexColStart>
+            )}
 
-          {/* Details section */}
-          {activeSection === "details" && (
-            <FlexColStart className="w-fit">
-              <h1 className="text-white-100 font-ppB mt-2">Details</h1>
-              <br />
-              <label className="text-gray-100 font-ppR text-[12px] ">
-                Project Name
-              </label>
-              <Input
-                type="text"
-                className="bg-dark-200 placeholder:text-gray-100 font-ppR border-white-600 focus-visible:ring-2 text-white-100"
-                placeholder="Name"
-              />
-              <label className="text-gray-100 font-ppR text-[12px] mt-3">
-                Project Description
-              </label>
-              <Input
-                type="text"
-                className="bg-dark-200 min-w-[20em] placeholder:text-gray-100 font-ppR border-white-600 focus-visible:ring-2 text-white-100"
-                placeholder="Description"
-              />
-            </FlexColStart>
-          )}
+            {/* Tech Stack Section */}
+            {activeSection === "tech_stacks" && (
+              <FlexColStart className="w-full">
+                <h1 className="text-white-100 text-[20px] font-ppB mt-2">
+                  Preferred Technology
+                </h1>
+                <br />
+                <Accordion
+                  name="codebase_architecture"
+                  title="Codebase architecture"
+                  className="w-full"
+                >
+                  <FlexRowStart className="mb-3">
+                    <p className="text-gray-100 font-ppR text-[12px]">
+                      Monorepo architecture is defaulted to{" "}
+                      <kbd className="px-1 py-1 rounded-sm bg-dark-300 text-[10px]">
+                        yarn-workspaces
+                      </kbd>
+                    </p>
+                  </FlexRowStart>
+                  <FlexRowStartCenter>
+                    <RenderSelectableStacks
+                      category={"codebase_acrhitecture"}
+                      updateStacksState={updateStacksState}
+                      selecedStacks={selectedStacks}
+                    />
+                  </FlexRowStartCenter>
+                </Accordion>
+                {/* Frontend Section */}
+                <Accordion
+                  name="frontend"
+                  title="Frontend Frameworks"
+                  className="w-full"
+                >
+                  <FlexRowStartCenter>
+                    <RenderSelectableStacks
+                      category={"frontend"}
+                      updateStacksState={updateStacksState}
+                      selecedStacks={selectedStacks}
+                    />
+                  </FlexRowStartCenter>
+                </Accordion>
 
-          {/* Tech Stack Section */}
-          {activeSection === "tech_stacks" && (
-            <FlexColStart className="w-full">
-              <h1 className="text-white-100 text-[20px] font-ppB mt-2">
-                Preferred Technology
-              </h1>
-              <br />
-              <Accordion
-                name="codebase_architecture"
-                title="Codebase architecture"
-                className="w-full"
-              >
-                <FlexRowStart className="mb-3">
-                  <p className="text-white-300 font-ppR text-[12px]">
-                    Monorepo architecture is defaulted to yarn-workspaces.
-                  </p>
-                </FlexRowStart>
-                <FlexRowStartCenter>
-                  <RenderSelectableStacks
-                    category={"codebase_acrhitecture"}
-                    updateStacksState={updateStacksState}
-                    selecedStacks={selectedStacks}
-                  />
-                </FlexRowStartCenter>
-              </Accordion>
-              <br />
-              <Accordion
-                name="frontend"
-                title="Frontend Frameworks"
-                className="w-full"
-              >
-                <FlexRowStartCenter>
-                  <RenderSelectableStacks
-                    category={"frontend"}
-                    updateStacksState={updateStacksState}
-                    selecedStacks={selectedStacks}
-                  />
-                </FlexRowStartCenter>
-              </Accordion>
-            </FlexColStart>
-          )}
+                {/* Design System */}
+                <Accordion
+                  name="design_system"
+                  title="Design System"
+                  className="w-full"
+                >
+                  <FlexRowStartCenter>
+                    <RenderSelectableStacks
+                      category={"design_system"}
+                      updateStacksState={updateStacksState}
+                      selecedStacks={selectedStacks}
+                    />
+                  </FlexRowStartCenter>
+                </Accordion>
+              </FlexColStart>
+            )}
+          </FlexColStart>
         </FlexRowStart>
       </div>
     </Layout>
