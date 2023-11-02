@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FlexColStart, FlexRowCenter } from "../Flex";
 import { Input } from "../ui/input";
 import { X } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn, parseEnvString } from "@/lib/utils";
 import { SecretDataTypes, Secrets } from "../../../types";
+import { ProjectContext } from "@/context/ProjectContext";
 
 interface ManageSecretsProps {
   selectedEnv?: {
@@ -29,6 +30,7 @@ function ManageSecrets({
   getOnlySecrets,
   btmSpace,
 }: ManageSecretsProps) {
+  const {} = useContext(ProjectContext);
   const [env, setEnv] = useState<SecretDataTypes>({} as SecretDataTypes);
   const [focusInput, setFocusInput] = useState<"name" | "value">("name");
 
