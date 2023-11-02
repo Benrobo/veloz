@@ -8,13 +8,13 @@ import { TestProjectEnv } from "@/data/project";
 import ManageSecrets from "./ManageSecrets";
 import CreateSecretModal from "./CreateSecretModal";
 
-const Tabs = ["frontend", "backend"] satisfies TechStackCategory[];
+const Tabs: TechStackCategory[] = ["frontend", "backend"];
 
 type SelectedEnv = {
   name: string;
-  id: number | string | any;
+  id: string;
   secrets: {
-    id: string | any;
+    id: string;
     name: string;
     value: string;
   }[];
@@ -23,25 +23,26 @@ type SelectedEnv = {
 function ManageProjectSecret() {
   const [activeTab, setActiveTab] = useState<TechStackCategory>("frontend");
   const [selectedEnv, setSelectedEnv] = useState<SelectedEnv | null>(
-    TestProjectEnv[0]
+    TestProjectEnv.find((d) => d.category === activeTab) ?? null
   );
   const [envName, setEnvName] = useState("");
   const [createSecret, setCreateSecret] = useState(false);
 
   useEffect(() => {
-    if (TestProjectEnv.length > 0) {
-      setSelectedEnv(TestProjectEnv[0]);
-      setEnvName(TestProjectEnv[0].name);
-    }
-  }, []);
+    const env = TestProjectEnv.find((d) => d.category === activeTab);
+    setSelectedEnv(env ?? null);
+    setEnvName(env?.name ?? "");
+  }, [activeTab]);
 
-  const updateSelectedEnv = (id: any) => {
+  const updateSelectedEnv = (id: string) => {
     const env = TestProjectEnv.find((d) => d.id === id);
     if (env) {
       setSelectedEnv(env);
       setEnvName(env.name);
     }
   };
+
+  const secrets = TestProjectEnv.filter((d) => d.category === activeTab);
 
   return (
     <FlexColStart className="w-full h-full">
@@ -73,7 +74,7 @@ function ManageProjectSecret() {
                 activeTab === t ? "text-white-100" : "text-gray-100"
               )}
             >
-              {t == "frontend" ? "Frontend Env" : "Backend Env"}
+              {t === "frontend" ? "Frontend Env" : "Backend Env"}
             </span>
           </Button>
         ))}
@@ -82,7 +83,9 @@ function ManageProjectSecret() {
       {/* Tab Content */}
       <FlexColStart className="mt-5">
         <p className="text-gray-100 font-ppR mt-[-1em] text-[13px]">
-          Select from list of created environment, or{" "}
+          {secrets.length === 0
+            ? `No ${activeTab} environment variable found.`
+            : `Select from list of created environment, or`}{" "}
           <span
             className="text-white-100 text-[13px] underline cursor-pointer"
             onClick={() => setCreateSecret(true)}
@@ -93,42 +96,42 @@ function ManageProjectSecret() {
       </FlexColStart>
       <FlexRowStartCenter className="w-full h-full mt-9">
         <FlexColStart className="w-auto min-w-[200px] h-full px-3 hideScrollBar2 gap-3 overflow-y-scroll">
-          {selectedEnv &&
-            TestProjectEnv.map((d) => (
-              <Button
-                className={cn(
-                  "w-full bg-transparent text-[13px] text-white-100 rounded-md group transition-all gap-2 border-solid border-[1px]",
-                  selectedEnv.id === d.id
-                    ? "bg-dark-200 border-white-600 hover:bg-dark-200 "
-                    : "border-transparent text-gray-100 hover:bg-transparent"
-                )}
-                onClick={() =>
-                  selectedEnv.id !== d.id && updateSelectedEnv(d.id)
-                }
-              >
-                <FlexRowStartCenter className="w-full">
-                  <KeyRound
-                    size={15}
-                    className={cn(
-                      "group-hover:text-white-100 text-white-100",
-                      selectedEnv.id === d.id
-                        ? "text-white-100"
-                        : "text-gray-100"
-                    )}
-                  />
-                  <span
-                    className={cn(
-                      "font-ppR group-hover:text-white-100 transition-all",
-                      selectedEnv.id === d.id
-                        ? "text-white-100"
-                        : "text-gray-100"
-                    )}
-                  >
-                    {d.name}
-                  </span>
-                </FlexRowStartCenter>
-              </Button>
-            ))}
+          {secrets.map((d) => (
+            <Button
+              key={d.id}
+              className={cn(
+                "w-full bg-transparent text-[13px] text-white-100 rounded-md group transition-all gap-2 border-solid border-[1px]",
+                selectedEnv?.id === d.id
+                  ? "bg-dark-200 border-white-600 hover:bg-dark-200 "
+                  : "border-transparent text-gray-100 hover:bg-transparent"
+              )}
+              onClick={() =>
+                selectedEnv?.id !== d.id && updateSelectedEnv(d.id)
+              }
+            >
+              <FlexRowStartCenter className="w-full">
+                <KeyRound
+                  size={15}
+                  className={cn(
+                    "group-hover:text-white-100 text-white-100",
+                    selectedEnv?.id === d.id
+                      ? "text-white-100"
+                      : "text-gray-100"
+                  )}
+                />
+                <span
+                  className={cn(
+                    "font-ppR group-hover:text-white-100 transition-all",
+                    selectedEnv?.id === d.id
+                      ? "text-white-100"
+                      : "text-gray-100"
+                  )}
+                >
+                  {d.name}
+                </span>
+              </FlexRowStartCenter>
+            </Button>
+          ))}
         </FlexColStart>
         <FlexColStart
           className={cn(
@@ -159,10 +162,9 @@ export default ManageProjectSecret;
 function renderAccdIcon(
   category: TechStackCategory,
   active: TechStackCategory
-) {
-  let icon = null;
+): ReactElement | null {
   if (category === "frontend") {
-    icon = (
+    return (
       <Theater
         size={15}
         className={cn(
@@ -173,7 +175,7 @@ function renderAccdIcon(
     );
   }
   if (category === "backend") {
-    icon = (
+    return (
       <Server
         size={15}
         className={cn(
@@ -183,6 +185,5 @@ function renderAccdIcon(
       />
     );
   }
-
-  return icon as ReactElement;
+  return null;
 }
