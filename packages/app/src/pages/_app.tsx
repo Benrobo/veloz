@@ -1,5 +1,5 @@
 import { ComponentLayout } from "@/components/Layout";
-import { ppB, ppEB, ppL, ppReg, ppSB } from "@/config/font";
+import { jbR, jbSB, ppB, ppEB, ppL, ppReg, ppSB } from "@/config/font";
 import DataContextProvider from "@/context/DataContext";
 import LayoutContextProvider from "@/context/LayoutContext";
 import "@/styles/globals.css";
@@ -16,6 +16,8 @@ export default function App({ Component, pageProps }: AppProps) {
             --font-ppEB: ${ppEB.style.fontFamily};
             --font-ppSB: ${ppSB.style.fontFamily};
             --font-ppL: ${ppL.style.fontFamily};
+            --font-jbR: ${jbR.style.fontFamily};
+            --font-jbSB: ${jbSB.style.fontFamily};
           }
         `}
       </style>
