@@ -4,6 +4,7 @@ import DataContextProvider from "@/context/DataContext";
 import LayoutContextProvider from "@/context/LayoutContext";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
+import { Toaster } from "react-hot-toast";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -26,6 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <ComponentLayout>
             <Component {...pageProps} />
           </ComponentLayout>
+          <Toaster />
         </DataContextProvider>
       </LayoutContextProvider>
     </>
