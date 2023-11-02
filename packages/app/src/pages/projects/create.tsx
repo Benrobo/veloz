@@ -1,4 +1,10 @@
-import React, { ReactElement, useContext, useEffect, useState } from "react";
+import React, {
+  ChangeEventHandler,
+  ReactElement,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import Layout from "@/components/Layout";
 import {
   FlexColCenter,
@@ -21,10 +27,11 @@ import {
   ProjectType,
   TechStackCategory,
 } from "../../../types";
-import { ProjectSideBarConfig } from "@/data/project";
+import { ProjectSideBarConfig, projectTempData } from "@/data/project";
 import AddTechStack from "@/components/Projects/TechStack";
 import ManageProjectSecret from "@/components/Environment/Secret";
 import { ProjectContext } from "@/context/ProjectContext";
+import toast from "react-hot-toast";
 
 function CreateProject() {
   const {
@@ -84,13 +91,69 @@ function CreateProject() {
     }
   }
 
+  function handleProjDetailsChange(
+    e: React.ChangeEvent<HTMLInputElement>,
+    type: "name" | "description"
+  ) {
+    const inpValue = e.target.value;
+    setProjDetails((prev) => ({
+      ...prev,
+      [type]: inpValue,
+    }));
+  }
+
+  // This function checks whether the save button should be disabled or not
+  function _shouldEnableSaveButton() {
+    const { name } = projDetails;
+    const stacks = selectedStacks;
+    const frontend = "frontend" in stacks;
+    const backend = "backend" in stacks;
+    // Check if the name is not empty
+    if (name.length === 0) return false;
+
+    // Check if the "frontend" stack exists and the "backend" stack doesn't
+    if (frontend && !backend) return true;
+
+    // Check if the "backend" stack exists and the "frontend" stack doesn't
+    if (backend && !frontend) return true;
+
+    // Check if both the stacks exist
+    if (frontend && backend) return true;
+
+    // if none of the stacks exist, disable the save button
+    if (!frontend && !backend) return false;
+  }
+
+  function saveProjectChanges() {
+    const { name, description } = projDetails;
+    const defaultCodebaseArch = {
+      stack: "monolith",
+      name: "Monolith",
+      category: "codebase_acrhitecture",
+    };
+
+    // Provide a type for selectedStacks object
+    const _selectedStacks: Record<
+      string,
+      { stack: string; name: string; category: string }
+    > = selectedStacks;
+
+    if (!("codebase_acrhitecture" in _selectedStacks)) {
+      _selectedStacks["codebase_acrhitecture"] = defaultCodebaseArch;
+    }
+
+    const payload = {
+      name,
+      description,
+      stacks: _selectedStacks,
+      env_id: selectedSecretId,
+    };
+    console.log(payload);
+  }
+
   useEffect(() => {
     setProjType(randomProjectType() as ProjectType);
   }, []);
-
-  useEffect(() => {
-    console.log(selectedStacks);
-  }, [selectedStacks]);
 
   return (
     <Layout activePage="projects">
@@ -116,14 +179,23 @@ function CreateProject() {
             </FlexColCenter>
             <FlexColStart>
               <p className="text-white-100 font-ppSB text-[12px] leading-none m-0 p-0">
-                Untitled
+                {projDetails.name.length > 0 ? projDetails.name : "Untitled"}
               </p>
               <p className="text-white-200 font-ppR text-[11px] leading-none m-0 p-0">
-                description
+                {projDetails.description.length > 0
+                  ? projDetails.description
+                  : "description"}
               </p>
             </FlexColStart>
           </FlexRowStart>
-          <Button variant={"primary"} className="font-ppR text-[12px]" disabled>
+
+          {/* Create Project */}
+          <Button
+            variant={"primary"}
+            className="font-ppR text-[12px]"
+            disabled={!_shouldEnableSaveButton()}
+            onClick={saveProjectChanges}
+          >
             Save Changes
           </Button>
         </FlexRowStartBtw>
@@ -167,6 +239,8 @@ function CreateProject() {
                   type="text"
                   className="bg-dark-200 placeholder:text-gray-100 font-ppR border-white-600 focus-visible:ring-2 text-white-100"
                   placeholder="Name"
+                  defaultValue={projDetails.name}
+                  onChange={(e) => handleProjDetailsChange(e, "name")}
                 />
                 <label className="text-gray-100 font-ppR text-[12px] mt-3">
                   Project Description
@@ -175,6 +249,8 @@ function CreateProject() {
                   type="text"
                   className="bg-dark-200 min-w-[20em] placeholder:text-gray-100 font-ppR border-white-600 focus-visible:ring-2 text-white-100"
                   placeholder="Description"
+                  defaultValue={projDetails.description}
+                  onChange={(e) => handleProjDetailsChange(e, "description")}
                 />
               </FlexColStart>
             )}
