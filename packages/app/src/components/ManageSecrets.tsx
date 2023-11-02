@@ -3,6 +3,7 @@ import { FlexColStart, FlexRowCenter } from "./Flex";
 import { Input } from "./ui/input";
 import { X } from "lucide-react";
 import { Button } from "./ui/button";
+import { parseEnvString } from "@/lib/utils";
 
 interface ManageSecretsProps {
   selectedEnv: {
@@ -14,6 +15,7 @@ interface ManageSecretsProps {
       value: string;
     }[];
   };
+  getUpdatedSecrets?: (secrets: SecretDataTypes) => void;
 }
 
 type SecretDataTypes = {
@@ -32,7 +34,11 @@ function ManageSecrets({ selectedEnv }: ManageSecretsProps) {
 
   useEffect(() => {
     setEnv(selectedEnv);
-  }, [selectedEnv]);
+  }, [selectedEnv.name]);
+
+  useEffect(() => {
+    window.addEventListener("paste", handlePaste);
+  });
 
   function handleEnvInputChange(e: any, id: any, type: "name" | "value") {
     const inpValue = e.target.value;
@@ -112,24 +118,21 @@ function ManageSecrets({ selectedEnv }: ManageSecretsProps) {
     return false;
   }
 
-  useEffect(() => {}, []);
-
-  // function that detect user paste event, get the data,
-  // parse the data into a key value pair and update the state
-  // remove unwanted characters, symbols.
-  // remove invalid characters
   function handlePaste(e: any) {
     const paste = e.clipboardData.getData("text").trim();
-    const pasteData = paste.replace(/[^\w\n=]/g, "").split("\n");
-    const parsedData = pasteData
-      .map((d: string) => {
-        const [name, value] = d.split("=");
-        const id = Math.floor(Math.random() * 10e3);
-        return { id, name, value: value ?? "" };
-      })
-      .filter((d: any) => d.name?.length > 0 || d.value?.length > 0);
-
+    const parsedEnv = parseEnvString(paste);
+    const parsedData = [] as any[];
+    Object.entries(parsedEnv).forEach((d) => {
+      const [key, value] = d;
+      const id = Math.floor(Math.random() * 10e3);
+      parsedData.push({
+        id,
+        name: key,
+        value: value ?? "",
+      });
+    });
     const prevEnv = env.secrets;
+    if (!prevEnv) return;
     const comb = [...prevEnv, ...parsedData];
     setEnv({
       name: env.name,
@@ -154,7 +157,7 @@ function ManageSecrets({ selectedEnv }: ManageSecretsProps) {
               value={d.name}
               onChange={(e: any) => handleEnvInputChange(e, d.id, "name")}
               autoFocus={focusInput === "name" && true}
-              onPaste={handlePaste}
+              // onPaste={handlePaste}
             />
             <span className="text-white-200 font-ppB text-[13px]">=</span>
             <Input
@@ -178,6 +181,7 @@ function ManageSecrets({ selectedEnv }: ManageSecretsProps) {
             className="bg-dark-200 placeholder:text-gray-100 text-white-200 font-jbSB border-solid border-[.5px] border-white-600 py-6 px-5 "
             defaultValue={""}
             onChange={(e: any) => handleEnvInputChange(e, null, "name")}
+            onPaste={handlePaste}
           />
           <span className="text-white-200 font-ppB text-[13px]">=</span>
           <Input

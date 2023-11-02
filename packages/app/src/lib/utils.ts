@@ -34,3 +34,25 @@ export function isUserEligibleForStack(
   console.log("Stack not found");
   return false;
 }
+
+export function parseEnvString(envString: string) {
+  const keyValuePairs = envString.replace(/^[^#\n]*=.*$/g, "").split("\n");
+  const envObject = {} as {
+    [key: string]: string;
+  };
+
+  keyValuePairs.forEach((line) => {
+    const [key, value] = line.trim().split("=");
+    const cleanedValue =
+      value ??
+      ""
+        .replace(/[\?{}]/g, "")
+        .trim()
+        .replace(/(^['"]|['"]$)/g, "");
+    const cleanedKey = key.trim().replace(/^[#] +/, "");
+    if (cleanedKey.length > 0) {
+      envObject[cleanedKey] = cleanedValue;
+    }
+  });
+  return envObject;
+}
