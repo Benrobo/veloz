@@ -1,4 +1,8 @@
-import { ProjectSideBarConfigType, VelozProjectType } from "../../types";
+import {
+  ProjectSideBarConfigType,
+  SecretDataTypes,
+  VelozProjectType,
+} from "../../types";
 
 export const ProjectLabels = [
   "Vortex",
@@ -167,6 +171,7 @@ export const TestProjectEnv = [
   {
     name: "test project name",
     id: 1,
+    category: "frontend",
     secrets: [
       { id: 1, name: "DATABASE_URL", value: "" },
       { id: 2, name: "API_KEY", value: "" },
@@ -174,10 +179,21 @@ export const TestProjectEnv = [
   },
   {
     name: "temp app",
+    category: "frontend",
     id: 2,
     secrets: [
       { id: 1, name: "DATABASE_URL", value: "" },
       { id: 2, name: "CLERK_SECRET", value: "" },
     ],
   },
-];
+  {
+    name: "test app",
+    category: "backend",
+    id: 3,
+    secrets: [
+      { id: 1, name: "DATABASE_URL", value: "" },
+      { id: 2, name: "MONGO_URL", value: "" },
+      { id: 2, name: "REDIS_URL", value: "" },
+    ],
+  },
+] as SecretDataTypes[];
