@@ -60,6 +60,7 @@ export type CodebaseArchitectureMap = {
 export type SecretDataTypes = {
   name: string;
   id: string | any;
+  category?: TechStackCategory;
   secrets: {
     id: string | any;
     name: string;
