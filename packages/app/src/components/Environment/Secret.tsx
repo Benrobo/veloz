@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useContext, useEffect, useState } from "react";
 import { FlexColCenter, FlexColStart, FlexRowStartCenter } from "../Flex";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
@@ -7,6 +7,7 @@ import { TechStackCategory } from "../../../types";
 import { TestProjectEnv } from "@/data/project";
 import ManageSecrets from "./ManageSecrets";
 import CreateSecretModal from "./CreateSecretModal";
+import { ProjectContext } from "@/context/ProjectContext";
 
 const Tabs: TechStackCategory[] = ["frontend", "backend"];
 
@@ -21,6 +22,7 @@ type SelectedEnv = {
 };
 
 function ManageProjectSecret() {
+  const { setSelectedSecretId } = useContext(ProjectContext);
   const [activeTab, setActiveTab] = useState<TechStackCategory>("frontend");
   const [selectedEnv, setSelectedEnv] = useState<SelectedEnv | null>(
     TestProjectEnv.find((d) => d.category === activeTab) ?? null
@@ -32,6 +34,7 @@ function ManageProjectSecret() {
     const env = TestProjectEnv.find((d) => d.category === activeTab);
     setSelectedEnv(env ?? null);
     setEnvName(env?.name ?? "");
+    setSelectedSecretId(env?.secrets[0]?.id);
   }, [activeTab]);
 
   const updateSelectedEnv = (id: string) => {
@@ -94,6 +97,8 @@ function ManageProjectSecret() {
           </span>
         </p>
       </FlexColStart>
+
+      {/* Secret Tabs */}
       <FlexRowStartCenter className="w-full h-full mt-9">
         <FlexColStart className="w-auto min-w-[200px] h-full px-3 hideScrollBar2 gap-3 overflow-y-scroll">
           {secrets.map((d) => (
@@ -105,9 +110,12 @@ function ManageProjectSecret() {
                   ? "bg-dark-200 border-white-600 hover:bg-dark-200 "
                   : "border-transparent text-gray-100 hover:bg-transparent"
               )}
-              onClick={() =>
-                selectedEnv?.id !== d.id && updateSelectedEnv(d.id)
-              }
+              onClick={() => {
+                if (selectedEnv?.id !== d.id) {
+                  updateSelectedEnv(d.id);
+                  setSelectedSecretId(d.id);
+                }
+              }}
             >
               <FlexRowStartCenter className="w-full">
                 <KeyRound
