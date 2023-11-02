@@ -103,3 +103,6 @@ input[type="number"]::-webkit-outer-spin-button {
 .hideScrollBar2::-webkit-scrollbar {
   width: 5px;
 }
+.--test {
+  color: rgb(143, 99, 243);
+}
