@@ -8,15 +8,21 @@ import {
 
 interface ContextValuesType {
   projDetails: { name: string; description: string };
-  setProjDetails: (projDetails: { name: string; description: string }) => void;
+  setProjDetails: React.Dispatch<
+    React.SetStateAction<{ name: string; description: string }>
+  >;
   projType: ProjectType | undefined;
-  setProjType: (projType: ProjectType | undefined) => void;
+  setProjType: React.Dispatch<React.SetStateAction<ProjectType | undefined>>;
   selectedStacks: CodebaseArchitectureMap;
-  setSelectedStacks: (selectedStacks: CodebaseArchitectureMap) => void;
+  setSelectedStacks: React.Dispatch<
+    React.SetStateAction<CodebaseArchitectureMap>
+  >;
   selectedSecretId: string | any;
-  setSelectedSecretId: (selectedSecretId: string | any) => void;
+  setSelectedSecretId: React.Dispatch<React.SetStateAction<string | any>>;
   activeSection: ProjectSideBarConfigKeysType;
-  setActiveSection: (activeSection: ProjectSideBarConfigKeysType) => void;
+  setActiveSection: React.Dispatch<
+    React.SetStateAction<ProjectSideBarConfigKeysType>
+  >;
 }
 
 export const ProjectContext = createContext<ContextValuesType>(
@@ -46,6 +52,10 @@ function ProjectContextProvider({ children }: ProjectContextProviderProps) {
   const [selectedSecretId, setSelectedSecretId] = React.useState<string | any>(
     ""
   );
+
+  React.useEffect(() => {
+    console.log(selectedStacks);
+  }, [selectedStacks]);
 
   const contextValues: ContextValuesType = {
     projDetails,
