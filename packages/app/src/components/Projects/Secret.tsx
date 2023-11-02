@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { FlexColCenter, FlexColStart, FlexRowStartCenter } from "../Flex";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
@@ -6,15 +6,46 @@ import { KeyRound, Server, Theater } from "lucide-react";
 import { TechStackCategory } from "../../../types";
 import { TestProjectEnv } from "@/data/project";
 import Editor from "../Editor";
+import ManageSecrets from "../ManageSecrets";
 
 const Tabs = ["frontend", "backend"] satisfies TechStackCategory[];
 
+type SelectedEnv = {
+  name: string;
+  id: number | string | any;
+  secrets: {
+    id: string | any;
+    name: string;
+    value: string;
+  }[];
+};
+
 function ManageProjectSecret() {
   const [activeTab, setActiveTab] = useState<TechStackCategory>("frontend");
-  const [selectedEnv, setSelectedEnv] = useState<any>(1);
+  const [selectedEnv, setSelectedEnv] = useState<SelectedEnv | null>(
+    TestProjectEnv[0]
+  );
+  const [envName, setEnvName] = useState("");
+
+  useEffect(() => {
+    setSelectedEnv((prev: any) => {
+      return {
+        ...prev,
+        name: envName,
+      };
+    });
+  }, [envName]);
+
+  const updateSelectedEnv = (id: any) => {
+    const env = TestProjectEnv.find((d) => d.id === id);
+    if (env) {
+      setSelectedEnv(env);
+      setEnvName(env.name);
+    }
+  };
 
   return (
-    <FlexColStart className="h-full">
+    <FlexColStart className="w-full h-full">
       <h1 className="text-white-100 text-[20px] font-ppB mt-2">
         Project Environment
       </h1>
@@ -58,49 +89,50 @@ function ManageProjectSecret() {
           </span>
         </p>
       </FlexColStart>
-      <FlexRowStartCenter className="h-full mt-9">
-        <FlexColStart className="w-full min-w-[200px] h-full px-3 hideScrollBar2 gap-3 overflow-y-scroll">
-          {TestProjectEnv.map((d) => (
-            <Button
-              className={cn(
-                "bg-transparent text-[13px] text-white-100 rounded-md group transition-all gap-2 border-solid border-[1px]",
-                selectedEnv === d.id
-                  ? "bg-dark-200 border-white-600 hover:bg-dark-200 "
-                  : "border-transparent text-gray-100 hover:bg-transparent"
-              )}
-              //   onClick={() => setActiveTab(t)}
-            >
-              <KeyRound
-                size={15}
+      <FlexRowStartCenter className="w-full h-full mt-9">
+        <FlexColStart className="w-auto min-w-[200px] h-full px-3 hideScrollBar2 gap-3 overflow-y-scroll">
+          {selectedEnv &&
+            TestProjectEnv.map((d) => (
+              <Button
                 className={cn(
-                  "group-hover:text-white-100 text-white-100",
-                  selectedEnv === d.id ? "text-white-100" : "text-gray-100"
+                  "w-full bg-transparent text-[13px] text-white-100 rounded-md group transition-all gap-2 border-solid border-[1px]",
+                  selectedEnv.id === d.id
+                    ? "bg-dark-200 border-white-600 hover:bg-dark-200 "
+                    : "border-transparent text-gray-100 hover:bg-transparent"
                 )}
-              />
-              <span
-                className={cn(
-                  "font-ppR group-hover:text-white-100 transition-all",
-                  selectedEnv === d.id ? "text-white-100" : "text-gray-100"
-                )}
+                onClick={() =>
+                  selectedEnv.id !== d.id && updateSelectedEnv(d.id)
+                }
               >
-                {d.name}
-              </span>
-            </Button>
-          ))}
+                <FlexRowStartCenter className="w-full">
+                  <KeyRound
+                    size={15}
+                    className={cn(
+                      "group-hover:text-white-100 text-white-100",
+                      selectedEnv.id === d.id
+                        ? "text-white-100"
+                        : "text-gray-100"
+                    )}
+                  />
+                  <span
+                    className={cn(
+                      "font-ppR group-hover:text-white-100 transition-all",
+                      selectedEnv.id === d.id
+                        ? "text-white-100"
+                        : "text-gray-100"
+                    )}
+                  >
+                    {d.name}
+                  </span>
+                </FlexRowStartCenter>
+              </Button>
+            ))}
         </FlexColStart>
-        <FlexColCenter className="w-full h-full">
-          <Editor
-            className="w-full h-full bg-red-200"
-            defaultValue={``}
-            pathName=".env"
-            language="plaintext"
-            style={{
-              width: "350px",
-              backgroundColor: "white",
-              height: "300px",
-            }}
-          />
-        </FlexColCenter>
+        <FlexColStart className="w-full h-full overflow-y-scroll px-2 py-2 pb-[15em] hideScrollBar2">
+          {selectedEnv?.name === envName && (
+            <ManageSecrets selectedEnv={selectedEnv} />
+          )}
+        </FlexColStart>
       </FlexRowStartCenter>
     </FlexColStart>
   );
