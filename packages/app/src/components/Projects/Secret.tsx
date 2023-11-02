@@ -28,13 +28,11 @@ function ManageProjectSecret() {
   const [envName, setEnvName] = useState("");
 
   useEffect(() => {
-    setSelectedEnv((prev: any) => {
-      return {
-        ...prev,
-        name: envName,
-      };
-    });
-  }, [envName]);
+    if (TestProjectEnv.length > 0) {
+      setSelectedEnv(TestProjectEnv[0]);
+      setEnvName(TestProjectEnv[0].name);
+    }
+  }, []);
 
   const updateSelectedEnv = (id: any) => {
     const env = TestProjectEnv.find((d) => d.id === id);
@@ -128,7 +126,11 @@ function ManageProjectSecret() {
               </Button>
             ))}
         </FlexColStart>
-        <FlexColStart className="w-full h-full overflow-y-scroll px-2 py-2 pb-[15em] hideScrollBar2">
+        <FlexColStart
+          className={cn(
+            "w-full h-full overflow-y-auto px-2 py-2 pb-[8em] hideScrollBar2"
+          )}
+        >
           {selectedEnv?.name === envName && (
             <ManageSecrets selectedEnv={selectedEnv} />
           )}

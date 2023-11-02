@@ -31,15 +31,8 @@ function ManageSecrets({ selectedEnv }: ManageSecretsProps) {
   const [focusInput, setFocusInput] = useState<"name" | "value">("name");
 
   useEffect(() => {
-    // set env
     setEnv(selectedEnv);
   }, [selectedEnv]);
-
-  useEffect(() => {
-    // setEnv(selectedEnv);
-    console.log("Selected", selectedEnv);
-    console.log("UPDATED", env);
-  }, [env]);
 
   function handleEnvInputChange(e: any, id: any, type: "name" | "value") {
     const inpValue = e.target.value;
@@ -132,7 +125,7 @@ function ManageSecrets({ selectedEnv }: ManageSecretsProps) {
               name="variable"
               placeholder="Variable name"
               className="bg-dark-200 placeholder:text-gray-100 text-white-200 font-jbSB border-solid border-[.5px] border-white-600 py-6 px-5"
-              defaultValue={d.name}
+              value={d.name}
               onChange={(e: any) => handleEnvInputChange(e, d.id, "name")}
               autoFocus={focusInput === "name" && true}
             />
@@ -141,7 +134,7 @@ function ManageSecrets({ selectedEnv }: ManageSecretsProps) {
               name="variable"
               placeholder="Enter value"
               className="bg-dark-200 placeholder:text-gray-100 text-white-200 font-jbSB border-solid border-[.5px] border-white-600 py-6 px-5 "
-              defaultValue={d.value}
+              value={d.value}
               onChange={(e: any) => handleEnvInputChange(e, d.id, "value")}
               autoFocus={focusInput === "value" && true}
             />
@@ -180,7 +173,7 @@ function ManageSecrets({ selectedEnv }: ManageSecretsProps) {
       <Button
         className="font-ppL text-[12px] mt-2 "
         variant={"appeal"}
-        disabled={checkIfSecretChanged()}
+        disabled={!checkIfSecretChanged()}
         onClick={saveSecret}
       >
         <span className="font-ppR">Save Changes</span>
