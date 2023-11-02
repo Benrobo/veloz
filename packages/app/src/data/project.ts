@@ -167,21 +167,17 @@ export const TestProjectEnv = [
   {
     name: "test project name",
     id: 1,
-    env: `
-{
-  "DATABASE_URL":"",
-  "NODE_ENV": "development"
-}
-    `,
+    secrets: [
+      { id: 1, name: "DATABASE_URL", value: "" },
+      { id: 2, name: "API_KEY", value: "" },
+    ],
   },
   {
     name: "temp app",
     id: 2,
-    env: `
-{
-  "API_URL":"",
-  "CLERK_SECRET": "32e2d32d23@#"
-}
-    `,
+    secrets: [
+      { id: 1, name: "DATABASE_URL", value: "" },
+      { id: 2, name: "CLERK_SECRET", value: "" },
+    ],
   },
 ];
