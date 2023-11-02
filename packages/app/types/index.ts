@@ -56,3 +56,19 @@ export interface CodebaseArchitecture {
 export type CodebaseArchitectureMap = {
   [key in TechStackCategory]: CodebaseArchitecture;
 };
+
+export type SecretDataTypes = {
+  name: string;
+  id: string | any;
+  secrets: {
+    id: string | any;
+    name: string;
+    value: string;
+  }[];
+};
+
+export type Secrets = {
+  id: string | any;
+  name: string;
+  value: string;
+};
