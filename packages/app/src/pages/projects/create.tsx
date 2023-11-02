@@ -41,7 +41,7 @@ import RenderStacks, {
 } from "@/components/Stacks/Render";
 import FreemiumModal from "@/components/FreemiumModal";
 import AddTechStack from "@/components/Projects/TechStack";
-import ManageProjectSecret from "@/components/Projects/Secret";
+import ManageProjectSecret from "@/components/Environment/Secret";
 
 function CreateProject() {
   const [projType, setProjType] = useState<ProjectType>();
