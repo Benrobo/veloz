@@ -233,13 +233,13 @@ function randomProjectType() {
 function renderSidebarConfigIcon(key: ProjectSideBarConfigKeysType) {
   let icon = null;
   if (key === "details") {
-    icon = <PackageCheck className="group-hover:text-white-100" />;
+    icon = <PackageCheck size={20} className="group-hover:text-white-100" />;
   }
   if (key === "secrets") {
-    icon = <KeyRound className="group-hover:text-white-100" />;
+    icon = <KeyRound size={20} className="group-hover:text-white-100" />;
   }
   if (key === "tech_stacks") {
-    icon = <Layers className="group-hover:text-white-100" />;
+    icon = <Layers size={20} className="group-hover:text-white-100" />;
   }
   return icon;
 }
