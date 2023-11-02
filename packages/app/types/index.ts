@@ -1,4 +1,4 @@
-import { ProjectType } from "@/components/Projects/Card";
+export type ProjectType = "Vortex" | "Apex" | "Serenity" | "Nebula" | "Odyssey";
 
 export type TechStackCategory =
   | "frontend"

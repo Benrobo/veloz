@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useContext, useEffect, useState } from "react";
 import Layout from "@/components/Layout";
 import {
   FlexColCenter,
@@ -8,23 +8,9 @@ import {
   FlexRowStartBtw,
   FlexRowStartCenter,
 } from "@/components/Flex";
-import {
-  ArrowLeftToLine,
-  DatabaseZap,
-  KeyRound,
-  Layers,
-  LayoutDashboard,
-  Mails,
-  PackageCheck,
-  Paintbrush2,
-  Server,
-  Shield,
-  ShieldPlus,
-  Theater,
-  WalletCards,
-} from "lucide-react";
+import { ArrowLeftToLine, KeyRound, Layers, PackageCheck } from "lucide-react";
 import Link from "next/link";
-import { ProjectType, RenderProjectIcons } from "@/components/Projects/Card";
+import { RenderProjectIcons } from "@/components/Projects/Card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -32,24 +18,27 @@ import {
   CodebaseArchitecture,
   CodebaseArchitectureMap,
   ProjectSideBarConfigKeysType,
+  ProjectType,
   TechStackCategory,
 } from "../../../types";
 import { ProjectSideBarConfig } from "@/data/project";
-import Accordion from "@/components/Accordion";
-import RenderStacks, {
-  RenderSelectableStacks,
-} from "@/components/Stacks/Render";
-import FreemiumModal from "@/components/FreemiumModal";
 import AddTechStack from "@/components/Projects/TechStack";
 import ManageProjectSecret from "@/components/Environment/Secret";
+import { ProjectContext } from "@/context/ProjectContext";
 
 function CreateProject() {
-  const [projType, setProjType] = useState<ProjectType>();
-  const [activeSection, setActiveSection] =
-    useState<ProjectSideBarConfigKeysType>("details");
-  const [selectedStacks, setSelectedStacks] = useState<CodebaseArchitectureMap>(
-    {} as CodebaseArchitectureMap
-  );
+  const {
+    projDetails,
+    projType,
+    selectedSecretId,
+    selectedStacks,
+    setProjDetails,
+    setProjType,
+    setSelectedSecretId,
+    setSelectedStacks,
+    activeSection,
+    setActiveSection,
+  } = useContext(ProjectContext);
 
   function updateStacksState(
     key: string,
@@ -71,22 +60,26 @@ function CreateProject() {
         mapCat.stack = key;
         mapCat.name = name;
         mapCat.category = techCategory;
-        setSelectedStacks((prev: any) => ({ ...prev, [techCategory]: mapCat }));
+        const _prev = selectedStacks;
+        const stackCombo = {
+          ..._prev,
+          [techCategory]: mapCat,
+        };
+        setSelectedStacks(stackCombo);
         console.log("UPDATED");
       }
     } else {
       // add to selected Stacks
-      setSelectedStacks(
-        (prev: any) =>
-          ({
-            ...prev,
-            [techCategory as TechStackCategory]: {
-              stack: key,
-              name,
-              category: techCategory,
-            },
-          } as CodebaseArchitectureMap)
-      );
+      const _prev = selectedStacks;
+      const stackCombo = {
+        ..._prev,
+        [techCategory]: {
+          stack: key,
+          name,
+          category: techCategory,
+        },
+      };
+      setSelectedStacks(stackCombo);
       console.log("CREATED");
     }
   }

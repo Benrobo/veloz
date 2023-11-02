@@ -1,8 +1,7 @@
 import { Box, CloudFog, Convertshape, Crown, Nebulas } from "iconsax-react";
 import React from "react";
 import ProjectStatus from "./Badge";
-
-export type ProjectType = "Vortex" | "Apex" | "Serenity" | "Nebula" | "Odyssey";
+import { ProjectType } from "../../../types";
 
 interface ProjectCardProps extends React.HTMLProps<HTMLButtonElement> {
   name: string;

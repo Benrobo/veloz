@@ -2,6 +2,7 @@ import { ComponentLayout } from "@/components/Layout";
 import { jbR, jbSB, ppB, ppEB, ppL, ppReg, ppSB } from "@/config/font";
 import DataContextProvider from "@/context/DataContext";
 import LayoutContextProvider from "@/context/LayoutContext";
+import ProjectContextProvider from "@/context/ProjectContext";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
@@ -24,10 +25,12 @@ export default function App({ Component, pageProps }: AppProps) {
       </style>
       <LayoutContextProvider>
         <DataContextProvider>
-          <ComponentLayout>
-            <Component {...pageProps} />
-          </ComponentLayout>
-          <Toaster />
+          <ProjectContextProvider>
+            <ComponentLayout>
+              <Component {...pageProps} />
+            </ComponentLayout>
+            <Toaster />
+          </ProjectContextProvider>
         </DataContextProvider>
       </LayoutContextProvider>
     </>
