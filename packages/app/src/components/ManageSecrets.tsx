@@ -112,6 +112,32 @@ function ManageSecrets({ selectedEnv }: ManageSecretsProps) {
     return false;
   }
 
+  useEffect(() => {}, []);
+
+  // function that detect user paste event, get the data,
+  // parse the data into a key value pair and update the state
+  // remove unwanted characters, symbols.
+  // remove invalid characters
+  function handlePaste(e: any) {
+    const paste = e.clipboardData.getData("text").trim();
+    const pasteData = paste.replace(/[^\w\n=]/g, "").split("\n");
+    const parsedData = pasteData
+      .map((d: string) => {
+        const [name, value] = d.split("=");
+        const id = Math.floor(Math.random() * 10e3);
+        return { id, name, value: value ?? "" };
+      })
+      .filter((d: any) => d.name?.length > 0 || d.value?.length > 0);
+
+    const prevEnv = env.secrets;
+    const comb = [...prevEnv, ...parsedData];
+    setEnv({
+      name: env.name,
+      id: env.id,
+      secrets: comb,
+    });
+  }
+
   function saveSecret() {
     console.log(env);
   }
@@ -128,6 +154,7 @@ function ManageSecrets({ selectedEnv }: ManageSecretsProps) {
               value={d.name}
               onChange={(e: any) => handleEnvInputChange(e, d.id, "name")}
               autoFocus={focusInput === "name" && true}
+              onPaste={handlePaste}
             />
             <span className="text-white-200 font-ppB text-[13px]">=</span>
             <Input
