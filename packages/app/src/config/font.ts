@@ -1,4 +1,4 @@
-import { Poppins, Fira_Sans } from "next/font/google";
+import { Poppins, Fira_Sans, JetBrains_Mono } from "next/font/google";
 
 export const ppReg = Poppins({
   subsets: ["latin"],
@@ -30,4 +30,17 @@ export const ppEB = Poppins({
   subsets: ["latin"],
   variable: "--font-ppEB",
   weight: ["900"],
+});
+
+// Fira code
+export const jbR = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jbR",
+  weight: ["300"],
+});
+
+export const jbSB = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jbSB",
+  weight: ["400"],
 });
