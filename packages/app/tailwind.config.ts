@@ -60,6 +60,10 @@ const config: Config = {
           100: "#E4295D",
           200: "rgba(228, 41, 93, 0.3)",
         },
+        purple: {
+          100: "#8f63f3",
+          105: "rgb(143, 99, 243,.3)",
+        },
         teal: {
           100: "#21B6A2",
           200: "rgba(33, 182, 162, 0.3)",
@@ -123,6 +127,8 @@ const config: Config = {
         ppEB: ["var(--font-ppEB)"],
         ppSB: ["var(--font-ppSB)"],
         ppL: ["var(--font-ppL)"],
+        jbR: ["var(--font-jbR)"],
+        jbSB: ["var(--font-jbSB)"],
       },
     },
   },
