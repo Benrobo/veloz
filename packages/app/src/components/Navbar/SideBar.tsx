@@ -4,6 +4,7 @@ import React from "react";
 import { HomeIcon, MoneyIcon, ProjectIcon } from "../Icon";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
+import { Settings } from "lucide-react";
 
 interface SidebarProps {
   activePage: string;
@@ -87,6 +88,26 @@ function SideBar({ activePage }: SidebarProps) {
           />
           <span className="group-hover:text-white-100 transition ease-in-out">
             Billing
+          </span>
+        </Link>
+
+        {/* Settings */}
+        <Link
+          href="/settings"
+          className={twMerge(
+            "w-full h-auto group px-4 py-3 rounded-lg flex items-center justify-start gap-2 font-ppReg transition ease-in-out text-[14px]",
+            buttonStyle(activePage, "settings").btn
+          )}
+        >
+          <Settings
+            size={15}
+            className={twMerge(
+              "group-hover:text-white-100 transition ease-in-out",
+              buttonStyle(activePage, "billing").icon
+            )}
+          />
+          <span className="group-hover:text-white-100 transition ease-in-out">
+            Settings
           </span>
         </Link>
       </div>
