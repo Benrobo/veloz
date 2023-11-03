@@ -1,9 +1,13 @@
-import TECH_STACKS from "@/data/stacks";
+import REFINED_STACKS, { FINE_TUNED_STACKS } from "@/data/stacks";
 import React, { useContext, useEffect, useState } from "react";
 import { FlexColCenter, FlexColEnd, FlexRowStart } from "../Flex";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
-import { CodebaseArchitectureMap, TechStackCategory } from "../../../types";
+import {
+  CodebaseArchitectureMap,
+  FineTunedStacksName,
+  TechStackCategory,
+} from "../../../types";
 import { cn, isUserEligibleForStack } from "@/lib/utils";
 import { Gem } from "lucide-react";
 import { DataContext } from "@/context/DataContext";
@@ -27,12 +31,12 @@ const stackWithExtendedHeight = [
 
 function RenderStacks({ tech_stacks }: RenderStacksProps) {
   const validStacks: StackObj[] = [];
-  const stackData = TECH_STACKS.map((d) => d.key);
+  const stackData = REFINED_STACKS.map((d) => d.key);
   if (tech_stacks.length > 0) {
     tech_stacks.forEach((d, i, arr) => {
       if (d.length > 0) {
         if (stackData.includes(d)) {
-          const foundStack = TECH_STACKS.find(
+          const foundStack = REFINED_STACKS.find(
             (stack) => stack.key === d
           ) as StackObj;
           validStacks.push(foundStack);
@@ -74,6 +78,7 @@ function RenderStacks({ tech_stacks }: RenderStacksProps) {
 
 export default RenderStacks;
 
+// Refined Renderer
 interface RenderSelectableStacksProps {
   category?: TechStackCategory;
   updateStacksState: (
@@ -91,7 +96,7 @@ export function RenderSelectableStacks({
 }: RenderSelectableStacksProps) {
   const { userPlan, togglePremiumModalVisibility, setPkgPlan } =
     useContext(DataContext);
-  const tech_stacks = TECH_STACKS.filter((stk) => stk.category === category);
+  const tech_stacks = REFINED_STACKS.filter((stk) => stk.category === category);
 
   function handleStackSelection(key: string, name: string) {
     const techCategory = category as TechStackCategory;
