@@ -1,38 +1,29 @@
-import React, { ReactElement } from "react";
-import Accordion from "../Accordion";
-import { FlexColStart, FlexRowStart, FlexRowStartCenter } from "../Flex";
-import { RenderSelectableStacks } from "../Stacks/Render";
-import { Shield } from "iconsax-react";
+import Accordion from "@/components/Accordion";
 import {
+  FlexColStart,
+  FlexRowStart,
+  FlexRowStartCenter,
+} from "@/components/Flex";
+import { RenderSelectableStacks } from "@/components/Stacks/Render";
+import {
+  DatabaseZap,
   LayoutDashboard,
-  Theater,
+  Mails,
   Paintbrush2,
   Server,
-  DatabaseZap,
+  Shield,
+  Theater,
   WalletCards,
-  Mails,
 } from "lucide-react";
-import { CodebaseArchitectureMap, TechStackCategory } from "../../../types";
+import React, { ReactElement } from "react";
+import { TechStackCategory } from "../../../../types";
+import { AddTechStackProps } from ".";
 
-interface AddTechStackProps {
-  updateStacksState: (
-    key: string,
-    name: string,
-    category: TechStackCategory
-  ) => void;
-  selectedStacks: CodebaseArchitectureMap;
-}
+interface RefinedProps extends AddTechStackProps {}
 
-function AddTechStack({
-  updateStacksState,
-  selectedStacks,
-}: AddTechStackProps) {
+function Refined({ updateStacksState, selectedStacks }: RefinedProps) {
   return (
-    <FlexColStart className="w-full">
-      <h1 className="text-white-100 text-[20px] font-ppB mt-2">
-        Preferred Technology
-      </h1>
-      <br />
+    <FlexColStart className="w-full h-screen pb-[25em] overflow-scroll hideScrollBar2 px-3">
       {/* Architecture Section */}
       <Accordion
         name="codebase_architecture"
@@ -171,7 +162,7 @@ function AddTechStack({
   );
 }
 
-export default AddTechStack;
+export default Refined;
 
 function renderAccdIcon(category: TechStackCategory) {
   let icon = null;

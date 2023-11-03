@@ -28,7 +28,7 @@ import {
   TechStackCategory,
 } from "../../../types";
 import { ProjectSideBarConfig, projectTempData } from "@/data/project";
-import AddTechStack from "@/components/Projects/TechStack";
+import AddTechStack from "@/components/Projects/TechStacks";
 import ManageProjectSecret from "@/components/Environment/Secret";
 import { ProjectContext } from "@/context/ProjectContext";
 import toast from "react-hot-toast";
@@ -226,7 +226,8 @@ function CreateProject() {
               </Button>
             ))}
           </FlexColStart>
-          <FlexColStart className="w-full h-screen overflow-scroll hideScrollBar2 pb-[20em] px-3">
+
+          <FlexColStart className="w-full h-screen px-3">
             {/* Details section */}
             {activeSection === "details" && (
               <FlexColStart className="w-fit">
