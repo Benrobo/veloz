@@ -8,6 +8,7 @@ import "@radix-ui/themes/styles.css";
 import type { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
 import { Theme } from "@radix-ui/themes";
+import { ClerkProvider } from "@clerk/nextjs";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -31,7 +32,9 @@ export default function App({ Component, pageProps }: AppProps) {
           <ProjectContextProvider>
             <ComponentLayout>
               <Theme>
-                <Component {...pageProps} />
+                <ClerkProvider>
+                  <Component {...pageProps} />
+                </ClerkProvider>
               </Theme>
             </ComponentLayout>
             <Toaster />
