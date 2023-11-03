@@ -3,7 +3,7 @@ import Modal from "./Modal";
 import { FlexColCenter, FlexColStart } from "./Flex";
 import { Button } from "./ui/button";
 import { Zap } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, planColor } from "@/lib/utils";
 import { TechStackPricingPlan } from "../../types";
 
 interface FreemiumModalProps {
@@ -17,24 +17,6 @@ function FreemiumModal({ price_plan, isOpen, onClose }: FreemiumModalProps) {
     BASIC_PKG: "Basic Package",
     STANDARD_PKG: "Standard Package",
     PRO_PKG: "Professional Package",
-  };
-
-  const planColor = (plan: TechStackPricingPlan) => {
-    let txtColor = "",
-      bgColor = "";
-    if (plan === "BASIC_PKG") {
-      txtColor = "text-blue-100";
-      bgColor = "bg-blue-300";
-    }
-    if (plan === "STANDARD_PKG") {
-      txtColor = "text-orange-100";
-      bgColor = "bg-orange-100";
-    }
-    if (plan === "PRO_PKG") {
-      txtColor = "text-pink-100";
-      bgColor = "bg-pink-100";
-    }
-    return { txtColor, bgColor };
   };
 
   return (

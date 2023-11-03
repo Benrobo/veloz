@@ -14,9 +14,9 @@ export const DataContext = createContext<ContextValuesType>(
 );
 
 function DataContextProvider({ children }: { children: ReactNode }) {
-  const [userPlan, setUserPlan] = useState<TechStackPricingPlan>("BASIC_PKG");
+  const [userPlan, setUserPlan] = useState<TechStackPricingPlan>("PRO_PKG");
   const [premiumModal, setPremiumModal] = useState(false);
-  const [pkgPlan, setPkgPlan] = useState<TechStackPricingPlan>("BASIC_PKG");
+  const [pkgPlan, setPkgPlan] = useState<TechStackPricingPlan>("PRO_PKG");
   const togglePremiumModalVisibility = () => setPremiumModal(!premiumModal);
 
   const contextValues: ContextValuesType = {

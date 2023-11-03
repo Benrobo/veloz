@@ -1,5 +1,5 @@
 import { ComponentLayout } from "@/components/Layout";
-import { jbR, jbSB, ppB, ppEB, ppL, ppReg, ppSB } from "@/config/font";
+import { jbEB, jbR, jbSB, ppB, ppEB, ppL, ppReg, ppSB } from "@/config/font";
 import DataContextProvider from "@/context/DataContext";
 import LayoutContextProvider from "@/context/LayoutContext";
 import ProjectContextProvider from "@/context/ProjectContext";
@@ -22,11 +22,12 @@ export default function App({ Component, pageProps }: AppProps) {
             --font-ppL: ${ppL.style.fontFamily};
             --font-jbR: ${jbR.style.fontFamily};
             --font-jbSB: ${jbSB.style.fontFamily};
+            --font-jbEB: ${jbEB.style.fontFamily};
           }
         `}
       </style>
-      <LayoutContextProvider>
-        <DataContextProvider>
+      <DataContextProvider>
+        <LayoutContextProvider>
           <ProjectContextProvider>
             <ComponentLayout>
               <Theme>
@@ -35,8 +36,8 @@ export default function App({ Component, pageProps }: AppProps) {
             </ComponentLayout>
             <Toaster />
           </ProjectContextProvider>
-        </DataContextProvider>
-      </LayoutContextProvider>
+        </LayoutContextProvider>
+      </DataContextProvider>
     </>
   );
 }

@@ -44,3 +44,9 @@ export const jbSB = JetBrains_Mono({
   variable: "--font-jbSB",
   weight: ["400"],
 });
+
+export const jbEB = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jbEB",
+  weight: ["800"],
+});

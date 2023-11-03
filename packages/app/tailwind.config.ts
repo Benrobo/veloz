@@ -130,6 +130,7 @@ const config: Config = {
         ppL: ["var(--font-ppL)"],
         jbR: ["var(--font-jbR)"],
         jbSB: ["var(--font-jbSB)"],
+        jbEB: ["var(--font-jbEB)"],
       },
     },
   },
