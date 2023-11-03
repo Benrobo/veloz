@@ -35,7 +35,13 @@ export function ComponentLayout({
 }) {
   const { activePage } = useContext(LayoutContext);
   const [pathname, setPathname] = useState("");
-  const validPages = ["dashboard", "projects", "billing", "projects/create"];
+  const validPages = [
+    "dashboard",
+    "projects",
+    "billing",
+    "projects/create",
+    "settings",
+  ];
 
   useEffect(() => {
     const { pathname } = window.location;
