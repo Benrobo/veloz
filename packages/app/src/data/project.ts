@@ -187,7 +187,7 @@ export const TestProjectEnv = [
     ],
   },
   {
-    name: "test app",
+    name: "default",
     category: "backend",
     id: 3,
     secrets: [
