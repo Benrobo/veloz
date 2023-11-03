@@ -2,6 +2,7 @@ import * as React from "react";
 import { createContext, ReactNode } from "react";
 import {
   CodebaseArchitectureMap,
+  FineTunedStacksName,
   ProjectSideBarConfigKeysType,
   ProjectType,
   VelozProjectOption,
@@ -38,7 +39,6 @@ interface ProjectContextProviderProps {
 
 function ProjectContextProvider({ children }: ProjectContextProviderProps) {
   // PROJECT DETAILS
-  //   VelozProjectOption
   const [projectOptions, setProjectOptions] =
     React.useState<VelozProjectOption>("Refined");
 
@@ -55,6 +55,9 @@ function ProjectContextProvider({ children }: ProjectContextProviderProps) {
   const [projType, setProjType] = React.useState<ProjectType>();
   const [selectedStacks, setSelectedStacks] =
     React.useState<CodebaseArchitectureMap>({} as CodebaseArchitectureMap);
+
+  const [selectedFinetunedStack, setSelectedFinetunedStack] =
+    React.useState<FineTunedStacksName>("Athena");
 
   const [selectedSecretId, setSelectedSecretId] = React.useState<string | any>(
     ""
