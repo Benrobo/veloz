@@ -1,4 +1,4 @@
-import TECH_STACKS from "@/data/stacks";
+import REFINED_STACKS from "@/data/stacks";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { TechStackPricingPlan } from "../../types";
@@ -12,7 +12,7 @@ export function isUserEligibleForStack(
   stackKey: string,
   userPricingPlan: TechStackPricingPlan
 ) {
-  const techStack = TECH_STACKS.find((stack) => stack.key === stackKey);
+  const techStack = REFINED_STACKS.find((stack) => stack.key === stackKey);
   if (techStack) {
     const { pricing_plan } = techStack;
     if (userPricingPlan === "BASIC_PKG" && pricing_plan !== "BASIC_PKG") {
