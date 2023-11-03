@@ -34,7 +34,7 @@ export interface VelozProjectType {
 export type TechStackPricingPlan = "BASIC_PKG" | "STANDARD_PKG" | "PRO_PKG";
 
 export type SupportedArchitecture = "monolith" | "monorepo";
-export interface TechStacks {
+export interface REFINED_STACKS {
   name: string;
   key: string;
   img: string;
@@ -43,6 +43,24 @@ export interface TechStacks {
   category: TechStackCategory;
   supported_architecture: SupportedArchitecture[];
 }
+
+export interface FINE_TUNED_STACKS {
+  id: any;
+  plan: TechStackPricingPlan;
+  name: string;
+  tech_stacks: {
+    title: TechStackCategory;
+    stacks: string[];
+  }[];
+}
+
+export type FineTunedStacksName =
+  | "Athena"
+  | "Hera"
+  | "Zeus"
+  | "Poseidon"
+  | "Ares"
+  | "Dynamo";
 
 export type ProjectSideBarConfigKeysType =
   | "details"
