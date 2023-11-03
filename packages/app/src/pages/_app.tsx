@@ -4,8 +4,10 @@ import DataContextProvider from "@/context/DataContext";
 import LayoutContextProvider from "@/context/LayoutContext";
 import ProjectContextProvider from "@/context/ProjectContext";
 import "@/styles/globals.css";
+import "@radix-ui/themes/styles.css";
 import type { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
+import { Theme } from "@radix-ui/themes";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -27,7 +29,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <DataContextProvider>
           <ProjectContextProvider>
             <ComponentLayout>
-              <Component {...pageProps} />
+              <Theme>
+                <Component {...pageProps} />
+              </Theme>
             </ComponentLayout>
             <Toaster />
           </ProjectContextProvider>
