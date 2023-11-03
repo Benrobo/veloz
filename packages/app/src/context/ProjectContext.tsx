@@ -4,9 +4,12 @@ import {
   CodebaseArchitectureMap,
   ProjectSideBarConfigKeysType,
   ProjectType,
+  VelozProjectOption,
 } from "../../types";
 
 interface ContextValuesType {
+  projectOptions: VelozProjectOption;
+  setProjectOptions: React.Dispatch<React.SetStateAction<VelozProjectOption>>;
   projDetails: { name: string; description: string };
   setProjDetails: React.Dispatch<
     React.SetStateAction<{ name: string; description: string }>
@@ -35,6 +38,10 @@ interface ProjectContextProviderProps {
 
 function ProjectContextProvider({ children }: ProjectContextProviderProps) {
   // PROJECT DETAILS
+  //   VelozProjectOption
+  const [projectOptions, setProjectOptions] =
+    React.useState<VelozProjectOption>("Refined");
+
   const [projDetails, setProjDetails] = React.useState<{
     name: string;
     description: string;
@@ -58,6 +65,8 @@ function ProjectContextProvider({ children }: ProjectContextProviderProps) {
   }, [selectedStacks]);
 
   const contextValues: ContextValuesType = {
+    projectOptions,
+    setProjectOptions,
     projDetails,
     setProjDetails,
     projType,

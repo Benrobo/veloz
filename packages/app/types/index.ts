@@ -10,6 +10,13 @@ export type TechStackCategory =
   | "authentication"
   | "codebase_acrhitecture";
 
+enum ProjectOption {
+  Refined = "Refined",
+  FineTuned = "Fine-Tuned",
+}
+
+export type VelozProjectOption = keyof typeof ProjectOption;
+
 export interface VelozProjectType {
   name: string;
   id: any;
