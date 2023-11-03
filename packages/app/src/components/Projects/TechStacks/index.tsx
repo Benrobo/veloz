@@ -73,7 +73,7 @@ function AddTechStack({
         />
       )}
       {/* Fine-Tuned section */}
-      {activeTab === "Refined" && <FineTuned />}
+      {activeTab === "Fine-Tuned" && <FineTuned />}
     </FlexColStart>
   );
 }
