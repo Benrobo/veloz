@@ -24,6 +24,10 @@ interface RefinedProps extends AddTechStackProps {}
 function Refined({ updateStacksState, selectedStacks }: RefinedProps) {
   return (
     <FlexColStart className="w-full h-screen pb-[25em] overflow-scroll hideScrollBar2 px-3">
+      <p className="text-gray-100 font-jbR font-bold text-[13px] ">
+        Tailor your codebase to match your preferences and requirements.
+      </p>
+      <br />
       {/* Architecture Section */}
       <Accordion
         name="codebase_architecture"
