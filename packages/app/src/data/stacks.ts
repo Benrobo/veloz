@@ -84,7 +84,7 @@ const REFINED_STACKS = [
     name: "nodejs",
     key: "nodejs",
     img: "/images/tech_stacks/nodejs.svg",
-    pricing_plan: "PRO_PKG",
+    pricing_plan: "ENTERPRISE_PKG",
     category: "backend",
     available: true,
     supported_architecture: ["monolith"],
@@ -102,7 +102,7 @@ const REFINED_STACKS = [
     name: "Laravel",
     key: "laravel",
     img: "/images/tech_stacks/laravel.svg",
-    pricing_plan: "PRO_PKG",
+    pricing_plan: "ENTERPRISE_PKG",
     category: "backend",
     available: false,
     supported_architecture: ["monolith"],
@@ -248,7 +248,7 @@ export const FINE_TUNED_STACKS = [
   },
   {
     id: 3,
-    plan: "PRO_PKG",
+    plan: "ENTERPRISE_PKG",
     name: "Zeus",
     tech_stacks: [
       {

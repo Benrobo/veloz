@@ -31,7 +31,10 @@ export interface VelozProjectType {
   env?: string | null;
 }
 
-export type TechStackPricingPlan = "BASIC_PKG" | "STANDARD_PKG" | "PRO_PKG";
+export type TechStackPricingPlan =
+  | "BASIC_PKG"
+  | "STANDARD_PKG"
+  | "ENTERPRISE_PKG";
 
 export type SupportedArchitecture = "monolith" | "monorepo";
 export interface REFINED_STACKS {

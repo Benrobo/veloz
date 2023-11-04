@@ -152,7 +152,7 @@ function UpgradePlanWidget() {
                 ? "bg-blue-100"
                 : userPlan === "STANDARD_PKG"
                 ? "bg-orange-100"
-                : userPlan === "PRO_PKG"
+                : userPlan === "ENTERPRISE_PKG"
                 ? "bg-pink-100"
                 : "",
               `hover:${planColor(userPlan).bgColor}`

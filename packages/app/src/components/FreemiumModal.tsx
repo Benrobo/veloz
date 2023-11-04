@@ -16,7 +16,7 @@ function FreemiumModal({ price_plan, isOpen, onClose }: FreemiumModalProps) {
   const planTitle = {
     BASIC_PKG: "Basic Package",
     STANDARD_PKG: "Standard Package",
-    PRO_PKG: "Professional Package",
+    ENTERPRISE_PKG: "Enterprise Package",
   };
 
   return (

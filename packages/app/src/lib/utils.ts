@@ -20,9 +20,9 @@ export function isUserEligibleForStack(
       return false;
     } else if (
       userPricingPlan === "STANDARD_PKG" &&
-      pricing_plan === "PRO_PKG"
+      pricing_plan === "ENTERPRISE_PKG"
     ) {
-      // User on STANDARD_PKG plan can't access PRO_PKG
+      // User on STANDARD_PKG plan can't access ENTERPRISE
       return false;
     } else {
       // User is eligible for this stack
@@ -63,8 +63,8 @@ export function getPlanTitle(plan: TechStackPricingPlan) {
       return "Basic";
     case "STANDARD_PKG":
       return "Standard";
-    case "PRO_PKG":
-      return "Pro";
+    case "ENTERPRISE_PKG":
+      return "Enterprise";
   }
 }
 
@@ -79,7 +79,7 @@ export const planColor = (plan: TechStackPricingPlan) => {
     txtColor = "text-orange-100";
     bgColor = "bg-orange-100";
   }
-  if (plan === "PRO_PKG") {
+  if (plan === "ENTERPRISE_PKG") {
     txtColor = "text-pink-100";
     bgColor = "bg-pink-100";
   }
