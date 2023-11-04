@@ -6,6 +6,7 @@ import {
 } from "@/components/Flex";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
+import { withAuth } from "@/lib/helpers";
 import { cn } from "@/lib/utils";
 import { RadioGroup } from "@radix-ui/themes";
 import { Github, LayoutDashboard, Settings } from "lucide-react";
@@ -144,7 +145,7 @@ function SettingsPage() {
   );
 }
 
-export default SettingsPage;
+export default withAuth(SettingsPage);
 
 function renderTabIcon(tab: SettingsTabs, activeTab: SettingsTabs) {
   let icon = null;
