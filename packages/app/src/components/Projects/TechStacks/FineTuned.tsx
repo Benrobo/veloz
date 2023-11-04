@@ -2,30 +2,140 @@ import {
   FlexColCenter,
   FlexColStart,
   FlexRowCenterBtw,
+  FlexRowStart,
   FlexRowStartBtw,
   FlexRowStartCenter,
 } from "@/components/Flex";
 import { cn, getPlanTitle } from "@/lib/utils";
-import { Button } from "@radix-ui/themes";
 import { Crosshair, Gem } from "lucide-react";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Tabs } from ".";
 import { FineTunedStacksName, TechStackPricingPlan } from "../../../../types";
 import Image from "next/image";
 import { DataContext } from "@/context/DataContext";
+import Modal from "@/components/Modal";
+import RenderStacks from "@/components/Stacks/Render";
+import { Button } from "@/components/ui/button";
 
 interface FineTunedProps {}
 
+type SelectedCardProps = {
+  name: FineTunedStacksName;
+  pricing_plan: TechStackPricingPlan;
+};
+
 function FineTuned({}: FineTunedProps) {
+  const [selectedCard, setSelectedCard] = useState<SelectedCardProps | null>(
+    null
+  );
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleStackSelection = (name: FineTunedCardProps) => {
+    console.log(name);
+    setModalVisible(true);
+  };
+
   return (
-    <FlexColStart className="w-full">
-      <p className="text-gray-100 font-jbR font-bold text-[13px] ">
-        Get started quickly with preconfigured tech stacks designed for specific
-        use cases.
-      </p>
-      <br />
-      <FineTunedCard name="Zeus" pricing_plan={"ENTERPRISE_PKG"} />
-    </FlexColStart>
+    <>
+      <FlexColStart className="w-full">
+        <p className="text-gray-100 font-jbR font-bold text-[13px] ">
+          Get started quickly with preconfigured tech stacks designed for
+          specific use cases.
+        </p>
+        <br />
+        <FineTunedCard
+          handleStackSelection={handleStackSelection}
+          name="Zeus"
+          pricing_plan={"ENTERPRISE_PKG"}
+        />
+      </FlexColStart>
+      <Modal
+        isOpen={modalVisible}
+        onClose={() => setModalVisible(false)}
+        showCloseIcon
+      >
+        <FlexColCenter className="w-full h-full">
+          <FlexRowCenterBtw className="w-full h-full pt-9 pb-9 max-w-[700px] max-h-[450px] bg-dark-200 rounded-md px-2">
+            <FlexColStart className="w-full h-full px-5">
+              <div
+                className={cn(
+                  `w-full h-auto min-h-[200px] bg-cover bg-no-repeat bg-top-left rounded-md`,
+                  `bg-[url(/images/finetuned/zeus.jpeg)]`
+                )}
+              ></div>
+              <FlexRowStartBtw>
+                <h1 className="text-white-100 text-2xl font-jbSB font-extrabold">
+                  Zeus
+                </h1>
+                <FlexRowCenterBtw className="w-auto px-3 py-1 rounded-[30px] bg-dark-200 scale-[.85] border-solid border-white-600 border-[1px]">
+                  <p
+                    className={cn(
+                      "text-white-100 text-[12px] font-ppB",
+                      selectedCard?.pricing_plan === "BASIC_PKG"
+                        ? "text-blue-100"
+                        : selectedCard?.pricing_plan === "STANDARD_PKG"
+                        ? "text-orange-100"
+                        : selectedCard?.pricing_plan === "ENTERPRISE_PKG"
+                        ? "text-pink-100"
+                        : ""
+                    )}
+                  >
+                    {getPlanTitle(selectedCard?.pricing_plan as any)}
+                  </p>
+                  <Image
+                    src={
+                      selectedCard?.pricing_plan === "STANDARD_PKG"
+                        ? "/images/diamond.png"
+                        : "/images/diamond-2.png"
+                    }
+                    width={15}
+                    height={0}
+                    alt="premium"
+                  />
+                </FlexRowCenterBtw>
+              </FlexRowStartBtw>
+              <FlexRowStartCenter>
+                <span className="p-1 bg-green-400 animate-ping rounded-[50%]"></span>
+                <span className="text-gray-100 text-[13px] font-jbR">
+                  Last updated:{" "}
+                  <span className="text-white-300 font-jbR font-bold">
+                    1day ago
+                  </span>
+                </span>
+              </FlexRowStartCenter>
+              <Button
+                variant={"appeal"}
+                className="font-jbSB font-extrabold text-[12px] mt-2 "
+              >
+                Select
+              </Button>
+            </FlexColStart>
+            <FlexColStart className="w-full h-full">
+              <FlexColStart className="w-full">
+                <p className="text-white-200 font-ppB">Technologies</p>
+              </FlexColStart>
+              <br />
+              <FlexColStart className="w-full h-full gap-5 flex-wrap overflow-y-scroll hideScrollBar2 py-2">
+                <RenderStacks
+                  tech_stacks={[
+                    "nodejs",
+                    "tailwindcss",
+                    "mysql",
+                    "lemonsqueezy",
+                    "postmark",
+                    "golang",
+                    "postgresql",
+                    "laravel",
+                    "resend",
+                    "stripe",
+                  ]}
+                />
+              </FlexColStart>
+            </FlexColStart>
+          </FlexRowCenterBtw>
+        </FlexColCenter>
+      </Modal>
+    </>
   );
 }
 
@@ -34,12 +144,19 @@ export default FineTuned;
 interface FineTunedCardProps {
   name: FineTunedStacksName;
   pricing_plan: TechStackPricingPlan;
+  isSelected?: boolean;
+  handleStackSelection: (name: FineTunedStacksName) => void;
 }
 
-function FineTunedCard({ name, pricing_plan }: FineTunedCardProps) {
+function FineTunedCard({
+  name,
+  pricing_plan,
+  isSelected,
+  handleStackSelection,
+}: FineTunedCardProps) {
   const {} = useContext(DataContext);
   return (
-    <button className="w-auto">
+    <button className="w-auto" onClick={() => handleStackSelection(name)}>
       <FlexColStart className="w-fit max-w-[350px] min-w-[300px] bg-dark-300 rounded-md overflow-hidden ">
         <FlexColCenter className="w-full h-full relative">
           <div
