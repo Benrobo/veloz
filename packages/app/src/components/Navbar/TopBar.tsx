@@ -19,7 +19,7 @@ function TopBar() {
         <DropdownMenu>
           <DropdownMenuTrigger className="w-[40px] h-[40px] bg-dark-200 font-ppReg text-white-100 border-solid border-[1px] border-dark-300 rounded-[50%] text-[13px] outline-none ">
             <Image
-              src={user?.imageUrl as string}
+              src={user?.imageUrl ?? ("/images/finetuned/zeus.jpeg" as string)}
               width={40}
               height={40}
               className="w-full p-[1px] rounded-[50%]"
@@ -32,8 +32,7 @@ function TopBar() {
                 Signed in as
               </span>
               <p className="text-white-100 font-ppReg text-[13px]">
-                {user?.emailAddresses[0]?.emailAddress ??
-                  "/images/finetuned/zeus.jpeg"}
+                {user?.emailAddresses[0]?.emailAddress ?? "N/A"}
               </p>
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-dark-300 h-[1px]" />
