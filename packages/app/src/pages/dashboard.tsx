@@ -1,9 +1,15 @@
 import { FlexColCenter } from "@/components/Flex";
 import Layout from "@/components/Layout";
 import Modal from "@/components/Modal";
+import { withAuth } from "@/lib/helpers";
+import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 
-export default function Home() {
+function Home() {
+  const { user } = useUser();
+
+  console.log(user);
+
   return (
     <Layout activePage="home">
       <p className="text-white-100">Dashboard</p>
@@ -15,3 +21,4 @@ export default function Home() {
     </Layout>
   );
 }
+export default withAuth(Home);

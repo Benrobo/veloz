@@ -27,20 +27,20 @@ export default function App({ Component, pageProps }: AppProps) {
           }
         `}
       </style>
-      <DataContextProvider>
-        <LayoutContextProvider>
-          <ProjectContextProvider>
-            <ComponentLayout>
-              <Theme>
-                <ClerkProvider>
+      <ClerkProvider>
+        <DataContextProvider>
+          <LayoutContextProvider>
+            <ProjectContextProvider>
+              <ComponentLayout>
+                <Theme>
                   <Component {...pageProps} />
-                </ClerkProvider>
-              </Theme>
-            </ComponentLayout>
-            <Toaster />
-          </ProjectContextProvider>
-        </LayoutContextProvider>
-      </DataContextProvider>
+                </Theme>
+              </ComponentLayout>
+              <Toaster />
+            </ProjectContextProvider>
+          </LayoutContextProvider>
+        </DataContextProvider>
+      </ClerkProvider>
     </>
   );
 }

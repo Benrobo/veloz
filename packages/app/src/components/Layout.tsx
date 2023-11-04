@@ -35,6 +35,7 @@ export function ComponentLayout({
 }) {
   const { activePage } = useContext(LayoutContext);
   const [pathname, setPathname] = useState("");
+  // pages that uses the default Layout
   const validPages = [
     "dashboard",
     "projects",

@@ -85,3 +85,8 @@ export const planColor = (plan: TechStackPricingPlan) => {
   }
   return { txtColor, bgColor };
 };
+
+export const logout = () => {
+  localStorage.removeItem("clerk-db-jwt");
+  window.location.href = "/auth";
+};
