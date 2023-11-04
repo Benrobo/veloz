@@ -1,11 +1,13 @@
 import Layout from "@/components/Layout";
-import ProjectCard, { ProjectType } from "@/components/Projects/Card";
+import ProjectCard from "@/components/Projects/Card";
 import Slidebar from "@/components/Projects/Slidebar";
 import { Button } from "@/components/ui/button";
 import { projectTempData } from "@/data/project";
+import { withAuth } from "@/lib/helpers";
 import { Flash } from "iconsax-react";
 import Link from "next/link";
 import React, { useState } from "react";
+import { ProjectType } from "../../../types";
 
 function Projects() {
   const [slideBarOpen, setSlideBarOpen] = useState(false);
@@ -55,4 +57,4 @@ function Projects() {
   );
 }
 
-export default Projects;
+export default withAuth(Projects);
