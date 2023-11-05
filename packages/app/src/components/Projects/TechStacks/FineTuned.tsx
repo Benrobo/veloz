@@ -35,6 +35,19 @@ function FineTuned({}: FineTunedProps) {
     setModalVisible(true);
   };
 
+  const tech_stacks = [
+    "nodejs",
+    "tailwindcss",
+    "mysql",
+    "lemonsqueezy",
+    "postmark",
+    "golang",
+    "postgresql",
+    "laravel",
+    "resend",
+    "stripe",
+  ];
+
   return (
     <>
       <FlexColStart className="w-full">
@@ -47,6 +60,7 @@ function FineTuned({}: FineTunedProps) {
           handleStackSelection={handleStackSelection}
           name="Zeus"
           pricing_plan={"ENTERPRISE_PKG"}
+          stacks={tech_stacks}
         />
       </FlexColStart>
       <Modal
@@ -116,20 +130,7 @@ function FineTuned({}: FineTunedProps) {
               </FlexColStart>
               <br />
               <FlexColStart className="w-full h-full gap-5 flex-wrap overflow-y-scroll hideScrollBar2 py-2">
-                <RenderStacks
-                  tech_stacks={[
-                    "nodejs",
-                    "tailwindcss",
-                    "mysql",
-                    "lemonsqueezy",
-                    "postmark",
-                    "golang",
-                    "postgresql",
-                    "laravel",
-                    "resend",
-                    "stripe",
-                  ]}
-                />
+                <RenderStacks tech_stacks={tech_stacks} />
               </FlexColStart>
             </FlexColStart>
           </FlexRowCenterBtw>
@@ -146,6 +147,7 @@ interface FineTunedCardProps {
   pricing_plan: TechStackPricingPlan;
   isSelected?: boolean;
   handleStackSelection: (name: FineTunedStacksName) => void;
+  stacks: string[];
 }
 
 function FineTunedCard({
@@ -153,8 +155,17 @@ function FineTunedCard({
   pricing_plan,
   isSelected,
   handleStackSelection,
+  stacks,
 }: FineTunedCardProps) {
   const {} = useContext(DataContext);
+
+  const max_stack = 5;
+  const stack_count = stacks.length;
+  const rest = stack_count - max_stack;
+  const extractStack = stacks.filter((s) => s.length <= 6).slice(0, max_stack);
+
+  console.log({ extractStack, rest, stack_count });
+
   return (
     <button className="w-auto" onClick={() => handleStackSelection(name)}>
       <FlexColStart className="w-fit max-w-[350px] min-w-[300px] bg-dark-300 rounded-md overflow-hidden ">
@@ -208,6 +219,21 @@ function FineTunedCard({
             />
           </FlexRowCenterBtw>
         </FlexRowStartBtw>
+        <FlexRowStart className="w-full gap-2 px-3 pb-4">
+          {extractStack.map((stack, i) => (
+            <span
+              key={i}
+              className="text-white-200 bg-dark-200 rounded-md font-jbR text-[10px] px-[5px] py-[2px]"
+            >
+              {stack}
+            </span>
+          ))}
+          {rest > 0 && (
+            <span className="text-white-200 bg-dark-200 rounded-md font-jbR text-[10px] px-[5px] py-[2px]">
+              +{rest}
+            </span>
+          )}
+        </FlexRowStart>
       </FlexColStart>
     </button>
   );
