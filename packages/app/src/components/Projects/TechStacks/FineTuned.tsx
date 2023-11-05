@@ -57,8 +57,8 @@ function FineTuned({}: FineTunedProps) {
         </p>
         <br />
         <FineTunedCard
-          handleStackSelection={handleStackSelection}
-          name="Zeus"
+          handleStackSelection={() => handleStackSelection("Zeus" as any)}
+          name={"Zeus" as FineTunedStacksName}
           pricing_plan={"ENTERPRISE_PKG"}
           stacks={tech_stacks}
         />
