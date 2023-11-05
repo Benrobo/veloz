@@ -164,8 +164,6 @@ function FineTunedCard({
   const rest = stack_count - max_stack;
   const extractStack = stacks.filter((s) => s.length <= 6).slice(0, max_stack);
 
-  console.log({ extractStack, rest, stack_count });
-
   return (
     <button className="w-auto" onClick={() => handleStackSelection(name)}>
       <FlexColStart className="w-fit max-w-[350px] min-w-[300px] bg-dark-300 rounded-md overflow-hidden ">
