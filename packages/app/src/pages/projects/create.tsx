@@ -156,6 +156,8 @@ function CreateProject() {
       description,
       stacks: _selectedStacks,
       env_id: selectedSecretId,
+      projectOption: projectOptions,
+      fineTunedStackName: selectedFinetunedStack,
     };
     console.log(payload);
   }
