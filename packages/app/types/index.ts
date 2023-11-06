@@ -55,6 +55,7 @@ export interface FINE_TUNED_STACKS {
     title: TechStackCategory;
     stacks: string[];
   }[];
+  available: boolean;
 }
 
 export type FineTunedStacksName =
