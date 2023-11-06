@@ -219,6 +219,7 @@ export const FINE_TUNED_STACKS = [
     id: 2,
     plan: "STANDARD_PKG",
     name: "Athena",
+    available: false,
     tech_stacks: [
       {
         title: "frontend",
@@ -250,6 +251,7 @@ export const FINE_TUNED_STACKS = [
     id: 3,
     plan: "ENTERPRISE_PKG",
     name: "Zeus",
+    available: true,
     tech_stacks: [
       {
         title: "frontend",
