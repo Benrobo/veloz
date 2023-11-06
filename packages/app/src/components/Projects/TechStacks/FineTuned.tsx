@@ -26,6 +26,25 @@ type SelectedCardProps = {
   pricing_plan: TechStackPricingPlan;
 };
 
+const getStackImg = (name: FineTunedStacksName) => {
+  switch (name.toLocaleLowerCase()) {
+    case "athena":
+      return "/images/finetuned/athena.jpeg";
+    case "hera":
+      return "/images/finetuned/hera.jpeg";
+    case "zeus":
+      return "/images/finetuned/zeus.jpeg";
+    case "poseidon":
+      return "/images/finetuned/poseidon.jpeg";
+    case "ares":
+      return "/images/finetuned/ares.jpeg";
+    case "dynamo":
+      return "/images/finetuned/dynamo.jpeg";
+    default:
+      return "/images/finetuned/zeus.jpeg";
+  }
+};
+
 function FineTuned({}: FineTunedProps) {
   const { setSelectedFinetunedStack } = useContext(ProjectContext);
   const [selectedCard, setSelectedCard] = useState<SelectedCardProps>(
@@ -72,6 +91,14 @@ function FineTuned({}: FineTunedProps) {
     return validStacks;
   };
 
+  const returnFineTunedStacks = (name: FineTunedStacksName) => {
+    const stack = FINE_TUNED_STACKS.find((d) => d.name === name);
+    if (stack) {
+      return extractFineTunedStack(stack.tech_stacks);
+    }
+    return [];
+  };
+
   return (
     <>
       <FlexColStart className="w-full">
@@ -99,15 +126,17 @@ function FineTuned({}: FineTunedProps) {
         <FlexColCenter className="w-full h-full">
           <FlexRowCenterBtw className="w-full h-full pt-9 pb-9 max-w-[700px] max-h-[450px] bg-dark-200 rounded-md px-2">
             <FlexColStart className="w-full h-full px-5">
-              <div
-                className={cn(
-                  `w-full h-auto min-h-[200px] bg-cover bg-no-repeat bg-top-left rounded-md`,
-                  `bg-[url(/images/finetuned/zeus.jpeg)]`
-                )}
-              ></div>
+              <Image
+                src={getStackImg(selectedCard?.name)}
+                width={250}
+                height={0}
+                alt="img"
+                className="bg-cover rounded-md"
+                objectFit="cover"
+              />
               <FlexRowStartBtw>
                 <h1 className="text-white-100 text-2xl font-jbSB font-extrabold">
-                  Zeus
+                  {selectedCard.name}
                 </h1>
                 <FlexRowCenterBtw className="w-auto px-3 py-1 rounded-[30px] bg-dark-200 scale-[.85] border-solid border-white-600 border-[1px]">
                   <p
@@ -161,7 +190,9 @@ function FineTuned({}: FineTunedProps) {
               </FlexColStart>
               <br />
               <FlexColStart className="w-full h-full gap-5 flex-wrap overflow-y-scroll hideScrollBar2 py-2">
-                <RenderStacks tech_stacks={tech_stacks} />
+                <RenderStacks
+                  tech_stacks={returnFineTunedStacks(selectedCard?.name)}
+                />
               </FlexColStart>
             </FlexColStart>
           </FlexRowCenterBtw>
@@ -193,27 +224,8 @@ function FineTunedCard({
   const max_stack = 5;
   const stack_count = stacks.length;
   const rest = stack_count - max_stack;
+  // show only stack whoose length is less than 6 to prevent overflow on the card
   const extractStack = stacks.filter((s) => s.length <= 6).slice(0, max_stack);
-
-  const getStackImg = (name: FineTunedStacksName) => {
-    console.log({ name });
-    switch (name.toLocaleLowerCase()) {
-      case "athena":
-        return "/images/finetuned/athena.jpeg";
-      case "hera":
-        return "/images/finetuned/hera.jpeg";
-      case "zeus":
-        return "/images/finetuned/zeus.jpeg";
-      case "poseidon":
-        return "/images/finetuned/poseidon.jpeg";
-      case "ares":
-        return "/images/finetuned/ares.jpeg";
-      case "dynamo":
-        return "/images/finetuned/dynamo.jpeg";
-      default:
-        return "/images/finetuned/zeus.jpeg";
-    }
-  };
 
   return (
     <button className="w-auto" onClick={() => handleStackSelection(name)}>
