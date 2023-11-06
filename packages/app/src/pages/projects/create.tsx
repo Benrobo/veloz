@@ -45,6 +45,8 @@ function CreateProject() {
     setSelectedStacks,
     activeSection,
     setActiveSection,
+    projectOptions,
+    selectedFinetunedStack,
   } = useContext(ProjectContext);
 
   function updateStacksState(
@@ -105,23 +107,30 @@ function CreateProject() {
   // This function checks whether the save button should be disabled or not
   function _shouldEnableSaveButton() {
     const { name } = projDetails;
-    const stacks = selectedStacks;
-    const frontend = "frontend" in stacks;
-    const backend = "backend" in stacks;
-    // Check if the name is not empty
-    if (name.length === 0) return false;
+    if (projectOptions === "Refined") {
+      const stacks = selectedStacks;
+      const frontend = "frontend" in stacks;
+      const backend = "backend" in stacks;
+      // Check if the name is not empty
+      if (name.length === 0) return false;
 
-    // Check if the "frontend" stack exists and the "backend" stack doesn't
-    if (frontend && !backend) return true;
+      // Check if the "frontend" stack exists and the "backend" stack doesn't
+      if (frontend && !backend) return true;
 
-    // Check if the "backend" stack exists and the "frontend" stack doesn't
-    if (backend && !frontend) return true;
+      // Check if the "backend" stack exists and the "frontend" stack doesn't
+      if (backend && !frontend) return true;
 
-    // Check if both the stacks exist
-    if (frontend && backend) return true;
+      // Check if both the stacks exist
+      if (frontend && backend) return true;
 
-    // if none of the stacks exist, disable the save button
-    if (!frontend && !backend) return false;
+      // if none of the stacks exist, disable the save button
+      if (!frontend && !backend) return false;
+    } else {
+      // Check if the name is not empty
+      if (name.length === 0) return false;
+      if (selectedFinetunedStack.length === 0) return false;
+      return true;
+    }
   }
 
   function saveProjectChanges() {
