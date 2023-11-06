@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useContext, useState } from "react";
 import Accordion from "../../Accordion";
 import { FlexColStart, FlexRowStart, FlexRowStartCenter } from "../../Flex";
 import { RenderSelectableStacks } from "../../Stacks/Render";
@@ -19,6 +19,7 @@ import { Button } from "../../ui/button";
 import { cn } from "@/lib/utils";
 import Refined from "./Refined";
 import FineTuned from "./FineTuned";
+import { ProjectContext } from "@/context/ProjectContext";
 
 export interface AddTechStackProps {
   updateStacksState: (
@@ -35,6 +36,7 @@ function AddTechStack({
   updateStacksState,
   selectedStacks,
 }: AddTechStackProps) {
+  const { setProjectOptions } = useContext(ProjectContext);
   const [activeTab, setActiveTab] = useState<(typeof Tabs)[number]>("Refined");
 
   return (
@@ -50,7 +52,10 @@ function AddTechStack({
                 ? " border-b-transparent border-t-white-600 border-l-white-600 border-r-white-600 bg-dark-200 hover:bg-dark-200 "
                 : "border-transparent text-gray-100 hover:bg-transparent"
             )}
-            onClick={() => setActiveTab(t)}
+            onClick={() => {
+              setActiveTab(t);
+              setProjectOptions(t === "Fine-Tuned" ? "FineTuned" : t);
+            }}
           >
             {renderBaseTabIcon(t, activeTab)}
             <span
