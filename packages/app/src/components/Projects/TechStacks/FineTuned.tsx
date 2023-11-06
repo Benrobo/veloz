@@ -58,6 +58,20 @@ function FineTuned({}: FineTunedProps) {
     "stripe",
   ];
 
+  const extractFineTunedStack = (
+    stacks: { title: string; stacks: string[] }[]
+  ) => {
+    const validStacks: string[] = [];
+    stacks.forEach((stack) => {
+      stack.stacks.forEach((s) => {
+        if (!validStacks.includes(s)) {
+          validStacks.push(s);
+        }
+      });
+    });
+    return validStacks;
+  };
+
   return (
     <>
       <FlexColStart className="w-full">
@@ -66,12 +80,16 @@ function FineTuned({}: FineTunedProps) {
           specific use cases.
         </p>
         <br />
-        <FineTunedCard
-          handleStackSelection={() => handleStackSelection("Zeus" as any)}
-          name={"Zeus" as FineTunedStacksName}
-          pricing_plan={"ENTERPRISE_PKG"}
-          stacks={tech_stacks}
-        />
+        <FlexRowStartBtw className="gap-2 flex-wrap">
+          {FINE_TUNED_STACKS.map((d) => (
+            <FineTunedCard
+              handleStackSelection={() => handleStackSelection(d.name as any)}
+              name={d.name as FineTunedStacksName}
+              pricing_plan={d.plan}
+              stacks={extractFineTunedStack(d.tech_stacks)}
+            />
+          ))}
+        </FlexRowStartBtw>
       </FlexColStart>
       <Modal
         isOpen={modalVisible}
@@ -177,6 +195,25 @@ function FineTunedCard({
   const rest = stack_count - max_stack;
   const extractStack = stacks.filter((s) => s.length <= 6).slice(0, max_stack);
 
+  const getStackImg = (name: FineTunedStacksName) => {
+    switch (name.toLocaleLowerCase()) {
+      case "athena":
+        return "/images/finetuned/athena.jpeg";
+      case "hera":
+        return "/images/finetuned/hera.jpeg";
+      case "zeus":
+        return "/images/finetuned/zeus.jpeg";
+      case "poseidon":
+        return "/images/finetuned/poseidon.jpeg";
+      case "ares":
+        return "/images/finetuned/ares.jpeg";
+      case "dynamo":
+        return "/images/finetuned/dynamo.jpeg";
+      default:
+        return "/images/finetuned/zeus.jpeg";
+    }
+  };
+
   return (
     <button className="w-auto" onClick={() => handleStackSelection(name)}>
       <FlexColStart className="w-fit max-w-[350px] min-w-[300px] bg-dark-300 rounded-md overflow-hidden ">
@@ -184,7 +221,7 @@ function FineTunedCard({
           <div
             className={cn(
               `w-full h-auto min-h-[150px] bg-cover bg-no-repeat bg-top-left rounded-md`,
-              `bg-[url(/images/finetuned/zeus.jpeg)]`
+              `bg-[url(${getStackImg(name)})]`
             )}
           ></div>
           <FlexColCenter className="w-full h-full absolute bg-[rgba(0,0,0,.7)]">
@@ -196,7 +233,7 @@ function FineTunedCard({
         <FlexRowStartBtw className="w-full px-4 pt-0 pb-4">
           <FlexColStart>
             <p className="text-white-100 leading-none text-[14px] font-ppSB">
-              Zeus
+              {name}
             </p>
             <p className="text-gray-100 leading-none text-[12px] font-ppR italic">
               Last updated:{" "}
