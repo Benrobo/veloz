@@ -16,6 +16,8 @@ import { DataContext } from "@/context/DataContext";
 import Modal from "@/components/Modal";
 import RenderStacks from "@/components/Stacks/Render";
 import { Button } from "@/components/ui/button";
+import { ProjectContext } from "@/context/ProjectContext";
+import { FINE_TUNED_STACKS } from "@/data/stacks";
 
 interface FineTunedProps {}
 
@@ -25,14 +27,22 @@ type SelectedCardProps = {
 };
 
 function FineTuned({}: FineTunedProps) {
-  const [selectedCard, setSelectedCard] = useState<SelectedCardProps | null>(
-    null
+  const { setSelectedFinetunedStack } = useContext(ProjectContext);
+  const [selectedCard, setSelectedCard] = useState<SelectedCardProps>(
+    {} as any
   );
   const [modalVisible, setModalVisible] = useState(false);
 
-  const handleStackSelection = (name: FineTunedCardProps) => {
+  const handleStackSelection = (name: FineTunedStacksName) => {
     console.log(name);
-    setModalVisible(true);
+    const stack = FINE_TUNED_STACKS.find((d) => d.name === name);
+    if (stack) {
+      setSelectedCard({
+        name: stack?.name as FineTunedStacksName,
+        pricing_plan: stack?.plan as TechStackPricingPlan,
+      });
+      setModalVisible(true);
+    }
   };
 
   const tech_stacks = [
@@ -120,6 +130,9 @@ function FineTuned({}: FineTunedProps) {
               <Button
                 variant={"appeal"}
                 className="font-jbSB font-extrabold text-[12px] mt-2 "
+                onClick={() =>
+                  setSelectedFinetunedStack(selectedCard?.name as any)
+                }
               >
                 Select
               </Button>
