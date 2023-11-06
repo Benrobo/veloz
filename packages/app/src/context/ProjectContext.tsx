@@ -27,6 +27,10 @@ interface ContextValuesType {
   setActiveSection: React.Dispatch<
     React.SetStateAction<ProjectSideBarConfigKeysType>
   >;
+  selectedFinetunedStack: FineTunedStacksName;
+  setSelectedFinetunedStack: React.Dispatch<
+    React.SetStateAction<FineTunedStacksName>
+  >;
 }
 
 export const ProjectContext = createContext<ContextValuesType>(
@@ -80,6 +84,8 @@ function ProjectContextProvider({ children }: ProjectContextProviderProps) {
     setSelectedSecretId,
     activeSection,
     setActiveSection,
+    selectedFinetunedStack,
+    setSelectedFinetunedStack,
   };
 
   return (
