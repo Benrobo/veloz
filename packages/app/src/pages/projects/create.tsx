@@ -159,6 +159,20 @@ function CreateProject() {
       projectOption: projectOptions,
       fineTunedStackName: selectedFinetunedStack,
     };
+
+    if (projectOptions === "Refined") {
+      if ("fineTunedStackName" in payload) {
+        // @ts-expect-error
+        delete payload?.fineTunedStackName;
+      }
+    } else {
+      if ("stacks" in payload) {
+        // @ts-expect-error
+        delete payload?.stacks;
+        delete payload?.env_id;
+      }
+    }
+
     console.log(payload);
   }
 
