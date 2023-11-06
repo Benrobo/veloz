@@ -196,6 +196,7 @@ function FineTunedCard({
   const extractStack = stacks.filter((s) => s.length <= 6).slice(0, max_stack);
 
   const getStackImg = (name: FineTunedStacksName) => {
+    console.log({ name });
     switch (name.toLocaleLowerCase()) {
       case "athena":
         return "/images/finetuned/athena.jpeg";
@@ -218,12 +219,14 @@ function FineTunedCard({
     <button className="w-auto" onClick={() => handleStackSelection(name)}>
       <FlexColStart className="w-fit max-w-[350px] min-w-[300px] bg-dark-300 rounded-md overflow-hidden ">
         <FlexColCenter className="w-full h-full relative">
-          <div
-            className={cn(
-              `w-full h-auto min-h-[150px] bg-cover bg-no-repeat bg-top-left rounded-md`,
-              `bg-[url(${getStackImg(name)})]`
-            )}
-          ></div>
+          <Image
+            src={getStackImg(name)}
+            width={0}
+            height={50}
+            alt="img"
+            className="w-full h-auto max-h-[200px] bg-cover rounded-md"
+            objectFit="cover"
+          />
           <FlexColCenter className="w-full h-full absolute bg-[rgba(0,0,0,.7)]">
             <span className="px-3 py-1 rounded-2xl bg-orange-200 text-orange-100 font-ppSB font-extrabold text-[10px] ">
               coming soon
