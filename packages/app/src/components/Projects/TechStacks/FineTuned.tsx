@@ -27,7 +27,7 @@ type SelectedCardProps = {
 };
 
 const getStackImg = (name: FineTunedStacksName) => {
-  switch (name.toLocaleLowerCase()) {
+  switch (name?.toLocaleLowerCase()) {
     case "athena":
       return "/images/finetuned/athena.jpeg";
     case "hera":
@@ -46,14 +46,14 @@ const getStackImg = (name: FineTunedStacksName) => {
 };
 
 function FineTuned({}: FineTunedProps) {
-  const { setSelectedFinetunedStack } = useContext(ProjectContext);
+  const { setSelectedFinetunedStack, selectedFinetunedStack } =
+    useContext(ProjectContext);
   const [selectedCard, setSelectedCard] = useState<SelectedCardProps>(
     {} as any
   );
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleStackSelection = (name: FineTunedStacksName) => {
-    console.log(name);
     const stack = FINE_TUNED_STACKS.find((d) => d.name === name);
     if (stack) {
       setSelectedCard({
@@ -63,19 +63,6 @@ function FineTuned({}: FineTunedProps) {
       setModalVisible(true);
     }
   };
-
-  const tech_stacks = [
-    "nodejs",
-    "tailwindcss",
-    "mysql",
-    "lemonsqueezy",
-    "postmark",
-    "golang",
-    "postgresql",
-    "laravel",
-    "resend",
-    "stripe",
-  ];
 
   const extractFineTunedStack = (
     stacks: { title: string; stacks: string[] }[]
@@ -99,6 +86,11 @@ function FineTuned({}: FineTunedProps) {
     return [];
   };
 
+  const returnFineTunedStackDetails = (name: FineTunedStacksName) => {
+    const stack = FINE_TUNED_STACKS.find((d) => d.name === name);
+    return stack;
+  };
+
   return (
     <>
       <FlexColStart className="w-full">
@@ -114,6 +106,8 @@ function FineTuned({}: FineTunedProps) {
               name={d.name as FineTunedStacksName}
               pricing_plan={d.plan}
               stacks={extractFineTunedStack(d.tech_stacks)}
+              isSelected={selectedFinetunedStack === d.name}
+              available={d.available}
             />
           ))}
         </FlexRowStartBtw>
@@ -176,12 +170,21 @@ function FineTuned({}: FineTunedProps) {
               </FlexRowStartCenter>
               <Button
                 variant={"appeal"}
-                className="font-jbSB font-extrabold text-[12px] mt-2 "
-                onClick={() =>
-                  setSelectedFinetunedStack(selectedCard?.name as any)
+                className="font-jbSB font-extrabold text-[12px] mt-2 disabled:cursor-not-allowed "
+                onClick={() => {
+                  if (selectedCard?.name === selectedFinetunedStack) {
+                    setSelectedFinetunedStack("" as any);
+                  } else {
+                    setSelectedFinetunedStack(selectedCard?.name as any);
+                  }
+                }}
+                disabled={
+                  !returnFineTunedStackDetails(selectedCard?.name)?.available
                 }
               >
-                Select
+                {selectedFinetunedStack === selectedCard?.name
+                  ? "Unselect"
+                  : "Select"}
               </Button>
             </FlexColStart>
             <FlexColStart className="w-full h-full">
@@ -210,6 +213,7 @@ interface FineTunedCardProps {
   isSelected?: boolean;
   handleStackSelection: (name: FineTunedStacksName) => void;
   stacks: string[];
+  available: boolean;
 }
 
 function FineTunedCard({
@@ -218,6 +222,7 @@ function FineTunedCard({
   isSelected,
   handleStackSelection,
   stacks,
+  available,
 }: FineTunedCardProps) {
   const {} = useContext(DataContext);
 
@@ -228,7 +233,13 @@ function FineTunedCard({
   const extractStack = stacks.filter((s) => s.length <= 6).slice(0, max_stack);
 
   return (
-    <button className="w-auto" onClick={() => handleStackSelection(name)}>
+    <button
+      className={cn(
+        "w-auto rounded-md border-solid border-[1px] border-transparent",
+        isSelected ? " border-orange-100" : ""
+      )}
+      onClick={() => handleStackSelection(name)}
+    >
       <FlexColStart className="w-fit max-w-[350px] min-w-[300px] bg-dark-300 rounded-md overflow-hidden ">
         <FlexColCenter className="w-full h-full relative">
           <Image
@@ -239,12 +250,15 @@ function FineTunedCard({
             className="w-full h-auto max-h-[200px] bg-cover rounded-md"
             objectFit="cover"
           />
-          <FlexColCenter className="w-full h-full absolute bg-[rgba(0,0,0,.7)]">
-            <span className="px-3 py-1 rounded-2xl bg-orange-200 text-orange-100 font-ppSB font-extrabold text-[10px] ">
-              coming soon
-            </span>
-          </FlexColCenter>
+          {available === false && (
+            <FlexColCenter className="w-full h-full absolute bg-[rgba(0,0,0,.7)]">
+              <span className="px-3 py-1 rounded-2xl bg-orange-200 text-orange-100 font-ppSB font-extrabold text-[10px] ">
+                coming soon
+              </span>
+            </FlexColCenter>
+          )}
         </FlexColCenter>
+
         <FlexRowStartBtw className="w-full px-4 pt-0 pb-4">
           <FlexColStart>
             <p className="text-white-100 leading-none text-[14px] font-ppSB">
