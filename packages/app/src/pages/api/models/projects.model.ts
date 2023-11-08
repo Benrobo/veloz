@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 import { connectDB } from "../lib/utils";
 import {
   ProjectType,
@@ -11,6 +11,7 @@ import { TechPricingPlans } from "@veloz/shared/data/project";
 
 // 1. Create an interface representing a document in MongoDB.
 interface IProject {
+  userId: string;
   name: string;
   label: ProjectType;
   type: VelozProjectOption;
@@ -32,6 +33,7 @@ const stackSchema = new Schema({
 
 const projectSchema = new Schema<IProject>(
   {
+    userId: { type: String, required: true },
     name: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
     label: { type: String, required: true },
@@ -47,7 +49,7 @@ const projectSchema = new Schema<IProject>(
   }
 );
 
-const Project = model<IProject>("Project", projectSchema);
+const Project = models.Project || model<IProject>("Project", projectSchema);
 
 export default Project;
 
