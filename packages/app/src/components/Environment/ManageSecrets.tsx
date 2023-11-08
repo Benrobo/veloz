@@ -4,7 +4,7 @@ import { Input } from "../ui/input";
 import { X } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn, parseEnvString } from "@/lib/utils";
-import { SecretDataTypes, Secrets } from "../../../types";
+import { SecretDataTypes, Secrets } from "@veloz/shared/types";
 import { ProjectContext } from "@/context/ProjectContext";
 
 interface ManageSecretsProps {

@@ -6,7 +6,7 @@ import { Input } from "../ui/input";
 import ManageSecrets from "./ManageSecrets";
 import { Button } from "../ui/button";
 import { TechStackCategory } from "@veloz/shared/types";
-import { Secrets } from "../../../types";
+import { Secrets } from "@veloz/shared/types";
 import toast from "react-hot-toast";
 import {
   DropdownMenu,

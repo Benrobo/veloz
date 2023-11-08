@@ -1,5 +1,5 @@
-import { ProjectSideBarConfigType, SecretDataTypes } from "../../types";
-import { VelozProjectType } from "@veloz/shared/types";
+import { ProjectSideBarConfigType } from "../../types";
+import { VelozProjectType, SecretDataTypes } from "@veloz/shared/types";
 
 export const ProjectLabels = [
   "Vortex",

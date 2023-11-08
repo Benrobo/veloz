@@ -1,7 +1,4 @@
-import {
-  FINE_TUNED_STACKS as FINE_TUNED_STACKS_TYPE,
-  REFINED_STACKS as REFINED_STACKS_TYPE,
-} from "@veloz/shared/types";
+import { REFINED_STACKS as REFINED_STACKS_TYPE } from "@veloz/shared/types";
 
 const REFINED_STACKS = [
   // Codebase Architecture
