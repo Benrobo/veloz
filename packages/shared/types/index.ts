@@ -97,3 +97,24 @@ export type Secrets = {
   name: string;
   value: string;
 };
+
+export enum RESPONSE_CODE {
+  // Common Responses
+  INVALID_FIELDS,
+  USER_NOT_FOUND,
+  USER_ALREADY_EXIST,
+  INVALID_EMAIL,
+  INVALID_LOGIN_CREDENTIALS,
+  INTERNAL_SERVER_ERROR,
+  VALIDATION_ERROR,
+
+  // User Operations
+  SIGNUP_SUCCESSFULL,
+  LOGIN_SUCCESSFULL,
+  UNAUTHORIZED,
+  FORBIDDEN,
+  INVALID_TRANSACTION_PIN,
+  USER_DETAILS,
+
+  // Transaction Responses
+}
