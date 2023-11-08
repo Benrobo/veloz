@@ -1,7 +1,7 @@
 import { Box, CloudFog, Convertshape, Crown, Nebulas } from "iconsax-react";
 import React from "react";
 import ProjectStatus from "./Badge";
-import { ProjectType } from "../../../types";
+import { ProjectType } from "@veloz/shared/types";
 
 interface ProjectCardProps extends React.HTMLProps<HTMLButtonElement> {
   name: string;

@@ -20,7 +20,7 @@ import {
 import Link from "next/link";
 import RenderStacks from "../Stacks/Render";
 import Accordion from "../Accordion";
-import { VelozProjectType } from "../../../types";
+import { VelozProjectType } from "@veloz/shared/types";
 import ProjectStatus from "./Badge";
 import Editor from "../Editor";
 import { Button } from "../ui/button";

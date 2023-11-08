@@ -5,6 +5,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  transpilePackages: ["@veloz/shared"],
 };
 
 module.exports = nextConfig;

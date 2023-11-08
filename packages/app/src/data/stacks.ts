@@ -1,7 +1,7 @@
 import {
   FINE_TUNED_STACKS as FINE_TUNED_STACKS_TYPE,
   REFINED_STACKS as REFINED_STACKS_TYPE,
-} from "../../types";
+} from "@veloz/shared/types";
 
 const REFINED_STACKS = [
   // Codebase Architecture
@@ -213,70 +213,3 @@ const REFINED_STACKS = [
 ] satisfies REFINED_STACKS_TYPE[];
 
 export default REFINED_STACKS;
-
-export const FINE_TUNED_STACKS = [
-  {
-    id: 2,
-    plan: "STANDARD_PKG",
-    name: "Athena",
-    available: false,
-    tech_stacks: [
-      {
-        title: "frontend",
-        stacks: ["react", "tailwindcss"],
-      },
-      {
-        title: "backend",
-        stacks: ["nextjs-api"],
-      },
-      {
-        title: "database",
-        stacks: ["postgresql"],
-      },
-      {
-        title: "mailing",
-        stacks: ["sendgrid"],
-      },
-      {
-        title: "authentication",
-        stacks: ["clerk"],
-      },
-      {
-        title: "payment",
-        stacks: ["stripe"],
-      },
-    ],
-  },
-  {
-    id: 3,
-    plan: "ENTERPRISE_PKG",
-    name: "Zeus",
-    available: true,
-    tech_stacks: [
-      {
-        title: "frontend",
-        stacks: ["nextjs", "tailwindcss"],
-      },
-      {
-        title: "backend",
-        stacks: ["nodejs", "expressjs"],
-      },
-      {
-        title: "database",
-        stacks: ["mysql"],
-      },
-      {
-        title: "mailing",
-        stacks: ["postmark"],
-      },
-      {
-        title: "authentication",
-        stacks: ["jwt"],
-      },
-      {
-        title: "payment",
-        stacks: ["lemonsqueezy"],
-      },
-    ],
-  },
-] satisfies FINE_TUNED_STACKS_TYPE[];

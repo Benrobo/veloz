@@ -4,7 +4,7 @@ import { FlexColCenter, FlexColStart } from "./Flex";
 import { Button } from "./ui/button";
 import { Zap } from "lucide-react";
 import { cn, planColor } from "@/lib/utils";
-import { TechStackPricingPlan } from "../../types";
+import { TechStackPricingPlan } from "@veloz/shared/types";
 
 interface FreemiumModalProps {
   price_plan: TechStackPricingPlan;

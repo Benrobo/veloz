@@ -26,7 +26,7 @@ import {
   ProjectSideBarConfigKeysType,
   ProjectType,
   TechStackCategory,
-} from "../../../types";
+} from "@veloz/shared/types";
 import { ProjectSideBarConfig, projectTempData } from "@/data/project";
 import AddTechStack from "@/components/Projects/TechStacks";
 import ManageProjectSecret from "@/components/Environment/Secret";

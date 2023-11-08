@@ -8,7 +8,7 @@ import { Settings, Zap } from "lucide-react";
 import { FlexColCenter, FlexColStart } from "../Flex";
 import { cn, getPlanTitle, planColor } from "@/lib/utils";
 import { DataContext } from "@/context/DataContext";
-import { TechStackPricingPlan } from "../../../types";
+import { TechStackPricingPlan } from "@veloz/shared/types";
 import { Button } from "../ui/button";
 
 interface SidebarProps {

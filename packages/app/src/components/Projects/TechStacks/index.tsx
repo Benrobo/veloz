@@ -14,7 +14,10 @@ import {
   Crosshair,
   Gem,
 } from "lucide-react";
-import { CodebaseArchitectureMap, TechStackCategory } from "../../../../types";
+import {
+  CodebaseArchitectureMap,
+  TechStackCategory,
+} from "@veloz/shared/types";
 import { Button } from "../../ui/button";
 import { cn } from "@/lib/utils";
 import Refined from "./Refined";

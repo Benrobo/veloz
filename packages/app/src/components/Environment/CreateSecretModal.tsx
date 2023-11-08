@@ -5,7 +5,8 @@ import { cn } from "@/lib/utils";
 import { Input } from "../ui/input";
 import ManageSecrets from "./ManageSecrets";
 import { Button } from "../ui/button";
-import { Secrets, TechStackCategory } from "../../../types";
+import { TechStackCategory } from "@veloz/shared/types";
+import { Secrets } from "../../../types";
 import toast from "react-hot-toast";
 import {
   DropdownMenu,

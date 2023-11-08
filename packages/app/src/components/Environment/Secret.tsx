@@ -3,7 +3,7 @@ import { FlexColCenter, FlexColStart, FlexRowStartCenter } from "../Flex";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { KeyRound, Server, Theater } from "lucide-react";
-import { TechStackCategory } from "../../../types";
+import { TechStackCategory } from "@veloz/shared/types";
 import { TestProjectEnv } from "@/data/project";
 import ManageSecrets from "./ManageSecrets";
 import CreateSecretModal from "./CreateSecretModal";

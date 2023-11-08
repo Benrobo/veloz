@@ -1,4 +1,5 @@
-import REFINED_STACKS, { FINE_TUNED_STACKS } from "@/data/stacks";
+import REFINED_STACKS from "@/data/stacks";
+import { FINE_TUNED_STACKS } from "@veloz/shared/data/stack";
 import React, { useContext, useEffect, useState } from "react";
 import { FlexColCenter, FlexColEnd, FlexRowStart } from "../Flex";
 import Image from "next/image";
@@ -7,7 +8,7 @@ import {
   CodebaseArchitectureMap,
   FineTunedStacksName,
   TechStackCategory,
-} from "../../../types";
+} from "@veloz/shared/types";
 import { cn, isUserEligibleForStack } from "@/lib/utils";
 import { Gem } from "lucide-react";
 import { DataContext } from "@/context/DataContext";

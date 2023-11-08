@@ -6,7 +6,7 @@ import {
   ProjectSideBarConfigKeysType,
   ProjectType,
   VelozProjectOption,
-} from "../../types";
+} from "@veloz/shared/types";
 
 interface ContextValuesType {
   projectOptions: VelozProjectOption;
@@ -61,7 +61,7 @@ function ProjectContextProvider({ children }: ProjectContextProviderProps) {
     React.useState<CodebaseArchitectureMap>({} as CodebaseArchitectureMap);
 
   const [selectedFinetunedStack, setSelectedFinetunedStack] =
-    React.useState<FineTunedStacksName>("Athena");
+    React.useState<FineTunedStacksName>("" as any);
 
   const [selectedSecretId, setSelectedSecretId] = React.useState<string | any>(
     ""

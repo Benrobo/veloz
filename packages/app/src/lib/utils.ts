@@ -1,7 +1,7 @@
 import REFINED_STACKS from "@/data/stacks";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { TechStackPricingPlan } from "../../types";
+import { TechStackPricingPlan } from "@veloz/shared/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

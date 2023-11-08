@@ -1,0 +1,19 @@
+{
+  "name": "@veloz/shared",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "",
+    "watch": "tsc --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@veloz/shared": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}

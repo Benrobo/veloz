@@ -7,7 +7,7 @@ import { withAuth } from "@/lib/helpers";
 import { Flash } from "iconsax-react";
 import Link from "next/link";
 import React, { useState } from "react";
-import { ProjectType } from "../../../types";
+import { ProjectType } from "@veloz/shared/types";
 
 function Projects() {
   const [slideBarOpen, setSlideBarOpen] = useState(false);

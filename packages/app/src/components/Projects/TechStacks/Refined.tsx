@@ -16,7 +16,7 @@ import {
   WalletCards,
 } from "lucide-react";
 import React, { ReactElement } from "react";
-import { TechStackCategory } from "../../../../types";
+import { TechStackCategory } from "@veloz/shared/types";
 import { AddTechStackProps } from ".";
 
 interface RefinedProps extends AddTechStackProps {}

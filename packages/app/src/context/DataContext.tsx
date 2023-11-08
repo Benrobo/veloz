@@ -1,5 +1,5 @@
 import React, { ReactNode, createContext, useContext, useState } from "react";
-import { ProjectType, TechStackPricingPlan } from "../../types";
+import { ProjectType, TechStackPricingPlan } from "@veloz/shared/types";
 import FreemiumModal from "@/components/FreemiumModal";
 
 interface ContextValuesType {

@@ -7,17 +7,15 @@ import {
   FlexRowStartCenter,
 } from "@/components/Flex";
 import { cn, getPlanTitle } from "@/lib/utils";
-import { Crosshair, Gem } from "lucide-react";
 import React, { useContext, useState } from "react";
-import { Tabs } from ".";
-import { FineTunedStacksName, TechStackPricingPlan } from "../../../../types";
+import { FineTunedStacksName, TechStackPricingPlan } from "@veloz/shared/types";
 import Image from "next/image";
 import { DataContext } from "@/context/DataContext";
 import Modal from "@/components/Modal";
 import RenderStacks from "@/components/Stacks/Render";
 import { Button } from "@/components/ui/button";
 import { ProjectContext } from "@/context/ProjectContext";
-import { FINE_TUNED_STACKS } from "@/data/stacks";
+import { FINE_TUNED_STACKS } from "@veloz/shared/data/stack";
 
 interface FineTunedProps {}
 
