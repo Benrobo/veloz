@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 import { connectDB } from "../lib/utils";
 import { VelozProjectType } from "@veloz/shared/types";
 import { TechPricingPlans } from "@veloz/shared/data/project";
@@ -32,7 +32,7 @@ const secretSchema = new Schema<ISecrets>(
   }
 );
 
-const Secret = model<ISecrets>("Secret", secretSchema);
+const Secret = models.Secret || model<ISecrets>("Secret", secretSchema);
 
 export default Secret;
 
