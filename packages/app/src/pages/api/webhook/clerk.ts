@@ -34,11 +34,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     // if it does do nothing
     const email = email_addresses[0]?.email_address;
     const user = await User.findOne({ email });
+    const fullname =
+      first_name === null
+        ? last_name
+        : last_name === null
+        ? first_name
+        : `${first_name} ${last_name}`;
 
     if (!user) {
       await User.create({
         uId: id,
-        name: `${first_name} ${last_name}`,
+        name: `${fullname}`,
         email,
         avatar: image_url,
         proj_plan: "",
