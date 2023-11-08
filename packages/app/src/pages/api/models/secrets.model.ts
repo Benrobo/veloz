@@ -5,6 +5,7 @@ import { TechPricingPlans } from "@veloz/shared/data/project";
 
 // 1. Create an interface representing a document in MongoDB.
 interface ISecrets {
+  uId: string;
   name: string;
   category: VelozProjectType;
   secrets: {
@@ -22,6 +23,7 @@ const secretsSchema = new Schema({
 
 const secretSchema = new Schema<ISecrets>(
   {
+    uId: { type: String, required: true },
     name: { type: String, required: true },
     category: { type: String, required: true },
     secrets: [secretsSchema],

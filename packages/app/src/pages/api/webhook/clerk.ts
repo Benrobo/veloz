@@ -37,6 +37,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     if (!user) {
       await User.create({
+        uId: id,
         name: `${first_name} ${last_name}`,
         email,
         avatar: image_url,

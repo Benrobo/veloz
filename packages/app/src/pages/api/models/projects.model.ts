@@ -11,7 +11,7 @@ import { TechPricingPlans } from "@veloz/shared/data/project";
 
 // 1. Create an interface representing a document in MongoDB.
 interface IProject {
-  userId: string;
+  uId: string;
   name: string;
   label: ProjectType;
   type: VelozProjectOption;
@@ -33,7 +33,7 @@ const stackSchema = new Schema({
 
 const projectSchema = new Schema<IProject>(
   {
-    userId: { type: String, required: true },
+    uId: { type: String, required: true },
     name: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
     label: { type: String, required: true },

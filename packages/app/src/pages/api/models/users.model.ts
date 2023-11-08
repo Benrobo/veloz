@@ -5,6 +5,7 @@ import { TechPricingPlans } from "@veloz/shared/data/project";
 
 // 1. Create an interface representing a document in MongoDB.
 interface IUser {
+  uId: string;
   name: string;
   email: string;
   avatar: string;
@@ -16,6 +17,7 @@ interface IUser {
 
 const userSchema = new Schema<IUser>(
   {
+    uId: { type: String, required: true },
     name: { type: String, required: true },
     email: { type: String, required: true },
     avatar: String,
