@@ -1,14 +1,6 @@
 import { ProjectSideBarConfigType } from "../../types";
 import { VelozProjectType, SecretDataTypes } from "@veloz/shared/types";
 
-export const ProjectLabels = [
-  "Vortex",
-  "Apex",
-  "Serenity",
-  "Nebula",
-  "Odyssey",
-];
-
 export const projectTempData: VelozProjectType[] = [
   {
     name: "Event App",
