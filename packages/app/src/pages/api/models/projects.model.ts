@@ -4,6 +4,7 @@ import {
   ProjectType,
   TechStackCategory,
   TechStackPricingPlan,
+  VelozProjectOption,
   VelozProjectType,
 } from "@veloz/shared/types";
 import { TechPricingPlans } from "@veloz/shared/data/project";
@@ -12,6 +13,7 @@ import { TechPricingPlans } from "@veloz/shared/data/project";
 interface IProject {
   name: string;
   label: ProjectType;
+  type: VelozProjectOption;
   download_link: string;
   description: string;
   status: "done" | "failed" | "pending";
@@ -33,6 +35,7 @@ const projectSchema = new Schema<IProject>(
     name: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
     label: { type: String, required: true },
+    type: { type: String, required: true, default: "Refined" },
     download_link: { type: String, required: true },
     description: { type: String, required: true },
     status: { type: String, required: true, default: "pending" },
