@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 import { connectDB } from "../lib/utils";
 import { TechStackPricingPlan } from "@veloz/shared/types";
 import { TechPricingPlans } from "@veloz/shared/data/project";
@@ -19,7 +19,7 @@ const userSchema = new Schema<IUser>(
     name: { type: String, required: true },
     email: { type: String, required: true },
     avatar: String,
-    proj_plan: { type: String, required: true },
+    proj_plan: { type: String },
     role: { type: String, enum: ["user", "admin"], default: "user" },
     hasSubscribed: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now },
@@ -29,7 +29,7 @@ const userSchema = new Schema<IUser>(
   }
 );
 
-const User = model<IUser>("User", userSchema);
+const User = models.User || model<IUser>("User", userSchema);
 
 export default User;
 
