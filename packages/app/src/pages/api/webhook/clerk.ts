@@ -47,7 +47,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         name: `${fullname}`,
         email,
         avatar: image_url,
-        proj_plan: "",
         hasSubscribed: false,
       });
 
