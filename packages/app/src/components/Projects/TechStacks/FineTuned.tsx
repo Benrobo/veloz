@@ -120,14 +120,6 @@ function FineTuned({}: FineTunedProps) {
         <FlexColCenter className="w-full h-full">
           <FlexRowCenterBtw className="w-full h-full pt-9 pb-9 max-w-[700px] max-h-[450px] bg-dark-200 rounded-md px-2">
             <FlexColStart className="w-full h-full px-5">
-              {/* <Image
-                src={getStackImg(selectedCard?.name)}
-                width={250}
-                height={0}
-                alt="img"
-                className="bg-cover rounded-md"
-                objectFit="cover"
-              /> */}
               <FlexRowStartBtw>
                 <h1 className="text-white-100 text-2xl font-jbSB font-extrabold">
                   {selectedCard.name}
