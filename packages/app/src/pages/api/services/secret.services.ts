@@ -56,13 +56,27 @@ class SecretService {
   async getAll(req: NextApiRequest, res: NextApiResponse) {
     const userId = (req as any)?.user?.id;
     const secrets = await Secret.find({ uId: userId });
+    const formattedSecrets = secrets.map((secret) => {
+      return {
+        id: secret._id,
+        name: secret.name,
+        category: secret.category,
+        secrets: secret.secrets.map((secret: any) => {
+          return {
+            id: secret._id,
+            name: secret.name,
+            value: secret.value,
+          };
+        }),
+      };
+    });
 
     sendResponse.success(
       res,
       RESPONSE_CODE.SECRET_DETAILS,
       `Secret details`,
       200,
-      secrets
+      formattedSecrets
     );
   }
 }
