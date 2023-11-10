@@ -155,38 +155,3 @@ export const ProjectSideBarConfig = [
     key: "secrets",
   },
 ] satisfies ProjectSideBarConfigType[];
-
-export const TestProjectEnv = [
-  {
-    name: "test project name",
-    id: 1,
-    category: "frontend",
-    secrets: [
-      { id: 1, name: "PASSAGE_REDIRECT", value: "/dashboard" },
-      { id: 2, name: "API_KEY", value: "" },
-    ],
-  },
-  {
-    name: "temp app",
-    category: "frontend",
-    id: 2,
-    secrets: [
-      { id: 1, name: "PASSAGE_REDIRECT", value: "/dashboard" },
-      { id: 2, name: "CLERK_SECRET", value: "" },
-    ],
-  },
-  {
-    name: "default",
-    category: "backend",
-    id: 3,
-    secrets: [
-      {
-        id: 1,
-        name: "DATABASE_URL",
-        value: "mysql://root:@localhost:3306/test",
-      },
-      { id: 2, name: "MONGO_URL", value: "" },
-      { id: 2, name: "REDIS_URL", value: "" },
-    ],
-  },
-] as SecretDataTypes[];
