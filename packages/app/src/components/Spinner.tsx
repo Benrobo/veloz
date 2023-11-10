@@ -5,7 +5,7 @@ interface SpinnerProps {
 
 export const Spinner: React.FC<SpinnerProps> = ({
   size = 25,
-  color = "blue-200",
+  color = "#fff",
 }) => {
   const spinnerStyle = {
     width: `${size}px`,
