@@ -32,6 +32,7 @@ export interface VelozProjectType {
 }
 
 export type TechStackPricingPlan =
+  | "FREE_PKG"
   | "BASIC_PKG"
   | "STANDARD_PKG"
   | "ENTERPRISE_PKG";

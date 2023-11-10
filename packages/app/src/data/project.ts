@@ -1,4 +1,4 @@
-import { ProjectSideBarConfigType } from "../../types";
+import { ProjectSideBarConfigType } from "../types";
 import { VelozProjectType, SecretDataTypes } from "@veloz/shared/types";
 
 export const projectTempData: VelozProjectType[] = [
