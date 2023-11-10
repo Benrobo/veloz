@@ -9,6 +9,9 @@ import type { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
 import { Theme } from "@radix-ui/themes";
 import { ClerkProvider } from "@clerk/nextjs";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -28,18 +31,20 @@ export default function App({ Component, pageProps }: AppProps) {
         `}
       </style>
       <ClerkProvider>
-        <DataContextProvider>
-          <LayoutContextProvider>
-            <ProjectContextProvider>
-              <ComponentLayout>
-                <Theme>
-                  <Component {...pageProps} />
-                </Theme>
-              </ComponentLayout>
-              <Toaster />
-            </ProjectContextProvider>
-          </LayoutContextProvider>
-        </DataContextProvider>
+        <QueryClientProvider client={queryClient}>
+          <DataContextProvider>
+            <LayoutContextProvider>
+              <ProjectContextProvider>
+                <ComponentLayout>
+                  <Theme>
+                    <Component {...pageProps} />
+                  </Theme>
+                </ComponentLayout>
+                <Toaster />
+              </ProjectContextProvider>
+            </LayoutContextProvider>
+          </DataContextProvider>
+        </QueryClientProvider>
       </ClerkProvider>
     </>
   );
