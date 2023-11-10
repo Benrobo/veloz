@@ -51,6 +51,7 @@ export interface FINE_TUNED_STACKS {
   id: any;
   plan: TechStackPricingPlan;
   name: string;
+  description: string;
   tech_stacks: {
     title: TechStackCategory;
     stacks: string[];
