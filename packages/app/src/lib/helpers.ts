@@ -36,9 +36,11 @@ export const withAuth = <P extends { children: React.ReactNode }>(
       // fetch user info if none exists and user is logged in
       setGlobalLoading(userInfoQuery.isLoading);
       if (userInfoQuery.data && Object.entries(userInfo).length === 0) {
-        const reqData = userInfoQuery.data?.data as UserInfo;
-        setUserInfo(reqData);
-        setUserPlan(reqData.proj_plan);
+        if (!userInfoQuery?.data?.errorStatus) {
+          const reqData = userInfoQuery.data?.data as UserInfo;
+          setUserInfo(reqData);
+          setUserPlan(reqData.proj_plan);
+        }
       }
     }, [userInfoQuery.isLoading, userInfoQuery.data]);
 
