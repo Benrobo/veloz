@@ -12,6 +12,7 @@ interface IUser {
   role: string;
   proj_plan: TechStackPricingPlan;
   hasSubscribed: boolean;
+  isTester: boolean;
   createdAt?: Date;
 }
 
@@ -21,9 +22,10 @@ const userSchema = new Schema<IUser>(
     name: { type: String, required: true },
     email: { type: String, required: true },
     avatar: String,
-    proj_plan: { type: String },
+    proj_plan: { type: String, default: "FREE_PKG" },
     role: { type: String, enum: ["user", "admin"], default: "user" },
     hasSubscribed: { type: Boolean, default: false },
+    isTester: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now },
   },
   {
