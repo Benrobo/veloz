@@ -61,6 +61,8 @@ function ManageProjectSecret() {
     }
   };
 
+  const refetchSecrets = () => getSecretsQuery.refetch();
+
   return (
     <FlexColStart className="w-full h-full">
       <h1 className="text-white-100 text-[20px] font-ppB mt-2">
@@ -173,6 +175,7 @@ function ManageProjectSecret() {
               selectedEnv={selectedEnv}
               hideSaveBtn={false}
               btmSpace={true}
+              refetchSecrets={refetchSecrets}
             />
           )}
         </FlexColStart>

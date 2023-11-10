@@ -79,6 +79,25 @@ class SecretService {
       formattedSecrets
     );
   }
+
+  async deleteSecret(req: NextApiRequest, res: NextApiResponse) {
+    const userId = (req as any)?.user?.id;
+    const { id } = req.query;
+    const secret = await Secret.findOne({ uId: userId, _id: id });
+
+    if (!secret) {
+      return sendResponse.error(
+        res,
+        RESPONSE_CODE.SECRET_EXISTS,
+        `Secret doesn't exists`,
+        400
+      );
+    }
+
+    await Secret.deleteOne({ uId: userId, _id: id });
+
+    sendResponse.success(res, RESPONSE_CODE.SUCCESS, `Secret deleted`, 200);
+  }
 }
 
 export default new SecretService();

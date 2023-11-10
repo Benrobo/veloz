@@ -122,4 +122,7 @@ export enum RESPONSE_CODE {
   SECRET_CREATED,
   SECRET_EXISTS,
   SECRET_DETAILS,
+
+  // Project Responses
+  SUCCESS,
 }

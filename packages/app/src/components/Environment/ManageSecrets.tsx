@@ -1,11 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FlexColStart, FlexRowCenter } from "../Flex";
+import { FlexColStart, FlexRowCenter, FlexRowStartCenter } from "../Flex";
 import { Input } from "../ui/input";
 import { X } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn, parseEnvString } from "@/lib/utils";
 import { SecretDataTypes, Secrets } from "@veloz/shared/types";
 import { ProjectContext } from "@/context/ProjectContext";
+import { Spinner } from "../Spinner";
+import { useMutation } from "@tanstack/react-query";
+import { deleteSecret } from "@/lib/http/requests";
+import { ResponseData } from "@/types";
+import toast from "react-hot-toast";
 
 interface ManageSecretsProps {
   selectedEnv?: {
@@ -21,6 +26,7 @@ interface ManageSecretsProps {
   getOnlySecrets?: (secrets: Secrets[]) => void;
   hideSaveBtn?: boolean;
   btmSpace?: boolean;
+  refetchSecrets?: () => void;
 }
 
 function ManageSecrets({
@@ -29,10 +35,14 @@ function ManageSecrets({
   getUpdatedSecrets,
   getOnlySecrets,
   btmSpace,
+  refetchSecrets,
 }: ManageSecretsProps) {
   const {} = useContext(ProjectContext);
   const [env, setEnv] = useState<SecretDataTypes>({} as SecretDataTypes);
   const [focusInput, setFocusInput] = useState<"name" | "value">("name");
+  const deleteSecretMutation = useMutation({
+    mutationFn: async (data: string) => await deleteSecret(data),
+  });
 
   useEffect(() => {
     if (
@@ -50,8 +60,26 @@ function ManageSecrets({
   }, [env]);
 
   useEffect(() => {
-    window.addEventListener("paste", handlePaste);
+    // ! work on this later
+    // window.addEventListener("paste", handlePaste);
   });
+
+  useEffect(() => {
+    if (deleteSecretMutation.error) {
+      const data = (deleteSecretMutation.error as any)?.response
+        ?.data as ResponseData;
+      toast.error(data?.message as string);
+    }
+    if (deleteSecretMutation.data) {
+      const data = deleteSecretMutation.data as ResponseData;
+      toast.success(data?.message as string);
+      refetchSecrets && refetchSecrets();
+    }
+  }, [
+    deleteSecretMutation.data,
+    deleteSecretMutation.isPending,
+    deleteSecretMutation.error,
+  ]);
 
   function handleEnvInputChange(e: any, id: any, type: "name" | "value") {
     const inpValue = e.target.value;
@@ -133,6 +161,7 @@ function ManageSecrets({
     return false;
   }
 
+  // ! work on this later
   function handlePaste(e: any) {
     const paste = e.clipboardData.getData("text").trim();
     const parsedEnv = parseEnvString(paste);
@@ -159,6 +188,8 @@ function ManageSecrets({
   function saveSecret() {
     console.log(env);
   }
+
+  const deleteEnv = () => deleteSecretMutation.mutate(selectedEnv?.id);
 
   return (
     <FlexColStart
@@ -198,7 +229,6 @@ function ManageSecrets({
             className="bg-dark-200 placeholder:text-gray-100 text-white-200 font-jbSB border-solid border-[.5px] border-white-600 py-6 px-5 "
             defaultValue={""}
             onChange={(e: any) => handleEnvInputChange(e, null, "name")}
-            onPaste={handlePaste}
           />
           <span className="text-white-200 font-ppB text-[13px]">=</span>
           <Input
@@ -218,16 +248,30 @@ function ManageSecrets({
       </button>
 
       {/* Save Secret */}
-      {!hideSaveBtn && (
+      <FlexRowStartCenter className="w-full mt-2">
+        {!hideSaveBtn && (
+          <Button
+            className="font-ppL text-[12px]"
+            variant={"appeal"}
+            disabled={!checkIfSecretChanged()}
+            onClick={saveSecret}
+          >
+            <span className="font-ppR">Save Changes</span>
+          </Button>
+        )}
         <Button
-          className="font-ppL text-[12px] mt-2 "
-          variant={"appeal"}
-          disabled={!checkIfSecretChanged()}
-          onClick={saveSecret}
+          className="font-ppR text-[12px]"
+          variant={"destructive"}
+          onClick={deleteEnv}
+          disabled={deleteSecretMutation.isPending}
         >
-          <span className="font-ppR">Save Changes</span>
+          {!deleteSecretMutation.isPending ? (
+            <span className="font-ppR">Delete Secret</span>
+          ) : (
+            <Spinner color="#fff" size={18} />
+          )}
         </Button>
-      )}
+      </FlexRowStartCenter>
     </FlexColStart>
   );
 }

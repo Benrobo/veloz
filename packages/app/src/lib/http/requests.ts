@@ -14,3 +14,8 @@ export const getSecrets = async () => {
   const req = await $axios.get("/api/secret");
   return req.data;
 };
+
+export const deleteSecret = async (id: string) => {
+  const req = await $axios.delete(`/api/secret/${id}`);
+  return req.data;
+};
