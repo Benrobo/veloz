@@ -148,7 +148,9 @@ function UpgradePlanWidget() {
             variant={"primary"}
             className={cn(
               "w-full font-ppSB text-[15px] gap-2 transition-opacity hover:opacity-[.85]",
-              userPlan === "BASIC_PKG"
+              userPlan === "FREE_PKG"
+                ? "bg-green-100"
+                : userPlan === "BASIC_PKG"
                 ? "bg-blue-100"
                 : userPlan === "STANDARD_PKG"
                 ? "bg-orange-100"
