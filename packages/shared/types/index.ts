@@ -118,5 +118,8 @@ export enum RESPONSE_CODE {
   INVALID_TRANSACTION_PIN,
   USER_DETAILS,
 
-  // Transaction Responses
+  // Secrets Responses
+  SECRET_CREATED,
+  SECRET_EXISTS,
+  SECRET_DETAILS,
 }
