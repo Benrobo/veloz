@@ -21,6 +21,7 @@ interface FineTunedProps {}
 
 type SelectedCardProps = {
   name: FineTunedStacksName;
+  description?: string;
   pricing_plan: TechStackPricingPlan;
 };
 
@@ -57,6 +58,7 @@ function FineTuned({}: FineTunedProps) {
       setSelectedCard({
         name: stack?.name as FineTunedStacksName,
         pricing_plan: stack?.plan as TechStackPricingPlan,
+        description: stack?.description,
       });
       setModalVisible(true);
     }
@@ -118,14 +120,14 @@ function FineTuned({}: FineTunedProps) {
         <FlexColCenter className="w-full h-full">
           <FlexRowCenterBtw className="w-full h-full pt-9 pb-9 max-w-[700px] max-h-[450px] bg-dark-200 rounded-md px-2">
             <FlexColStart className="w-full h-full px-5">
-              <Image
+              {/* <Image
                 src={getStackImg(selectedCard?.name)}
                 width={250}
                 height={0}
                 alt="img"
                 className="bg-cover rounded-md"
                 objectFit="cover"
-              />
+              /> */}
               <FlexRowStartBtw>
                 <h1 className="text-white-100 text-2xl font-jbSB font-extrabold">
                   {selectedCard.name}
@@ -157,6 +159,11 @@ function FineTuned({}: FineTunedProps) {
                   />
                 </FlexRowCenterBtw>
               </FlexRowStartBtw>
+              <FlexColStart className="w-full mb-7">
+                <p className="text-white-300 text-[13px] font-jbR">
+                  {selectedCard.description}
+                </p>
+              </FlexColStart>
               <FlexRowStartCenter>
                 <span className="p-1 bg-green-400 animate-ping rounded-[50%]"></span>
                 <span className="text-gray-100 text-[13px] font-jbR">
