@@ -177,11 +177,11 @@ function FineTuned({}: FineTunedProps) {
                 variant={"appeal"}
                 className="font-jbSB font-extrabold text-[12px] mt-2 disabled:cursor-not-allowed "
                 onClick={() => {
-                  if (selectedCard?.name === selectedFinetunedStack) {
-                    setSelectedFinetunedStack("" as any);
-                  } else {
-                    setSelectedFinetunedStack(selectedCard?.name as any);
-                  }
+                  setSelectedFinetunedStack(
+                    selectedCard?.name === selectedFinetunedStack
+                      ? ""
+                      : (selectedCard?.name as any)
+                  );
                 }}
                 disabled={
                   !returnFineTunedStackDetails(selectedCard?.name)?.available
