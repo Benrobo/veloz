@@ -7,6 +7,7 @@ export const FINE_TUNED_STACKS = [
     plan: "STANDARD_PKG",
     name: "Athena",
     available: false,
+    description: "Athena is a fine tuned stack for your next project",
     tech_stacks: [
       {
         title: "frontend",
@@ -39,6 +40,7 @@ export const FINE_TUNED_STACKS = [
     plan: "ENTERPRISE_PKG",
     name: "Zeus",
     available: true,
+    description: "Zeus is a fine tuned stack for your next project",
     tech_stacks: [
       {
         title: "frontend",
