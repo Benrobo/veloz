@@ -19,6 +19,11 @@ import {
   DropdownMenuRadioGroup,
 } from "../ui/dropdown-menu";
 import { Tags } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import { createSecret } from "@/lib/http/requests";
+import { Spinner } from "../Spinner";
+import { ResponseData } from "@/types";
+import { set } from "zod";
 
 interface AddSecretModalProps {
   isOpen: boolean;
@@ -29,6 +34,28 @@ function AddSecretModal({ isOpen, onClose }: AddSecretModalProps) {
   const [envName, setEnvName] = useState("test-env");
   const [secrets, setSecrets] = useState<Secrets[]>([]);
   const [category, setCategory] = useState<TechStackCategory>("frontend");
+  const createSecretMutation = useMutation({
+    mutationFn: async (data: any) => await createSecret(data),
+  });
+
+  useEffect(() => {
+    if (createSecretMutation.error) {
+      const data = (createSecretMutation.error as any)?.response
+        ?.data as ResponseData;
+      if (data?.code === "VALIDATION_ERROR") {
+        toast.error(data?.error?.message as string);
+      } else {
+        toast.error(data?.message as string);
+      }
+    }
+    if (createSecretMutation.data) {
+      const data = createSecretMutation.data as ResponseData;
+      toast.success(data?.message as string);
+      setSecrets([]);
+      setEnvName("");
+      onClose();
+    }
+  }, [createSecretMutation.data, createSecretMutation.error]);
 
   function saveSecret() {
     if (envName.length === 0) {
@@ -42,10 +69,10 @@ function AddSecretModal({ isOpen, onClose }: AddSecretModalProps) {
 
     const payload = {
       name: envName,
-      secrets,
+      secrets: secrets.filter((d) => delete d.id),
       category,
     };
-    console.log(payload);
+    createSecretMutation.mutate(payload);
   }
 
   return (
@@ -125,8 +152,13 @@ function AddSecretModal({ isOpen, onClose }: AddSecretModalProps) {
               variant={"appeal"}
               className="w-full font-jbR text-[13px] py-4"
               onClick={saveSecret}
+              disabled={createSecretMutation.isPending}
             >
-              Save Secret
+              {createSecretMutation.isPending ? (
+                <Spinner color="#fff" />
+              ) : (
+                "Save Secret"
+              )}
             </Button>
           </FlexColCenter>
         </FlexColCenter>
