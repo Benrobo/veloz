@@ -4,14 +4,12 @@ import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { KeyRound, Server, Theater } from "lucide-react";
 import { SecretDataTypes, TechStackCategory } from "@veloz/shared/types";
-import { TestProjectEnv } from "@/data/project";
 import ManageSecrets from "./ManageSecrets";
 import CreateSecretModal from "./CreateSecretModal";
 import { ProjectContext } from "@/context/ProjectContext";
 import { useQuery } from "@tanstack/react-query";
 import { getSecrets } from "@/lib/http/requests";
 import { Spinner } from "../Spinner";
-import { get } from "http";
 
 const Tabs: TechStackCategory[] = ["frontend", "backend"];
 
@@ -62,10 +60,6 @@ function ManageProjectSecret() {
       setEnvName(env.name);
     }
   };
-
-  console.log({ selectedEnv });
-
-  // const secrets = TestProjectEnv.filter((d) => d.category === activeTab);
 
   return (
     <FlexColStart className="w-full h-full">
