@@ -18,16 +18,18 @@ interface IProject {
   download_link: string;
   description: string;
   status: "done" | "failed" | "pending";
-  stacks: {
-    title: TechStackCategory;
-    stacks: string[];
+  tech_stacks: {
+    category: TechStackCategory;
+    name: string;
+    stack: string;
   }[];
-  env: string | null;
+  env_id: string | null;
   createdAt?: Date;
 }
 
 const stackSchema = new Schema({
-  title: { type: String, required: true },
+  name: { type: String, required: true },
+  category: { type: String, required: true },
   stacks: { type: Array, required: true },
 });
 
@@ -41,8 +43,8 @@ const projectSchema = new Schema<IProject>(
     download_link: { type: String, required: true },
     description: { type: String, required: true },
     status: { type: String, required: true, default: "pending" },
-    stacks: [stackSchema],
-    env: { type: String, required: true, default: null },
+    tech_stacks: [stackSchema],
+    env_id: { type: String, required: true, default: null },
   },
   {
     versionKey: false,
