@@ -9,13 +9,15 @@ export default async function nextRouteZodValidation(
 ) {
   try {
     await schema.parseAsync(req.body ?? req.query);
+    return true;
   } catch (error: any) {
-    return res.status(400).json({
+    res.status(400).json({
       code: RESPONSE_CODE[RESPONSE_CODE.VALIDATION_ERROR],
       error: {
         message: error?.issues[0]?.message,
         error,
       },
     });
+    return false;
   }
 }
