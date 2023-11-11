@@ -7,6 +7,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     await secretServices.create(req, res);
   }
+  if (req.method === "PUT") {
+    await secretServices.updateSecret(req, res);
+  }
   if (req.method === "GET") {
     await secretServices.getAll(req, res);
   }
