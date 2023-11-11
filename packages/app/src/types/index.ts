@@ -32,8 +32,27 @@ export type UserInfo = {
 
 export type createSecretSchemaType = {
   name: string;
-  category: "frontend" | "backend";
   secrets: {
+    name: string;
+    value: string;
+  }[];
+};
+
+export type updateSecretSchemaType = {
+  id: string;
+  name: string;
+  deleteEnv: {
+    id: string;
+    name: string;
+    value: string;
+  }[];
+  updateEnv: {
+    id: string;
+    name: string;
+    value: string;
+  }[];
+  createEnv: {
+    id: string;
     name: string;
     value: string;
   }[];
