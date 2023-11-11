@@ -24,7 +24,7 @@ type SelectedEnv = {
 };
 
 function ManageProjectSecret() {
-  const { setSelectedSecretId } = useContext(ProjectContext);
+  const { setSelectedSecretId, selectedSecretId } = useContext(ProjectContext);
   const [secrets, setSecrets] = useState<SecretDataTypes[]>([]);
   const [selectedEnv, setSelectedEnv] = useState<SelectedEnv | null>(null);
   const [envName, setEnvName] = useState("");
@@ -40,7 +40,7 @@ function ManageProjectSecret() {
       setSecrets(data);
       setSelectedEnv(data[0] ?? null);
       setEnvName(data[0]?.name ?? "");
-      setSelectedSecretId(data[0]?.secrets?.[0]?.id);
+      setSelectedSecretId(data[0]?.id);
     }
   }, [getSecretsQuery.data, getSecretsQuery.error, getSecretsQuery.isLoading]);
 
@@ -117,18 +117,23 @@ function ManageProjectSecret() {
             <Button
               key={d.id}
               className={cn(
-                "w-full bg-transparent text-[13px] text-white-100 rounded-md group transition-all gap-2 border-solid border-[1px]",
+                "w-full relative bg-transparent text-[13px] text-white-100 rounded-md group transition-all gap-2 border-solid border-[1px]",
                 selectedEnv?.id === d.id
                   ? "bg-dark-200 border-white-600 hover:bg-dark-200 "
                   : "border-transparent text-gray-100 hover:bg-transparent"
               )}
               onClick={() => {
+                if (selectedSecretId.length === 0) setSelectedSecretId(d.id);
+                else setSelectedSecretId("");
+
                 if (selectedEnv?.id !== d.id) {
                   updateSelectedEnv(d.id);
-                  setSelectedSecretId(d.id);
                 }
               }}
             >
+              {selectedSecretId === d.id && (
+                <span className="absolute top-2 right-2 p-1 rounded-[50%] bg-orange-100 "></span>
+              )}
               <FlexRowStartCenter className="w-full">
                 <KeyRound
                   size={15}
