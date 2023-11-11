@@ -7,7 +7,6 @@ import { TechPricingPlans } from "@veloz/shared/data/project";
 interface ISecrets {
   uId: string;
   name: string;
-  category: VelozProjectType;
   secrets: {
     id: any;
     name: string;
@@ -25,7 +24,6 @@ const secretSchema = new Schema<ISecrets>(
   {
     uId: { type: String, required: true },
     name: { type: String, required: true },
-    category: { type: String, required: true },
     secrets: [secretsSchema],
     createdAt: { type: Date, default: Date.now },
   },
