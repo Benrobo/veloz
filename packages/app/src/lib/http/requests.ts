@@ -19,3 +19,8 @@ export const deleteSecret = async (id: string) => {
   const req = await $axios.delete(`/api/secret/${id}`);
   return req.data;
 };
+
+export const updateSecret = async (payload: any) => {
+  const req = await $axios.put(`/api/secret`, payload);
+  return req.data;
+};
