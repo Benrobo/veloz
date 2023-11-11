@@ -3,8 +3,12 @@ import { Secret } from "../models";
 import sendResponse from "../lib/sendResponse";
 import { RESPONSE_CODE } from "@veloz/shared";
 import nextRouteZodValidation from "../lib/nextRouteZodValidation";
-import { createSecretSchema } from "../lib/validationSchema";
-import { createSecretSchemaType } from "@/types";
+import {
+  createSecretSchema,
+  updateSecretSchema,
+} from "../lib/validationSchema";
+import { createSecretSchemaType, updateSecretSchemaType } from "@/types";
+import mongoose from "mongoose";
 
 class SecretService {
   async create(req: NextApiRequest, res: NextApiResponse) {
@@ -16,7 +20,6 @@ class SecretService {
     const secret = await Secret.findOne({
       uId: userId,
       name: payload?.name,
-      category: payload?.category,
     });
 
     if (secret) {
@@ -41,7 +44,6 @@ class SecretService {
     await Secret.create({
       uId: userId,
       name: payload?.name,
-      category: payload?.category,
       secrets: secrets,
     });
 
@@ -97,6 +99,75 @@ class SecretService {
     await Secret.deleteOne({ uId: userId, _id: id });
 
     sendResponse.success(res, RESPONSE_CODE.SUCCESS, `Secret deleted`, 200);
+  }
+
+  async updateSecret(req: NextApiRequest, res: NextApiResponse) {
+    const userId = (req as any)?.user?.id;
+    const payload = req.body as updateSecretSchemaType;
+
+    await nextRouteZodValidation(updateSecretSchema, req, res);
+
+    const { deleteEnv, createEnv, updateEnv, id } = payload;
+
+    // check if secret exists
+    const secret = await Secret.findOne({ uId: userId, _id: id });
+    if (!secret) {
+      return sendResponse.error(
+        res,
+        RESPONSE_CODE.SECRET_EXISTS,
+        `Secret notfound`,
+        404
+      );
+    }
+
+    // handle creating
+    if (createEnv.length > 0) {
+      for (const env of createEnv) {
+        await Secret.updateOne(
+          { uId: userId, _id: id },
+          {
+            $push: {
+              secrets: {
+                name: env.name,
+                value: env.value,
+              },
+            },
+          }
+        );
+      }
+    }
+    // handle updating
+    if (updateEnv.length > 0) {
+      for (const env of updateEnv) {
+        await Secret.updateOne(
+          { uId: userId, _id: id, "secrets._id": env.id },
+          {
+            $set: {
+              "secrets.$.name": env.name,
+              "secrets.$.value": env.value,
+            },
+          }
+        );
+      }
+    }
+
+    // handle deleting
+    if (deleteEnv.length > 0) {
+      for (const env of deleteEnv) {
+        await Secret.updateOne(
+          { uId: userId, _id: id },
+          {
+            $pull: {
+              secrets: {
+                _id: new mongoose.Types.ObjectId(env.id),
+              },
+            },
+          }
+        );
+      }
+    }
+
+    sendResponse.success(res, RESPONSE_CODE.SUCCESS, `Secret updated`, 200);
   }
 }
 
