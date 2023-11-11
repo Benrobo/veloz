@@ -8,7 +8,7 @@ import { SecretDataTypes, Secrets } from "@veloz/shared/types";
 import { ProjectContext } from "@/context/ProjectContext";
 import { Spinner } from "../Spinner";
 import { useMutation } from "@tanstack/react-query";
-import { deleteSecret } from "@/lib/http/requests";
+import { deleteSecret, updateSecret } from "@/lib/http/requests";
 import { ResponseData } from "@/types";
 import toast from "react-hot-toast";
 
@@ -27,6 +27,7 @@ interface ManageSecretsProps {
   hideSaveBtn?: boolean;
   btmSpace?: boolean;
   refetchSecrets?: () => void;
+  showDeleteBtn?: boolean;
 }
 
 function ManageSecrets({
@@ -36,13 +37,27 @@ function ManageSecrets({
   getOnlySecrets,
   btmSpace,
   refetchSecrets,
+  showDeleteBtn,
 }: ManageSecretsProps) {
   const {} = useContext(ProjectContext);
   const [env, setEnv] = useState<SecretDataTypes>({} as SecretDataTypes);
   const [focusInput, setFocusInput] = useState<"name" | "value">("name");
+  const [newEnv, setNewEnv] = useState<Secrets[]>([]);
+  const [deletedEnv, setDeletedEnv] = useState<Secrets[]>([]);
+  const [envDetails, setEnvDetails] = useState({
+    name: "",
+    value: "",
+  });
   const deleteSecretMutation = useMutation({
     mutationFn: async (data: string) => await deleteSecret(data),
   });
+  const updateSecretMutation = useMutation({
+    mutationFn: async (data: any) => await updateSecret(data),
+  });
+
+  //
+  let _env_name = "";
+  let _env_value = "";
 
   useEffect(() => {
     if (
@@ -64,6 +79,7 @@ function ManageSecrets({
     // window.addEventListener("paste", handlePaste);
   });
 
+  // delete secret
   useEffect(() => {
     if (deleteSecretMutation.error) {
       const data = (deleteSecretMutation.error as any)?.response
@@ -81,9 +97,36 @@ function ManageSecrets({
     deleteSecretMutation.error,
   ]);
 
+  // update secret
+  useEffect(() => {
+    if (updateSecretMutation.error) {
+      const data = (updateSecretMutation.error as any)?.response
+        ?.data as ResponseData;
+      toast.error(data?.message as string);
+    }
+    if (updateSecretMutation.data) {
+      const data = updateSecretMutation.data as ResponseData;
+      toast.success(data?.message as string);
+      refetchSecrets && refetchSecrets();
+
+      // clear newEnv and deletedEnv
+      setNewEnv([]);
+      setDeletedEnv([]);
+    }
+  }, [
+    updateSecretMutation.data,
+    updateSecretMutation.isPending,
+    updateSecretMutation.error,
+  ]);
+
   function handleEnvInputChange(e: any, id: any, type: "name" | "value") {
     const inpValue = e.target.value;
     let updatedSecrets: { id: any; name: string; value: string }[];
+
+    setEnvDetails({
+      ...envDetails,
+      [type]: inpValue,
+    });
 
     if (id === null) {
       const newId = Math.floor(Math.random() * 10e3);
@@ -92,8 +135,7 @@ function ManageSecrets({
         ..._env,
         {
           id: newId,
-          name: type === "name" ? inpValue : "",
-          value: type === "value" ? inpValue : "",
+          ...envDetails,
         },
       ];
     } else {
@@ -106,6 +148,18 @@ function ManageSecrets({
         }
         return secret;
       });
+    }
+
+    const _newEnv = newEnv?.find((e) => e.id === id);
+    if (_newEnv) {
+      const _prev = newEnv?.filter((e) => e.id !== id);
+      setNewEnv([
+        ..._prev,
+        {
+          id: _newEnv.id,
+          ...envDetails,
+        },
+      ]);
     }
 
     setFocusInput(type);
@@ -128,16 +182,20 @@ function ManageSecrets({
       id,
       secrets: combEnv,
     });
+    //* add new env to newEnv state (used to track new envs created)
+    setNewEnv((prev) => [...prev, { id, name: "", value: "" }]);
   }
 
   function removeEnv(id: any) {
     const _env = env?.secrets.filter((s) => s.id !== id);
+    const _deletedEnv = env?.secrets.filter((s) => s.id === id);
     if (_env) {
       setEnv({
         name: env.name,
         id: env.id,
         secrets: _env,
       });
+      setDeletedEnv((prev) => [...prev, ..._deletedEnv]);
     }
   }
 
@@ -185,8 +243,72 @@ function ManageSecrets({
     });
   }
 
+  function removeEnvDuplicates(env: Secrets[]) {
+    // remove env duplicates
+    const _env: Secrets[] = [];
+    env.forEach((e) => {
+      const _e = _env.find((d) => d.name === e.name);
+      if (!_e) {
+        _env.push(e);
+      }
+    });
+    return _env;
+  }
+
   function saveSecret() {
-    console.log(env);
+    // const { id } = env;
+    const updatedSecrets: any[] = [];
+    const newlyAddedSecrets: any[] = newEnv;
+    const deletedSecrets = deletedEnv;
+
+    for (const s of env.secrets) {
+      const selectedSecret = selectedEnv?.secrets.find(
+        (sec) => sec.id === s.id
+      );
+      if (
+        s.name !== selectedSecret?.name ||
+        s.value !== selectedSecret?.value
+      ) {
+        const _newlyAddedSec = newlyAddedSecrets.find((sec) => sec.id === s.id);
+        const _deletedSec = deletedSecrets.find((sec) => sec.id === s.id);
+        if (_deletedSec) {
+          const _sec = deletedSecrets.find((sec) => sec?.id !== s?.id);
+          if (_sec) deletedSecrets.push(_sec);
+        } else if (_newlyAddedSec) {
+          const _sec = updatedSecrets.find((sec) => sec?.id !== s?.id);
+          if (_sec) {
+            // make sure deleted secrets isn't included
+            const _delsec = deletedSecrets.find((sec) => sec?.id === s?.id);
+            if (_delsec) {
+              const _withoutDeleted = deletedSecrets.filter(
+                (sec) => sec?.id !== s?.id
+              );
+              updatedSecrets.push(_withoutDeleted);
+            } else {
+              updatedSecrets.push(_sec);
+            }
+          }
+        } else {
+          // make sure deleted secrets isn't included
+          const _delsec = deletedSecrets.find((sec) => sec?.id === s?.id);
+          if (_delsec) {
+            const _withoutDeleted = deletedSecrets.filter(
+              (sec) => sec?.id !== s?.id
+            );
+            updatedSecrets.push(_withoutDeleted);
+          } else {
+            updatedSecrets.push(s);
+          }
+        }
+      }
+    }
+    const payload = {
+      id: selectedEnv?.id,
+      deleteEnv: deletedSecrets,
+      updateEnv: updatedSecrets,
+      createEnv: newlyAddedSecrets,
+    };
+    updateSecretMutation.mutate(payload);
   }
 
   const deleteEnv = () => deleteSecretMutation.mutate(selectedEnv?.id);
@@ -256,21 +378,27 @@ function ManageSecrets({
             disabled={!checkIfSecretChanged()}
             onClick={saveSecret}
           >
-            <span className="font-ppR">Save Changes</span>
+            {updateSecretMutation.isPending ? (
+              <Spinner size={18} color="#fff" />
+            ) : (
+              <span className="font-ppR">Save Changes</span>
+            )}
           </Button>
         )}
-        <Button
-          className="font-ppR text-[12px]"
-          variant={"destructive"}
-          onClick={deleteEnv}
-          disabled={deleteSecretMutation.isPending}
-        >
-          {!deleteSecretMutation.isPending ? (
-            <span className="font-ppR">Delete Secret</span>
-          ) : (
-            <Spinner color="#fff" size={18} />
-          )}
-        </Button>
+        {showDeleteBtn && (
+          <Button
+            className="font-ppR text-[12px]"
+            variant={"destructive"}
+            onClick={deleteEnv}
+            disabled={deleteSecretMutation.isPending}
+          >
+            {!deleteSecretMutation.isPending ? (
+              <span className="font-ppR">Delete Secret</span>
+            ) : (
+              <Spinner color="#fff" size={18} />
+            )}
+          </Button>
+        )}
       </FlexRowStartCenter>
     </FlexColStart>
   );
