@@ -252,7 +252,6 @@ function ManageSecrets({
   }
 
   function saveSecret() {
-    // const { id } = env;
     const updatedSecrets: any[] = [];
     const newlyAddedSecrets: any[] = newEnv;
     const deletedSecrets = deletedEnv;
@@ -340,7 +339,6 @@ function ManageSecrets({
               value={d.name}
               onChange={(e: any) => handleEnvInputChange(e, d.id, "name")}
               autoFocus={focusInput === "name" && true}
-              // onPaste={handlePaste}
             />
             <span className="text-white-200 font-ppB text-[13px]">=</span>
             <Input
