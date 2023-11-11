@@ -15,32 +15,31 @@ export const createSecretSchema = zod.object({
 
 export const updateSecretSchema = zod.object({
   id: zod.string(),
-  name: zod.string(),
-  deleteEnv: zod.array(
-    zod
-      .object({
+  deleteEnv: zod
+    .array(
+      zod.object({
         id: zod.any(),
         name: zod.string(),
         value: zod.string(),
       })
-      .optional()
-  ),
-  updateEnv: zod.array(
-    zod
-      .object({
+    )
+    .optional(),
+  updateEnv: zod
+    .array(
+      zod.object({
         id: zod.any(),
         name: zod.string(),
         value: zod.string(),
       })
-      .optional()
-  ),
-  createEnv: zod.array(
-    zod
-      .object({
+    )
+    .optional(),
+  createEnv: zod
+    .array(
+      zod.object({
         id: zod.any(),
         name: zod.string(),
         value: zod.string(),
       })
-      .optional()
-  ),
+    )
+    .optional(),
 });
