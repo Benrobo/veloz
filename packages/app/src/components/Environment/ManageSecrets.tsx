@@ -102,7 +102,7 @@ function ManageSecrets({
     if (updateSecretMutation.error) {
       const data = (updateSecretMutation.error as any)?.response
         ?.data as ResponseData;
-      toast.error(data?.message as string);
+      toast.error((data?.message as string) ?? "Something went wrong.");
     }
     if (updateSecretMutation.data) {
       const data = updateSecretMutation.data as ResponseData;
@@ -261,6 +261,13 @@ function ManageSecrets({
     const newlyAddedSecrets: any[] = newEnv;
     const deletedSecrets = deletedEnv;
 
+    type Payload = {
+      id: string;
+      deleteEnv?: Secrets[];
+      updateEnv?: Secrets[];
+      createEnv?: Secrets[];
+    };
+
     for (const s of env.secrets) {
       const selectedSecret = selectedEnv?.secrets.find(
         (sec) => sec.id === s.id
@@ -270,6 +277,7 @@ function ManageSecrets({
         s.value !== selectedSecret?.value
       ) {
         const _newlyAddedSec = newlyAddedSecrets.find((sec) => sec.id === s.id);
+        console.log({ _newlyAddedSec });
         const _deletedSec = deletedSecrets.find((sec) => sec.id === s.id);
         if (_deletedSec) {
           const _sec = deletedSecrets.find((sec) => sec?.id !== s?.id);
@@ -302,12 +310,21 @@ function ManageSecrets({
         }
       }
     }
-    const payload = {
+
+    const payload: Payload = {
       id: selectedEnv?.id,
-      deleteEnv: deletedSecrets,
-      updateEnv: updatedSecrets,
-      createEnv: newlyAddedSecrets,
     };
+
+    if (deletedSecrets?.length > 0) {
+      payload["deleteEnv"] = removeEnvDuplicates(deletedSecrets);
+    }
+    if (newlyAddedSecrets?.length > 0) {
+      payload["createEnv"] = removeEnvDuplicates(newlyAddedSecrets);
+    }
+    if (updatedSecrets?.length > 0) {
+      payload["updateEnv"] = removeEnvDuplicates(updatedSecrets);
+    }
+
     updateSecretMutation.mutate(payload);
   }
 
