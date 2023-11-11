@@ -58,6 +58,20 @@ export type updateSecretSchemaType = {
   }[];
 };
 
+export type createProjectPayload = {
+  name: string;
+  description: string;
+  label: ProjectType;
+  type: VelozProjectOption;
+  fineTunedStackName: string;
+  env_id: string;
+  tech_stacks: {
+    category: TechStackCategory;
+    name: string;
+    stack: string;
+  }[];
+};
+
 export type ResponseData = {
   errorStatus: boolean;
   message: string;
