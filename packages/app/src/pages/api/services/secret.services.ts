@@ -14,7 +14,9 @@ class SecretService {
   async create(req: NextApiRequest, res: NextApiResponse) {
     const userId = (req as any)?.user?.id;
     const payload = req.body as createSecretSchemaType;
-    await nextRouteZodValidation(createSecretSchema, req, res);
+    const success = await nextRouteZodValidation(createSecretSchema, req, res);
+
+    if (!success) return;
 
     // check if secret name exists
     const secret = await Secret.findOne({
@@ -105,7 +107,9 @@ class SecretService {
     const userId = (req as any)?.user?.id;
     const payload = req.body as updateSecretSchemaType;
 
-    await nextRouteZodValidation(updateSecretSchema, req, res);
+    const success = await nextRouteZodValidation(updateSecretSchema, req, res);
+
+    if (!success) return;
 
     const { deleteEnv, createEnv, updateEnv, id } = payload;
 
@@ -121,7 +125,7 @@ class SecretService {
     }
 
     // handle creating
-    if (createEnv.length > 0) {
+    if (createEnv && createEnv.length > 0) {
       for (const env of createEnv) {
         await Secret.updateOne(
           { uId: userId, _id: id },
@@ -137,7 +141,7 @@ class SecretService {
       }
     }
     // handle updating
-    if (updateEnv.length > 0) {
+    if (updateEnv && updateEnv.length > 0) {
       for (const env of updateEnv) {
         await Secret.updateOne(
           { uId: userId, _id: id, "secrets._id": env.id },
@@ -152,18 +156,27 @@ class SecretService {
     }
 
     // handle deleting
-    if (deleteEnv.length > 0) {
-      for (const env of deleteEnv) {
-        await Secret.updateOne(
-          { uId: userId, _id: id },
-          {
-            $pull: {
-              secrets: {
-                _id: new mongoose.Types.ObjectId(env.id),
+    if (deleteEnv && deleteEnv.length > 0) {
+      // check delete count match what on db
+      const secret = await Secret.findOne({ uId: userId, _id: id });
+      const _secrets = secret?.secrets;
+
+      // delete main secret if count match what on db
+      if (_secrets?.length === deleteEnv?.length) {
+        await Secret.deleteOne({ uId: userId, _id: id });
+      } else {
+        for (const env of deleteEnv) {
+          await Secret.updateOne(
+            { uId: userId, _id: id },
+            {
+              $pull: {
+                secrets: {
+                  _id: new mongoose.Types.ObjectId(env.id),
+                },
               },
-            },
-          }
-        );
+            }
+          );
+        }
       }
     }
 
