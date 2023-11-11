@@ -55,10 +55,6 @@ function ManageSecrets({
     mutationFn: async (data: any) => await updateSecret(data),
   });
 
-  //
-  let _env_name = "";
-  let _env_value = "";
-
   useEffect(() => {
     if (
       selectedEnv ||
