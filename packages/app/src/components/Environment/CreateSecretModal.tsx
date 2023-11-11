@@ -8,16 +8,6 @@ import { Button } from "../ui/button";
 import { TechStackCategory } from "@veloz/shared/types";
 import { Secrets } from "@veloz/shared/types";
 import toast from "react-hot-toast";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuItem,
-  DropdownMenuRadioItem,
-  DropdownMenuRadioGroup,
-} from "../ui/dropdown-menu";
 import { Tags } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { createSecret } from "@/lib/http/requests";
@@ -28,9 +18,10 @@ import { set } from "zod";
 interface AddSecretModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSuccess: () => void;
 }
 
-function AddSecretModal({ isOpen, onClose }: AddSecretModalProps) {
+function AddSecretModal({ isOpen, onClose, onSuccess }: AddSecretModalProps) {
   const [envName, setEnvName] = useState("test-env");
   const [secrets, setSecrets] = useState<Secrets[]>([]);
   const [category, setCategory] = useState<TechStackCategory>("frontend");
@@ -54,6 +45,7 @@ function AddSecretModal({ isOpen, onClose }: AddSecretModalProps) {
       setSecrets([]);
       setEnvName("");
       onClose();
+      onSuccess && onSuccess();
     }
   }, [createSecretMutation.data, createSecretMutation.error]);
 
@@ -70,7 +62,6 @@ function AddSecretModal({ isOpen, onClose }: AddSecretModalProps) {
     const payload = {
       name: envName,
       secrets: secrets.filter((d) => delete d.id),
-      category,
     };
     createSecretMutation.mutate(payload);
   }
@@ -105,37 +96,6 @@ function AddSecretModal({ isOpen, onClose }: AddSecretModalProps) {
                 autoFocus={true}
                 maxLength={20}
               />
-            </FlexColStart>
-            <FlexColStart className="w-full">
-              <span className="text-white-200 text-[13px] font-jbR ">
-                Category
-              </span>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="w-auto">
-                  <Button className="w-auto gap-1 bg-dark-200 py-6 font-jbR text-[12.4px] text-white-100 hover:bg-dark-200/90 ">
-                    <Tags size={15} className="mr-1" /> Select Category (
-                    {category})
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-full bg-dark-200 border-white-600">
-                  {["Frontend", "Backend"].map((d) => (
-                    <DropdownMenuRadioGroup
-                      value={category}
-                      onValueChange={(value) =>
-                        setCategory(value as TechStackCategory)
-                      }
-                    >
-                      <DropdownMenuRadioItem
-                        key={d}
-                        className="w-full text-white-100 font-jbR hover:!bg-dark-300 hover:!text-white-100 cursor-pointer"
-                        value={d.toLowerCase()}
-                      >
-                        {d}
-                      </DropdownMenuRadioItem>
-                    </DropdownMenuRadioGroup>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
             </FlexColStart>
           </FlexRowCenterBtw>
           <FlexColStart className="w-full h-full overflow-y-scroll hideScrollBar2 px-4 mt-5">
