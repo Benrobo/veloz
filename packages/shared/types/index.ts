@@ -1,3 +1,14 @@
+import {
+  validFrontendStacks,
+  validBackendStacks,
+  validDesignSystem,
+  validDatabases,
+  validCodebaseArchitecture,
+  validPaymentProviders,
+  validAuthProviders,
+  mailingProviders,
+} from "../data/stack";
+
 export type ProjectType = "Vortex" | "Apex" | "Serenity" | "Nebula" | "Odyssey";
 
 export type TechStackCategory =
@@ -38,15 +49,6 @@ export type TechStackPricingPlan =
   | "ENTERPRISE_PKG";
 
 export type SupportedArchitecture = "monolith" | "monorepo";
-export interface REFINED_STACKS {
-  name: string;
-  key: string;
-  img: string;
-  pricing_plan: TechStackPricingPlan;
-  available: boolean;
-  category: TechStackCategory;
-  supported_architecture: SupportedArchitecture[];
-}
 
 export interface FINE_TUNED_STACKS {
   id: any;
@@ -59,6 +61,39 @@ export interface FINE_TUNED_STACKS {
   }[];
   available: boolean;
 }
+
+type ValidStacks =
+  | (typeof validFrontendStacks)[number]
+  | (typeof validBackendStacks)[number]
+  | (typeof validDesignSystem)[number]
+  | (typeof validDatabases)[number]
+  | (typeof validCodebaseArchitecture)[number]
+  | (typeof validPaymentProviders)[number]
+  | (typeof validAuthProviders)[number]
+  | (typeof mailingProviders)[number];
+
+export type REFINED_STACK_VALUE = {
+  name: string;
+  key: ValidStacks;
+  pricing_plan: TechStackPricingPlan;
+};
+
+export interface REFINED_STACKS {
+  category: TechStackCategory;
+  stacks: REFINED_STACK_VALUE[];
+}
+
+// export interface REFINED_STACKS {
+//   id: any;
+//   plan: TechStackPricingPlan;
+//   name: string;
+//   description: string;
+//   tech_stacks: {
+//     title: TechStackCategory;
+//     stacks: string[];
+//   }[];
+//   available: boolean;
+// }
 
 export type FineTunedStacksName =
   | "Athena"
@@ -126,3 +161,23 @@ export enum RESPONSE_CODE {
   // Project Responses
   SUCCESS,
 }
+
+export type createProjectPayload = {
+  name: string;
+  description: string;
+  label: ProjectType;
+  type: VelozProjectOption;
+  fineTunedStackName: string;
+  env_id: string;
+  tech_stacks: {
+    category: TechStackCategory;
+    name: string;
+    stack: string;
+  }[];
+};
+
+export type StackAvailabilityType = {
+  category: TechStackCategory;
+  available: string[];
+  not_available: string[];
+};
