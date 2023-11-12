@@ -1,7 +1,7 @@
-import REFINED_STACKS from "@/data/stacks";
+import { REFINED_STACKS } from "@veloz/shared/data/stack";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { TechStackPricingPlan } from "@veloz/shared/types";
+import { TechStackCategory, TechStackPricingPlan } from "@veloz/shared/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -10,9 +10,13 @@ export function cn(...inputs: ClassValue[]) {
 // check if user is eligible or not for a specific plan
 export function isUserEligibleForStack(
   stackKey: string,
+  category: TechStackCategory,
   userPricingPlan: TechStackPricingPlan
 ) {
-  const techStack = REFINED_STACKS.find((stack) => stack.key === stackKey);
+  const stacks = REFINED_STACKS.find(
+    (stack) => stack.category === category
+  )?.stacks;
+  const techStack = stacks?.find((stack) => stack.key === stackKey);
   if (techStack) {
     const { pricing_plan } = techStack;
     if (userPricingPlan === "BASIC_PKG" && pricing_plan !== "BASIC_PKG") {
