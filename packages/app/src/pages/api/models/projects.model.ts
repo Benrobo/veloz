@@ -20,7 +20,7 @@ interface IProject {
   status: "done" | "failed" | "pending";
   tech_stacks: {
     category: TechStackCategory;
-    name: string;
+    // name: string;
     stack: string;
   }[];
   env_id: string | null;
