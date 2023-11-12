@@ -286,14 +286,44 @@ export const STACK_AVAILABILITY = [
   // Frontend
   {
     category: "frontend",
-    available: [""],
-    not_available: [""],
+    available: ["nextjs", "react", "vanillajs"],
+    not_available: ["svelte", "astro"],
   },
-
   // Design System
   {
-    category: "frontend",
-    available: [""],
-    not_available: [""],
+    category: "design_system",
+    available: ["tailwindcss"],
+    not_available: ["sass"],
   },
-] as StackAvailabilityType[];
+  // Backend
+  {
+    category: "backend",
+    available: ["nextjs-api", "nodejs"],
+    not_available: ["golang", "php", "python"],
+  },
+  // Database
+  {
+    category: "database",
+    available: ["mongodb", "mysql"],
+    not_available: [],
+  },
+
+  // Payment
+  {
+    category: "payment",
+    available: ["lemonsqueezy"],
+    not_available: ["paddle", "stripe"],
+  },
+  // Mailing
+  {
+    category: "mailing",
+    available: ["elasticmail", "postmark"],
+    not_available: ["resend"],
+  },
+  // Authentication
+  {
+    category: "authentication",
+    available: ["jsonwebtoken", "clerk"],
+    not_available: ["passage"],
+  },
+] satisfies StackAvailabilityType[];
