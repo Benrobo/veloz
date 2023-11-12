@@ -6,8 +6,20 @@ export default LocalImages;
 
 export const StackImages = [
   {
-    name: "nextjs",
+    name: "monolith",
+    img: "/images/cb_architecture/monolith.png",
+  },
+  {
+    name: "monorepo",
+    img: "/images/cb_architecture/monorepo.png",
+  },
+  {
+    name: "vanillajs",
     img: "/images/tech_stacks/javascript.svg",
+  },
+  {
+    name: "nextjs",
+    img: "/images/tech_stacks/nextjs.svg",
   },
   {
     name: "nodejs",
@@ -38,12 +50,64 @@ export const StackImages = [
     img: "/images/tech_stacks/tailwindcss.svg",
   },
   {
+    name: "sass",
+    img: "/images/tech_stacks/sass.svg",
+  },
+  {
+    name: "python",
+    img: "/images/tech_stacks/python.svg",
+  },
+  {
+    name: "php",
+    img: "/images/tech_stacks/php.svg",
+  },
+  {
+    name: "postgresql",
+    img: "/images/tech_stacks/postgres.svg",
+  },
+  {
     name: "react",
     img: "/images/tech_stacks/react.svg",
   },
   {
-    name: "postgres",
-    img: "/images/tech_stacks/postgres.svg",
+    name: "lemonsqueezy",
+    img: "/images/payment/lemonsqueezy.svg",
+  },
+  {
+    name: "stripe",
+    img: "/images/payment/stripe.svg",
+  },
+  {
+    name: "sendgrid",
+    img: "/images/mail/sendgrid.png",
+  },
+  {
+    name: "postmark",
+    img: "/images/mail/postmark.png",
+  },
+  {
+    name: "paddle",
+    img: "/images/payment/paddle.jpeg",
+  },
+  {
+    name: "elasticmail",
+    img: "/images/mail/elasticmail.png",
+  },
+  {
+    name: "resend",
+    img: "/images/mail/resend.png",
+  },
+  {
+    name: "jsonwebtoken",
+    img: "/images/auth/jwt.png",
+  },
+  {
+    name: "clerk",
+    img: "/images/auth/clerk.png",
+  },
+  {
+    name: "passage",
+    img: "/images/auth/passage.png",
   },
 ];
 
