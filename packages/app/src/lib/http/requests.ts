@@ -24,3 +24,8 @@ export const updateSecret = async (payload: any) => {
   const req = await $axios.put(`/api/secret`, payload);
   return req.data;
 };
+
+export const createProject = async (payload: any) => {
+  const req = await $axios.post(`/api/project`, payload);
+  return req.data;
+};
