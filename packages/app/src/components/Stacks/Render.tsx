@@ -1,21 +1,21 @@
-import REFINED_STACKS from "@/data/stacks";
-import { FINE_TUNED_STACKS } from "@veloz/shared/data/stack";
+import { REFINED_STACKS as REFINED_STACKS_DATA } from "@veloz/shared/data/stack";
 import React, { useContext, useEffect, useState } from "react";
 import { FlexColCenter, FlexColEnd, FlexRowStart } from "../Flex";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
 import {
   CodebaseArchitectureMap,
-  FineTunedStacksName,
+  REFINED_STACK_VALUE,
   TechStackCategory,
 } from "@veloz/shared/types";
 import { cn, isUserEligibleForStack } from "@/lib/utils";
-import { Gem } from "lucide-react";
 import { DataContext } from "@/context/DataContext";
+import { StackImages } from "@/data/images";
+import { isStackAvailable } from "@veloz/shared/utils";
 
 interface RenderStacksProps {
   tech_stacks: string[];
-  category?: TechStackCategory;
+  category: TechStackCategory;
 }
 
 type StackObj = { name: string; key: string; img: string };
@@ -28,19 +28,25 @@ const stackWithExtendedHeight = [
   "golang",
   "laravel",
   "nodejs",
+  "nextjs-api",
 ];
 
-function RenderStacks({ tech_stacks }: RenderStacksProps) {
+function RenderStacks({ tech_stacks, category }: RenderStacksProps) {
   const validStacks: StackObj[] = [];
-  const stackData = REFINED_STACKS.map((d) => d.key);
+  const stacks = REFINED_STACKS_DATA.find(
+    (stk: any) => stk.category === category
+  )?.stacks;
+  const stackData = stacks?.map((d) => d.key);
   if (tech_stacks.length > 0) {
     tech_stacks.forEach((d, i, arr) => {
       if (d.length > 0) {
-        if (stackData.includes(d)) {
-          const foundStack = REFINED_STACKS.find(
-            (stack) => stack.key === d
-          ) as StackObj;
-          validStacks.push(foundStack);
+        if (stackData?.includes(d)) {
+          const foundStack = stacks?.find((stack) => stack.key === d);
+          validStacks.push({
+            name: foundStack?.name as string,
+            key: d,
+            img: getImageUrl(d) as string,
+          });
         }
       }
     });
@@ -81,7 +87,7 @@ export default RenderStacks;
 
 // Refined Renderer
 interface RenderSelectableStacksProps {
-  category?: TechStackCategory;
+  category: TechStackCategory;
   updateStacksState: (
     key: string,
     name: string,
@@ -97,7 +103,9 @@ export function RenderSelectableStacks({
 }: RenderSelectableStacksProps) {
   const { userPlan, togglePremiumModalVisibility, setPkgPlan } =
     useContext(DataContext);
-  const tech_stacks = REFINED_STACKS.filter((stk) => stk.category === category);
+  const tech_stacks = REFINED_STACKS_DATA.find(
+    (stk) => stk.category === category
+  )?.stacks as REFINED_STACK_VALUE[];
 
   function handleStackSelection(key: string, name: string) {
     const techCategory = category as TechStackCategory;
@@ -119,10 +127,10 @@ export function RenderSelectableStacks({
                 : ""
             )}
             onClick={() => {
-              if (!stack.available) return;
+              if (!isStackAvailable(stack.key, category)) return;
               if (
-                stack.available &&
-                !isUserEligibleForStack(stack.key, userPlan)
+                isStackAvailable(stack.key, category) &&
+                !isUserEligibleForStack(stack.key, category, userPlan)
               ) {
                 setPkgPlan(stack.pricing_plan);
                 togglePremiumModalVisibility();
@@ -130,10 +138,10 @@ export function RenderSelectableStacks({
               }
               handleStackSelection(stack.key, stack.name);
             }}
-            disabled={!stack.available}
+            disabled={!isStackAvailable(stack.key, category)}
           >
             {/* Coming soon badge */}
-            {!stack.available && (
+            {!isStackAvailable(stack.key, category) && (
               <FlexColCenter className="w-full h-full absolute top-0 left-0 backdrop-blur-[1px] ">
                 <span className="px-2 py-1 rounded-[30px] bg-orange-301 border-solid border-[.5px] border-white-600 text-orange-100 font-ppSB text-[9px] ">
                   Coming Soon
@@ -141,8 +149,8 @@ export function RenderSelectableStacks({
               </FlexColCenter>
             )}
 
-            {stack.available &&
-              !isUserEligibleForStack(stack.key, userPlan) && (
+            {isStackAvailable(stack.key, category) &&
+              !isUserEligibleForStack(stack.key, category, userPlan) && (
                 <FlexColCenter className="w-full h-full absolute top-0 left-0 backdrop-blur-[1.5px] ">
                   <Image
                     src={
@@ -171,7 +179,7 @@ export function RenderSelectableStacks({
                 }
                 height={0}
                 alt={stack.key}
-                src={stack.img}
+                src={getImageUrl(stack.key) as string}
                 className={twMerge(
                   stackWithRoundedCorners.includes(stack.key)
                     ? "rounded-[50%]"
@@ -191,4 +199,9 @@ export function RenderSelectableStacks({
       )}
     </FlexRowStart>
   );
+}
+
+function getImageUrl(stackName: string) {
+  const stack = StackImages.find((s) => s.name === stackName);
+  return stack?.img || "";
 }
