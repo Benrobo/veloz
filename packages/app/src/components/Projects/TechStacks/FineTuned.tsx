@@ -12,7 +12,9 @@ import { FineTunedStacksName, TechStackPricingPlan } from "@veloz/shared/types";
 import Image from "next/image";
 import { DataContext } from "@/context/DataContext";
 import Modal from "@/components/Modal";
-import RenderStacks from "@/components/Stacks/Render";
+import RenderStacks, {
+  RenderFineTunedStacks,
+} from "@/components/Stacks/Render";
 import { Button } from "@/components/ui/button";
 import { ProjectContext } from "@/context/ProjectContext";
 import { FINE_TUNED_STACKS } from "@veloz/shared/data/stack";
@@ -118,7 +120,7 @@ function FineTuned({}: FineTunedProps) {
         showCloseIcon
       >
         <FlexColCenter className="w-full h-full">
-          <FlexRowCenterBtw className="w-full h-full pt-9 pb-9 max-w-[700px] max-h-[450px] bg-dark-200 rounded-md px-2">
+          <FlexRowCenterBtw className="w-full h-auto pt-9 pb-9 max-w-[700px] max-h-[450px] bg-dark-200 rounded-md px-2">
             <FlexColStart className="w-full h-full px-5">
               <FlexRowStartBtw>
                 <h1 className="text-white-100 text-2xl font-jbSB font-extrabold">
@@ -190,8 +192,8 @@ function FineTuned({}: FineTunedProps) {
               </FlexColStart>
               <br />
               <FlexColStart className="w-full h-full gap-5 flex-wrap overflow-y-scroll hideScrollBar2 py-2">
-                <RenderStacks
-                  tech_stacks={returnFineTunedStacks(selectedCard?.name)}
+                <RenderFineTunedStacks
+                  tech_stacks={returnFineTunedStacks(selectedCard.name)}
                 />
               </FlexColStart>
             </FlexColStart>
