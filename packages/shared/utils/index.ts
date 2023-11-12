@@ -7,10 +7,6 @@ export function isStackAvailable(stack: string, category: TechStackCategory) {
     (s) => s.category === category
   )?.not_available as string[];
 
-  if (category === "payment") {
-    console.log({ notAvailableStacks });
-  }
-
   if (notAvailableStacks?.includes(stack)) return false;
 
   return true;
