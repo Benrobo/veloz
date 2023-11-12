@@ -18,6 +18,8 @@ import {
 import React, { ReactElement } from "react";
 import { TechStackCategory } from "@veloz/shared/types";
 import { AddTechStackProps } from ".";
+import { REFINED_STACKS } from "@veloz/shared/data/stack";
+import { StackImages } from "@/data/images";
 
 interface RefinedProps extends AddTechStackProps {}
 
