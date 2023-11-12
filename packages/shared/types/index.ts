@@ -83,18 +83,6 @@ export interface REFINED_STACKS {
   stacks: REFINED_STACK_VALUE[];
 }
 
-// export interface REFINED_STACKS {
-//   id: any;
-//   plan: TechStackPricingPlan;
-//   name: string;
-//   description: string;
-//   tech_stacks: {
-//     title: TechStackCategory;
-//     stacks: string[];
-//   }[];
-//   available: boolean;
-// }
-
 export type FineTunedStacksName =
   | "Athena"
   | "Hera"
