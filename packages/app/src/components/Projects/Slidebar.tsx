@@ -80,7 +80,10 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
                 name={"frontend"}
               >
                 <FlexColStart className="w-full px-3 py-2">
-                  <RenderStacks tech_stacks={stack.stacks} />
+                  <RenderStacks
+                    category="frontend"
+                    tech_stacks={stack.stacks}
+                  />
                 </FlexColStart>
               </Accordion>
             ) : stack.title === "backend" ? (
@@ -92,7 +95,7 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
                 name={"backend"}
               >
                 <FlexColStart className="w-full px-3 py-2">
-                  <RenderStacks tech_stacks={stack.stacks} />
+                  <RenderStacks category="backend" tech_stacks={stack.stacks} />
                 </FlexColStart>
               </Accordion>
             ) : stack.title === "database" ? (
@@ -104,7 +107,10 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
                 name={"database"}
               >
                 <FlexColStart className="w-full px-3 py-2">
-                  <RenderStacks tech_stacks={stack.stacks} />
+                  <RenderStacks
+                    category="database"
+                    tech_stacks={stack.stacks}
+                  />
                 </FlexColStart>
               </Accordion>
             ) : stack.title === "payment" ? (
@@ -116,7 +122,7 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
                 name={"payment"}
               >
                 <FlexColStart className="w-full px-3 py-2">
-                  <RenderStacks tech_stacks={stack.stacks} />
+                  <RenderStacks category="payment" tech_stacks={stack.stacks} />
                 </FlexColStart>
               </Accordion>
             ) : stack.title === "mailing" ? (
@@ -128,7 +134,7 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
                 name={"mailing"}
               >
                 <FlexColStart className="w-full px-3 py-2">
-                  <RenderStacks tech_stacks={stack.stacks} />
+                  <RenderStacks category="mailing" tech_stacks={stack.stacks} />
                 </FlexColStart>
               </Accordion>
             ) : null
