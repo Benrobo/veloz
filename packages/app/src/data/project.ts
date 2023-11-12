@@ -35,7 +35,7 @@ export const projectTempData: VelozProjectType[] = [
     stacks: [
       {
         title: "backend",
-        stacks: ["nextjs"],
+        stacks: ["nextjs-api"],
       },
       {
         title: "frontend",
@@ -116,7 +116,7 @@ SOME_OTHER_VARIABLE='some-value'
     stacks: [
       {
         title: "backend",
-        stacks: ["nextjs"],
+        stacks: ["nextjs-api"],
       },
       {
         title: "frontend",
@@ -128,7 +128,7 @@ SOME_OTHER_VARIABLE='some-value'
       },
       {
         title: "mailing",
-        stacks: ["sendgrid"],
+        stacks: ["postmark"],
       },
     ],
     env: `
