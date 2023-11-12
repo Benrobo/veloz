@@ -32,6 +32,11 @@ import AddTechStack from "@/components/Projects/TechStacks";
 import ManageProjectSecret from "@/components/Environment/Secret";
 import { ProjectContext } from "@/context/ProjectContext";
 import toast from "react-hot-toast";
+import Modal from "@/components/Modal";
+import { Spinner } from "@/components/Spinner";
+import { useMutation } from "@tanstack/react-query";
+import { createProject } from "@/lib/http/requests";
+import { ResponseData } from "@/types";
 
 function CreateProject() {
   const {
@@ -41,13 +46,37 @@ function CreateProject() {
     selectedStacks,
     setProjDetails,
     setProjType,
-    setSelectedSecretId,
     setSelectedStacks,
     activeSection,
     setActiveSection,
     projectOptions,
     selectedFinetunedStack,
   } = useContext(ProjectContext);
+
+  const createProjectMutation = useMutation({
+    mutationFn: async (data: any) => createProject(data),
+  });
+
+  useEffect(() => {
+    setProjType(randomProjectType() as ProjectType);
+  }, []);
+
+  useEffect(() => {
+    if (createProjectMutation.error) {
+      const data = (createProjectMutation.error as any)?.response
+        ?.data as ResponseData;
+      toast.error(data?.message as string);
+    }
+    if (createProjectMutation.data) {
+      const data = createProjectMutation.data as ResponseData;
+      toast.success(data?.message as string);
+      // redirect and refetch project
+    }
+  }, [
+    createProjectMutation.data,
+    createProjectMutation.isPending,
+    createProjectMutation.error,
+  ]);
 
   function updateStacksState(
     key: string,
@@ -142,46 +171,70 @@ function CreateProject() {
     };
 
     // Provide a type for selectedStacks object
-    const _selectedStacks: Record<
+    type SelectedStack = Record<
       string,
       { stack: string; name: string; category: string }
-    > = selectedStacks;
+    >;
+    const _selectedStacks: SelectedStack = selectedStacks;
 
     if (!("codebase_acrhitecture" in _selectedStacks)) {
       _selectedStacks["codebase_acrhitecture"] = defaultCodebaseArch;
     }
 
-    const payload = {
+    type Payload = {
+      name: string;
+      description: string;
+      label: ProjectType;
+      tech_stacks: SelectedStack;
+      type: any;
+      fineTunedStackName: string;
+      env_id: string;
+    };
+
+    const payload: Payload = {
       name,
       description,
-      stacks: _selectedStacks,
-      env_id: selectedSecretId,
-      projectOption: projectOptions,
+      label: projType as ProjectType,
+      tech_stacks: _selectedStacks,
+      type: projectOptions,
       fineTunedStackName: selectedFinetunedStack,
+      env_id: selectedSecretId,
     };
 
     if (projectOptions === "Refined") {
+      // Refined
       if ("fineTunedStackName" in payload) {
         // @ts-expect-error
         delete payload?.fineTunedStackName;
       }
-    } else {
-      if ("stacks" in payload) {
+      // remove env key if it isn't selected
+      if (selectedSecretId.length === 0) {
         // @ts-expect-error
-        delete payload?.stacks;
         delete payload?.env_id;
+      }
+    } else {
+      // Fine-Tuned
+      if ("tech_stacks" in payload) {
+        // @ts-ignore
+        delete payload?.env_id;
+        // @ts-ignore
+        delete payload?.tech_stacks;
       }
     }
 
     console.log(payload);
+    createProjectMutation.mutate(payload);
   }
-
-  useEffect(() => {
-    setProjType(randomProjectType() as ProjectType);
-  }, []);
 
   return (
     <Layout activePage="projects">
+      {/* Show this during project creation */}
+      <Modal isBlurBg isOpen={createProjectMutation.isPending}>
+        <FlexColCenter className="w-full h-full">
+          <Spinner color="#fff" />
+        </FlexColCenter>
+      </Modal>
+
       <div className="w-full h-[100vh] overflow-y-hidden relative px-4">
         {/* back link */}
         <Link href="/projects" className="underline">
