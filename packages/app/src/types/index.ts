@@ -65,11 +65,14 @@ export type createProjectPayload = {
   type: VelozProjectOption;
   fineTunedStackName: string;
   env_id: string;
-  tech_stacks: {
-    category: TechStackCategory;
-    name: string;
-    stack: string;
-  }[];
+  tech_stacks: Record<
+    TechStackCategory,
+    {
+      category: TechStackCategory;
+      name: string;
+      stack: string;
+    }
+  >;
 };
 
 export type ResponseData = {
