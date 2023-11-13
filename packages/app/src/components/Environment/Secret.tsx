@@ -1,5 +1,10 @@
 import React, { ReactElement, useContext, useEffect, useState } from "react";
-import { FlexColCenter, FlexColStart, FlexRowStartCenter } from "../Flex";
+import {
+  FlexColCenter,
+  FlexColStart,
+  FlexRowStart,
+  FlexRowStartCenter,
+} from "../Flex";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { KeyRound, Server, Theater } from "lucide-react";
@@ -38,15 +43,6 @@ function ManageProjectSecret() {
     if (getSecretsQuery.data) {
       const data = getSecretsQuery.data.data as SecretDataTypes[];
       setSecrets(data);
-      if (selectedEnv) {
-        setSelectedEnv(selectedEnv);
-        setEnvName(selectedEnv?.name ?? "");
-        setSelectedSecretId(selectedEnv?.id ?? "");
-      } else {
-        setEnvName(data[0]?.name ?? "");
-        setSelectedEnv(data[0] ?? null);
-        setSelectedSecretId(data[0]?.id ?? "");
-      }
     }
   }, [getSecretsQuery.data, getSecretsQuery.error, getSecretsQuery.isLoading]);
 
@@ -57,7 +53,7 @@ function ManageProjectSecret() {
       setSelectedSecretId(env.id);
       setEnvName(env.name);
     } else {
-      setSelectedEnv(null);
+      setSelectedEnv({} as any);
       setSelectedSecretId("");
       setEnvName("");
     }
@@ -124,8 +120,8 @@ function ManageProjectSecret() {
       </FlexColStart>
 
       {/* Secret Tabs */}
-      <FlexRowStartCenter className="w-full h-full mt-9">
-        <FlexColStart className="w-auto min-w-[200px] h-full px-3 hideScrollBar2 gap-3 overflow-y-scroll">
+      <FlexRowStart className="w-full h-full mt-9">
+        <FlexColStart className="w-auto min-w-[200px] h-full px-3 hideScrollBar2 gap-3 overflow-y-scroll border-r-solid border-r-white-600 border-r-[.3px]">
           {secrets.map((d) => (
             <Button
               key={d.id}
@@ -133,7 +129,7 @@ function ManageProjectSecret() {
                 "w-full relative bg-transparent text-[13px] text-white-100 rounded-md group transition-all gap-2 border-solid border-[1px]",
                 selectedEnv?.id === d.id
                   ? "bg-dark-200 border-white-600 hover:bg-dark-200 "
-                  : "border-transparent text-gray-100 hover:bg-transparent"
+                  : "border-white-600 border-[.1px] text-gray-100 hover:bg-transparent"
               )}
               onClick={() => {
                 if (selectedEnv?.id !== d.id) {
@@ -184,10 +180,15 @@ function ManageProjectSecret() {
               showDeleteBtn
             />
           ) : (
-            <p className="text-white-100">Select env</p>
+            <>
+              <p className="text-white-200 font-jbR text-[13px]">Select env</p>
+              <p className="text-gray-100 leading-none font-jbR text-[12px]">
+                No env selected
+              </p>
+            </>
           )}
         </FlexColStart>
-      </FlexRowStartCenter>
+      </FlexRowStart>
 
       {/* Create Secret Modal */}
       <CreateSecretModal
