@@ -38,9 +38,15 @@ function ManageProjectSecret() {
     if (getSecretsQuery.data) {
       const data = getSecretsQuery.data.data as SecretDataTypes[];
       setSecrets(data);
-      setSelectedEnv(data[0] ?? null);
-      setEnvName(data[0]?.name ?? "");
-      setSelectedSecretId(data[0]?.id);
+      if (selectedEnv) {
+        setSelectedEnv(selectedEnv);
+        setEnvName(selectedEnv?.name ?? "");
+        setSelectedSecretId(selectedEnv?.id ?? "");
+      } else {
+        setEnvName(data[0]?.name ?? "");
+        setSelectedEnv(data[0] ?? null);
+        setSelectedSecretId(data[0]?.id ?? "");
+      }
     }
   }, [getSecretsQuery.data, getSecretsQuery.error, getSecretsQuery.isLoading]);
 
@@ -48,11 +54,18 @@ function ManageProjectSecret() {
     const env = secrets.find((d) => d.id === id);
     if (env) {
       setSelectedEnv(env);
+      setSelectedSecretId(env.id);
       setEnvName(env.name);
+    } else {
+      setSelectedEnv(null);
+      setSelectedSecretId("");
+      setEnvName("");
     }
   };
 
   const refetchSecrets = () => getSecretsQuery.refetch();
+
+  // console.log({ selectedSecretId, selectedEnv });
 
   return (
     <FlexColStart className="w-full h-full">
@@ -123,11 +136,10 @@ function ManageProjectSecret() {
                   : "border-transparent text-gray-100 hover:bg-transparent"
               )}
               onClick={() => {
-                if (selectedSecretId.length === 0) setSelectedSecretId(d.id);
-                else setSelectedSecretId("");
-
                 if (selectedEnv?.id !== d.id) {
                   updateSelectedEnv(d.id);
+                } else {
+                  updateSelectedEnv("");
                 }
               }}
             >
@@ -163,7 +175,7 @@ function ManageProjectSecret() {
             "w-full h-full overflow-y-auto px-2 py-2 pb-[8em] hideScrollBar2"
           )}
         >
-          {selectedEnv?.name === envName && (
+          {selectedEnv?.name === envName ? (
             <ManageSecrets
               selectedEnv={selectedEnv}
               hideSaveBtn={false}
@@ -171,6 +183,8 @@ function ManageProjectSecret() {
               refetchSecrets={refetchSecrets}
               showDeleteBtn
             />
+          ) : (
+            <p className="text-white-100">Select env</p>
           )}
         </FlexColStart>
       </FlexRowStartCenter>
