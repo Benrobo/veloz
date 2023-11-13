@@ -23,7 +23,7 @@ class ProjectService {
 
     if (!_successfull_validated) return;
 
-    const {} = payload;
+    const { env_id } = payload;
   }
 }
 
