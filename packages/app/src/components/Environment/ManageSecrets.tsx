@@ -272,7 +272,6 @@ function ManageSecrets({
         s.value !== selectedSecret?.value
       ) {
         const _newlyAddedSec = newlyAddedSecrets.find((sec) => sec.id === s.id);
-        console.log({ _newlyAddedSec });
         const _deletedSec = deletedSecrets.find((sec) => sec.id === s.id);
         if (_deletedSec) {
           const _sec = deletedSecrets.find((sec) => sec?.id !== s?.id);
