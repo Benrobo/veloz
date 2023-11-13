@@ -7,6 +7,7 @@ import nextRouteZodValidation from "../lib/nextRouteZodValidation";
 import { createProjectSchema } from "../lib/validationSchema";
 import { ProjectLabels } from "@veloz/shared/data/project";
 import _checkRefinedStackCombo from "../lib/checkStackCombo";
+import { _checkRefinedStackAvailability } from "@veloz/shared/utils";
 
 class ProjectService {
   async getProjects(req: NextApiRequest, res: NextApiResponse) {
@@ -60,6 +61,17 @@ class ProjectService {
     // Refined
     if (type === "Refined") {
       const isValid = _checkRefinedStackCombo(type, tech_stacks);
+      const _stackAvailable = _checkRefinedStackAvailability(tech_stacks);
+
+      if (!_stackAvailable) {
+        return sendResponse.error(
+          res,
+          RESPONSE_CODE.STACK_NOT_AVAILABLE,
+          `One of the Stack isn't available`,
+          404
+        );
+      }
+
       if (!isValid) {
         return sendResponse.error(
           res,
