@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { User } from "../models";
+import { Secret, User } from "../models";
 import sendResponse from "../lib/sendResponse";
 import { RESPONSE_CODE } from "@veloz/shared";
 import { createProjectPayload } from "@/types";
@@ -23,7 +23,33 @@ class ProjectService {
 
     if (!_successfull_validated) return;
 
-    const { env_id } = payload;
+    const {
+      env_id,
+      description,
+      fineTunedStackName,
+      label,
+      name,
+      tech_stacks,
+      type,
+    } = payload;
+
+    // check if env_id exists
+    if (env_id) {
+      const envExists = await Secret.findOne({
+        uId: userId,
+        _id: env_id,
+      });
+      if (!envExists) {
+        return sendResponse.error(
+          res,
+          RESPONSE_CODE.SECRET_NOT_FOUND,
+          `Environment variable not found`,
+          404
+        );
+      }
+    }
+    console.log({ env_id });
+    res.json({ msg: "ok" });
   }
 }
 
