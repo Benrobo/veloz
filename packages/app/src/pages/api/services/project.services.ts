@@ -5,6 +5,8 @@ import { RESPONSE_CODE } from "@veloz/shared";
 import { createProjectPayload } from "@/types";
 import nextRouteZodValidation from "../lib/nextRouteZodValidation";
 import { createProjectSchema } from "../lib/validationSchema";
+import { ProjectLabels } from "@veloz/shared/data/project";
+import _checkRefinedStackCombo from "../lib/checkStackCombo";
 
 class ProjectService {
   async getProjects(req: NextApiRequest, res: NextApiResponse) {
@@ -48,6 +50,29 @@ class ProjectService {
         );
       }
     }
+
+    const randLabel =
+      ProjectLabels[Math.floor(Math.random() * ProjectLabels.length)];
+    const validLabel = ProjectLabels.find((l) => l === label)
+      ? label
+      : randLabel;
+
+    // Refined
+    if (type === "Refined") {
+      const isValid = _checkRefinedStackCombo(type, tech_stacks);
+      if (!isValid) {
+        return sendResponse.error(
+          res,
+          RESPONSE_CODE.INVALID_STACK_COMBO,
+          `Invalid stack combo`,
+          400
+        );
+      }
+    }
+    if (type === "FineTuned") {
+    } else {
+    }
+
     console.log({ env_id });
     res.json({ msg: "ok" });
   }
