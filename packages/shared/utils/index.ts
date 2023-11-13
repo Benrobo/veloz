@@ -11,3 +11,19 @@ export function isStackAvailable(stack: string, category: TechStackCategory) {
 
   return true;
 }
+
+type StackProps = Record<
+  TechStackCategory,
+  { category: TechStackCategory; name: string; stack: string }
+>;
+
+export function _checkRefinedStackAvailability(stacks: StackProps) {
+  // check if stack is available
+  for (const [category, stack] of Object.entries(stacks)) {
+    if (!isStackAvailable(stack.stack, category as TechStackCategory)) {
+      console.log(`[${category} : ${stack.stack}] stack not available`);
+      return false;
+    }
+  }
+  return true;
+}
