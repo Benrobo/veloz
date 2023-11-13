@@ -145,6 +145,7 @@ export enum RESPONSE_CODE {
   SECRET_CREATED,
   SECRET_EXISTS,
   SECRET_DETAILS,
+  SECRET_NOT_FOUND,
 
   // Project Responses
   SUCCESS,
