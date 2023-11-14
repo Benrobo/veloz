@@ -2,11 +2,14 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Webhook } from "svix";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import env from "../config/env";
-import { Project, Secret, User } from "../models";
+import { Project, Secret, User } from "@veloz/shared/models";
+import { connectDB } from "@veloz/shared/utils/mongodb";
 import CatchError from "../lib/error";
 
 // handle clerk webhook
 async function handler(req: NextApiRequest, res: NextApiResponse) {
+  await connectDB(env.MONGO_DB_URL as string);
+
   const wh_body = req?.body;
   const payload = JSON.stringify(wh_body);
   const headers = req.headers;

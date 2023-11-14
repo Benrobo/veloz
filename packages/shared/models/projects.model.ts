@@ -1,5 +1,5 @@
 import { Schema, model, models } from "mongoose";
-import { connectDB } from "../lib/utils";
+
 import {
   FineTunedStacksName,
   ProjectType,
@@ -58,6 +58,3 @@ const projectSchema = new Schema<IProject>(
 const Project = models.Project || model<IProject>("Project", projectSchema);
 
 export default Project;
-
-// connect to db
-connectDB();

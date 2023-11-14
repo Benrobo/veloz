@@ -12,7 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "@veloz/shared": "*",
-    "axios": "^1.6.1"
+    "axios": "^1.6.1",
+    "mongoose": "^8.0.0"
   },
   "devDependencies": {
     "typescript": "^5.2.2"

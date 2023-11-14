@@ -1,5 +1,4 @@
 import { Schema, model, models } from "mongoose";
-import { connectDB } from "../lib/utils";
 import { TechStackPricingPlan } from "@veloz/shared/types";
 import { TechPricingPlans } from "@veloz/shared/data/project";
 
@@ -47,6 +46,3 @@ const userSchema = new Schema<IUser>(
 const User = models.User || model<IUser>("User", userSchema);
 
 export default User;
-
-// connect to db
-connectDB();

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { Project, Secret, User } from "../models";
+import { Project, Secret, User } from "@veloz/shared/models";
 import sendResponse from "../lib/sendResponse";
 import { RESPONSE_CODE } from "@veloz/shared";
 import { createProjectPayload } from "@/types";

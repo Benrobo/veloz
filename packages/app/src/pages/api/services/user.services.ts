@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { User } from "../models";
+import { User } from "@veloz/shared/models";
 import sendResponse from "../lib/sendResponse";
 import { RESPONSE_CODE } from "@veloz/shared";
 import {

@@ -1,5 +1,4 @@
 import { Schema, model, models } from "mongoose";
-import { connectDB } from "../lib/utils";
 import { TechPricingPlans } from "@veloz/shared/data/project";
 
 // 1. Create an interface representing a document in MongoDB.
@@ -34,6 +33,3 @@ const secretSchema = new Schema<ISecrets>(
 const Secret = models.Secret || model<ISecrets>("Secret", secretSchema);
 
 export default Secret;
-
-// connect to db
-connectDB();
