@@ -17,23 +17,21 @@ export function isUserEligibleForStack(
     (stack) => stack.category === category
   )?.stacks;
   const techStack = stacks?.find((stack) => stack.key === stackKey);
+  const planLevels = {
+    FREE_PKG: 1,
+    BASIC_PKG: 2,
+    STANDARD_PKG: 3,
+    ENTERPRISE_PKG: 4,
+  };
+
   if (techStack) {
     const { pricing_plan } = techStack;
-    if (userPricingPlan === "BASIC_PKG" && pricing_plan !== "BASIC_PKG") {
-      // User on BASIC_PKG plan can't access other plans
-      return false;
-    } else if (
-      userPricingPlan === "STANDARD_PKG" &&
-      pricing_plan === "ENTERPRISE_PKG"
-    ) {
-      // User on STANDARD_PKG plan can't access ENTERPRISE
-      return false;
-    } else {
-      // User is eligible for this stack
+    if (planLevels[userPricingPlan] >= planLevels[pricing_plan]) {
       return true;
+    } else {
+      return false;
     }
   }
-
   // Stack not found
   console.log("Stack not found");
   return false;
