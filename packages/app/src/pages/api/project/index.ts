@@ -7,6 +7,9 @@ function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     return projectServices.createProject(req, res);
   }
+  if (req.method === "GET") {
+    return projectServices.getAll(req, res);
+  }
 }
 
 export default CatchError(isAuthenticated(handler));
