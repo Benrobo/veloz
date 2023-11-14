@@ -132,3 +132,55 @@ input[type="number"]::-webkit-outer-spin-button {
     transform: rotate(360deg);
   }
 }
+
+.premium-button {
+  position: relative;
+  border: none;
+  background: #1c1a1c;
+  cursor: pointer;
+  transition: all 450ms ease-in-out;
+  background: linear-gradient(0deg, #a47cf3, #683fea);
+  transform: translateY(-2px);
+  overflow: hidden;
+}
+
+.premium-button:hover {
+  background: linear-gradient(0deg, #a47cf3, #683fea);
+  box-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, 0.4),
+    inset 0px -4px 0px 0px rgba(0, 0, 0, 0.2),
+    0px 0px 0px 1px rgba(255, 255, 255, 0.2), 0px 0px 180px 0px #9917ff;
+}
+
+.premium-button:hover::before {
+  animation: shine 1.5s ease-out infinite;
+}
+
+.premium-button::before {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 100%;
+  background-image: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0) 70%
+  );
+  top: 0;
+  left: -100px;
+  opacity: 0.6;
+}
+
+@keyframes shine {
+  0% {
+    left: -100px;
+  }
+
+  60% {
+    left: 100%;
+  }
+
+  to {
+    left: 100%;
+  }
+}
