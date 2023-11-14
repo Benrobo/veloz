@@ -27,7 +27,7 @@ import {
   ProjectType,
   TechStackCategory,
 } from "@veloz/shared/types";
-import { ProjectSideBarConfig, projectTempData } from "@/data/project";
+import { ProjectSideBarConfig } from "@/data/project";
 import AddTechStack from "@/components/Projects/TechStacks";
 import ManageProjectSecret from "@/components/Environment/Secret";
 import { ProjectContext } from "@/context/ProjectContext";
@@ -37,6 +37,7 @@ import { Spinner } from "@/components/Spinner";
 import { useMutation } from "@tanstack/react-query";
 import { createProject } from "@/lib/http/requests";
 import { ResponseData } from "@/types";
+import { useRouter } from "next/router";
 
 function CreateProject() {
   const {
@@ -51,8 +52,10 @@ function CreateProject() {
     setActiveSection,
     projectOptions,
     selectedFinetunedStack,
+    setSelectedFinetunedStack,
+    setSelectedSecretId,
   } = useContext(ProjectContext);
-
+  const router = useRouter();
   const createProjectMutation = useMutation({
     mutationFn: async (data: any) => createProject(data),
   });
@@ -71,6 +74,12 @@ function CreateProject() {
       const data = createProjectMutation.data as ResponseData;
       toast.success(data?.message as string);
       // redirect and refetch project
+      setProjDetails({ name: "", description: "" });
+      setProjType("" as any);
+      setSelectedStacks({} as any);
+      setSelectedFinetunedStack("" as any);
+      setSelectedSecretId("" as any);
+      router.push("/projects");
     }
   }, [
     createProjectMutation.data,
