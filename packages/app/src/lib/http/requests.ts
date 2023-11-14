@@ -29,3 +29,8 @@ export const createProject = async (payload: any) => {
   const req = await $axios.post(`/api/project`, payload);
   return req.data;
 };
+
+export const getProjects = async () => {
+  const req = await $axios.get(`/api/project`);
+  return req.data;
+};
