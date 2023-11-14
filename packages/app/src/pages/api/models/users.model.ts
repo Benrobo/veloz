@@ -13,7 +13,8 @@ interface IUser {
   proj_plan: TechStackPricingPlan;
   hasSubscribed: boolean;
   isTester: boolean;
-  github_token: string;
+  gh_ref_token: string;
+  gh_acc_token: string;
   default_nextjs_router: "APP" | "PAGE";
   createdAt?: Date;
 }
@@ -28,7 +29,8 @@ const userSchema = new Schema<IUser>(
     role: { type: String, enum: ["user", "admin"], default: "user" },
     hasSubscribed: { type: Boolean, default: false },
     isTester: { type: Boolean, default: false },
-    github_token: { type: String, default: null },
+    gh_ref_token: { type: String, default: null },
+    gh_acc_token: { type: String, default: null },
     default_nextjs_router: {
       type: String,
       enum: ["APP", "PAGE"],
