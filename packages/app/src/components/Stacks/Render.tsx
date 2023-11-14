@@ -151,7 +151,7 @@ export function RenderSelectableStacks({
 
             {isStackAvailable(stack.key, category) &&
               !isUserEligibleForStack(stack.key, category, userPlan) && (
-                <FlexColCenter className="w-full h-full absolute top-0 left-0 backdrop-blur-[1.5px] z-[100] ">
+                <FlexColCenter className="w-full h-full absolute top-0 left-0 backdrop-blur-[1.5px] z-[10] ">
                   <Image
                     src={
                       stack.pricing_plan === "STANDARD_PKG"
