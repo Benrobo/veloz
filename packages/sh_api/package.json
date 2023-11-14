@@ -1,11 +1,15 @@
 {
-  "name": "sh_api",
+  "name": "@veloz/sh_api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./dist/server.js",
   "license": "MIT",
   "scripts": {
     "dev": "nodemon",
-    "start": "node index.js"
+    "build": "rimraf ./dist && tsc && tsc-alias",
+    "start": "npm run build && node ./dist/server.js"
+  },
+  "_moduleAliases": {
+    "@/*": "dist/*"
   },
   "dependencies": {
     "@veloz/shared": "*",
@@ -13,6 +17,7 @@
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "module-alias": "^2.2.3",
     "mongoose": "^8.0.0",
     "zod": "^3.22.4"
   },
@@ -24,6 +29,10 @@
     "@types/node": "^20.9.0",
     "dotenv": "^16.3.1",
     "nodemon": "^3.0.1",
-    "ts-node": "^10.9.1"
+    "rimraf": "^5.0.5",
+    "ts-node": "^10.9.1",
+    "tsc-alias": "^1.8.8",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.2.2"
   }
 }

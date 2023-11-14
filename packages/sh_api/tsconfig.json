@@ -1,35 +1,35 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "target": "es2017",
-    "lib": ["es2017", "esnext.asynciterable"],
+    "target": "esnext",
+    "lib": ["es6", "es5", "dom"],
     "typeRoots": ["node_modules/@types"],
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
-    "module": "commonjs",
     "rootDir": "./src",
+    "outDir": "./dist",
+    "baseUrl": ".",
     "pretty": true,
     "sourceMap": true,
     "declaration": true,
-    "outDir": "dist",
+    "importHelpers": true,
     "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
     "noEmit": false,
     "esModuleInterop": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "importHelpers": true,
-    "baseUrl": "./src"
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@/*": ["./src/*", "src/*"]
+    }
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.html",
-    "src/**/*.json",
-    ".env",
-    "src/**/*"
-  ],
-  "exclude": ["node_modules", "src/http", "src/logs", "src/tests"],
+  "include": ["src"],
+  "exclude": ["node_modules"],
   "ts-node": {
     "require": ["tsconfig-paths/register"]
   }
