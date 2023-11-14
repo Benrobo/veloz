@@ -28,20 +28,6 @@ export enum ProjectOption {
 
 export type VelozProjectOption = keyof typeof ProjectOption;
 
-export interface VelozProjectType {
-  name: string;
-  id: any;
-  description?: string;
-  label: ProjectType;
-  stacks?: {
-    title: TechStackCategory;
-    stacks: string[];
-  }[];
-  download_link?: string;
-  status: "pending" | "done" | "failed";
-  env?: string | null;
-}
-
 export type TechStackPricingPlan =
   | "FREE_PKG"
   | "BASIC_PKG"
