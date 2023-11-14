@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { Secret, User } from "../models";
+import { Project, Secret, User } from "../models";
 import sendResponse from "../lib/sendResponse";
 import { RESPONSE_CODE } from "@veloz/shared";
 import { createProjectPayload } from "@/types";
@@ -11,11 +11,21 @@ import {
   _checkRefinedStackAvailability,
   _isUserEligibleForStack,
 } from "@veloz/shared/utils";
-import mongoose from "mongoose";
 
 class ProjectService {
-  async getProjects(req: NextApiRequest, res: NextApiResponse) {
+  async getAll(req: NextApiRequest, res: NextApiResponse) {
     const userId = (req as any)?.user?.id;
+    const projects = await Project.find({
+      uId: userId,
+    });
+
+    sendResponse.success(
+      res,
+      RESPONSE_CODE.PROJECTS,
+      projects.length > 0 ? `Projects` : `No projects found`,
+      200,
+      projects
+    );
   }
 
   async createProject(req: NextApiRequest, res: NextApiResponse) {
@@ -58,6 +68,21 @@ class ProjectService {
           404
         );
       }
+    }
+
+    // check if project name exists
+    const projectExists = await Project.findOne({
+      uId: userId,
+      name,
+    });
+
+    if (projectExists) {
+      return sendResponse.error(
+        res,
+        RESPONSE_CODE.SECRET_EXISTS,
+        `Project already exists`,
+        400
+      );
     }
 
     const randLabel =
@@ -106,13 +131,39 @@ class ProjectService {
           400
         );
       }
+
+      const validStacks = [];
+      for (const [category, stack] of Object.entries(tech_stacks)) {
+        validStacks.push({ category, name: stack.name, stacks: stack.stack });
+      }
+
+      // create the project with pending state
+      const project = await Project.create({
+        name,
+        description: description || "No description provided",
+        label: validLabel,
+        type,
+        fineTunedStackName: fineTunedStackName || null,
+        download_link: "",
+        tech_stacks: validStacks,
+        uId: userId,
+        env_id: env_id || null,
+      });
+
+      // get the project id, invoke the api for creating the project
+      const projId = project._id;
+
+      return sendResponse.success(
+        res,
+        RESPONSE_CODE.SUCCESS,
+        `Project queued for creation`,
+        200
+      );
     }
     if (type === "FineTuned") {
-    } else {
+      //! this would be a little different from refined
+      //! once placed, we simply use user gh-access-token, create a repo, then clone the main repo into the user created repo where the proj resides.
     }
-
-    console.log({ env_id });
-    res.json({ msg: "ok" });
   }
 }
 
