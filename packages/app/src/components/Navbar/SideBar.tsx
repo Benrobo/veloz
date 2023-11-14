@@ -147,17 +147,7 @@ function UpgradePlanWidget() {
           <Button
             variant={"primary"}
             className={cn(
-              "w-full font-ppSB text-[15px] gap-2 transition-opacity hover:opacity-[.85]",
-              userPlan === "FREE_PKG"
-                ? "bg-green-100"
-                : userPlan === "BASIC_PKG"
-                ? "bg-blue-100"
-                : userPlan === "STANDARD_PKG"
-                ? "bg-orange-100"
-                : userPlan === "ENTERPRISE_PKG"
-                ? "bg-pink-100"
-                : "",
-              `hover:${planColor(userPlan).bgColor}`
+              "w-full rounded-[30px] font-ppSB text-[15px] gap-2 premium-button"
             )}
           >
             <Zap size={15} /> Upgrade
