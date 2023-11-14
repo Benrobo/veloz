@@ -49,6 +49,8 @@ const getStackImg = (name: FineTunedStacksName) => {
 function FineTuned({}: FineTunedProps) {
   const { setSelectedFinetunedStack, selectedFinetunedStack } =
     useContext(ProjectContext);
+  const { togglePremiumModalVisibility, setPkgPlan, userPlan } =
+    useContext(DataContext);
   const [selectedCard, setSelectedCard] = useState<SelectedCardProps>(
     {} as any
   );
@@ -171,6 +173,11 @@ function FineTuned({}: FineTunedProps) {
                 variant={"appeal"}
                 className="font-jbSB font-extrabold text-[12px] mt-2 disabled:cursor-not-allowed "
                 onClick={() => {
+                  if (userPlan !== selectedCard.pricing_plan) {
+                    togglePremiumModalVisibility();
+                    setPkgPlan(selectedCard.pricing_plan);
+                    return;
+                  }
                   setSelectedFinetunedStack(
                     selectedCard?.name === selectedFinetunedStack
                       ? ""
