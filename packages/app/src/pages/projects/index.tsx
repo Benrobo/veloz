@@ -11,6 +11,7 @@ import { ProjectListType } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { getProjects } from "@/lib/http/requests";
 import { FlexColStart } from "@/components/Flex";
+import { Spinner } from "@/components/Spinner";
 
 function Projects() {
   const [projects, setProjects] = useState<ProjectListType[]>([]);
@@ -51,7 +52,17 @@ function Projects() {
       </div>
       <br />
       <div className="w-full px-3 py-3 flex flex-wrap items-center justify-start gap-3">
-        {projects.length > 0 ? (
+        {getProjectsQuery.isPending && <Spinner color="#fff" />}
+        {!getProjectsQuery.isPending && projects.length === 0 && (
+          <FlexColStart className="w-full h-full flex items-center justify-center">
+            <p className="text-white-200 text-[14px] font-jbSB ">No Projects</p>
+            <p className="text-white-200 font-jbR text-[12px] ">
+              Start by creating your first veloz project.
+            </p>
+          </FlexColStart>
+        )}
+        {!getProjectsQuery.isPending &&
+          projects.length > 0 &&
           projects.map((d) => (
             <ProjectCard
               key={d._id}
@@ -69,15 +80,7 @@ function Projects() {
                 setSlideBarOpen(true);
               }}
             />
-          ))
-        ) : (
-          <FlexColStart className="w-full h-full flex items-center justify-center">
-            <p className="text-white-200 text-[14px] font-jbSB ">No Projects</p>
-            <p className="text-white-200 font-jbR text-[12px] ">
-              Start by creating your first veloz project.
-            </p>
-          </FlexColStart>
-        )}
+          ))}
       </div>
 
       {/* */}
