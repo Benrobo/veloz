@@ -20,23 +20,19 @@ import {
 import Link from "next/link";
 import RenderStacks from "../Stacks/Render";
 import Accordion from "../Accordion";
-import { VelozProjectType } from "@veloz/shared/types";
 import ProjectStatus from "./Badge";
 import Editor from "../Editor";
 import { Button } from "../ui/button";
+import { ProjectListType } from "@/types";
 
 interface SidebarProps {
   onClose: () => void;
-  projects: VelozProjectType[];
+  selectedProject: ProjectListType;
   proj_id: any;
   isOpen: boolean;
 }
 
-function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
-  const selectedProj = projects.find(
-    (p) => p.id === proj_id
-  ) as VelozProjectType;
-
+function Slidebar({ onClose, selectedProject, isOpen, proj_id }: SidebarProps) {
   return (
     <Modal isOpen={isOpen} isBlurBg>
       <div className="w-fit min-w-[400px] md:min-w-[450px] h-screen overflow-y-scroll bg-dark-100 absolute top-[-2em] right-[-1em] border-l-solid border-l-[.5px] border-l-white-600  pb-[4em]">
@@ -51,16 +47,16 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
         </button>
         <FlexRowStartBtw className="py-5 px-5">
           <FlexColStart className="w-full px-3 py-2">
-            <ProjectStatus status={selectedProj?.status} />
+            <ProjectStatus status={selectedProject?.status} />
             <p className="text-white-100 relative font-ppSB text-[20px] ">
-              {selectedProj?.name ?? "Project Name"}
+              {selectedProject?.name ?? "Project Name"}
             </p>
             <p className="text-white-200 font-ppR text-[12px] ">
-              {selectedProj?.description ?? "created project description."}
+              {selectedProject?.description ?? "created project description."}
             </p>
           </FlexColStart>
           <FlexRowEnd className="w-fit mr-8 py-2 items-center">
-            <Link href={selectedProj?.download_link ?? "#"}>
+            <Link href={selectedProject?.download_link ?? "#"}>
               <DownloadCloud
                 size={35}
                 className="text-orange-100 p-[6px] transition-all rounded-sm hover:bg-orange-200"
@@ -70,8 +66,8 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
         </FlexRowStartBtw>
         <br />
         <FlexColStart className="w-full px-5 py-2 pb-9 border-b-solid border-b-[.5px] border-b-white-600">
-          {selectedProj?.stacks?.map((stack) =>
-            stack.title === "frontend" ? (
+          {selectedProject?.tech_stacks?.map((stack) =>
+            stack.category === "frontend" ? (
               <Accordion
                 title="Frontend"
                 leftIcon={
@@ -82,11 +78,11 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
                 <FlexColStart className="w-full px-3 py-2">
                   <RenderStacks
                     category="frontend"
-                    tech_stacks={stack.stacks}
+                    tech_stacks={[stack.technology]}
                   />
                 </FlexColStart>
               </Accordion>
-            ) : stack.title === "backend" ? (
+            ) : stack.category === "backend" ? (
               <Accordion
                 title="Backend"
                 leftIcon={
@@ -95,10 +91,13 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
                 name={"backend"}
               >
                 <FlexColStart className="w-full px-3 py-2">
-                  <RenderStacks category="backend" tech_stacks={stack.stacks} />
+                  <RenderStacks
+                    category="backend"
+                    tech_stacks={[stack.technology]}
+                  />
                 </FlexColStart>
               </Accordion>
-            ) : stack.title === "database" ? (
+            ) : stack.category === "database" ? (
               <Accordion
                 title="Database"
                 leftIcon={
@@ -109,11 +108,11 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
                 <FlexColStart className="w-full px-3 py-2">
                   <RenderStacks
                     category="database"
-                    tech_stacks={stack.stacks}
+                    tech_stacks={[stack.technology]}
                   />
                 </FlexColStart>
               </Accordion>
-            ) : stack.title === "payment" ? (
+            ) : stack.category === "payment" ? (
               <Accordion
                 title="Payment"
                 leftIcon={
@@ -122,10 +121,13 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
                 name={"payment"}
               >
                 <FlexColStart className="w-full px-3 py-2">
-                  <RenderStacks category="payment" tech_stacks={stack.stacks} />
+                  <RenderStacks
+                    category="payment"
+                    tech_stacks={[stack.technology]}
+                  />
                 </FlexColStart>
               </Accordion>
-            ) : stack.title === "mailing" ? (
+            ) : stack.category === "mailing" ? (
               <Accordion
                 title="Mailing"
                 leftIcon={
@@ -134,36 +136,40 @@ function Slidebar({ onClose, projects, isOpen, proj_id }: SidebarProps) {
                 name={"mailing"}
               >
                 <FlexColStart className="w-full px-3 py-2">
-                  <RenderStacks category="mailing" tech_stacks={stack.stacks} />
+                  <RenderStacks
+                    category="mailing"
+                    tech_stacks={[stack.technology]}
+                  />
                 </FlexColStart>
               </Accordion>
             ) : null
           )}
         </FlexColStart>
         <br />
-        <FlexColStart className="w-full px-5 py-2 pb-9 border-b-solid border-b-[.5px] border-b-white-600">
-          <p className="text-white-100 relative font-ppSB text-[15px] ">
-            Environmental Variables
-          </p>
-          <p className="text-white-300 font-ppR text-[12px] ">
-            Project managed environmental variable
-          </p>
-          <br />
-          <Accordion
-            leftIcon={
-              <KeyRound className="text-white-300 group-hover:text-white-100" />
-            }
-            title="Secrets"
-            name="environmental-variable"
-          >
-            <Editor
-              lineNumbers="off"
-              readonly
-              defaultValue={selectedProj?.env ?? `//Nothing here`}
-              wordWrap="on"
-            />
-          </Accordion>
-        </FlexColStart>
+        {selectedProject?.secrets.length > 0 && (
+          <FlexColStart className="w-full px-5 py-2 pb-9 border-b-solid border-b-[.5px] border-b-white-600">
+            <p className="text-white-100 relative font-ppSB text-[15px] ">
+              Environmental Variables
+            </p>
+            <p className="text-white-300 font-ppR text-[12px] ">
+              Project managed environmental variable
+            </p>
+            <Accordion
+              leftIcon={
+                <KeyRound className="text-white-300 group-hover:text-white-100" />
+              }
+              title="Secrets"
+              name="environmental-variable"
+            >
+              <Editor
+                lineNumbers="off"
+                readonly
+                defaultValue={selectedProject?.secrets ?? `//Nothing here`}
+                wordWrap="on"
+              />
+            </Accordion>
+          </FlexColStart>
+        )}
         <br />
         <FlexColStart className="w-full px-5 py-2 pb-9 ">
           <p className="text-white-105 relative font-ppSB text-[15px] ">
