@@ -10,12 +10,30 @@ import {
   TechStackCategory,
   TechStackPricingPlan,
   VelozProjectOption,
-  VelozProjectType,
 } from "@veloz/shared/types";
 
 export type ProjectSideBarConfigType = {
   title: string;
   key: string;
+};
+
+export type ProjectListType = {
+  _id: string;
+  name: string;
+  label: ProjectType;
+  type: VelozProjectOption;
+  download_link: string;
+  description: string;
+  status: "pending" | "done" | "failed";
+  fineTunedStackName: FineTunedStacksName | string;
+  tech_stacks: {
+    category: TechStackCategory;
+    name: string;
+    technology: string;
+  }[];
+  env_id: string | null;
+  secrets: string;
+  createdAt?: Date;
 };
 
 export type UserInfo = {
