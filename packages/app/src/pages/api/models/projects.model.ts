@@ -6,7 +6,6 @@ import {
   TechStackCategory,
   TechStackPricingPlan,
   VelozProjectOption,
-  VelozProjectType,
 } from "@veloz/shared/types";
 import { TechPricingPlans } from "@veloz/shared/data/project";
 
@@ -23,7 +22,8 @@ interface IProject {
   tech_stacks: {
     category: TechStackCategory;
     name: string;
-    stack: string;
+    key: string;
+    technology: string;
   }[];
   env_id: string | null;
   createdAt?: Date;
@@ -31,8 +31,9 @@ interface IProject {
 
 const stackSchema = new Schema({
   name: { type: String, required: true },
+  key: { type: String, required: true },
   category: { type: String, required: true },
-  stacks: { type: Array, required: true },
+  technology: { type: String, required: true },
 });
 
 const projectSchema = new Schema<IProject>(
