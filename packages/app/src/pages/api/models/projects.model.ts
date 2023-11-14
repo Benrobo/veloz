@@ -1,6 +1,7 @@
 import { Schema, model, models } from "mongoose";
 import { connectDB } from "../lib/utils";
 import {
+  FineTunedStacksName,
   ProjectType,
   TechStackCategory,
   TechStackPricingPlan,
@@ -18,9 +19,10 @@ interface IProject {
   download_link: string;
   description: string;
   status: "done" | "failed" | "pending";
+  fineTunedStackName: FineTunedStacksName | string;
   tech_stacks: {
     category: TechStackCategory;
-    // name: string;
+    name: string;
     stack: string;
   }[];
   env_id: string | null;
@@ -40,11 +42,12 @@ const projectSchema = new Schema<IProject>(
     createdAt: { type: Date, default: Date.now },
     label: { type: String, required: true },
     type: { type: String, required: true, default: "Refined" },
-    download_link: { type: String, required: true },
-    description: { type: String, required: true },
+    download_link: { type: String, required: false, default: null },
+    description: { type: String, required: false, default: "" },
     status: { type: String, required: true, default: "pending" },
     tech_stacks: [stackSchema],
-    env_id: { type: String, required: true, default: null },
+    fineTunedStackName: { type: String, required: false, default: null },
+    env_id: { type: String, required: false, default: null },
   },
   {
     versionKey: false,
