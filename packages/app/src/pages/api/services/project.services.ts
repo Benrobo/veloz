@@ -11,6 +11,7 @@ import {
   _checkRefinedStackAvailability,
   _isUserEligibleForStack,
 } from "@veloz/shared/utils";
+import mongoose from "mongoose";
 
 class ProjectService {
   async getAll(req: NextApiRequest, res: NextApiResponse) {
@@ -19,12 +20,33 @@ class ProjectService {
       uId: userId,
     });
 
+    const _projects = [];
+    let secrets = "";
+
+    for (const proj of projects) {
+      const _envId = proj.env_id;
+      if (_envId) {
+        const env = await Secret.findOne({
+          uId: userId,
+          _id: new mongoose.Types.ObjectId(proj.env_id),
+        });
+        for (const secret of env.secrets) {
+          secrets += `${secret.name}='${secret.value}'\n`;
+        }
+      }
+
+      _projects.push({
+        ...proj._doc,
+        secrets,
+      });
+    }
+
     sendResponse.success(
       res,
       RESPONSE_CODE.PROJECTS,
       projects.length > 0 ? `Projects` : `No projects found`,
       200,
-      projects
+      _projects
     );
   }
 
@@ -87,9 +109,7 @@ class ProjectService {
 
     const randLabel =
       ProjectLabels[Math.floor(Math.random() * ProjectLabels.length)];
-    const validLabel = ProjectLabels.find((l) => l === label)
-      ? label
-      : randLabel;
+    const validLabel = ProjectLabels.includes(label) ? label : randLabel;
 
     // Refined
     if (type === "Refined") {
@@ -134,12 +154,17 @@ class ProjectService {
 
       const validStacks = [];
       for (const [category, stack] of Object.entries(tech_stacks)) {
-        validStacks.push({ category, name: stack.name, stacks: stack.stack });
+        validStacks.push({
+          category,
+          key: stack.stack,
+          name: stack.name,
+          technology: stack.stack,
+        });
       }
 
       // create the project with pending state
       const project = await Project.create({
-        name,
+        name: `${name.slice(0, 1).toUpperCase()}${name.slice(1)}`,
         description: description || "No description provided",
         label: validLabel,
         type,
