@@ -34,3 +34,8 @@ export const getProjects = async () => {
   const req = await $axios.get(`/api/project`);
   return req.data;
 };
+
+export const getUserSettings = async () => {
+  const req = await $axios.get(`/api/user/settings`);
+  return req.data;
+};
