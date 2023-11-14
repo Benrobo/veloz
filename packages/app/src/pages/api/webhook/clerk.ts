@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Webhook } from "svix";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import env from "../config/env";
-import { User } from "../models";
+import { Project, Secret, User } from "../models";
 import CatchError from "../lib/error";
 
 // handle clerk webhook
@@ -56,6 +56,22 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
     res.json({ msg: `❌ User ${email} already exists. ` });
     console.log(`❌ User ${email} already exists. `);
+  }
+  if (eventType === "user.deleted") {
+    const { id } = data as any;
+
+    try {
+      // delere related user data from database
+      await User.deleteOne({ uId: id });
+      // delete all projects
+      await Project.deleteMany({ uId: id });
+      // delete all secrets
+      await Secret.deleteMany({ uId: id });
+
+      console.log(`✅ User ${id} data deleted`);
+    } catch (e: any) {
+      console.log(`❌ Error deleting user ${id} data`);
+    }
   }
 }
 
