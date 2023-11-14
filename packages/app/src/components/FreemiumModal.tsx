@@ -48,10 +48,7 @@ function FreemiumModal({ price_plan, isOpen, onClose }: FreemiumModalProps) {
             <Button
               variant={"primary"}
               className={cn(
-                "w-full font-ppSB text-[15px] gap-2 transition-opacity",
-                `${planColor(price_plan).bgColor} hover:${
-                  planColor(price_plan).bgColor
-                } hover:opacity-[.75]`
+                "w-full rounded-[30px] font-ppSB text-[15px] gap-2 premium-button"
               )}
             >
               <Zap size={13} /> Life Time Access
