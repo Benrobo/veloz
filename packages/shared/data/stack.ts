@@ -83,7 +83,7 @@ export const REFINED_STACKS = [
       {
         name: "Vanilla JS",
         key: "vanillajs",
-        pricing_plan: "BASIC_PKG",
+        pricing_plan: "FREE_PKG",
       },
       {
         name: "Next.js",
@@ -93,7 +93,7 @@ export const REFINED_STACKS = [
       {
         name: "React",
         key: "react",
-        pricing_plan: "BASIC_PKG",
+        pricing_plan: "FREE_PKG",
       },
     ],
   },
@@ -105,12 +105,12 @@ export const REFINED_STACKS = [
       {
         name: "Monolith",
         key: "monolith",
-        pricing_plan: "BASIC_PKG",
+        pricing_plan: "FREE_PKG",
       },
       {
         name: "Monorepo",
         key: "monorepo",
-        pricing_plan: "BASIC_PKG",
+        pricing_plan: "FREE_PKG",
       },
     ],
   },
@@ -122,12 +122,12 @@ export const REFINED_STACKS = [
       {
         name: "Tailwind CSS",
         key: "tailwindcss",
-        pricing_plan: "BASIC_PKG",
+        pricing_plan: "FREE_PKG",
       },
       {
         name: "Sass",
         key: "sass",
-        pricing_plan: "BASIC_PKG",
+        pricing_plan: "FREE_PKG",
       },
     ],
   },
@@ -171,7 +171,7 @@ export const REFINED_STACKS = [
       {
         name: "MongoDB",
         key: "mongodb",
-        pricing_plan: "BASIC_PKG",
+        pricing_plan: "FREE_PKG",
       },
       {
         name: "MySQL",
@@ -215,7 +215,7 @@ export const REFINED_STACKS = [
       {
         name: "Elasticmail",
         key: "elasticmail",
-        pricing_plan: "BASIC_PKG",
+        pricing_plan: "FREE_PKG",
       },
       {
         name: "Postmark",
@@ -237,7 +237,7 @@ export const REFINED_STACKS = [
       {
         name: "JSON Web Token",
         key: "jsonwebtoken",
-        pricing_plan: "BASIC_PKG",
+        pricing_plan: "FREE_PKG",
       },
       {
         name: "Clerk",
