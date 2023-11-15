@@ -14,6 +14,8 @@ export default class BaseSetup {
       console.log(`[Monorepo Setup]: ${_dirCreated.msg}`);
       return false;
     }
+
+    console.log(_dirCreated.path);
     // init yarn workspaces
     // setup root package.json
     // setup different app structure i.e [Just the folder]
