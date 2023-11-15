@@ -170,8 +170,9 @@ export interface IGenerateProjectDetails {
   tech_stacks: {
     category: TechStackCategory;
     name: string;
-    stack: string;
+    technology: string;
     _id: object;
+    key: string;
   }[];
 }
 
