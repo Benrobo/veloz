@@ -9,6 +9,7 @@ type FeProps = {
   payment: string | null;
   cb_arch: "monorepo" | "monolith" | string | null;
   name: string;
+  _frontendPath: string | null;
 };
 
 export default class _FrontendSetup extends BaseSetup {
@@ -40,6 +41,8 @@ export default class _FrontendSetup extends BaseSetup {
 
   async _reactSetup() {
     const { cb_arch, design_system, auth } = this.props;
+
+    console.log(this.props._frontendPath);
 
     // let _doneSettingUpCbArch;
     // if (cb_arch === "monorepo") {
