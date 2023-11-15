@@ -13,23 +13,22 @@ export default async function ProjectGenerate(
   name: string
 ) {
   const formatedName = name.toLowerCase().replace(/\s/gi, "-");
-  type Arch = "monolith" | "monorepo";
-  const codebaseArchitecture =
-    (tech_stacks.find((s) => s.key === "monorepo")?.key as Arch) ??
-    ("monolith" as Arch);
+  const codebaseArchitecture = findStack(tech_stacks, "codebase_acrhitecture");
   const _frontend = findStack(tech_stacks, "frontend");
   const _backend = findStack(tech_stacks, "backend");
 
-  for (const _stacks of tech_stacks) {
-    // monorepo setup
-    if (codebaseArchitecture === "monorepo") {
-      console.log(formatedName, _stacks);
-    }
-    if (codebaseArchitecture === "monolith") {
-    }
+  console.log(codebaseArchitecture);
+  if (codebaseArchitecture === "monorepo") {
+    console.log(formatedName, _frontend, _backend);
+  }
+  if (codebaseArchitecture === "monolith") {
   }
 }
 
-function findStack(stacks: Props, key: TechStackCategory) {
-  return stacks.find((s) => s.key === key) ?? null;
+function findStack(stacks: Props, category: TechStackCategory, match?: string) {
+  const foundStack = stacks.find((s) => s.category === category);
+  if (match) {
+    return foundStack?.key === match ? foundStack?.key : null;
+  }
+  return foundStack?.key ?? null;
 }
