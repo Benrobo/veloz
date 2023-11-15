@@ -41,12 +41,12 @@ export default class _FrontendSetup extends BaseSetup {
   async _reactSetup() {
     const { cb_arch, design_system, auth } = this.props;
 
-    let _doneSettingUpCbArch;
-    if (cb_arch === "monorepo") {
-      _doneSettingUpCbArch = this.setupMonorepo();
-    } else {
-      _doneSettingUpCbArch = this.setupMonolith();
-    }
+    // let _doneSettingUpCbArch;
+    // if (cb_arch === "monorepo") {
+    //   _doneSettingUpCbArch = this.setupMonorepo();
+    // } else {
+    //   _doneSettingUpCbArch = this.setupMonolith();
+    // }
   }
 
   async _vanillajsSetup() {}
