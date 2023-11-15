@@ -25,4 +25,6 @@ export default class BaseSetup {
   }
 
   public async setupMonolith() {}
+
+  private initYarnworkspace() {}
 }
