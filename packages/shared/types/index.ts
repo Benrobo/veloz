@@ -156,10 +156,23 @@ export type createProjectPayload = {
   }[];
 };
 
-export interface IGenerateProjectDetails extends createProjectPayload {
+export interface IGenerateProjectDetails {
   _id: string;
+  uId: string;
+  name: string;
+  description: string;
+  label: ProjectType;
+  type: VelozProjectOption;
+  fineTunedStackName: string | null;
+  env_id: string;
   download_link: string;
   status: "pending" | "failed" | "done";
+  tech_stacks: {
+    category: TechStackCategory;
+    name: string;
+    stack: string;
+    _id: object;
+  }[];
 }
 
 export type StackAvailabilityType = {
