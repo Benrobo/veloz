@@ -1,5 +1,5 @@
 class GithubRepoActions {
-  async downloadRepo() {}
+  async downloadRepo(proj_name: string) {}
 }
 
 export default new GithubRepoActions();
