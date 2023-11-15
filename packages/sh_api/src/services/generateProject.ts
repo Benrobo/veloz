@@ -5,6 +5,7 @@ import { generateProjectSchema } from "@/utils/zodValidation";
 import HttpException from "@/utils/exception";
 import { IGenerateProjectDetails, RESPONSE_CODE } from "@veloz/shared";
 import mongoose from "mongoose";
+import ProjectGenerate from "@/utils/projectHelper/generate";
 
 type GeneratePayloadType = {
   proj_id: string;
@@ -31,9 +32,14 @@ class GenerateProject {
       );
     }
 
-    const { type } = project satisfies IGenerateProjectDetails;
+    const { type, tech_stacks, fineTunedStackName } =
+      project as IGenerateProjectDetails;
 
-    console.log(type);
+    if (type === "Refined") {
+      await ProjectGenerate(tech_stacks);
+    }
+    if (type === "FineTuned") {
+    }
   }
 }
 
