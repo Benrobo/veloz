@@ -1,6 +1,10 @@
-import fs from "fs";
+import fs from "fs-extra";
 
-export function createDir(path: string, name: string, forceDelete?: boolean) {
+export async function createDir(
+  path: string,
+  name: string,
+  forceDelete?: boolean
+) {
   const dir = `${path}/${name}`;
   let resp: { success: boolean; msg: string | null; path: string } = {
     success: false,
@@ -22,20 +26,24 @@ export function createDir(path: string, name: string, forceDelete?: boolean) {
       resp["msg"] = null;
     } else {
       if (forceDelete && fs.existsSync(dir)) {
-        removeDirRf(dir, (err, success) => {
-          if (err) {
-            resp["msg"] = err;
-            resp["success"] = false;
-          }
-          if (success) {
-            fs.mkdirSync(dir);
-            resp["msg"] = null;
-            resp["success"] = true;
-          }
+        await new Promise((res, rej) => {
+          emptyDirectory(dir, (err, success) => {
+            if (err !== null) {
+              resp["msg"] = err as string;
+              resp["success"] = false;
+              res(false);
+            }
+            if (success) {
+              fs.mkdirSync(dir);
+              resp["msg"] = null;
+              resp["success"] = true;
+              res(true);
+            }
+          });
         });
+        return resp;
       }
     }
-
     return resp;
   } catch (e: any) {
     msg = `Something went wrong creating ${name} directory: ${e?.message}.`;
@@ -45,7 +53,7 @@ export function createDir(path: string, name: string, forceDelete?: boolean) {
   }
 }
 
-export function createFile(
+export async function createFile(
   path: string,
   name: string,
   content?: string,
@@ -66,13 +74,15 @@ export function createFile(
       return resp;
     }
 
-    if (!fs.existsSync(dir) && !forceDelete) {
+    if (!fs.existsSync(dir)) {
       fs.writeFileSync(dir, content ?? "");
     } else {
       if (forceDelete && fs.existsSync(dir)) {
-        removeDirRf(dir, () => {
-          fs.writeFileSync(dir, content ?? "");
-        });
+        fs.removeSync(dir);
+        fs.writeFileSync(dir, content ?? "");
+        resp["success"] = true;
+        resp["msg"] = null;
+        return resp;
       }
     }
 
@@ -86,7 +96,7 @@ export function createFile(
   }
 }
 
-export function removeDirRf(
+export function emptyDirectory(
   dir: string,
   cb: (error?: string | null, success?: boolean) => void
 ) {
@@ -98,7 +108,14 @@ export function removeDirRf(
       return;
     }
 
-    console.log(fs.readdirSync(dir));
-    cb("something went wrong", false);
-  } catch (e: any) {}
+    fs.remove(dir, (err) => {
+      if (err) {
+        cb(`[Empting Directory]: ${err?.message}`, false);
+        return;
+      }
+      cb(null, true);
+    });
+  } catch (e: any) {
+    cb(`[Failed to delete directory recursively]: ${e?.message}`, false);
+  }
 }

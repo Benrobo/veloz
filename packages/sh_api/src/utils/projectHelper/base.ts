@@ -16,7 +16,7 @@ export default class BaseSetup {
   constructor() {
     this.githubActions = GithubRepoActions;
   }
-  public setupMonorepo(
+  public async setupMonorepo(
     proj_name: string,
     _frontend: string | null,
     _backend: string | null
@@ -27,21 +27,21 @@ export default class BaseSetup {
       success: false,
     };
     // create the directory based on the name
-    const _dirCreated = createDir(TEMP_DIR, proj_name, true);
-    if (!_dirCreated.success) {
+    const _dirCreated = await createDir(TEMP_DIR, proj_name, true);
+    if (_dirCreated.success === false) {
       console.log(`[Monorepo Setup]: ${_dirCreated.msg}`);
       return monorepoResp;
     }
 
     // create base packages folder
-    const _pkgsDir = createDir(_dirCreated.path, "packages");
+    const _pkgsDir = await createDir(_dirCreated.path, "packages");
     if (!_pkgsDir.success) {
-      console.log(`[Monorepo Setup]: ${_dirCreated.msg}`);
+      console.log(`[Root PkgJson Setup]: ${_dirCreated.msg}`);
       return monorepoResp;
     }
     // create packages readme file
-    createFile(_dirCreated.path, "README.md");
-    createFile(_pkgsDir.path, "README.md");
+    await createFile(_dirCreated.path, "README.md");
+    await createFile(_pkgsDir.path, "README.md");
 
     // create root pkg.json
     const _rootPkgJsonContent = RootMonorepoPkgJson.replace(
@@ -49,12 +49,17 @@ export default class BaseSetup {
       proj_name
     ).replace("{{pkg_description}}", "Project scaffolded with veloz.");
 
-    createFile(_dirCreated.path, "package.json", _rootPkgJsonContent, true);
+    await createFile(
+      _dirCreated.path,
+      "package.json",
+      _rootPkgJsonContent,
+      true
+    );
 
     // create packages (app, server | api)
     if (_frontend) {
       // create FE directory
-      const _feCreated = createDir(_pkgsDir.path, "app");
+      const _feCreated = await createDir(_pkgsDir.path, "app");
       if (!_feCreated.success) {
         console.log(
           `[Monorepo Setup]: [Failed initializing frontend folder] ${_dirCreated.msg}`
@@ -68,8 +73,8 @@ export default class BaseSetup {
       // check if backend / frontend isn't nextjs
       // if it nextjs, then we don't need double folders
       if (_backend !== "nextjs-api" && _frontend !== "nextjs") {
-        const _feCreated = createDir(_pkgsDir.path, "app");
-        const _beCreated = createDir(_pkgsDir.path, "server");
+        const _feCreated = await createDir(_pkgsDir.path, "app");
+        const _beCreated = await createDir(_pkgsDir.path, "server");
 
         if (!_feCreated.success) {
           console.log(

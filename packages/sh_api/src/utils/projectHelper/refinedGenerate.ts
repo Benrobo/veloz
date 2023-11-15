@@ -77,7 +77,7 @@ export default class RefinedProjectGenerate extends BaseSetup {
       msg: "",
       success: false,
     };
-    const _monorepoSetup = this.setupMonorepo(
+    const _monorepoSetup = await this.setupMonorepo(
       this.formatedName,
       this._frontend,
       this._backend
@@ -113,6 +113,7 @@ export default class RefinedProjectGenerate extends BaseSetup {
         payment: this._payment,
         _frontendPath: _monorepoSetup.frontendPath,
       });
+      refinedResponse["success"] = true;
       return refinedResponse;
     }
   }
