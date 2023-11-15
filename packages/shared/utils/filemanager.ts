@@ -2,9 +2,10 @@ import fs from "fs";
 
 export function createDir(path: string, name: string) {
   const dir = `${path}/${name}`;
-  let resp: { success: boolean; msg: string | null } = {
+  let resp: { success: boolean; msg: string | null; path: string } = {
     success: false,
     msg: null,
+    path: dir,
   };
   let msg = "";
   try {
