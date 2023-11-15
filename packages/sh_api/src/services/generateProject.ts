@@ -12,7 +12,11 @@ type GeneratePayloadType = {
   user_id: string;
 };
 
-class GenerateProject {
+class GenerateProject extends RefinedProjectGenerate {
+  constructor() {
+    super();
+  }
+
   async generate(req: Request, res: Response, next: NextFunction) {
     await apiPayloadZodValidation(generateProjectSchema, req);
 
@@ -22,6 +26,9 @@ class GenerateProject {
     const project = await Project.findOne({
       uId: user_id,
       _id: new mongoose.Types.ObjectId(proj_id),
+    });
+    const user = await User.findOne({
+      uId: user_id,
     });
 
     if (!project) {
@@ -34,9 +41,26 @@ class GenerateProject {
 
     const { type, tech_stacks, name, fineTunedStackName } =
       project as IGenerateProjectDetails;
+    const userData = {
+      id: project.uId,
+      username: user?.name,
+      proj_id,
+    };
 
     if (type === "Refined") {
-      new RefinedProjectGenerate(tech_stacks, name);
+      console.log({ he: this.construct });
+      // const _generatedResp = await this.__constructor(
+      //   tech_stacks,
+      //   name,
+      //   userData
+      // );
+      // if (!_generatedResp?.success) {
+      //   throw new HttpException(
+      //     "msg",
+      //     RESPONSE_CODE.REFINED_PROJECT_GENERATION_FAILED,
+      //     400
+      //   );
+      // }
     }
     if (type === "FineTuned") {
     }
@@ -44,3 +68,4 @@ class GenerateProject {
 }
 
 export default new GenerateProject();
+// export default GenerateProject;
