@@ -139,6 +139,7 @@ export enum RESPONSE_CODE {
 
   // Project Responses
   SUCCESS,
+  PROJECT_NOT_FOUND,
 }
 
 export type createProjectPayload = {
@@ -146,7 +147,7 @@ export type createProjectPayload = {
   description: string;
   label: ProjectType;
   type: VelozProjectOption;
-  fineTunedStackName: string;
+  fineTunedStackName: string | null;
   env_id: string;
   tech_stacks: {
     category: TechStackCategory;
@@ -154,6 +155,12 @@ export type createProjectPayload = {
     stack: string;
   }[];
 };
+
+export interface IGenerateProjectDetails extends createProjectPayload {
+  _id: string;
+  download_link: string;
+  status: "pending" | "failed" | "done";
+}
 
 export type StackAvailabilityType = {
   category: TechStackCategory;

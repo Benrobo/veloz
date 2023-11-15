@@ -1,18 +1,17 @@
 import "module-alias/register";
-import express from "express";
+import express, { NextFunction } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import router from "./routes";
+import { HandleGlobalErrors } from "./utils/error";
 
 const app = express();
+app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cors());
-app.use(bodyParser.json());
 
 app.use("/api", router);
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.use(HandleGlobalErrors);
 
 const PORT = process.env.PORT || 8080;
 

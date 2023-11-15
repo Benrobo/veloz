@@ -24,7 +24,10 @@
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "@/*": ["./src/*", "src/*"]
+      "@/*": ["./src/*", "src/*"],
+      "@utils/*": ["./src/utils/*", "src/utils/*"],
+      "@models/*": ["./src/models/*", "src/models/*"],
+      "@services/*": ["./src/services/*", "src/services/*"]
     }
   },
   "include": ["src"],
