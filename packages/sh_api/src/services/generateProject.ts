@@ -32,11 +32,11 @@ class GenerateProject {
       );
     }
 
-    const { type, tech_stacks, fineTunedStackName } =
+    const { type, tech_stacks, name, fineTunedStackName } =
       project as IGenerateProjectDetails;
 
     if (type === "Refined") {
-      await ProjectGenerate(tech_stacks);
+      await ProjectGenerate(tech_stacks, name);
     }
     if (type === "FineTuned") {
     }
