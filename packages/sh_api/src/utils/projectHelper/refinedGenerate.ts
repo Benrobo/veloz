@@ -38,17 +38,17 @@ export default class RefinedProjectGenerate extends BaseSetup {
   public _mailing: any;
   public _authentication: any;
   public _payment: any;
-  // @ts-expect-error
-  private userData: ProjUserData;
-  private tech_stacks: Props | any;
-  private name: string = "";
+  public userData: ProjUserData;
+  public tech_stacks: Props | any;
+  public name: string = "";
 
   // tech_stacks: Props, name: string, userData: ProjUserData
   constructor() {
     super();
+    this.userData = {} as any;
   }
 
-  public async construct(
+  public async _initializeRefine(
     tech_stacks: Props,
     name: string,
     userData: ProjUserData

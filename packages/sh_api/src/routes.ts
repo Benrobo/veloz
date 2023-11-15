@@ -13,7 +13,10 @@ const router = express.Router();
 
 connectDB(sh_env.MONGO_DB_URL as string);
 
-router.post("/project/generate", CatchError(generateProject.generate));
+router.post(
+  "/project/generate",
+  CatchError(generateProject.generate.bind(generateProject))
+);
 // router.post("/project/generate", CatchError(new GenerateProject().generate));
 
 export default router;

@@ -48,19 +48,18 @@ class GenerateProject extends RefinedProjectGenerate {
     };
 
     if (type === "Refined") {
-      console.log({ he: this.construct });
-      // const _generatedResp = await this.__constructor(
-      //   tech_stacks,
-      //   name,
-      //   userData
-      // );
-      // if (!_generatedResp?.success) {
-      //   throw new HttpException(
-      //     "msg",
-      //     RESPONSE_CODE.REFINED_PROJECT_GENERATION_FAILED,
-      //     400
-      //   );
-      // }
+      const _generatedResp = await this._initializeRefine(
+        tech_stacks,
+        name,
+        userData
+      );
+      if (!_generatedResp?.success) {
+        throw new HttpException(
+          _generatedResp?.msg as string,
+          RESPONSE_CODE.REFINED_PROJECT_GENERATION_FAILED,
+          400
+        );
+      }
     }
     if (type === "FineTuned") {
     }
