@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Project, Secret, User } from "../models";
 import sendResponse from "../lib/sendResponse";
-import { RESPONSE_CODE } from "@veloz/shared";
+import { RESPONSE_CODE } from "@veloz/shared/types";
 import { createProjectPayload } from "@/types";
 import nextRouteZodValidation from "../lib/nextRouteZodValidation";
 import { createProjectSchema } from "../lib/validationSchema";
-import { ProjectLabels } from "@veloz/shared/data/project";
+import { ProjectLabels } from "@data/project";
 import _checkRefinedStackCombo from "../lib/checkStackCombo";
 import {
   _checkRefinedStackAvailability,

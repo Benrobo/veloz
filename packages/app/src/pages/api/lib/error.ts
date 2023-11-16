@@ -1,4 +1,4 @@
-import { RESPONSE_CODE } from "@veloz/shared";
+import { RESPONSE_CODE } from "@veloz/shared/types";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default function CatchError(fn: Function) {

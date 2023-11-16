@@ -5,7 +5,8 @@
   "main": "",
   "scripts": {
     "test": "",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",

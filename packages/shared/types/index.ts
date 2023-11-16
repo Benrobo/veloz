@@ -7,7 +7,7 @@ import {
   validPaymentProviders,
   validAuthProviders,
   mailingProviders,
-} from "../data/stack";
+} from "../../app/src/data/stack";
 
 export type ProjectType = "Vortex" | "Apex" | "Serenity" | "Nebula" | "Odyssey";
 

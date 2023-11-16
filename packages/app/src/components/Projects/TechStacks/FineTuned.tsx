@@ -17,7 +17,7 @@ import RenderStacks, {
 } from "@/components/Stacks/Render";
 import { Button } from "@/components/ui/button";
 import { ProjectContext } from "@/context/ProjectContext";
-import { FINE_TUNED_STACKS } from "@veloz/shared/data/stack";
+import { FINE_TUNED_STACKS } from "@data/stack";
 
 interface FineTunedProps {}
 

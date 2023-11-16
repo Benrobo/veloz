@@ -15,7 +15,7 @@
     "incremental": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@root-lib/*": ["./src/lib/*"]
+      "@data/*": ["./src/data/*"]
     },
     "forceConsistentCasingInFileNames": true
   },

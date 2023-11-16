@@ -1,3 +1,3 @@
-export { FINE_TUNED_STACKS } from "./data/stack";
+export { FINE_TUNED_STACKS } from "../app/src/data/stack";
 export * from "./types";
 export * from "./config";

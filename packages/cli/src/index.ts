@@ -3,7 +3,6 @@ import { Command } from "commander";
 import storage from "./config/storage.js";
 import VelozGenerate from "./commands/generate.js";
 import chalk from "chalk";
-// import chalk from "chalk";
 
 const program = new Command();
 const _velozGenerate = new VelozGenerate();

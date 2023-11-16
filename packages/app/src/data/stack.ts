@@ -3,7 +3,7 @@ import {
   REFINED_STACKS as REFINED_STACKS_TYPE,
   TechStackCategory,
   StackAvailabilityType,
-} from "../types";
+} from "@veloz/shared/types";
 
 // Static data meant for backend and frontend
 export const FINE_TUNED_STACKS = [

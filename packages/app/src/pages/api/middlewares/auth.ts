@@ -1,7 +1,7 @@
 import { getAuth } from "@clerk/nextjs/server";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import sendResponse from "../lib/sendResponse";
-import { RESPONSE_CODE } from "@veloz/shared";
+import { RESPONSE_CODE } from "@veloz/shared/types";
 import { User } from "../models";
 
 export function isAuthenticated(fn: Function) {

@@ -1,4 +1,4 @@
-import { REFINED_STACKS, STACK_AVAILABILITY } from "@veloz/shared/data/stack";
+import { REFINED_STACKS, STACK_AVAILABILITY } from "@data/stack";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { TechStackCategory, TechStackPricingPlan } from "@veloz/shared/types";

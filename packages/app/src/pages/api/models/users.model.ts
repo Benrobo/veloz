@@ -1,6 +1,5 @@
 import { Schema, model, models } from "mongoose";
 import { TechStackPricingPlan } from "@veloz/shared/types";
-import { TechPricingPlans } from "@veloz/shared/data/project";
 
 // 1. Create an interface representing a document in MongoDB.
 interface IUser {

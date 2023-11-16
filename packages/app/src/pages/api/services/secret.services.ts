@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Secret } from "../models";
 import sendResponse from "../lib/sendResponse";
-import { RESPONSE_CODE } from "@veloz/shared";
+import { RESPONSE_CODE } from "@veloz/shared/types";
 import nextRouteZodValidation from "../lib/nextRouteZodValidation";
 import {
   createSecretSchema,

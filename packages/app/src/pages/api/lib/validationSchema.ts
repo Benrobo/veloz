@@ -1,6 +1,5 @@
-import { TechStackCategory } from "@veloz/shared";
-import { ProjectLabels } from "@veloz/shared/data/project";
-import { STACK_CATEGORIES } from "@veloz/shared/data/stack";
+import { ProjectLabels } from "@data/project";
+import { STACK_CATEGORIES } from "@data/stack";
 import { z as zod } from "zod";
 
 // validate creating secrets

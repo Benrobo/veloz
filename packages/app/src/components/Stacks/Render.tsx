@@ -1,4 +1,4 @@
-import { REFINED_STACKS as REFINED_STACKS_DATA } from "@veloz/shared/data/stack";
+import { REFINED_STACKS as REFINED_STACKS_DATA } from "@data/stack";
 import React, { useContext, useEffect, useState } from "react";
 import { FlexColCenter, FlexColEnd, FlexRowStart } from "../Flex";
 import Image from "next/image";

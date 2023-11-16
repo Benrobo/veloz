@@ -1,4 +1,4 @@
-import { validFrontendStacks } from "@veloz/shared/data/stack.js";
+import { CodebaseArchitecture } from "@veloz/shared/types";
 import BaseSetup from "./base.js";
 
 type FeProps = {

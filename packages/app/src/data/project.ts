@@ -1,4 +1,5 @@
 import { ProjectSideBarConfigType } from "../types";
+import { TechStackPricingPlan } from "@veloz/shared/types";
 
 export const ProjectSideBarConfig = [
   {
@@ -14,3 +15,17 @@ export const ProjectSideBarConfig = [
     key: "secrets",
   },
 ] satisfies ProjectSideBarConfigType[];
+
+export const ProjectLabels = [
+  "Vortex",
+  "Apex",
+  "Serenity",
+  "Nebula",
+  "Odyssey",
+];
+
+export const TechPricingPlans = [
+  "BASIC_PKG",
+  "ENTERPRISE_PKG",
+  "STANDARD_PKG",
+] as TechStackPricingPlan[];
