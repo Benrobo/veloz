@@ -3,6 +3,7 @@ import { Command } from "commander";
 import storage from "./config/storage.js";
 import VelozGenerate from "./commands/generate.js";
 import chalk from "chalk";
+import cliAuth from "./commands/auth.js";
 
 const program = new Command();
 const _velozGenerate = new VelozGenerate();
@@ -10,8 +11,8 @@ const _velozGenerate = new VelozGenerate();
 program
   .command("auth")
   .alias("l")
-  .description("Authenticate cli with veloz token.");
-//   .action(authCliApp);
+  .description("Authenticate cli with veloz token.")
+  .action(async () => await cliAuth._authenticate());
 
 program.command("whoami").alias("wmi").description("Check user information.");
 //   .action(whoami);

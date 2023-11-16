@@ -2,7 +2,7 @@ import {
   REFINED_STACK_VALUE,
   RESPONSE_CODE,
   TechStackCategory,
-} from "@veloz/shared";
+} from "@veloz/shared/types";
 import _FrontendSetup from "./_frontendSetup.js";
 import BaseSetup from "./base.js";
 

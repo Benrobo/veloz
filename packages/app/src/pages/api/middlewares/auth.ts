@@ -41,8 +41,8 @@ export function isCliAuth(fn: Function) {
       if (!user) {
         return sendResponse.error(
           res,
-          RESPONSE_CODE.USER_NOT_FOUND,
-          `user not found`,
+          RESPONSE_CODE.INVALID_TOKEN,
+          `invalid token, user not found`,
           404
         );
       }

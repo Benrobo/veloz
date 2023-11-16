@@ -92,7 +92,7 @@ class Storage {
       logger.error(`❌ [Storage]: Storage file not found.`);
     }
   }
-  public get(key: string): Record<string, any> | null {
+  public get(key: string) {
     if (this.storageExists()) {
       const _data = fs.readFileSync(
         path.join(this._cwd, this.storageFile),
@@ -101,7 +101,7 @@ class Storage {
       const _parsedData = JSON.parse(_data) as StorageDataProps;
       const _config = _parsedData.config;
       const _keyExists = _config.find((item) => item[key]) ?? null;
-      return _keyExists;
+      return _keyExists ? _keyExists[key] : null;
     } else {
       return null;
     }

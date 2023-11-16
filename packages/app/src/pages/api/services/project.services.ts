@@ -86,6 +86,14 @@ class ProjectService {
     });
   }
 
+  async cliAuth(req: NextApiRequest, res: NextApiResponse) {
+    const userId = (req as any)?.user?.id;
+
+    sendResponse.success(res, RESPONSE_CODE.SUCCESS, `project`, 200, {
+      user_id: userId,
+    });
+  }
+
   async createProject(req: NextApiRequest, res: NextApiResponse) {
     const userId = (req as any)?.user?.id;
     const payload: createProjectPayload = req.body;

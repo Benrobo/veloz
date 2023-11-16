@@ -1,3 +1,4 @@
+import RefinedProjectGenerate from "../utils/projectHelper/refinedGenerate.js";
 import BaseSetup from "../utils/projectHelper/base.js";
 
 class VelozGenerate extends BaseSetup {
@@ -8,9 +9,8 @@ class VelozGenerate extends BaseSetup {
   }
   async start(projName: string) {
     // start project generation;
-
     // fetch project details (_id, name)
-    console.log("starting project generation", projName);
+    // new RefinedProjectGenerate()._initializeRefine()
   }
 }
 
