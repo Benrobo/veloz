@@ -68,6 +68,10 @@ class ProjectService {
       );
     }
 
+    const user = await User.findOne({
+      uId: userId,
+    });
+
     const _envId = project.env_id;
     let secrets = "";
     if (_envId) {
@@ -83,6 +87,10 @@ class ProjectService {
     sendResponse.success(res, RESPONSE_CODE.PROJECTS, `project`, 200, {
       ...project._doc,
       secrets,
+      userData: {
+        id: user.uId,
+        username: user.name,
+      },
     });
   }
 
@@ -96,6 +104,48 @@ class ProjectService {
       {
         user_id: userId,
       }
+    );
+  }
+
+  async updateStatus(req: NextApiRequest, res: NextApiResponse) {
+    const userId = (req as any)?.user?.id;
+    const { status, proj_id } = req.query;
+
+    const project = await Project.findOne({
+      uId: userId,
+      _id: new mongoose.Types.ObjectId(proj_id as string),
+    });
+
+    if (!project) {
+      return sendResponse.error(
+        res,
+        RESPONSE_CODE.PROJECT_NOT_FOUND,
+        `Project not found`,
+        404
+      );
+    }
+
+    const validStatus = ["pending", "failed", "done"];
+    const _projStatus = validStatus.includes(status as string)
+      ? status
+      : "pending";
+
+    // update the project status
+    await Project.updateOne(
+      {
+        uId: userId,
+        _id: proj_id,
+      },
+      {
+        status: _projStatus,
+      }
+    );
+
+    return sendResponse.error(
+      res,
+      RESPONSE_CODE.SUCCESS,
+      `Project status updated`,
+      200
     );
   }
 

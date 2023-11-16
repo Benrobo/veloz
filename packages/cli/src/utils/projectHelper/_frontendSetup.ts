@@ -1,5 +1,8 @@
 import { CodebaseArchitecture } from "@veloz/shared/types";
 import BaseSetup from "./base.js";
+import { spinner } from "@clack/prompts";
+import { sleep } from "../index.js";
+import logger from "../logger.js";
 
 type FeProps = {
   fe_tech: string | null;
@@ -19,16 +22,13 @@ type FeProps = {
 
 export default class _FrontendSetup extends BaseSetup {
   private props: FeProps;
-  private _response: { success: boolean; msg: string | null } = {
+  public _response: { success: boolean; msg: string | null } = {
     msg: "",
     success: false,
   };
   constructor(props: FeProps) {
     super();
     this.props = props;
-    (async () => {
-      await this.initializeSetup();
-    })();
   }
 
   async initializeSetup() {
@@ -37,28 +37,31 @@ export default class _FrontendSetup extends BaseSetup {
     switch (stackCase) {
       case "monorepo-react":
         await this._reactSetup();
+        break;
       case "monorepo-vanillajs":
         await this._vanillajsSetup();
+        break;
       case "monolith-react":
         await this._reactSetup();
+        break;
       case "monolith-vanillajs":
         await this._vanillajsSetup();
+        break;
       default:
-        this._vanillajsSetup();
+        logger.error(`[Frontend Setup]: Invalid stack case: ${stackCase}`);
+        break;
     }
   }
 
   async _reactSetup() {
+    const s = spinner();
     const { cb_arch, design_system, auth } = this.props;
+    try {
+      s.start("Scaffolding frontend..");
+      await sleep(2);
 
-    console.log(this.props.userData);
-
-    // let _doneSettingUpCbArch;
-    // if (cb_arch === "monorepo") {
-    //   _doneSettingUpCbArch = this.setupMonorepo();
-    // } else {
-    //   _doneSettingUpCbArch = this.setupMonolith();
-    // }
+      s.stop("heyyy");
+    } catch (e: any) {}
   }
 
   async _vanillajsSetup() {}

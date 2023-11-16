@@ -186,3 +186,11 @@ export type StackAvailabilityType = {
   available: string[];
   not_available: string[];
 };
+
+export type HttpResponse = {
+  errorStatus: boolean;
+  code: number;
+  message: string;
+  statusCode: number;
+  data: any;
+};

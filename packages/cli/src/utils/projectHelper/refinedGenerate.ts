@@ -47,7 +47,7 @@ export default class RefinedProjectGenerate extends BaseSetup {
     tech_stacks: Props,
     name: string,
     userData: ProjUserData
-  ): Promise<RepoSetupResp | undefined> {
+  ) {
     this.formatedName = name?.toLowerCase().replace(/\s/gi, "-");
     this.codebaseArchitecture = findStack(tech_stacks, "codebase_acrhitecture");
     this._frontend = findStack(tech_stacks, "frontend");
@@ -60,7 +60,7 @@ export default class RefinedProjectGenerate extends BaseSetup {
     this.userData = userData;
 
     if (this.codebaseArchitecture === "monorepo") {
-      return (await this.monoRepoSetup()) as RepoSetupResp;
+      await this.monoRepoSetup();
     } else {
       // return this.monolithSetup() as RepoSetupResp;
     }
@@ -72,6 +72,7 @@ export default class RefinedProjectGenerate extends BaseSetup {
       msg: "",
       success: false,
     };
+    let _logMsg = "";
     const _monorepoSetup = await this.setupMonorepo(
       this.formatedName,
       this._frontend,
@@ -79,15 +80,12 @@ export default class RefinedProjectGenerate extends BaseSetup {
     );
 
     if (!_monorepoSetup.success) {
-      const msg = `Monorepo Setup Failed: [user: ${this.userData.username}] [proj_id: ${this.userData.proj_id}] Something wen't wrong setting up monorepo`;
-      refinedResponse["msg"] = msg;
+      // sent to sentry log system
+      _logMsg = `Monorepo Setup Failed.`;
+      refinedResponse["msg"] = _logMsg;
 
       // UPDATE PROJECT STATUS
-      await this.updateProjectStatus(
-        this.userData.id as string,
-        this.userData.proj_id,
-        "failed"
-      );
+      await this.updateProjectStatus(this.userData.proj_id, "failed");
       return refinedResponse;
     }
 
@@ -98,7 +96,7 @@ export default class RefinedProjectGenerate extends BaseSetup {
       return refinedResponse;
     } else if (this._frontend) {
       // Frontend setup
-      const _frontedSetup = new _FrontendSetup({
+      new _FrontendSetup({
         auth: this._authentication,
         cb_arch: this.codebaseArchitecture,
         design_system: this._design_system,
@@ -108,9 +106,7 @@ export default class RefinedProjectGenerate extends BaseSetup {
         payment: this._payment,
         _frontendPath: _monorepoSetup.frontendPath,
         userData: this.userData,
-      });
-      refinedResponse["success"] = true;
-      return refinedResponse;
+      }).initializeSetup();
     }
   }
 

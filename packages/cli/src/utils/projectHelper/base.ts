@@ -1,7 +1,12 @@
-import { TEMP_DIR } from "../../config/project.js";
 import GithubRepoActions from "./repoActions.js";
 import { createDir, createFile } from "../filemanager.js";
 import { RootMonorepoPkgJson } from "../../data/package_json.js";
+import logger from "../logger.js";
+import { spinner } from "@clack/prompts";
+import { updateProjectStatus } from "../../https/index.js";
+import { HttpResponse } from "@veloz/shared/types/index.js";
+import chalk from "chalk";
+import { sleep } from "../index.js";
 
 type MonorepoResp = {
   frontendPath: string | null;
@@ -24,17 +29,21 @@ export default class BaseSetup {
       backendPath: null,
       success: false,
     };
-    // create the directory based on the name
-    const _dirCreated = await createDir(TEMP_DIR, proj_name, true);
+    let _logMsg = "";
+    const _projCwd = process.cwd();
+
+    const _dirCreated = await createDir(_projCwd, proj_name, true);
     if (_dirCreated.success === false) {
-      console.log(`[Monorepo Setup]: ${_dirCreated.msg}`);
+      _logMsg = `[Monorepo Setup]: ${_dirCreated.msg} [path: ${_dirCreated.path}]`;
+      logger.error(_logMsg);
       return monorepoResp;
     }
 
     // create base packages folder
     const _pkgsDir = await createDir(_dirCreated.path, "packages");
     if (!_pkgsDir.success) {
-      console.log(`[Root PkgJson Setup]: ${_dirCreated.msg}`);
+      _logMsg = `[Root PkgJson Setup]: ${_dirCreated.msg}`;
+      logger.error(_logMsg);
       return monorepoResp;
     }
     // create packages readme file
@@ -59,9 +68,8 @@ export default class BaseSetup {
       // create FE directory
       const _feCreated = await createDir(_pkgsDir.path, "app");
       if (!_feCreated.success) {
-        console.log(
-          `[Monorepo Setup]: [Failed initializing frontend folder] ${_dirCreated.msg}`
-        );
+        _logMsg = `[Monorepo Setup]: [Failed initializing frontend folder] ${_dirCreated.msg}`;
+        logger.error(_logMsg);
         return monorepoResp;
       }
 
@@ -75,15 +83,13 @@ export default class BaseSetup {
         const _beCreated = await createDir(_pkgsDir.path, "server");
 
         if (!_feCreated.success) {
-          console.log(
-            `[Monorepo Setup]: [Failed initializing frontend folder] ${_dirCreated.msg}`
-          );
+          _logMsg = `[Monorepo Setup]: [Failed initializing frontend folder] ${_dirCreated.msg}`;
+          logger.error(_logMsg);
           return monorepoResp;
         }
         if (!_beCreated.success) {
-          console.log(
-            `[Monorepo Setup]: [Failed initializing backend folder] ${_dirCreated.msg}`
-          );
+          _logMsg = `[Monorepo Setup]: [Failed initializing backend folder] ${_dirCreated.msg}`;
+          logger.error(_logMsg);
           return monorepoResp;
         }
 
@@ -100,14 +106,24 @@ export default class BaseSetup {
 
   public async setupMonolith() {}
 
-  // @ts-ignore
   public async updateProjectStatus(
-    userId: string,
     proj_id: string,
     status: "pending" | "failed" | "done"
   ) {
-    console.log(userId, proj_id, status);
-    // UPDATE PROJECT STATUS
-    // Make http call to update project status
+    const s = spinner();
+    try {
+      s.start(`Updating project status...`);
+      await sleep(1);
+      const _resp: HttpResponse = await updateProjectStatus(status, proj_id);
+
+      if (!_resp?.errorStatus) {
+        s.stop(`🚩 ${chalk.redBright(_resp?.message)}`);
+        return;
+      }
+
+      s.stop(`✅ Project status updated`);
+    } catch (e: any) {
+      s.stop(`🚩 ${chalk.redBright(e?.message)}`);
+    }
   }
 }
