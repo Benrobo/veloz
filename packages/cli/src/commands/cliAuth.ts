@@ -28,16 +28,16 @@ class CliAuth {
 
       if (["INVALID_TOKEN", "UNAUTHORIZED", "FORBIDDEN"].includes(resp?.code)) {
         s.stop(`🚩 ${chalk.redBright(resp?.message)}`);
+        storage.delete("@veloz_token");
       }
 
       if (["SUCCESS"].includes(resp?.code)) {
         s.stop(`✅ ${chalk.greenBright(resp?.message)}`);
-        // storage.set("@veloz_token", resp?.data?.token);
-        // storage.set("@userInfo", {
-        //   username: resp?.data?.username,
-        //   email: resp?.data?.email,
-        //   uId: resp?.data?.userId,
-        // });
+        const { user_id } = resp?.data;
+        storage.set("@veloz_token", userToken);
+        storage.set("@veloz_userInfo", {
+          user_id,
+        });
       }
     } catch (e: any) {
       // spinner.fail(`Failed to authenticate, Try again later.`);

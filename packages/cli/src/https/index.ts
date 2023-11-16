@@ -8,13 +8,14 @@ const $http = axios.create({
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
-    "x-veloz-token": storage.get("@veloz_token"),
+    "x-veloz-token": storage.get("@veloz_token") ?? "",
   },
 });
 
 export const authenticate = async (token: string) => {
   try {
-    const resp = await $http.post(`/project/cli/auth`, {
+    $http.defaults.headers["x-veloz-token"] = token;
+    const resp = await $http.post(`/project/cli/cliAuth`, {
       headers: {
         "x-veloz-token": token,
       },

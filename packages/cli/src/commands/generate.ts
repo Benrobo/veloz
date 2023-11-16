@@ -7,6 +7,7 @@ class VelozGenerate extends BaseSetup {
     super();
     // this.projName = projName;
   }
+  // @ts-expect-error
   async start(projName: string) {
     // start project generation;
     // fetch project details (_id, name)

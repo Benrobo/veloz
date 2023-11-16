@@ -16,11 +16,12 @@ class Storage {
   private _cwd: string;
   private storageFile: string;
   private data: StorageDataProps;
+  private log = false;
 
-  constructor(projectName: string) {
+  constructor(projectName: string, log: boolean = false) {
     this.projectName = projectName;
     this._cwd = path.join(fileURLToPath(import.meta.url), "..", "..");
-
+    this.log = log;
     this.storageFile = "data.json";
     this.data = {
       name: this.projectName,
@@ -43,7 +44,7 @@ class Storage {
     );
 
     if (!created.success) {
-      logger.error(`[Storage]: ${created.msg}`);
+      this.log && logger.error(`[Storage]: ${created.msg}`);
     }
   }
 
@@ -56,9 +57,9 @@ class Storage {
     );
 
     if (!created.success) {
-      logger.error(`❌ [Storage Reset]: ${created.msg}`);
+      this.log && logger.error(`❌ [Storage Reset]: ${created.msg}`);
     } else {
-      logger.success(`✅ Storage Reset`);
+      this.log && logger.success(`✅ Storage Reset`);
     }
   }
 
@@ -89,7 +90,7 @@ class Storage {
         );
       }
     } else {
-      logger.error(`❌ [Storage]: Storage file not found.`);
+      this.log && logger.error(`❌ [Storage]: Storage file not found.`);
     }
   }
   public get(key: string) {
@@ -125,14 +126,14 @@ class Storage {
           JSON.stringify(_parsedData, null, 2)
         );
       } else {
-        logger.error(`❌ [Storage]: Key not found.`);
+        this.log && logger.error(`❌ [Storage]: Key not found.`);
       }
     } else {
-      logger.error(`❌ [Storage]: Storage file not found.`);
+      this.log && logger.error(`❌ [Storage]: Storage file not found.`);
     }
   }
 }
 
-const storage = new Storage("@veloz-conf");
+const storage = new Storage("@veloz-conf", false);
 
 export default storage;

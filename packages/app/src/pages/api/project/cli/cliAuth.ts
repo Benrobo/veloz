@@ -9,7 +9,7 @@ import env from "../../config/env";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   await connectDB(env.MONGO_DB_URL as string);
   if (req.method === "POST") {
-    return projectServices.cliAuth(req, res);
+    await projectServices.cliAuth(req, res);
   }
 }
 

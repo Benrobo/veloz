@@ -3,7 +3,7 @@ import { Command } from "commander";
 import storage from "./config/storage.js";
 import VelozGenerate from "./commands/generate.js";
 import chalk from "chalk";
-import cliAuth from "./commands/auth.js";
+import cliAuth from "./commands/cliAuth.js";
 
 const program = new Command();
 const _velozGenerate = new VelozGenerate();
