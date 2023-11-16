@@ -1,4 +1,4 @@
-import BaseSetup from "../utils/projectHelper/base";
+import BaseSetup from "../utils/projectHelper/base.js";
 
 class VelozGenerate extends BaseSetup {
   //   private projName: string;
