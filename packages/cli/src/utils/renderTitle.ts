@@ -1,6 +1,6 @@
-import { SCRIPT_TITLE } from "../config/project";
+import { SCRIPT_TITLE } from "../config/project.js";
 import figlet from "figlet";
-import useGradinent from "./useGradient";
+import useGradinent from "./useGradient.js";
 // import chalk from "chalk";
 
 function renderTitle() {
