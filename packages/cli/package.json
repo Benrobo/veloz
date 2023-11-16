@@ -1,0 +1,31 @@
+{
+  "name": "@veloz/cli",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "script": "node ./dist/index.js",
+    "start": "npm run clean && npm run build && node ./dist/index.js",
+    "build:templates": "./build/copyTemp.sh",
+    "pub": "npm run clean && npm run build && npm run build:templates"
+  },
+  "_moduleAliases": {
+    "@/*": "dist/*"
+  },
+  "devDependencies": {
+    "@types/figlet": "^1.5.8",
+    "@types/fs-extra": "^11.0.4",
+    "@types/gradient-string": "^1.1.5",
+    "@types/node": "^20.9.0",
+    "@types/rimraf": "^4.0.5",
+    "ts-node": "^10.9.1",
+    "tsc-alias": "^1.8.8",
+    "typescript": "^5.2.2"
+  },
+  "bin": {
+    "veloz-create": "./dist/index.js"
+  }
+}
