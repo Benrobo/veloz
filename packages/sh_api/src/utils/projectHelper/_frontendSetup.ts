@@ -10,10 +10,19 @@ type FeProps = {
   cb_arch: "monorepo" | "monolith" | string | null;
   name: string;
   _frontendPath: string | null;
+  userData: {
+    id: string;
+    username: string;
+    proj_id: string;
+  };
 };
 
 export default class _FrontendSetup extends BaseSetup {
   private props: FeProps;
+  private _response: { success: boolean; msg: string | null } = {
+    msg: "",
+    success: false,
+  };
   constructor(props: FeProps) {
     super();
     this.props = props;
@@ -42,7 +51,7 @@ export default class _FrontendSetup extends BaseSetup {
   async _reactSetup() {
     const { cb_arch, design_system, auth } = this.props;
 
-    console.log(this.props._frontendPath);
+    console.log(this.props.userData);
 
     // let _doneSettingUpCbArch;
     // if (cb_arch === "monorepo") {

@@ -20,7 +20,7 @@ type Props = {
 }[];
 
 type ProjUserData = {
-  id: object | string;
+  id: string;
   username: string;
   proj_id: string;
 };
@@ -112,6 +112,7 @@ export default class RefinedProjectGenerate extends BaseSetup {
         name: this.formatedName,
         payment: this._payment,
         _frontendPath: _monorepoSetup.frontendPath,
+        userData: this.userData,
       });
       refinedResponse["success"] = true;
       return refinedResponse;
