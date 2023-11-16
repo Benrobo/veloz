@@ -55,12 +55,21 @@ export default class _FrontendSetup extends BaseSetup {
 
   async _reactSetup() {
     const s = spinner();
-    const { cb_arch, design_system, auth } = this.props;
+    const { fe_tech, cb_arch, design_system, auth } = this.props;
     try {
       s.start("Scaffolding frontend..");
-      await sleep(2);
+      await sleep(1);
 
-      s.stop("heyyy");
+      s.stop();
+
+      if (fe_tech === "react") {
+        // clone react repo
+      }
+      if (fe_tech === "nextjs") {
+      }
+      if (fe_tech === "vanillajs") {
+      }
+      // pull github repo
     } catch (e: any) {}
   }
 
