@@ -1,7 +1,7 @@
-import { TEMP_DIR } from "../../config/project";
-import GithubRepoActions from "./repoActions";
-import { createDir, createFile } from "../filemanager";
-import { RootMonorepoPkgJson } from "../../data/package_json";
+import { TEMP_DIR } from "../../config/project.js";
+import GithubRepoActions from "./repoActions.js";
+import { createDir, createFile } from "../filemanager.js";
+import { RootMonorepoPkgJson } from "../../data/package_json.js";
 
 type MonorepoResp = {
   frontendPath: string | null;
