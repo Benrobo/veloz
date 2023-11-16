@@ -1,19 +1,14 @@
 {
-  "name": "@veloz/cli",
+  "name": "veeloz",
   "version": "1.0.0",
   "main": "./dist/index.js",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf ./dist",
-    "build": "tsc",
-    "dev": "tsc --watch",
-    "script": "node ./dist/index.js",
-    "start": "npm run clean && npm run build && node ./dist/index.js",
-    "build:templates": "./build/copyTemp.sh",
-    "pub": "npm run clean && npm run build && npm run build:templates"
-  },
-  "_moduleAliases": {
-    "@/*": "dist/*"
+    "build": "tsc && tsc-alias",
+    "start": "npm run build && node -r tsconfig-paths/register -r ts-node/register ./src/index.ts",
+    "watch": "tsc --watch",
+    "dev": "ts-node ./src/index.ts"
   },
   "devDependencies": {
     "@types/figlet": "^1.5.8",
@@ -26,6 +21,29 @@
     "typescript": "^5.2.2"
   },
   "bin": {
-    "veloz-create": "./dist/index.js"
+    "veeloz": "./dist/index.js"
+  },
+  "_importAliases": {
+    "@veloz/shared": "../shared"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.7.0",
+    "axios": "^1.6.2",
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
+    "conf": "^12.0.0",
+    "execa": "^8.0.1",
+    "figlet": "^1.7.0",
+    "fs-extra": "^11.1.1",
+    "gradient-string": "^2.0.2",
+    "module-alias": "^2.2.3",
+    "ora": "^7.0.1",
+    "path": "^0.12.7",
+    "pretty": "^2.0.0",
+    "rimraf": "^5.0.5",
+    "sort-package-json": "^2.6.0",
+    "tsconfig-paths": "^4.2.0",
+    "url": "^0.11.3",
+    "@veloz/shared": "1.0.0"
   }
 }

@@ -2,9 +2,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Webhook } from "svix";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import env from "../config/env";
-import { Project, Secret, User } from "@veloz/shared/models";
-import { connectDB } from "@veloz/shared/utils/mongodb";
+import { Project, Secret, User } from "../models";
+import { connectDB } from "../lib/utils";
 import CatchError from "../lib/error";
+import shortUUID from "short-uuid";
 
 // handle clerk webhook
 async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -51,6 +52,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         email,
         avatar: image_url,
         hasSubscribed: false,
+        veloz_token: shortUUID.generate(),
       });
 
       console.log(`✅ User ${email} created!`);

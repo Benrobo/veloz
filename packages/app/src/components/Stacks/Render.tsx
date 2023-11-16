@@ -8,10 +8,9 @@ import {
   REFINED_STACK_VALUE,
   TechStackCategory,
 } from "@veloz/shared/types";
-import { cn, isUserEligibleForStack } from "@/lib/utils";
+import { cn, isUserEligibleForStack, isStackAvailable } from "@/lib/utils";
 import { DataContext } from "@/context/DataContext";
 import { StackImages } from "@/data/images";
-import { isStackAvailable } from "@veloz/shared/utils";
 
 interface RenderStacksProps {
   tech_stacks: string[];

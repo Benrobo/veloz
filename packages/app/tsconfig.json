@@ -14,7 +14,8 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@root-lib/*": ["./src/lib/*"]
     },
     "forceConsistentCasingInFileNames": true
   },

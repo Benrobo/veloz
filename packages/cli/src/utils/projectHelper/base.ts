@@ -1,9 +1,7 @@
-import { TEMP_DIR } from "@/config/project";
+import { TEMP_DIR } from "../../config/project";
 import GithubRepoActions from "./repoActions";
-import { createDir, createFile } from "@veloz/shared/utils/filemanager";
-import { RootMonorepoPkgJson } from "@/data/package_json";
-import mongoose from "mongoose";
-import { Project } from "@veloz/shared/models";
+import { createDir, createFile } from "../filemanager";
+import { RootMonorepoPkgJson } from "../../data/package_json";
 
 type MonorepoResp = {
   frontendPath: string | null;
@@ -102,22 +100,14 @@ export default class BaseSetup {
 
   public async setupMonolith() {}
 
+  // @ts-ignore
   public async updateProjectStatus(
     userId: string,
     proj_id: string,
     status: "pending" | "failed" | "done"
   ) {
+    console.log(userId, proj_id, status);
     // UPDATE PROJECT STATUS
-    await Project.updateOne(
-      {
-        uId: userId,
-        _id: new mongoose.Types.ObjectId(proj_id),
-      },
-      {
-        $set: {
-          status,
-        },
-      }
-    );
+    // Make http call to update project status
   }
 }

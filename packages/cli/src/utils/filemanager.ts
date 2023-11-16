@@ -26,7 +26,7 @@ export async function createDir(
       resp["msg"] = null;
     } else {
       if (forceDelete && fs.existsSync(dir)) {
-        await new Promise((res, rej) => {
+        await new Promise((res) => {
           emptyDirectory(dir, (err, success) => {
             if (err !== null) {
               resp["msg"] = err as string;

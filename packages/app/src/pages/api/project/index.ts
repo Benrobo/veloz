@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import CatchError from "../lib/error";
 import { isAuthenticated } from "../middlewares/auth";
 import projectServices from "../services/project.services";
-import { connectDB } from "@veloz/shared/utils/mongodb";
+import { connectDB } from "../lib/utils";
 import env from "../config/env";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {

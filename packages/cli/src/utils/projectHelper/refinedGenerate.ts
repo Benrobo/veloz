@@ -5,11 +5,6 @@ import {
 } from "@veloz/shared";
 import _FrontendSetup from "./_frontendSetup";
 import BaseSetup from "./base";
-import HttpException from "../exception";
-import { Project } from "@veloz/shared/models";
-import mongoose from "mongoose";
-import { CatchError } from "../error";
-import GenerateProject from "@/services/generateProject";
 
 type Props = {
   category: TechStackCategory;

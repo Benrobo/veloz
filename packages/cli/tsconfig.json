@@ -1,35 +1,57 @@
 {
-  "compileOnSave": false,
+  // "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "tailwind.config.js"],
+  "exclude": ["node_modules"],
+  "include": ["src", "lib"],
   "compilerOptions": {
-    "target": "esnext",
-    "lib": ["es6", "es5", "dom"],
-    "typeRoots": ["node_modules/@types"],
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "baseUrl": ".",
-    "pretty": true,
-    "sourceMap": true,
-    "declaration": true,
-    "importHelpers": true,
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": false,
-    "esModuleInterop": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
+    /* LANGUAGE COMPILATION OPTIONS */
+    "target": "ES2020",
+    "lib": ["DOM", "DOM.Iterable", "es2018", "ES2018.AsyncIterable"],
+    "module": "Node16",
+    "moduleResolution": "nodenext",
     "resolveJsonModule": true,
+
+    /* EMIT RULES */
+    "outDir": "./dist",
+    "noEmit": false,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
+    "removeComments": true,
+    "importHelpers": true,
+
+    /* TYPE CHECKING RULES */
+    "strict": false,
+    // "noImplicitAny": true, // Included in "Strict"
+    // "noImplicitThis": true, // Included in "Strict"
+    // "strictBindCallApply": true, // Included in "Strict"
+    // "strictFunctionTypes": true, // Included in "Strict"
+    // "strictNullChecks": true, // Included in "Strict"
+    // "strictPropertyInitialization": true, // Included in "Strict"
+    // "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    // "noImplicitReturns": true,
+    "noUnusedLocals": false, // tells the compiler to skip unused variables declared.
+    "noUnusedParameters": true,
+    "useUnknownInCatchVariables": true,
+    "noUncheckedIndexedAccess": true, // TLDR - Checking an indexed value (array[0]) now forces type <T | undefined> as there is no confirmation that index exists
+    // THE BELOW ARE EXTRA STRICT OPTIONS THAT SHOULD ONLY BY CONSIDERED IN VERY SAFE PROJECTS
+    // "exactOptionalPropertyTypes": true, // TLDR - Setting to undefined is not the same as a property not being defined at all
+    // "noPropertyAccessFromIndexSignature": true, // TLDR - Use dot notation for objects if youre sure it exists, use ['index'] notaion if unsure
+
+    /* OTHER OPTIONS */
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": false,
+    // "emitDecoratorMetadata": true,
+    // "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "useDefineForClassFields": true,
+    "baseUrl": ".",
+    "rootDir": "./src",
     "paths": {
-      "@/*": ["./src/*", "src/*"],
-      "@utils/*": ["./src/utils/*", "src/utils/*"]
+      "@/*": ["./src/*", "src/*"]
     }
   },
-  "include": ["src"],
-  "exclude": ["node_modules"],
   "ts-node": {
     "require": ["tsconfig-paths/register"]
   }

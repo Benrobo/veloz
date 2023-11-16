@@ -1,5 +1,5 @@
-import { validFrontendStacks } from "@veloz/shared/data/stack";
-import BaseSetup from "./base";
+import { validFrontendStacks } from "@veloz/shared/data/stack.js";
+import BaseSetup from "./base.js";
 
 type FeProps = {
   fe_tech: string | null;

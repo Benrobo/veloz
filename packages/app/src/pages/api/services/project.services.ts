@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { Project, Secret, User } from "@veloz/shared/models";
+import { Project, Secret, User } from "../models";
 import sendResponse from "../lib/sendResponse";
 import { RESPONSE_CODE } from "@veloz/shared";
 import { createProjectPayload } from "@/types";
@@ -10,7 +10,7 @@ import _checkRefinedStackCombo from "../lib/checkStackCombo";
 import {
   _checkRefinedStackAvailability,
   _isUserEligibleForStack,
-} from "@veloz/shared/utils";
+} from "@/lib/utils";
 import mongoose from "mongoose";
 
 class ProjectService {
@@ -48,6 +48,43 @@ class ProjectService {
       200,
       _projects
     );
+  }
+
+  // retrieve needed info for cli
+  async getCliProjByName(req: NextApiRequest, res: NextApiResponse) {
+    const userId = (req as any)?.user?.id;
+    const proj_name = req.query["proj_name"];
+    console.log({ proj_name });
+    const project = await Project.findOne({
+      uId: userId,
+      name: proj_name,
+    });
+
+    if (!project) {
+      return sendResponse.error(
+        res,
+        RESPONSE_CODE.PROJECT_NOT_FOUND,
+        `No projects found with this name.`,
+        404
+      );
+    }
+
+    const _envId = project.env_id;
+    let secrets = "";
+    if (_envId) {
+      const env = await Secret.findOne({
+        uId: userId,
+        _id: new mongoose.Types.ObjectId(_envId),
+      });
+      for (const secret of env.secrets) {
+        secrets += `${secret.name}='${secret.value}'\n`;
+      }
+    }
+
+    sendResponse.success(res, RESPONSE_CODE.PROJECTS, `project`, 200, {
+      ...project._doc,
+      secrets,
+    });
   }
 
   async createProject(req: NextApiRequest, res: NextApiResponse) {
@@ -93,16 +130,17 @@ class ProjectService {
     }
 
     // check if project name exists
+    const formatedProjName = name.toLowerCase().replace(/\s/g, "-");
     const projectExists = await Project.findOne({
       uId: userId,
-      name,
+      name: formatedProjName,
     });
 
     if (projectExists) {
       return sendResponse.error(
         res,
         RESPONSE_CODE.SECRET_EXISTS,
-        `Project already exists`,
+        `Project with this name already exists`,
         400
       );
     }
@@ -164,7 +202,7 @@ class ProjectService {
 
       // create the project with pending state
       const project = await Project.create({
-        name: `${name.slice(0, 1).toUpperCase()}${name.slice(1)}`,
+        name: formatedProjName,
         description: description || "No description provided",
         label: validLabel,
         type,

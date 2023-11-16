@@ -1,11 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { User } from "@veloz/shared/models";
+import { User } from "../models";
 import sendResponse from "../lib/sendResponse";
-import { RESPONSE_CODE } from "@veloz/shared";
-import {
-  _checkGhTokenValidity,
-  _refreshGhToken,
-} from "@veloz/shared/utils/ghActions";
+import { RESPONSE_CODE } from "@veloz/shared/types";
+import { _checkGhTokenValidity, _refreshGhToken } from "../lib/utils";
 
 class UserService {
   async getInfo(req: NextApiRequest, res: NextApiResponse) {
