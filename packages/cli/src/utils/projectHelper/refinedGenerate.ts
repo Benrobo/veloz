@@ -3,8 +3,8 @@ import {
   RESPONSE_CODE,
   TechStackCategory,
 } from "@veloz/shared";
-import _FrontendSetup from "./_frontendSetup";
-import BaseSetup from "./base";
+import _FrontendSetup from "./_frontendSetup.js";
+import BaseSetup from "./base.js";
 
 type Props = {
   category: TechStackCategory;
