@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "./dist/index.js",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "clean": "rimraf ./dist",
     "build": "tsc && tsc-alias",
@@ -22,9 +23,6 @@
   },
   "bin": {
     "veeloz": "./dist/index.js"
-  },
-  "_importAliases": {
-    "@veloz/shared": "../shared"
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
