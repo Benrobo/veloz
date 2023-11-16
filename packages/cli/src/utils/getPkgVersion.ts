@@ -1,5 +1,5 @@
 import { execSync } from "child_process";
-import logger from "../utils/logger";
+import logger from "../utils/logger.js";
 const { execa } = require("execa");
 
 async function getPkgVersion(pkg_name: string) {
