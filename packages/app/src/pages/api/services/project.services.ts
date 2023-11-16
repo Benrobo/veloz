@@ -54,7 +54,6 @@ class ProjectService {
   async getCliProjByName(req: NextApiRequest, res: NextApiResponse) {
     const userId = (req as any)?.user?.id;
     const proj_name = req.query["proj_name"];
-    console.log({ proj_name });
     const project = await Project.findOne({
       uId: userId,
       name: proj_name,
