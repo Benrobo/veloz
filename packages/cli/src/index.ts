@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 import { Command } from "commander";
-// import storage from "./config/storage";
-import VelozGenerate from "./commands/generate";
+import storage from "./config/storage.js";
+import VelozGenerate from "./commands/generate.js";
+import chalk from "chalk";
 // import chalk from "chalk";
 
 const program = new Command();
@@ -41,10 +42,9 @@ program
   .alias("lg")
   .description("Logout and clear all cached data.")
   .action(() => {
-    // storage.delete("@4snap_cmd");
-    // storage.delete("@authToken");
-    // storage.delete("@userInfo");
-    // console.log(chalk.yellowBright(`\n ✨ Successfully logged out. \n`));
+    storage.delete("@veloz_token");
+    storage.delete("@veloz_userInfo");
+    console.log(chalk.yellowBright(`\n ✨ Successfully logged out. \n`));
   });
 
 program.parse();
