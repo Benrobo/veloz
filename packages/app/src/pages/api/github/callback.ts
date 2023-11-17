@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import CatchError from "../lib/error";
 import axios from "axios";
 import { isAuthenticated } from "../middlewares/auth";
-import { User } from "@veloz/shared/models";
+import { User } from "../models";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
