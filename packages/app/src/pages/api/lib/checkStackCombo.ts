@@ -1,18 +1,18 @@
-import { TechStackCategory, VelozProjectOption } from "@veloz/shared";
+import { TechStackCategory, VelozProjectOption } from "@veloz/shared/types";
 
 //  Invalid Stack Combos 😥
 // (frontend libraries/framework combined with a DB only, should be considered invalid if no backend is combined)
 // (frontend libraries/framework combined with a Payment Provider [lemonsqueezy, paddle, stripe] only, should be considered invalid if no backend is combined)
 // (frontend libraries/framework combined with a Mailing Provider [resend, postmark, elasticmail] only, should be considered invalid if no backend is combined)
-// (vanillajs combined with a Auth Provider [clerk, jwt] only, should be considered invalid if no backend is combined)
+// (vuejs combined with a Auth Provider [clerk, jwt] only, should be considered invalid if no backend is combined)
 // (Database only without backend, should be considered invalid)
 // (Payment providers only without backend, should be considered invalid)
 // (Mailing providers only without backend, should be considered invalid)
 // (Auth providers only without backend, should be considered invalid)
-// vanillajs | react | nextjs x mysql/mongodb/postgres ❌
-// vanillajs | react | nextjs x stripe/lemonsqueezy/paddle ❌
-// vanillajs | react | nextjs x resend/postmark/elasticmail ❌
-// vanillajs x clerk/jwt ❌
+// vuejs | react | nextjs x mysql/mongodb/postgres ❌
+// vuejs | react | nextjs x stripe/lemonsqueezy/paddle ❌
+// vuejs | react | nextjs x resend/postmark/elasticmail ❌
+// vuejs x clerk/jwt ❌
 // mysql | mongodb | postgres x (without) backend lang/frameworks/libraries ❌
 // stripe | lemonsqueezy | paddle x (without) backend lang/frameworks/libraries ❌
 // resend | postmark | elasticmail x (without) backend lang/frameworks/libraries ❌
@@ -37,17 +37,13 @@ export default function _checkRefinedStackCombo(
       return false;
     }
 
-    if (
-      frontend &&
-      database &&
-      ["vanillajs", "react"].includes(frontend.stack)
-    ) {
-      console.log("[vanillajs] or [react] and database invalid combo");
+    if (frontend && database && ["vuejs", "react"].includes(frontend.stack)) {
+      console.log("[vuejs] or [react] and database invalid combo");
       return false;
     }
 
     if (frontend && authentication && !backend) {
-      if (frontend.stack === "vanillajs") {
+      if (frontend.stack === "vuejs") {
         console.log("frontend [vaillajs] and auth invalid combo");
         return false;
       }
@@ -69,7 +65,7 @@ export default function _checkRefinedStackCombo(
     }
 
     if (mailing && frontend) {
-      if (["vanillajs", "react"].includes(frontend.stack)) {
+      if (["vuejs", "react"].includes(frontend.stack)) {
         console.log(
           "no support for vanilajs and react mailing only without backend invalid combo"
         );

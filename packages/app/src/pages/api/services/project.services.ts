@@ -252,13 +252,37 @@ class ProjectService {
         );
       }
 
-      const validStacks = [];
-      for (const [category, stack] of Object.entries(tech_stacks)) {
-        validStacks.push({
+      type Stack = {
+        category: string;
+        key: string;
+        name: string;
+        technology: string;
+      };
+
+      const validStacks: Stack[] = Object.entries(tech_stacks).map(
+        ([category, stack]) => ({
           category,
           key: stack.stack,
           name: stack.name,
           technology: stack.stack,
+        })
+      );
+
+      // Include tailwindcss by default if frontend is selected and tailwindcss or sass is not selected
+      // All frontend project by default would use tailwindcss
+      if (
+        validStacks.some((stack) => stack.category === "frontend") &&
+        !validStacks.some(
+          (stack) =>
+            stack.category === "design_system" &&
+            (stack.key === "tailwindcss" || stack.key === "sass")
+        )
+      ) {
+        validStacks.push({
+          category: "design_system",
+          key: "tailwindcss",
+          name: "Tailwind CSS",
+          technology: "tailwindcss",
         });
       }
 
