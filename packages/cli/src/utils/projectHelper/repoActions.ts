@@ -1,5 +1,5 @@
 class GithubRepoActions {
-  async downloadRepo(proj_name: string) {}
+  async cloneRepo(proj_name: string) {}
 
   async createGhRepo(proj_name: string) {}
 
