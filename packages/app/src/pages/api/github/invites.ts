@@ -51,11 +51,7 @@ async function addCollaboratorToRepo(
         // const data = resp.data;
         if ([201, 204, 200].includes(resp.status)) {
           console.log(
-            `✅ [Collaborator Invite]: Invitation sent to ${username} for ${ghR.repo}`
-          );
-        } else {
-          console.log(
-            `❌ [Collaborator Invite]: Invitation failed for ${username} for ${ghR.repo}`
+            `✅ [Collaborator Invite]: Invitation sent to [user: ${username}] for [repo: ${ghR.repo}]`
           );
         }
       }
@@ -64,7 +60,7 @@ async function addCollaboratorToRepo(
     const msg = e.response.data ?? e?.message;
     console.log(msg);
     console.log(
-      `❌ [Collaborator Invite]: Invitation failed for ${username} for ${_repoName}`
+      `❌ [Collaborator Invite]: Invitation failed for ${username} for [repo: ${_repoName}]`
     );
   }
 }
