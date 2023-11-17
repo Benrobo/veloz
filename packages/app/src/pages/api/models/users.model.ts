@@ -12,6 +12,7 @@ interface IUser {
   hasSubscribed: boolean;
   isTester: boolean;
   veloz_token: string;
+  gh_username: string;
   gh_ref_token: string;
   gh_acc_token: string;
   default_nextjs_router: "APP" | "PAGE";
@@ -29,6 +30,7 @@ const userSchema = new Schema<IUser>(
     hasSubscribed: { type: Boolean, default: false },
     isTester: { type: Boolean, default: false },
     veloz_token: { type: String, required: true },
+    gh_username: { type: String, default: null },
     gh_ref_token: { type: String, default: null },
     gh_acc_token: { type: String, default: null },
     default_nextjs_router: {
