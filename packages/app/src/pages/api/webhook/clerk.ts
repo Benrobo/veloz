@@ -31,8 +31,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const eventType = evt.type;
   if (eventType === "user.created") {
-    const { email_addresses, image_url, first_name, last_name, id } =
-      data as any;
+    const {
+      email_addresses,
+      image_url,
+      first_name,
+      last_name,
+      id,
+      external_accounts,
+    } = data as any;
+
+    const gh_username = external_accounts[0]?.username;
 
     // check if user exists, if it doesn't then create a new user
     // if it does do nothing
@@ -53,6 +61,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         avatar: image_url,
         hasSubscribed: false,
         veloz_token: shortUUID.generate(),
+        gh_username,
       });
 
       console.log(`✅ User ${email} created!`);
