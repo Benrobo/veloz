@@ -60,8 +60,8 @@ function RenderStacks({ tech_stacks, category }: RenderStacksProps) {
               stackWithExtendedHeight.includes(stack.key)
                 ? 50
                 : stack.key === "lemonsqueezy"
-                ? 120
-                : 30
+                  ? 120
+                  : 30
             }
             height={0}
             alt={stack.key}
@@ -111,6 +111,8 @@ export function RenderSelectableStacks({
     updateStacksState(key, name, techCategory);
   }
 
+  const selectedDefaultStacks = ["monorepo", "tailwindcss"];
+
   const selectedStackExists = selecedStacks[category as TechStackCategory];
 
   return (
@@ -121,9 +123,12 @@ export function RenderSelectableStacks({
             key={stack.key}
             className={cn(
               "min-w-[120px] min-h-[120px] relative px-3 py-2 rounded-md border-solid border-[1px] border-white-600 overflow-hidden ",
-              selectedStackExists && selectedStackExists.stack === stack.key
-                ? "border-orange-100"
-                : ""
+              selectedStackExists &&
+                selectedStackExists.stack === stack.key &&
+                "border-orange-100",
+              !selectedStackExists &&
+                selectedDefaultStacks.includes(stack.key) &&
+                "border-orange-100"
             )}
             onClick={() => {
               if (!isStackAvailable(stack.key, category)) return;
@@ -173,8 +178,8 @@ export function RenderSelectableStacks({
                   stackWithExtendedHeight.includes(stack.key)
                     ? 40
                     : stack.key === "lemonsqueezy"
-                    ? 120
-                    : 30
+                      ? 120
+                      : 30
                 }
                 height={0}
                 alt={stack.key}
@@ -240,8 +245,8 @@ export function RenderFineTunedStacks({
               stackWithExtendedHeight.includes(stack.key)
                 ? 50
                 : stack.key === "lemonsqueezy"
-                ? 120
-                : 30
+                  ? 120
+                  : 30
             }
             height={0}
             alt={stack.key}

@@ -18,8 +18,6 @@ import {
 import React, { ReactElement } from "react";
 import { TechStackCategory } from "@veloz/shared/types";
 import { AddTechStackProps } from ".";
-import { REFINED_STACKS } from "@veloz/shared/data/stack";
-import { StackImages } from "@/data/images";
 
 interface RefinedProps extends AddTechStackProps {}
 
@@ -76,6 +74,12 @@ function Refined({ updateStacksState, selectedStacks }: RefinedProps) {
         className="w-full"
         leftIcon={renderAccdIcon("design_system")}
       >
+        <FlexColStart className="w-full mb-2">
+          <p className="text-gray-100 text-[12px] font-jbSB">
+            All frontend projects by default uses{" "}
+            <span className="text-white-200 underline">tailwindcss</span>{" "}
+          </p>
+        </FlexColStart>
         <FlexRowStartCenter>
           <RenderSelectableStacks
             category={"design_system"}
