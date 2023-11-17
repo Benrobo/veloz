@@ -172,6 +172,7 @@ export interface IGenerateProjectDetails {
   env_id: string;
   download_link: string;
   status: "pending" | "failed" | "done";
+  secrets: string;
   tech_stacks: {
     category: TechStackCategory;
     name: string;

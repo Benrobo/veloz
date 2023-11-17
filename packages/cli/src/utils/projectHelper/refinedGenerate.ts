@@ -18,6 +18,7 @@ type ProjUserData = {
   id: string;
   username: string;
   proj_id: string;
+  secrets: string;
 };
 
 type RepoSetupResp = { msg: string | null; success: boolean };

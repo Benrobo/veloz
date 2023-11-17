@@ -23,6 +23,13 @@ import {
   react_app_tsx,
   react_tw_card,
 } from "../../data/frontend/components.js";
+import {
+  react_dashboard_tsx,
+  react_index_tsx,
+  react_sign_in_tsx,
+  react_sign_up_tsx,
+  react_Auth_app_tsx,
+} from "../../data/frontend/page.js";
 
 const githubActions = GithubRepoActions;
 
@@ -39,6 +46,7 @@ type FeProps = {
     id: string;
     username: string;
     proj_id: string;
+    secrets: string;
   };
 };
 
@@ -60,14 +68,14 @@ export default class _FrontendSetup extends BaseSetup {
       case "monorepo-react":
         await this._reactSetup();
         break;
-      case "monorepo-vanillajs":
-        await this._vanillajsSetup();
+      case "monorepo-vuejs":
+        await this._vuejsSetup();
         break;
       case "monolith-react":
         await this._reactSetup();
         break;
-      case "monolith-vanillajs":
-        await this._vanillajsSetup();
+      case "monolith-vuejs":
+        await this._vuejsSetup();
         break;
       default:
         logger.error(`[Frontend Setup]: Invalid stack case: ${stackCase}`);
@@ -77,8 +85,16 @@ export default class _FrontendSetup extends BaseSetup {
 
   async _reactSetup() {
     const s = spinner();
-    const { fe_tech, name, cb_arch, design_system, auth, _frontendPath } =
-      this.props;
+    const {
+      fe_tech,
+      name,
+      userData,
+      cb_arch,
+      design_system,
+      auth,
+      _frontendPath,
+    } = this.props;
+    const { secrets } = userData;
     try {
       s.start("Cloning repo...");
       await sleep(1);
@@ -104,10 +120,117 @@ export default class _FrontendSetup extends BaseSetup {
           await this.initTailwindcss(_frontendPath, fe_tech);
         }
       }
+      if (auth) {
+        if (auth === "clerk") {
+          await this.initAuthentication(_frontendPath, fe_tech, auth, secrets);
+        }
+      }
     } catch (e: any) {}
   }
 
-  async _vanillajsSetup() {}
+  async _vuejsSetup() {}
+
+  async initAuthentication(
+    base_path: string,
+    fe_stack: string,
+    auth: string,
+    secrets: string
+  ) {
+    const s = spinner();
+    const basePkgJson = `${base_path}/package.json`;
+    if (auth === "clerk") {
+      if (fe_stack === "react") {
+        // setup react authentication
+        s.start(`🔐 Configuring clerk authentication...`);
+
+        const _srcDir = `${base_path}/src`;
+
+        const _authFolder = await createDir(_srcDir, "auth");
+        if (!_authFolder.success) {
+          s.stop(`❌ ${chalk.redBright("Failed creating auth folder")}`);
+          logger.error(_authFolder.msg);
+          return;
+        }
+
+        // update App.tsx
+        await updateFileContent(
+          `${_srcDir}/App.tsx`,
+          await prettify(react_Auth_app_tsx, "babel-ts")
+        );
+        // create auth pages
+        await createFile(
+          _authFolder.path,
+          "sign-in.tsx",
+          await prettify(react_sign_in_tsx, "babel")
+        );
+        await createFile(
+          _authFolder.path,
+          "sign-up.tsx",
+          await prettify(react_sign_up_tsx, "babel")
+        );
+
+        // create home and dashboard pages
+        await createFile(
+          _srcDir,
+          "index.tsx",
+          await prettify(react_index_tsx, "babel")
+        );
+        await createFile(
+          _srcDir,
+          "dashboard.tsx",
+          await prettify(react_dashboard_tsx, "babel")
+        );
+
+        // create .env.local
+        secrets += `\nVITE_CLERK_PUBLISHABLE_KEY=xxxxxxxxxx`;
+        await this.createEnv(base_path, ".env.local", secrets);
+
+        // update package.json
+        const _pkgJson = getPackageJsonDataFromPath(basePkgJson);
+        const data = _pkgJson.data as ReturnPackageJson;
+        const clerk = await getPkgVersion("@clerk/clerk-react"),
+          RRD = await getPkgVersion("react-router-dom"),
+          typeNode = await getPkgVersion("@types/node");
+
+        data["dependencies"] = {
+          ...data["dependencies"],
+          "@clerk/clerk-react": clerk,
+          "react-router-dom": RRD,
+        };
+        data["devDependencies"] = {
+          ...data["devDependencies"],
+          "@types/node": typeNode,
+        };
+
+        const _pkgUpdated = await updateFileContent(
+          basePkgJson,
+          JSON.stringify(data, null, 2)
+        );
+        if (!_pkgUpdated.success) {
+          s.stop(
+            `❌ ${chalk.redBright("Failed configuring clerk authentication")}`
+          );
+          logger.error(_pkgUpdated?.msg);
+          return;
+        }
+
+        s.stop(`✅ Clerk authentication configured`);
+      }
+    }
+  }
+
+  async createEnv(base_path: string, filename: string, secrets: string) {
+    // create .env.local
+    await createFile(base_path, ".env.local", "");
+    const _splited = secrets
+      .trim()
+      .split("/n")
+      .filter((s) => s.trim().length > 0);
+
+    for (const _secret of _splited) {
+      await updateFileContent(`${base_path}/${filename}`, _secret);
+    }
+  }
 
   async initTailwindcss(base_path: string, fe_stack: string) {
     const s = spinner();
@@ -202,7 +325,7 @@ export default class _FrontendSetup extends BaseSetup {
     }
     if (fe_stack === "nextjs") {
     }
-    if (fe_stack === "vanillajs") {
+    if (fe_stack === "vuejs") {
     }
   }
 }
