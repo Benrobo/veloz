@@ -181,7 +181,7 @@ export default class _FrontendSetup extends BaseSetup {
           await prettify(react_dashboard_tsx, "babel")
         );
 
-        // create .env.local
+        // create .env.local (test key) 🥲
         secrets += `\nVITE_CLERK_PUBLISHABLE_KEY=pk_test_ZXhjaXRpbmctaGVkZ2Vob2ctNjQuY2xlcmsuYWNjb3VudHMuZGV2JA`;
         await this.createEnv(base_path, ".env.local", secrets);
 
