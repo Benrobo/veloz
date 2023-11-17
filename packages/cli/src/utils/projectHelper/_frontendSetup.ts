@@ -62,13 +62,6 @@ export default class _FrontendSetup extends BaseSetup {
 
       s.stop();
 
-      if (fe_tech === "react") {
-        // clone react repo
-      }
-      if (fe_tech === "nextjs") {
-      }
-      if (fe_tech === "vanillajs") {
-      }
       // pull github repo
     } catch (e: any) {}
   }
