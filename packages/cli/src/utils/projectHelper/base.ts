@@ -1,12 +1,12 @@
 import GithubRepoActions from "./repoActions.js";
-import { createDir, createFile } from "../filemanager.js";
+import { createDir, createFile, updateFileContent } from "../filemanager.js";
 import { RootMonorepoPkgJson } from "../../data/package_json.js";
 import logger from "../logger.js";
 import { spinner } from "@clack/prompts";
 import { updateProjectStatus } from "../../https/index.js";
 import { HttpResponse } from "@veloz/shared/types/index.js";
 import chalk from "chalk";
-import { sleep } from "../index.js";
+import { getPackageJsonDataFromPath, sleep } from "../index.js";
 
 type MonorepoResp = {
   frontendPath: string | null;
@@ -124,6 +124,40 @@ export default class BaseSetup {
       s.stop(`✅ Project status updated`);
     } catch (e: any) {
       s.stop(`🚩 ${chalk.redBright(e?.message)}`);
+    }
+  }
+
+  public async managePkgJson(
+    proj_name: string,
+    base_path: string,
+    stack: string
+  ) {
+    const s = spinner();
+    if (stack === "react") {
+      // manage react pkg.json
+      s.start(`Updating package.json...`);
+      await sleep(1);
+      const filePath = `${base_path}/package.json`;
+      const _pkgJson = getPackageJsonDataFromPath(filePath);
+      if (!_pkgJson.success) {
+        s.stop(`🚩 ${chalk.redBright(_pkgJson?.err)}`);
+        return;
+      }
+
+      const _pkgData = _pkgJson.data;
+      _pkgData["name"] = `@${proj_name}/app`;
+
+      // update
+      const _pkgJsonUpdated = await updateFileContent(
+        filePath,
+        JSON.stringify(_pkgData, null, 2)
+      );
+      if (!_pkgJsonUpdated.success) {
+        s.stop(`🚩 ${chalk.redBright("Failed updating package.json")}`);
+        logger.error(_pkgJsonUpdated?.msg);
+        return;
+      }
+      s.stop(`✅ base package.json updated`);
     }
   }
 }
