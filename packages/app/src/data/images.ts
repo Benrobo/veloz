@@ -14,8 +14,8 @@ export const StackImages = [
     img: "/images/cb_architecture/monorepo.png",
   },
   {
-    name: "vanillajs",
-    img: "/images/tech_stacks/javascript.svg",
+    name: "vuejs",
+    img: "/images/tech_stacks/vuejs.svg",
   },
   {
     name: "nextjs",

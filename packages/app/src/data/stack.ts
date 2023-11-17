@@ -82,8 +82,8 @@ export const REFINED_STACKS = [
     category: "frontend",
     stacks: [
       {
-        name: "Vanilla JS",
-        key: "vanillajs",
+        name: "Vue.js",
+        key: "vuejs",
         pricing_plan: "FREE_PKG",
       },
       {
@@ -267,7 +267,7 @@ export const STACK_CATEGORIES = [
 ] satisfies TechStackCategory[];
 
 // (Refined Only) ALL STACKS
-export const validFrontendStacks = ["vanillajs", "nextjs", "react"];
+export const validFrontendStacks = ["vuejs", "nextjs", "react"];
 export const validBackendStacks = [
   "nextjs-api",
   "nodejs",
@@ -287,8 +287,8 @@ export const STACK_AVAILABILITY = [
   // Frontend
   {
     category: "frontend",
-    available: ["nextjs", "react", "vanillajs"],
-    not_available: ["svelte", "astro"],
+    available: ["nextjs", "react"],
+    not_available: ["svelte", "astro", "vuejs"],
   },
   // Design System
   {
@@ -343,7 +343,7 @@ export const STACK_AVAILABILITY_REPO_NAME = [
   },
   {
     plan: "FREE_PKG",
-    repo: "veloz-vanillajs",
+    repo: "veloz-vuejs",
     available: false,
   },
   {

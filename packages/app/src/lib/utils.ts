@@ -7,23 +7,22 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+const planLevels = {
+  FREE_PKG: 1,
+  BASIC_PKG: 2,
+  STANDARD_PKG: 3,
+  ENTERPRISE_PKG: 4,
+};
+
 // check if user is eligible or not for a specific plan
 export function isUserEligibleForStack(
   stackKey: string,
   category: TechStackCategory,
   userPricingPlan: TechStackPricingPlan
 ) {
-  const stacks = REFINED_STACKS.find(
-    (stack) => stack.category === category
-  )?.stacks;
+  const stacks = REFINED_STACKS.find((stack) => stack.category === category)
+    ?.stacks;
   const techStack = stacks?.find((stack) => stack.key === stackKey);
-  const planLevels = {
-    FREE_PKG: 1,
-    BASIC_PKG: 2,
-    STANDARD_PKG: 3,
-    ENTERPRISE_PKG: 4,
-  };
-
   if (techStack) {
     const { pricing_plan } = techStack;
     if (planLevels[userPricingPlan] >= planLevels[pricing_plan]) {
@@ -135,7 +134,13 @@ export function _isUserEligibleForStack(
       (s) => s.category === category
     )?.stacks.find((s) => s.key === stack.stack);
 
-    if (_stack?.key === stack.stack && _stack.pricing_plan !== userPlan) {
+    if (!_stack) {
+      console.log(`[${stack.stack} : ${category}] Stack not found`);
+      resp.message = `Stack not found`;
+      return resp;
+    }
+
+    if (planLevels[userPlan] < planLevels[_stack.pricing_plan]) {
       console.log(`[${stack.stack} : ${_stack.pricing_plan}] Not Eligible`);
       resp.message = `You are not eligible for ${stack.stack} stack`;
       return resp;
