@@ -30,28 +30,3 @@ function Card() {
 
 export default Card;
 `;
-
-// react without tailwindcss
-export const react_css_card = `
-import React from "react";
-
-function Card() {
-  return (
-    <div className="flex-container center-screen background-white">
-      <div className="rounded-card shadow-box padding-card">
-        <div className="flex-center">
-          <span className="emoji">🎉</span>
-        </div>
-        <h3 className="margin-title text-center text-large font-bold text-dark-gray">
-          Congratulations!!!
-        </h3>
-        <p className="width-230 font-poppins text-center font-regular text-gray">
-          You're all set up!.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-export default Card;
-`;
