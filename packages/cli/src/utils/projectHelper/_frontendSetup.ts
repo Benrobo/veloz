@@ -1,14 +1,28 @@
 import { CodebaseArchitecture } from "@veloz/shared/types";
 import BaseSetup from "./base.js";
 import { spinner } from "@clack/prompts";
-import { sleep } from "../index.js";
+import {
+  ReturnPackageJson,
+  getPackageJsonDataFromPath,
+  sleep,
+} from "../index.js";
 import logger from "../logger.js";
 import GithubRepoActions from "../../utils/projectHelper/repoActions.js";
 import { GithubRepo } from "../../data/repo.js";
 import chalk from "chalk";
-import { createFile } from "../filemanager.js";
+import { createDir, createFile, updateFileContent } from "../filemanager.js";
 import tailwindcss_config from "../../data/frontend/config/tailwind.config.js";
 import prettify from "../prettier.js";
+import getPkgVersion from "../getPkgVersion.js";
+import {
+  postcssConfig,
+  tailwind_directives,
+} from "../../data/frontend/config/css.js";
+import { viteReactTsconfig } from "../../data/frontend/config/tsconfig.js";
+import {
+  react_app_tsx,
+  react_tw_card,
+} from "../../data/frontend/components.js";
 
 const githubActions = GithubRepoActions;
 
@@ -96,9 +110,15 @@ export default class _FrontendSetup extends BaseSetup {
   async _vanillajsSetup() {}
 
   async initTailwindcss(base_path: string, fe_stack: string) {
+    const s = spinner();
+    const basePkgJson = `${base_path}/package.json`;
     if (fe_stack === "react") {
+      s.start(`Configuring Tailwindcss...`);
       tailwindcss_config.content.length = 0;
       tailwindcss_config.content.push("./src/**/*.{js,jsx,ts,tsx}");
+      tailwindcss_config.theme.extend.fontFamily = {
+        poppins: ["Poppins", "sans-serif"],
+      } as any;
 
       const modifiedTwContent = `
       const config = ${JSON.stringify(tailwindcss_config, null, 2)}
@@ -109,6 +129,76 @@ export default class _FrontendSetup extends BaseSetup {
       // create tailwind.config.ts file
       const prettifiedConfig = await prettify(modifiedTwContent, "babel");
       await createFile(base_path, "tailwind.config.ts", prettifiedConfig);
+
+      // update index.css
+      const indexCssPath = `${base_path}/src/index.css`;
+      const font = `@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");`;
+      const _updatedCont = tailwind_directives.replace(
+        "{{hosted_react_font}}",
+        font
+      );
+      await updateFileContent(
+        indexCssPath,
+        await prettify(_updatedCont, "css")
+      );
+
+      // add postcss file
+      const postcssFile = `postcss.config.js`;
+      await createFile(
+        base_path,
+        postcssFile,
+        await prettify(postcssConfig, "babel")
+      );
+
+      // add card component and update App.tsx
+      const componentDir = `${base_path}/src`;
+      const _compCreated = await createDir(componentDir, "components");
+      if (!_compCreated.success) {
+        s.stop(`❌ ${chalk.redBright("Failed creating components directory")}`);
+        logger.error(_compCreated.msg);
+        return;
+      }
+
+      await createFile(
+        `${componentDir}/components`,
+        "Card.tsx",
+        await prettify(react_tw_card, "babel")
+      );
+
+      const appTsxFile = `${base_path}/src/App.tsx`;
+      await updateFileContent(
+        appTsxFile,
+        await prettify(react_app_tsx, "babel")
+      );
+
+      // update tsconfig.json (include baseUrl: "./")
+      const tsconfigPath = `${base_path}/tsconfig.json`;
+      await updateFileContent(
+        tsconfigPath,
+        await prettify(JSON.stringify(viteReactTsconfig), "json")
+      );
+
+      // update package.json to include tailwindcss
+      const _pkgJson = getPackageJsonDataFromPath(basePkgJson);
+      const data = _pkgJson.data as ReturnPackageJson;
+      const tailwindcss = await getPkgVersion("tailwindcss"),
+        postcss = await getPkgVersion("postcss");
+      data["devDependencies"] = {
+        ...data["devDependencies"],
+        tailwindcss,
+        postcss,
+      };
+      const _pkgUpdated = await updateFileContent(
+        basePkgJson,
+        JSON.stringify(data, null, 2)
+      );
+      if (!_pkgUpdated.success) {
+        s.stop(`❌ ${chalk.redBright("Failed updating package.json")}`);
+        logger.error(_pkgUpdated?.msg);
+        return;
+      }
+
+      s.stop(`✅ Tailwindcss configured`);
     }
     if (fe_stack === "nextjs") {
     }
