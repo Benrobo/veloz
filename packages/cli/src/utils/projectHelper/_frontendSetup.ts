@@ -182,7 +182,7 @@ export default class _FrontendSetup extends BaseSetup {
         );
 
         // create .env.local
-        secrets += `\nVITE_CLERK_PUBLISHABLE_KEY=xxxxxxxxxx`;
+        secrets += `\nVITE_CLERK_PUBLISHABLE_KEY=pk_test_ZXhjaXRpbmctaGVkZ2Vob2ctNjQuY2xlcmsuYWNjb3VudHMuZGV2JA`;
         await this.createEnv(base_path, ".env.local", secrets);
 
         // update package.json
