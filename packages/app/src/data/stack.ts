@@ -3,6 +3,7 @@ import {
   REFINED_STACKS as REFINED_STACKS_TYPE,
   TechStackCategory,
   StackAvailabilityType,
+  TechStackPricingPlan,
 } from "@veloz/shared/types";
 
 // Static data meant for backend and frontend
@@ -327,3 +328,32 @@ export const STACK_AVAILABILITY = [
     not_available: ["passage"],
   },
 ] satisfies StackAvailabilityType[];
+
+// Stack Repos Name
+type StackAvailabilityRepoName = {
+  plan: TechStackPricingPlan;
+  repo: string;
+  available: boolean;
+};
+export const STACK_AVAILABILITY_REPO_NAME = [
+  {
+    plan: "FREE_PKG",
+    repo: "veloz-react",
+    available: true,
+  },
+  {
+    plan: "FREE_PKG",
+    repo: "veloz-vanillajs",
+    available: false,
+  },
+  {
+    plan: "BASIC_PKG",
+    repo: "veloz-nextjs",
+    available: false,
+  },
+  {
+    plan: "BASIC_PKG",
+    repo: "veloz-zeus",
+    available: false,
+  },
+] satisfies StackAvailabilityRepoName[];
