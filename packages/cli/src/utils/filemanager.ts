@@ -119,3 +119,27 @@ export function emptyDirectory(
     cb(`[Failed to delete directory recursively]: ${e?.message}`, false);
   }
 }
+
+export async function updateFileContent(
+  path_to_file: string,
+  content?: string
+) {
+  let resp = {
+    msg: null,
+    success: false,
+  };
+  try {
+    if (!fs.existsSync(path_to_file)) {
+      resp["msg"] = `Failed to update file content, path don't exist.`;
+      return resp;
+    }
+    const file = `${path_to_file}`;
+    fs.writeFileSync(file, content as any);
+    resp["success"] = true;
+    return resp;
+  } catch (e: any) {
+    resp["success"] = false;
+    resp["msg"] = `Something went wrong updating file content: ${e?.message}.`;
+    return resp;
+  }
+}
