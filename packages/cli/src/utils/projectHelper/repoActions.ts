@@ -20,9 +20,33 @@ class GithubRepoActions {
     }
   }
 
+  async removeRemote(path: string) {
+    try {
+      await $`git -C ${path} remote remove origin`;
+      response["success"] = true;
+      return response;
+    } catch (e: any) {
+      response["success"] = false;
+      response["msg"] = `Failed removing remote.`;
+      response["errMsg"] = `Error removing remote @ ${path}: ${e.message}`;
+      return response;
+    }
+  }
+
   async createGhRepo(proj_name: string, path: string) {}
 
-  async initGit(rootDir: string, path: string) {}
+  async initGit(path: string) {
+    try {
+      await $`git -C ${path} init`;
+      response["success"] = true;
+      return response;
+    } catch (e: any) {
+      response["success"] = false;
+      response["msg"] = `Failed initializing git.`;
+      response["errMsg"] = `Error initializing git: ${e.message}`;
+      return response;
+    }
+  }
 }
 
 export default new GithubRepoActions();

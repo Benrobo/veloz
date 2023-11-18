@@ -1,6 +1,6 @@
 import { CodebaseArchitecture } from "@veloz/shared/types";
 import BaseSetup from "./base.js";
-import { spinner } from "@clack/prompts";
+import { outro, spinner } from "@clack/prompts";
 import {
   ReturnPackageJson,
   getPackageJsonDataFromPath,
@@ -52,6 +52,7 @@ type FeProps = {
 
 export default class _FrontendSetup extends BaseSetup {
   private props: FeProps;
+  private _cwd: string;
   public _response: { success: boolean; msg: string | null } = {
     msg: "",
     success: false,
@@ -59,6 +60,7 @@ export default class _FrontendSetup extends BaseSetup {
   constructor(props: FeProps) {
     super();
     this.props = props;
+    this._cwd = `${process.cwd()}/${this.props.name}`;
   }
 
   async initializeSetup() {
@@ -110,6 +112,18 @@ export default class _FrontendSetup extends BaseSetup {
         return;
       }
 
+      // delete remote repository after cloning
+      s.start("Removing remote repository...");
+      await sleep(1);
+
+      const _remoteDel = await githubActions.removeRemote(_frontendPath);
+      if (!_remoteDel.success) {
+        s.stop(`❌ ${chalk.redBright(_remoteDel?.msg)}`);
+        logger.error(_remoteDel?.errMsg);
+        return;
+      }
+      s.stop("✅ Done removing remote repository");
+
       // manage package.json first
       await this.managePkgJson(name, _frontendPath, fe_tech);
 
@@ -128,7 +142,24 @@ export default class _FrontendSetup extends BaseSetup {
           await this.initAuthentication(_frontendPath, fe_tech, auth, secrets);
         }
       }
-    } catch (e: any) {}
+
+      // initialize git repo
+      s.start("Initializing git repo...");
+      await sleep(1);
+
+      const _gitInit = await githubActions.initGit(this._cwd);
+      if (!_gitInit.success) {
+        s.stop(`❌ ${chalk.redBright(_gitInit?.msg)}`);
+        logger.error(_gitInit?.errMsg);
+        return;
+      }
+
+      s.stop("✅ Done initializing git repo");
+    } catch (e: any) {
+      s.stop(`❌ Failed setting up frontend ${chalk.redBright(e?.message)}`);
+      logger.error(e?.message);
+    }
+    outro("🛠️  Done");
   }
 
   async _vuejsSetup() {}

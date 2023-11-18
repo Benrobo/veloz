@@ -16,13 +16,13 @@ interface IProjectRespData extends IGenerateProjectDetails {
 }
 
 class VelozGenerate extends BaseSetup {
-  //   private projName: string;
   constructor() {
     super();
-    // this.projName = projName;
   }
 
   async start(projName: string) {
+    console.log("");
+    intro("🛠️  Project scaffolding");
     const s = spinner();
     try {
       s.start("Fetching..");
@@ -53,7 +53,6 @@ class VelozGenerate extends BaseSetup {
     } catch (e: any) {
       s.stop(`🚩 ${chalk.redBright(e?.message)}`);
     }
-    // outro("Done");
   }
 }
 
