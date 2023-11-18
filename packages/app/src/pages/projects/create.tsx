@@ -174,8 +174,8 @@ function CreateProject() {
   function saveProjectChanges() {
     const { name, description } = projDetails;
     const defaultCodebaseArch = {
-      stack: "monolith",
-      name: "Monolith",
+      stack: "monorepo",
+      name: "Monorepo",
       category: "codebase_acrhitecture",
     };
 

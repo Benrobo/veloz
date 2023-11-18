@@ -324,8 +324,8 @@ export const STACK_AVAILABILITY = [
   // Authentication
   {
     category: "authentication",
-    available: ["jsonwebtoken", "clerk"],
-    not_available: ["passage"],
+    available: ["clerk"],
+    not_available: ["passage", "jsonwebtoken"],
   },
 ] satisfies StackAvailabilityType[];
 
