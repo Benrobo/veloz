@@ -113,6 +113,9 @@ export default class _FrontendSetup extends BaseSetup {
       // manage package.json first
       await this.managePkgJson(name, _frontendPath, fe_tech);
 
+      // create .env
+      await this.createEnv(_frontendPath, ".env.local", secrets);
+
       // check if design system is selected
       if (design_system) {
         // tailwindcss support
