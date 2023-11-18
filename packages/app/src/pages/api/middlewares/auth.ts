@@ -11,7 +11,7 @@ export function isAuthenticated(fn: Function) {
       return sendResponse.error(
         res,
         RESPONSE_CODE.UNAUTHORIZED,
-        "You are not authorized to access this route",
+        "Unauthorized",
         401
       );
     }

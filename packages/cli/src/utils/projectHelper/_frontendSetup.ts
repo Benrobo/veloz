@@ -47,6 +47,7 @@ type FeProps = {
     username: string;
     proj_id: string;
     secrets: string;
+    default_nextjs_route: "PAGE" | "APP";
   };
 };
 
@@ -78,6 +79,12 @@ export default class _FrontendSetup extends BaseSetup {
         break;
       case "monolith-vuejs":
         await this._vuejsSetup();
+        break;
+      case "monorepo-nextjs":
+        await this._nextjsSetup();
+        break;
+      case "monolith-nextjs":
+        await this._nextjsSetup();
         break;
       default:
         logger.error(`[Frontend Setup]: Invalid stack case: ${stackCase}`);
@@ -155,6 +162,11 @@ export default class _FrontendSetup extends BaseSetup {
       }
 
       s.stop("✅ Done initializing git repo");
+
+      this.showWelcomeMessage(
+        `✨ ${fe_tech} scaffolded successfully`,
+        this._cwd
+      );
     } catch (e: any) {
       s.stop(`❌ Failed setting up frontend ${chalk.redBright(e?.message)}`);
       logger.error(e?.message);
@@ -162,7 +174,94 @@ export default class _FrontendSetup extends BaseSetup {
     outro("🛠️  Done");
   }
 
+  // * Coming Soon
   async _vuejsSetup() {}
+
+  async _nextjsSetup() {
+    const s = spinner();
+    const {
+      fe_tech,
+      name,
+      userData,
+      cb_arch,
+      design_system,
+      auth,
+      _frontendPath,
+      mailing,
+    } = this.props;
+    const { secrets, default_nextjs_route } = userData;
+    try {
+      s.start("Cloning repo...");
+      await sleep(1);
+
+      const repoUrl = GithubRepo.map((d) =>
+        d.stack === fe_tech &&
+        ((default_nextjs_route === "PAGE" && d.name === "veloz-nextjs-page") ||
+          (default_nextjs_route !== "PAGE" && d.name === "veloz-nextjs-app"))
+          ? d
+          : null
+      ).filter((d) => d !== null)[0]?.url;
+
+      const doneCloning = await githubActions.cloneRepo(_frontendPath, repoUrl);
+
+      if (doneCloning?.success) {
+        s.stop("✅ Done Cloning");
+      } else {
+        s.stop(`❌ ${chalk.redBright(doneCloning?.msg)}`);
+        logger.error(doneCloning?.errMsg);
+        return;
+      }
+
+      // delete remote repository after cloning
+      s.start("Removing remote repository...");
+      await sleep(1);
+
+      const _remoteDel = await githubActions.removeRemote(_frontendPath);
+      if (!_remoteDel.success) {
+        s.stop(`❌ ${chalk.redBright(_remoteDel?.msg)}`);
+        logger.error(_remoteDel?.errMsg);
+        return;
+      }
+      s.stop("✅ Done removing remote repository");
+
+      // manage package.json first
+      await this.managePkgJson(name, _frontendPath, fe_tech);
+
+      // create .env
+      await this.createEnv(_frontendPath, ".env.local", secrets);
+
+      // check if design system is selected
+      if (design_system) {
+        // tailwindcss support
+        if (design_system === "tailwindcss") {
+          await this.initTailwindcss(_frontendPath, fe_tech);
+        }
+      }
+      if (auth) {
+        if (auth === "clerk") {
+          await this.initAuthentication(_frontendPath, fe_tech, auth, secrets);
+        }
+      }
+
+      // initialize git repo
+      s.start("Initializing git repo...");
+      await sleep(1);
+
+      const _gitInit = await githubActions.initGit(this._cwd);
+      if (!_gitInit.success) {
+        s.stop(`❌ ${chalk.redBright(_gitInit?.msg)}`);
+        logger.error(_gitInit?.errMsg);
+        return;
+      }
+
+      s.stop("✅ Done initializing git repo");
+
+      this.showWelcomeMessage(
+        `✨ ${fe_tech} scaffolded successfully`,
+        this._cwd
+      );
+    } catch (e: any) {}
+  }
 
   async initAuthentication(
     base_path: string,
@@ -250,19 +349,6 @@ export default class _FrontendSetup extends BaseSetup {
 
         s.stop(`✅ Clerk authentication configured`);
       }
-    }
-  }
-
-  async createEnv(base_path: string, filename: string, secrets: string) {
-    // create .env.local
-    await createFile(base_path, ".env.local", "");
-    const _splited = secrets
-      .trim()
-      .split("/n")
-      .filter((s) => s.trim().length > 0);
-
-    for (const _secret of _splited) {
-      await updateFileContent(`${base_path}/${filename}`, _secret);
     }
   }
 
@@ -358,8 +444,34 @@ export default class _FrontendSetup extends BaseSetup {
       s.stop(`✅ Tailwindcss configured`);
     }
     if (fe_stack === "nextjs") {
+      s.start(`Configuring Tailwindcss...`);
+      tailwindcss_config.content.length = 0;
+      tailwindcss_config.content.push("./src/**/*.{js,jsx,ts,tsx}");
+
+      const modifiedTwContent = `
+      const config = ${JSON.stringify(tailwindcss_config, null, 2)}
+      
+      export default config;
+      `;
+
+      // create tailwind.config.ts file
+      const prettifiedConfig = await prettify(modifiedTwContent, "babel");
+      await createFile(base_path, "tailwind.config.ts", prettifiedConfig);
     }
     if (fe_stack === "vuejs") {
+    }
+  }
+
+  async createEnv(base_path: string, filename: string, secrets: string) {
+    // create .env.local
+    await createFile(base_path, ".env.local", "");
+    const _splited = secrets
+      .trim()
+      .split("/n")
+      .filter((s) => s.trim().length > 0);
+
+    for (const _secret of _splited) {
+      await updateFileContent(`${base_path}/${filename}`, _secret);
     }
   }
 }

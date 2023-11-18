@@ -90,6 +90,7 @@ class ProjectService {
       userData: {
         id: user.uId,
         username: user.name,
+        default_nextjs_route: user.default_nextjs_router,
       },
     });
   }

@@ -158,27 +158,6 @@ export default class BaseSetup {
     return monolithResp;
   }
 
-  public async updateProjectStatus(
-    proj_id: string,
-    status: "pending" | "failed" | "done"
-  ) {
-    const s = spinner();
-    try {
-      s.start(`Updating project status...`);
-      await sleep(1);
-      const _resp: HttpResponse = await updateProjectStatus(status, proj_id);
-
-      if (!_resp?.errorStatus) {
-        s.stop(`🚩 ${chalk.redBright(_resp?.message)}`);
-        return;
-      }
-
-      s.stop(`✅ Project status updated`);
-    } catch (e: any) {
-      s.stop(`🚩 ${chalk.redBright(e?.message)}`);
-    }
-  }
-
   public async managePkgJson(
     proj_name: string,
     base_path: string,
@@ -211,5 +190,15 @@ export default class BaseSetup {
       }
       s.stop(`✅ base package.json updated`);
     }
+  }
+
+  public showWelcomeMessage(stackMessage: string, dest_path: string) {
+    console.log(""); // space
+    console.log(
+      chalk.cyanBright(
+        `${stackMessage}\n@ ${dest_path}\n\n Run: \n npm install\n npm run dev`
+      )
+    );
+    console.log(""); // space
   }
 }

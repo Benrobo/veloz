@@ -12,6 +12,7 @@ interface IProjectRespData extends IGenerateProjectDetails {
     id: string;
     username: string;
     proj_id: string;
+    default_nextjs_route: "PAGE" | "APP";
   };
 }
 

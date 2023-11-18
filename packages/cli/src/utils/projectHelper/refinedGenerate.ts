@@ -19,6 +19,7 @@ type ProjUserData = {
   username: string;
   proj_id: string;
   secrets: string;
+  default_nextjs_route: "PAGE" | "APP";
 };
 
 type RepoSetupResp = { msg: string | null; success: boolean };
@@ -84,9 +85,6 @@ export default class RefinedProjectGenerate extends BaseSetup {
       // sent to sentry log system
       _logMsg = `Monorepo Setup Failed.`;
       refinedResponse["msg"] = _logMsg;
-
-      // UPDATE PROJECT STATUS
-      await this.updateProjectStatus(this.userData.proj_id, "failed");
       return refinedResponse;
     }
 
@@ -127,9 +125,6 @@ export default class RefinedProjectGenerate extends BaseSetup {
       // sent to sentry log system
       _logMsg = `Monolith Setup Failed.`;
       refinedResponse["msg"] = _logMsg;
-
-      // UPDATE PROJECT STATUS
-      await this.updateProjectStatus(this.userData.proj_id, "failed");
       return refinedResponse;
     }
 
