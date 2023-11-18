@@ -63,7 +63,7 @@ export default class RefinedProjectGenerate extends BaseSetup {
     if (this.codebaseArchitecture === "monorepo") {
       await this.monoRepoSetup();
     } else {
-      // return this.monolithSetup() as RepoSetupResp;
+      await this.monolithSetup();
     }
   }
 
@@ -112,11 +112,46 @@ export default class RefinedProjectGenerate extends BaseSetup {
   }
 
   async monolithSetup(): Promise<RepoSetupResp | undefined> {
-    let finetunedResponse: RepoSetupResp = {
+    let refinedResponse: RepoSetupResp = {
       msg: "",
       success: false,
     };
-    return finetunedResponse;
+    let _logMsg = "";
+    const _monolithSetup = await this.setupMonolith(
+      this.formatedName,
+      this._frontend,
+      this._backend
+    );
+
+    if (!_monolithSetup.success) {
+      // sent to sentry log system
+      _logMsg = `Monolith Setup Failed.`;
+      refinedResponse["msg"] = _logMsg;
+
+      // UPDATE PROJECT STATUS
+      await this.updateProjectStatus(this.userData.proj_id, "failed");
+      return refinedResponse;
+    }
+
+    if (this._backend && this._frontend) {
+      return refinedResponse;
+    } else if (this._backend) {
+      // Backend setup
+      return refinedResponse;
+    } else if (this._frontend) {
+      // Frontend setup
+      new _FrontendSetup({
+        auth: this._authentication,
+        cb_arch: this.codebaseArchitecture,
+        design_system: this._design_system,
+        fe_tech: this._frontend,
+        mailing: this._mailing,
+        name: this.formatedName,
+        payment: this._payment,
+        _frontendPath: _monolithSetup.frontendPath,
+        userData: this.userData,
+      }).initializeSetup();
+    }
   }
 }
 

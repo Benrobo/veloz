@@ -8,7 +8,7 @@ import { HttpResponse } from "@veloz/shared/types/index.js";
 import chalk from "chalk";
 import { getPackageJsonDataFromPath, sleep } from "../index.js";
 
-type MonorepoResp = {
+type _ArchResp = {
   frontendPath: string | null;
   backendPath: string | null;
   success: boolean;
@@ -24,7 +24,7 @@ export default class BaseSetup {
     _frontend: string | null,
     _backend: string | null
   ) {
-    let monorepoResp: MonorepoResp = {
+    let monorepoResp: _ArchResp = {
       frontendPath: null,
       backendPath: null,
       success: false,
@@ -104,7 +104,59 @@ export default class BaseSetup {
     return monorepoResp;
   }
 
-  public async setupMonolith() {}
+  public async setupMonolith(
+    proj_name: string,
+    _frontend: string | null,
+    _backend: string | null
+  ) {
+    const s = spinner();
+    s.start(`Setting up monolith...`);
+    let monolithResp: _ArchResp = {
+      frontendPath: null,
+      backendPath: null,
+      success: false,
+    };
+    let _logMsg = "";
+    const _projCwd = process.cwd();
+    const _dirCreated = await createDir(_projCwd, proj_name, true);
+    if (_dirCreated.success === false) {
+      _logMsg = `[Monolith Setup]: ${_dirCreated.msg} [path: ${_dirCreated.path}]`;
+      logger.error(_logMsg);
+      return monolithResp;
+    }
+
+    // create client and server folders
+    if (_frontend && _backend) {
+      const _clientCreated = await createDir(_dirCreated.path, "client");
+      const _serverCreated = await createDir(_dirCreated.path, "server");
+      if (!_clientCreated.success) {
+        _logMsg = `[Monolith Setup]: [Failed initializing client folder] ${_dirCreated.msg}`;
+        logger.error(_logMsg);
+        return monolithResp;
+      }
+      if (!_serverCreated.success) {
+        _logMsg = `[Monolith Setup]: [Failed initializing server folder] ${_dirCreated.msg}`;
+        logger.error(_logMsg);
+        return monolithResp;
+      }
+
+      monolithResp["backendPath"] = _serverCreated.path;
+      monolithResp["frontendPath"] = _clientCreated.path;
+    }
+    if (_frontend) {
+      // point the frontend dir to base dir, rather than creating separate
+      // client folder
+      monolithResp["frontendPath"] = _dirCreated.path;
+    }
+    if (_backend) {
+      // point the backend dir to base dir, rather than creating separate
+      // server / api folder
+      monolithResp["backendPath"] = _dirCreated.path;
+    }
+
+    monolithResp["success"] = true;
+    return monolithResp;
+  }
 
   public async updateProjectStatus(
     proj_id: string,
