@@ -110,7 +110,7 @@ export default class BaseSetup {
     _backend: string | null
   ) {
     const s = spinner();
-    s.start(`Setting up monolith...`);
+    s;
     let monolithResp: _ArchResp = {
       frontendPath: null,
       backendPath: null,
