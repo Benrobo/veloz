@@ -454,7 +454,7 @@ export default class _FrontendSetup extends BaseSetup {
       export default config;
       `;
 
-      // create tailwind.config.ts file
+      // create tailwind.config.ts file.
       const prettifiedConfig = await prettify(modifiedTwContent, "babel");
       await createFile(base_path, "tailwind.config.ts", prettifiedConfig);
     }
