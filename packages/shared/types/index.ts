@@ -32,6 +32,7 @@ export interface FINE_TUNED_STACKS {
     title: TechStackCategory;
     stacks: string[];
   }[];
+  label: ProjectType;
   available: boolean;
 }
 

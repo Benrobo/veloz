@@ -52,7 +52,7 @@ const categorySchema = zod.enum(STACK_CATEGORIES as any);
 export const createProjectSchema = zod.object({
   name: zod.string(),
   description: zod.string(),
-  type: zod.enum(["FineTuned"]),
+  type: zod.enum(["Fine-Tuned"]),
   label: zod.enum(ProjectLabels as any).optional(),
   fineTunedStackName: zod.string().optional(),
 });

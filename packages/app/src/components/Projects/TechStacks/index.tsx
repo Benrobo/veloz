@@ -1,33 +1,16 @@
 import React, { ReactElement, useContext, useState } from "react";
-import Accordion from "../../Accordion";
 import { FlexColStart, FlexRowStart, FlexRowStartCenter } from "../../Flex";
-import { Shield } from "iconsax-react";
-import { Crosshair, Gem } from "lucide-react";
-import {
-  CodebaseArchitectureMap,
-  TechStackCategory,
-} from "@veloz/shared/types";
+import { Crosshair } from "lucide-react";
 import { Button } from "../../ui/button";
 import { cn } from "@/lib/utils";
-import Refined from "./Refined";
 import FineTuned from "./FineTuned";
 import { ProjectContext } from "@/context/ProjectContext";
 
-export interface AddTechStackProps {
-  updateStacksState: (
-    key: string,
-    name: string,
-    category: TechStackCategory
-  ) => void;
-  selectedStacks: CodebaseArchitectureMap;
-}
+export interface AddTechStackProps {}
 
 export const Tabs = ["Fine-Tuned"] as const;
 
-function AddTechStack({
-  updateStacksState,
-  selectedStacks,
-}: AddTechStackProps) {
+function AddTechStack({}: AddTechStackProps) {
   const { setProjectOptions } = useContext(ProjectContext);
   const [activeTab, setActiveTab] =
     useState<(typeof Tabs)[number]>("Fine-Tuned");

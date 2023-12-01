@@ -1,4 +1,5 @@
 import User from "./users.model";
-import Project from "./projects.model";
+import GhInvite from "./gh_invites.model";
+import TemplateConsumption from "./template_consumption.model";
 
-export { User, Project };
+export { User, GhInvite, TemplateConsumption };

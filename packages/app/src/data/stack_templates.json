@@ -6,6 +6,7 @@
     "available": false,
     "description": "Athena is a fine tuned stack for your next project",
     "media": "",
+    "label": "Apex",
     "tech_stacks": [
       {
         "title": "frontend",
@@ -35,10 +36,11 @@
   },
   {
     "id": 3,
-    "plan": "ENTERPRISE_PKG",
+    "plan": "STANDARD_PKG",
     "name": "Zeus",
     "available": true,
     "description": "Zeus is a fine tuned stack for your next project",
+    "label": "Vortex",
     "tech_stacks": [
       {
         "title": "frontend",

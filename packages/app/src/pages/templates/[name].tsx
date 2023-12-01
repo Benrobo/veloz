@@ -32,14 +32,6 @@ function ProjectTemplate() {
     return validStacks;
   };
 
-  const returnFineTunedStacks = (name: FineTunedStacksName) => {
-    const stack = FINE_TUNED_STACKS.find((d) => d.name === name);
-    if (stack) {
-      return extractFineTunedStack(stack.tech_stacks);
-    }
-    return [];
-  };
-
   const returnFineTunedStackDetails = (name: FineTunedStacksName) => {
     const stack = FINE_TUNED_STACKS.find((d) => d.name === name);
     return stack;
@@ -61,11 +53,11 @@ function ProjectTemplate() {
   const _payment = stackDetails?.tech_stacks.find((s) => s.title === "payment");
 
   return (
-    <Layout activePage="projects">
+    <Layout activePage="templates">
       <FlexColStart className="w-full h-full hideScrollBar2 overflow-y-scroll">
         <FlexRowStart className="px-4 py-4">
           <Link
-            href="/projects/create"
+            href="/templates"
             className="underline w-auto flex gap-2 items-center justify-start"
           >
             <ArrowLeftToLine

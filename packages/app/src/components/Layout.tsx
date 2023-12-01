@@ -39,9 +39,9 @@ export function ComponentLayout({
   const validPages = [
     "dashboard",
     "billing",
-    "projects/create",
+    "templates/create",
     "settings",
-    pathname.includes("projects") && pathname,
+    pathname.includes("templates") && pathname,
   ];
 
   useEffect(() => {
