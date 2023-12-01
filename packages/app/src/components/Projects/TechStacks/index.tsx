@@ -1,19 +1,8 @@
 import React, { ReactElement, useContext, useState } from "react";
 import Accordion from "../../Accordion";
 import { FlexColStart, FlexRowStart, FlexRowStartCenter } from "../../Flex";
-import { RenderSelectableStacks } from "../../Stacks/Render";
 import { Shield } from "iconsax-react";
-import {
-  LayoutDashboard,
-  Theater,
-  Paintbrush2,
-  Server,
-  DatabaseZap,
-  WalletCards,
-  Mails,
-  Crosshair,
-  Gem,
-} from "lucide-react";
+import { Crosshair, Gem } from "lucide-react";
 import {
   CodebaseArchitectureMap,
   TechStackCategory,

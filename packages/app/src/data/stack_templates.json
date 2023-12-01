@@ -58,7 +58,7 @@
       },
       {
         "title": "authentication",
-        "stacks": ["jwt"]
+        "stacks": ["jsonwebtoken"]
       },
       {
         "title": "payment",

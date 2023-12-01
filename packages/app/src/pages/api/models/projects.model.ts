@@ -4,10 +4,8 @@ import {
   FineTunedStacksName,
   ProjectType,
   TechStackCategory,
-  TechStackPricingPlan,
   VelozProjectOption,
 } from "@veloz/shared/types";
-import { TechPricingPlans } from "@veloz/shared/data/project";
 
 // 1. Create an interface representing a document in MongoDB.
 interface IProject {
@@ -42,7 +40,7 @@ const projectSchema = new Schema<IProject>(
     name: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
     label: { type: String, required: true },
-    type: { type: String, required: true, default: "Refined" },
+    type: { type: String, required: true, default: "FineTuned" },
     download_link: { type: String, required: false, default: null },
     description: { type: String, required: false, default: "" },
     status: { type: String, required: true, default: "pending" },

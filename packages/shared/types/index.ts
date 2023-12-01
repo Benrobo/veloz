@@ -2,13 +2,11 @@ export type ProjectType = "Vortex" | "Apex" | "Serenity" | "Nebula" | "Odyssey";
 
 export type TechStackCategory =
   | "frontend"
-  | "design_system"
   | "backend"
   | "payment"
   | "database"
   | "mailing"
-  | "authentication"
-  | "codebase_acrhitecture";
+  | "authentication";
 
 export enum ProjectOption {
   // Refined = "Refined",

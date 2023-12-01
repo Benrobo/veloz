@@ -24,6 +24,8 @@ import ProjectStatus from "./Badge";
 import Editor from "../Editor";
 import { Button } from "../ui/button";
 import { ProjectListType } from "@/types";
+import { FINE_TUNED_STACKS } from "@/data/stack";
+import { renderAccdIcon } from "@/lib/comp_utils";
 
 interface SidebarProps {
   onClose: () => void;
@@ -33,6 +35,17 @@ interface SidebarProps {
 }
 
 function Slidebar({ onClose, selectedProject, isOpen, proj_id }: SidebarProps) {
+  const projStacks =
+    FINE_TUNED_STACKS.find((s) => s.name === selectedProject?.name)
+      ?.tech_stacks ?? [];
+
+  const _frontend = projStacks.find((s) => s.title === "frontend");
+  const _backend = projStacks.find((s) => s.title === "backend");
+  const _database = projStacks.find((s) => s.title === "database");
+  const _auth = projStacks.find((s) => s.title === "authentication");
+  const _mailing = projStacks.find((s) => s.title === "mailing");
+  const _payment = projStacks.find((s) => s.title === "payment");
+
   return (
     <Modal isOpen={isOpen} isBlurBg>
       <div className="w-fit min-w-[400px] md:min-w-[450px] h-screen overflow-y-scroll bg-dark-100 absolute top-[-2em] right-[-1em] border-l-solid border-l-[.5px] border-l-white-600  pb-[4em]">
@@ -66,110 +79,102 @@ function Slidebar({ onClose, selectedProject, isOpen, proj_id }: SidebarProps) {
         </FlexRowStartBtw>
         <br />
         <FlexColStart className="w-full px-5 py-2 pb-9 border-b-solid border-b-[.5px] border-b-white-600">
-          {selectedProject?.tech_stacks?.map((stack) =>
-            stack.category === "frontend" ? (
+          <FlexColStart className="w-full min-w-[400px] h-full">
+            {_frontend && (
               <Accordion
-                title="Frontend"
-                leftIcon={
-                  <Theater className="text-white-300 group-hover:text-white-100" />
-                }
-                name={"frontend"}
+                title={_frontend.title}
+                name="frontend"
+                className="w-full"
+                leftIcon={renderAccdIcon("frontend")}
               >
                 <FlexColStart className="w-full px-3 py-2">
                   <RenderStacks
+                    tech_stacks={_frontend.stacks as string[]}
                     category="frontend"
-                    tech_stacks={[stack.technology]}
                   />
                 </FlexColStart>
               </Accordion>
-            ) : stack.category === "backend" ? (
+            )}
+            {_backend && (
               <Accordion
-                title="Backend"
-                leftIcon={
-                  <Server className="text-white-300 group-hover:text-white-100" />
-                }
-                name={"backend"}
+                title={_backend.title}
+                name="backend"
+                className="w-full"
+                leftIcon={renderAccdIcon("backend")}
               >
                 <FlexColStart className="w-full px-3 py-2">
                   <RenderStacks
+                    tech_stacks={_backend.stacks as string[]}
                     category="backend"
-                    tech_stacks={[stack.technology]}
                   />
                 </FlexColStart>
               </Accordion>
-            ) : stack.category === "database" ? (
+            )}
+            {_database && (
               <Accordion
-                title="Database"
-                leftIcon={
-                  <Database className="text-white-300 group-hover:text-white-100" />
-                }
-                name={"database"}
+                title={_database.title}
+                name="database"
+                className="w-full"
+                leftIcon={renderAccdIcon("database")}
               >
                 <FlexColStart className="w-full px-3 py-2">
                   <RenderStacks
+                    tech_stacks={_database.stacks as string[]}
                     category="database"
-                    tech_stacks={[stack.technology]}
                   />
                 </FlexColStart>
               </Accordion>
-            ) : stack.category === "payment" ? (
+            )}
+            {_auth && (
               <Accordion
-                title="Payment"
-                leftIcon={
-                  <PiggyBank className="text-white-300 group-hover:text-white-100" />
-                }
-                name={"payment"}
+                title={_auth.title}
+                name="auth"
+                className="w-full"
+                leftIcon={renderAccdIcon("authentication")}
               >
                 <FlexColStart className="w-full px-3 py-2">
                   <RenderStacks
-                    category="payment"
-                    tech_stacks={[stack.technology]}
+                    tech_stacks={_auth.stacks as string[]}
+                    category="authentication"
                   />
                 </FlexColStart>
               </Accordion>
-            ) : stack.category === "mailing" ? (
+            )}
+            {_mailing && (
               <Accordion
-                title="Mailing"
-                leftIcon={
-                  <Mailbox className="text-white-300 group-hover:text-white-100" />
-                }
-                name={"mailing"}
+                title={_mailing.title}
+                name="mailing"
+                className="w-full"
+                leftIcon={renderAccdIcon("mailing")}
               >
                 <FlexColStart className="w-full px-3 py-2">
                   <RenderStacks
+                    tech_stacks={_mailing.stacks as string[]}
                     category="mailing"
-                    tech_stacks={[stack.technology]}
                   />
                 </FlexColStart>
               </Accordion>
-            ) : null
-          )}
+            )}
+
+            {_payment && (
+              <Accordion
+                title={_payment.title}
+                name="payment"
+                className="w-full"
+                leftIcon={renderAccdIcon("payment")}
+              >
+                <FlexColStart className="w-full px-3 py-2">
+                  <RenderStacks
+                    tech_stacks={_payment.stacks as string[]}
+                    category="payment"
+                  />
+                </FlexColStart>
+              </Accordion>
+            )}
+          </FlexColStart>
         </FlexColStart>
         <br />
-        {selectedProject?.secrets.length > 0 && (
-          <FlexColStart className="w-full px-5 py-2 pb-9 border-b-solid border-b-[.5px] border-b-white-600">
-            <p className="text-white-100 relative font-ppSB text-[15px] ">
-              Environmental Variables
-            </p>
-            <p className="text-white-300 font-ppR text-[12px] ">
-              Project managed environmental variable
-            </p>
-            <Accordion
-              leftIcon={
-                <KeyRound className="text-white-300 group-hover:text-white-100" />
-              }
-              title="Secrets"
-              name="environmental-variable"
-            >
-              <Editor
-                lineNumbers="off"
-                readonly
-                defaultValue={selectedProject?.secrets ?? `//Nothing here`}
-                wordWrap="on"
-              />
-            </Accordion>
-          </FlexColStart>
-        )}
+
         <br />
         <FlexColStart className="w-full px-5 py-2 pb-9 ">
           <p className="text-white-105 relative font-ppSB text-[15px] ">

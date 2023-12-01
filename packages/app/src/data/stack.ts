@@ -2,6 +2,7 @@ import {
   TechStackPricingPlan,
   FINE_TUNED_STACKS as FINE_TUNED_STACKS_TYPE,
   GENERAL_STACKS as GENERAL_STACKS_TYPE,
+  TechStackCategory,
 } from "@veloz/shared/types";
 import templates from "./stack_templates.json";
 
@@ -61,30 +62,6 @@ export const GENERAL_STACKS = [
         key: "react",
         pricing_plan: "FREE_PKG",
       },
-    ],
-  },
-  {
-    category: "codebase_acrhitecture",
-    stacks: [
-      // Add codebase architecture stacks here
-      // Example:
-      {
-        name: "Monolith",
-        key: "monolith",
-        pricing_plan: "FREE_PKG",
-      },
-      {
-        name: "Monorepo",
-        key: "monorepo",
-        pricing_plan: "FREE_PKG",
-      },
-    ],
-  },
-  {
-    category: "design_system",
-    stacks: [
-      // Add design system stacks here
-      // Example:
       {
         name: "Tailwind CSS",
         key: "tailwindcss",
@@ -218,3 +195,12 @@ export const GENERAL_STACKS = [
     ],
   },
 ] satisfies GENERAL_STACKS_TYPE[];
+
+export const STACK_CATEGORIES = [
+  "frontend",
+  "backend",
+  "database",
+  "payment",
+  "mailing",
+  "authentication",
+] satisfies TechStackCategory[];

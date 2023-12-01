@@ -1,16 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { Project, Secret, User } from "../models";
+import { Project, User } from "../models";
 import sendResponse from "../lib/sendResponse";
 import { RESPONSE_CODE } from "@veloz/shared/types";
 import { createProjectPayload } from "@/types";
 import nextRouteZodValidation from "../lib/nextRouteZodValidation";
 import { createProjectSchema } from "../lib/validationSchema";
 import { ProjectLabels } from "@data/project";
-import _checkRefinedStackCombo from "../lib/checkStackCombo";
-import {
-  _checkRefinedStackAvailability,
-  _isUserEligibleForStack,
-} from "@/lib/utils";
+import { _checkFineTunedStackAvailability } from "../lib/utils";
+import { isUserEligibleForStack } from "@/lib/utils";
 import mongoose from "mongoose";
 
 class ProjectService {
@@ -20,33 +17,12 @@ class ProjectService {
       uId: userId,
     });
 
-    const _projects = [];
-    let secrets = "";
-
-    for (const proj of projects) {
-      const _envId = proj.env_id;
-      if (_envId) {
-        const env = await Secret.findOne({
-          uId: userId,
-          _id: new mongoose.Types.ObjectId(proj.env_id),
-        });
-        for (const secret of env.secrets) {
-          secrets += `${secret.name}='${secret.value}'\n`;
-        }
-      }
-
-      _projects.push({
-        ...proj._doc,
-        secrets,
-      });
-    }
-
     sendResponse.success(
       res,
       RESPONSE_CODE.PROJECTS,
       projects.length > 0 ? `Projects` : `No projects found`,
       200,
-      _projects
+      projects
     );
   }
 
@@ -72,25 +48,11 @@ class ProjectService {
       uId: userId,
     });
 
-    const _envId = project.env_id;
-    let secrets = "";
-    if (_envId) {
-      const env = await Secret.findOne({
-        uId: userId,
-        _id: new mongoose.Types.ObjectId(_envId),
-      });
-      for (const secret of env.secrets) {
-        secrets += `${secret.name}='${secret.value}'\n`;
-      }
-    }
-
     sendResponse.success(res, RESPONSE_CODE.PROJECTS, `project`, 200, {
       ...project._doc,
-      secrets,
       userData: {
         id: user.uId,
         username: user.name,
-        default_nextjs_route: user.default_nextjs_router,
       },
     });
   }
@@ -166,31 +128,7 @@ class ProjectService {
       uId: userId,
     });
 
-    const {
-      env_id,
-      description,
-      fineTunedStackName,
-      label,
-      name,
-      tech_stacks,
-      type,
-    } = payload;
-
-    // check if env_id exists
-    if (env_id) {
-      const envExists = await Secret.findOne({
-        uId: userId,
-        _id: env_id,
-      });
-      if (!envExists) {
-        return sendResponse.error(
-          res,
-          RESPONSE_CODE.SECRET_NOT_FOUND,
-          `Environment variable not found`,
-          404
-        );
-      }
-    }
+    const { description, fineTunedStackName, label, name, type } = payload;
 
     // check if project name exists
     const formatedProjName = name.toLowerCase().replace(/\s/g, "-");
@@ -212,107 +150,44 @@ class ProjectService {
       ProjectLabels[Math.floor(Math.random() * ProjectLabels.length)];
     const validLabel = ProjectLabels.includes(label) ? label : randLabel;
 
-    // Refined
-    if (type === "Refined") {
-      const _isValidCombo = _checkRefinedStackCombo(type, tech_stacks);
-      const _stackAvailable = _checkRefinedStackAvailability(tech_stacks);
-      const _userEligibleForStack = _isUserEligibleForStack(
-        tech_stacks,
-        user.proj_plan
-      );
+    if (type === "FineTuned") {
+      const _stackAvailable =
+        _checkFineTunedStackAvailability(fineTunedStackName);
 
-      // is stack available
       if (!_stackAvailable) {
         return sendResponse.error(
           res,
           RESPONSE_CODE.STACK_NOT_AVAILABLE,
-          `One of the Stack isn't available`,
-          404
+          `Stack not available`,
+          400
         );
       }
 
       // check user eligibility status (if user is not a tester)
       if (!user.isTester) {
-        if (!_userEligibleForStack.eligible) {
+        if (!isUserEligibleForStack(fineTunedStackName, user.proj_plan)) {
           return sendResponse.error(
             res,
             RESPONSE_CODE.FORBIDDEN,
-            _userEligibleForStack.message,
+            `You are not eligible for this stack`,
             403
           );
         }
       }
 
-      // check stack combo
-      if (!_isValidCombo) {
-        return sendResponse.error(
-          res,
-          RESPONSE_CODE.INVALID_STACK_COMBO,
-          `Invalid stack combo`,
-          400
-        );
-      }
-
-      type Stack = {
-        category: string;
-        key: string;
-        name: string;
-        technology: string;
-      };
-
-      const validStacks: Stack[] = Object.entries(tech_stacks).map(
-        ([category, stack]) => ({
-          category,
-          key: stack.stack,
-          name: stack.name,
-          technology: stack.stack,
-        })
-      );
-
-      // Include tailwindcss by default if frontend is selected and tailwindcss or sass is not selected
-      // All frontend project by default would use tailwindcss
-      if (
-        validStacks.some((stack) => stack.category === "frontend") &&
-        !validStacks.some(
-          (stack) =>
-            stack.category === "design_system" &&
-            (stack.key === "tailwindcss" || stack.key === "sass")
-        )
-      ) {
-        validStacks.push({
-          category: "design_system",
-          key: "tailwindcss",
-          name: "Tailwind CSS",
-          technology: "tailwindcss",
-        });
-      }
-
-      // create the project with pending state
-      const project = await Project.create({
+      // create project
+      await Project.create({
+        uId: userId,
         name: formatedProjName,
-        description: description || "No description provided",
+        description,
         label: validLabel,
         type,
-        fineTunedStackName: fineTunedStackName || null,
-        download_link: "",
-        tech_stacks: validStacks,
-        uId: userId,
-        env_id: env_id || null,
+        fineTunedStackName,
       });
 
-      // get the project id, invoke the api for creating the project
-      const projId = project._id;
+      sendResponse.success(res, RESPONSE_CODE.SUCCESS, `Project created`, 200);
 
-      return sendResponse.success(
-        res,
-        RESPONSE_CODE.SUCCESS,
-        `Project queued for creation`,
-        200
-      );
-    }
-    if (type === "FineTuned") {
-      //! this would be a little different from refined
-      //! once placed, we simply use user gh-access-token, create a repo, then clone the main repo into the user created repo where the proj resides.
+      // invite github to fine-tuned github repo
     }
   }
 }

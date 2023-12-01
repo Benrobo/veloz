@@ -164,12 +164,12 @@ function CreateProject() {
       name,
       description,
       label: projType as ProjectType,
-      type: projectOptions,
+      type: "Fine-Tuned",
       fineTunedStackName: selectedFinetunedStack,
     };
 
     console.log(payload);
-    createProjectMutation.mutate(payload);
+    // createProjectMutation.mutate(payload);
   }
 
   return (
