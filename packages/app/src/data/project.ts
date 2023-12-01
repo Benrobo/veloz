@@ -10,10 +10,6 @@ export const ProjectSideBarConfig = [
     title: "Tech Stacks",
     key: "tech_stacks",
   },
-  {
-    title: "Secrets",
-    key: "secrets",
-  },
 ] satisfies ProjectSideBarConfigType[];
 
 export const ProjectLabels = [

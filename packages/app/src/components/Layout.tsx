@@ -38,16 +38,16 @@ export function ComponentLayout({
   // pages that uses the default Layout
   const validPages = [
     "dashboard",
-    "projects",
     "billing",
     "projects/create",
     "settings",
+    pathname.includes("projects") && pathname,
   ];
 
   useEffect(() => {
     const { pathname } = window.location;
     setPathname(pathname.replace("/", ""));
-  }, [pathname]);
+  }, [pathname, validPages]);
 
   return (
     <div

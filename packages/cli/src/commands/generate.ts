@@ -39,9 +39,9 @@ class VelozGenerate extends BaseSetup {
       s.stop(`✅ Done fetching..`);
 
       const projData = resp?.data as IProjectRespData;
-      const { _id, name, tech_stacks, userData, secrets } = projData;
+      const { name, tech_stacks, userData, secrets } = projData;
       const _userData = {
-        proj_id: _id,
+        proj_id: projData?._id,
         secrets,
         ...userData,
       };

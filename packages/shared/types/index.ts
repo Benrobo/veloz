@@ -1,14 +1,3 @@
-import {
-  validFrontendStacks,
-  validBackendStacks,
-  validDesignSystem,
-  validDatabases,
-  validCodebaseArchitecture,
-  validPaymentProviders,
-  validAuthProviders,
-  mailingProviders,
-} from "../../app/src/data/stack";
-
 export type ProjectType = "Vortex" | "Apex" | "Serenity" | "Nebula" | "Odyssey";
 
 export type TechStackCategory =
@@ -22,7 +11,7 @@ export type TechStackCategory =
   | "codebase_acrhitecture";
 
 export enum ProjectOption {
-  Refined = "Refined",
+  // Refined = "Refined",
   FineTuned = "Fine-Tuned",
 }
 
@@ -48,25 +37,15 @@ export interface FINE_TUNED_STACKS {
   available: boolean;
 }
 
-type ValidStacks =
-  | (typeof validFrontendStacks)[number]
-  | (typeof validBackendStacks)[number]
-  | (typeof validDesignSystem)[number]
-  | (typeof validDatabases)[number]
-  | (typeof validCodebaseArchitecture)[number]
-  | (typeof validPaymentProviders)[number]
-  | (typeof validAuthProviders)[number]
-  | (typeof mailingProviders)[number];
-
-export type REFINED_STACK_VALUE = {
+export type GENERAL_STACK_VALUE = {
   name: string;
-  key: ValidStacks;
+  key: string;
   pricing_plan: TechStackPricingPlan;
 };
 
-export interface REFINED_STACKS {
+export interface GENERAL_STACKS {
   category: TechStackCategory;
-  stacks: REFINED_STACK_VALUE[];
+  stacks: GENERAL_STACK_VALUE[];
 }
 
 export type FineTunedStacksName =

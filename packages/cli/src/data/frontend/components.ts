@@ -30,3 +30,7 @@ function Card() {
 
 export default Card;
 `;
+
+export const nextjs_app_tsx = `
+
+`;

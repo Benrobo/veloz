@@ -29,7 +29,6 @@ import {
 } from "@veloz/shared/types";
 import { ProjectSideBarConfig } from "@/data/project";
 import AddTechStack from "@/components/Projects/TechStacks";
-import ManageProjectSecret from "@/components/Environment/Secret";
 import { ProjectContext } from "@/context/ProjectContext";
 import toast from "react-hot-toast";
 import Modal from "@/components/Modal";
@@ -145,91 +144,29 @@ function CreateProject() {
   // This function checks whether the save button should be disabled or not
   function _shouldEnableSaveButton() {
     const { name } = projDetails;
-    if (projectOptions === "Refined") {
-      const stacks = selectedStacks;
-      const frontend = "frontend" in stacks;
-      const backend = "backend" in stacks;
-      // Check if the name is not empty
-      if (name.length === 0) return false;
-
-      // Check if the "frontend" stack exists and the "backend" stack doesn't
-      if (frontend && !backend) return true;
-
-      // Check if the "backend" stack exists and the "frontend" stack doesn't
-      if (backend && !frontend) return true;
-
-      // Check if both the stacks exist
-      if (frontend && backend) return true;
-
-      // if none of the stacks exist, disable the save button
-      if (!frontend && !backend) return false;
-    } else {
-      // Check if the name is not empty
-      if (name.length === 0) return false;
-      if (selectedFinetunedStack.length === 0) return false;
-      return true;
-    }
+    if (name.length === 0) return false;
+    if (selectedFinetunedStack.length === 0) return false;
+    return true;
   }
 
   function saveProjectChanges() {
     const { name, description } = projDetails;
-    const defaultCodebaseArch = {
-      stack: "monorepo",
-      name: "Monorepo",
-      category: "codebase_acrhitecture",
-    };
-
-    // Provide a type for selectedStacks object
-    type SelectedStack = Record<
-      string,
-      { stack: string; name: string; category: string }
-    >;
-    const _selectedStacks: SelectedStack = selectedStacks;
-
-    if (!("codebase_acrhitecture" in _selectedStacks)) {
-      _selectedStacks["codebase_acrhitecture"] = defaultCodebaseArch;
-    }
 
     type Payload = {
       name: string;
       description: string;
       label: ProjectType;
-      tech_stacks: SelectedStack;
       type: any;
       fineTunedStackName: string;
-      env_id: string;
     };
 
     const payload: Payload = {
       name,
       description,
       label: projType as ProjectType,
-      tech_stacks: _selectedStacks,
       type: projectOptions,
       fineTunedStackName: selectedFinetunedStack,
-      env_id: selectedSecretId,
     };
-
-    if (projectOptions === "Refined") {
-      // Refined
-      if ("fineTunedStackName" in payload) {
-        // @ts-expect-error
-        delete payload?.fineTunedStackName;
-      }
-      // remove env key if it isn't selected
-      if (selectedSecretId.length === 0) {
-        // @ts-expect-error
-        delete payload?.env_id;
-      }
-    } else {
-      // Fine-Tuned
-      if ("tech_stacks" in payload) {
-        // @ts-ignore
-        delete payload?.env_id;
-        // @ts-ignore
-        delete payload?.tech_stacks;
-      }
-    }
 
     console.log(payload);
     createProjectMutation.mutate(payload);
@@ -246,8 +183,11 @@ function CreateProject() {
 
       <div className="w-full h-[100vh] overflow-y-hidden relative px-4">
         {/* back link */}
-        <Link href="/projects" className="underline">
-          <FlexRowStartCenter className="w-auto px-3 py-7 group ">
+        <FlexRowStartCenter className="px-3 py-5">
+          <Link
+            href="/projects"
+            className="underline w-auto flex items-center justify-start"
+          >
             <ArrowLeftToLine
               size={15}
               className="text-white-300 group-hover:text-white-100 transition-all"
@@ -255,8 +195,8 @@ function CreateProject() {
             <span className="text-white-300 group-hover:text-white-100 text-[12px] transition-all font-ppSB">
               Back
             </span>
-          </FlexRowStartCenter>
-        </Link>
+          </Link>
+        </FlexRowStartCenter>
 
         {/* project header */}
         <FlexRowStartBtw className="w-auto px-3 py-0 ">
@@ -279,7 +219,7 @@ function CreateProject() {
           {/* Create Project */}
           <Button
             variant={"primary"}
-            className="font-ppR text-[12px]"
+            className="font-jbSB text-[10px]"
             disabled={!_shouldEnableSaveButton()}
             onClick={saveProjectChanges}
           >
@@ -350,9 +290,6 @@ function CreateProject() {
                 selectedStacks={selectedStacks}
               />
             )}
-
-            {/* Secrets Section */}
-            {activeSection === "secrets" && <ManageProjectSecret />}
           </FlexColStart>
         </FlexRowStart>
       </div>

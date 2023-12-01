@@ -256,8 +256,12 @@ export default class _FrontendSetup extends BaseSetup {
 
       s.stop("✅ Done initializing git repo");
 
+      const nextjsRouter =
+        default_nextjs_route === "PAGE" ? "Pages router" : "App router";
       this.showWelcomeMessage(
-        `✨ ${fe_tech} scaffolded successfully`,
+        `✨ ${fe_tech} ${
+          fe_tech === "nextjs" ? `(${nextjsRouter})` : ""
+        } scaffolded successfully`,
         this._cwd
       );
     } catch (e: any) {}
@@ -457,6 +461,23 @@ export default class _FrontendSetup extends BaseSetup {
       // create tailwind.config.ts file.
       const prettifiedConfig = await prettify(modifiedTwContent, "babel");
       await createFile(base_path, "tailwind.config.ts", prettifiedConfig);
+
+      const indexCssPath = `${base_path}/src/globals.css`;
+
+      // configure nextjs fonts
+
+      // await updateFileContent(
+      //   indexCssPath,
+      //   await prettify(_updatedCont, "css")
+      // );
+
+      // add postcss file
+      const postcssFile = `postcss.config.js`;
+      await createFile(
+        base_path,
+        postcssFile,
+        await prettify(postcssConfig, "babel")
+      );
     }
     if (fe_stack === "vuejs") {
     }
