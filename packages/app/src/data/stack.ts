@@ -17,28 +17,15 @@ type StackAvailabilityRepoName = {
   plan: TechStackPricingPlan;
   repo: string;
   available: boolean;
+  template_name: string;
 };
 
 export const STACK_AVAILABILITY_REPO_NAME = [
   {
-    plan: "FREE_PKG",
-    repo: "veloz-react",
-    available: true,
-  },
-  {
-    plan: "FREE_PKG",
-    repo: "veloz-vuejs",
-    available: false,
-  },
-  {
-    plan: "BASIC_PKG",
-    repo: "veloz-nextjs",
-    available: false,
-  },
-  {
     plan: "BASIC_PKG",
     repo: "veloz-zeus",
-    available: false,
+    template_name: "zeus",
+    available: true,
   },
 ] satisfies StackAvailabilityRepoName[];
 

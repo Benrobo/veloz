@@ -11,8 +11,6 @@ interface IProjectRespData extends IGenerateProjectDetails {
   userData: {
     id: string;
     username: string;
-    proj_id: string;
-    default_nextjs_route: "PAGE" | "APP";
   };
 }
 
@@ -30,7 +28,6 @@ class VelozGenerate extends BaseSetup {
 
       await sleep(1);
       const resp: HttpResponse = await getProjects(projName);
-
       if (resp?.errorStatus) {
         s.stop(`🚩 ${chalk.redBright(resp?.message)}`);
         return;
@@ -39,19 +36,15 @@ class VelozGenerate extends BaseSetup {
       s.stop(`✅ Done fetching..`);
 
       const projData = resp?.data as IProjectRespData;
+      console.log(projData);
       const { name, tech_stacks, userData, secrets } = projData;
       const _userData = {
         proj_id: projData?._id,
         secrets,
         ...userData,
       };
-
-      await new RefinedProjectGenerate()._initializeRefine(
-        tech_stacks,
-        name,
-        _userData
-      );
     } catch (e: any) {
+      console.log(e);
       s.stop(`🚩 ${chalk.redBright(e?.message)}`);
     }
   }

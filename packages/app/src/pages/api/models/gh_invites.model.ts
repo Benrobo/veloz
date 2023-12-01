@@ -4,6 +4,7 @@ import { Schema, model, models } from "mongoose";
 interface IGHInvite {
   uId: string;
   repo_name: string;
+  template_name: string;
   createdAt?: Date;
 }
 
@@ -11,6 +12,7 @@ const ghInviteSchema = new Schema<IGHInvite>(
   {
     uId: { type: String, required: true },
     repo_name: { type: String, required: true },
+    template_name: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
   },
   {

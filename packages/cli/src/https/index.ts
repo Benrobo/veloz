@@ -15,7 +15,7 @@ const $http = axios.create({
 export const authenticate = async (token: string) => {
   try {
     $http.defaults.headers["x-veloz-token"] = token;
-    const resp = await $http.post(`/project/cli/cliAuth`, {
+    const resp = await $http.post(`/user/cliAuth`, {
       headers: {
         "x-veloz-token": token,
       },
@@ -28,7 +28,7 @@ export const authenticate = async (token: string) => {
 
 export const getProjects = async (name: string) => {
   try {
-    const resp = await $http.get(`/project/cli/${name}`);
+    const resp = await $http.get(`/template/cli/${name}`);
     return resp?.data ?? (resp as any)?.response?.data;
   } catch (e: any) {
     return e.response.data ?? { message: e.message };

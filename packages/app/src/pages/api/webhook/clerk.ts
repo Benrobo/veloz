@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Webhook } from "svix";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import env from "../config/env";
-import { Project, Secret, User } from "../models";
+import { GhInvite, TemplateConsumption, User } from "../models";
 import { connectDB } from "../lib/utils";
 import CatchError from "../lib/error";
 import shortUUID from "short-uuid";
@@ -50,8 +50,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       first_name === null
         ? last_name
         : last_name === null
-        ? first_name
-        : `${first_name} ${last_name}`;
+          ? first_name
+          : `${first_name} ${last_name}`;
 
     if (!user) {
       await User.create({
@@ -77,10 +77,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       // delere related user data from database
       await User.deleteOne({ uId: id });
-      // delete all projects
-      await Project.deleteMany({ uId: id });
-      // delete all secrets
-      await Secret.deleteMany({ uId: id });
+      await GhInvite.deleteMany({ uId: id });
+      await TemplateConsumption.deleteMany({ uId: id });
 
       console.log(`✅ User ${id} data deleted`);
     } catch (e: any) {

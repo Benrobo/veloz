@@ -3,7 +3,7 @@ import { TechStackPricingPlan } from "@veloz/shared/types";
 import { NextApiRequest, NextApiResponse } from "next";
 import { isAuthenticated } from "../middlewares/auth";
 import CatchError from "../lib/error";
-import { User } from "../models";
+import { GhInvite, User } from "../models";
 import axios from "axios";
 
 // [ref](https://stackoverflow.com/questions/64371517/how-to-invite-a-user-to-a-private-github-repo-within-an-organisation-using-the-c)
@@ -22,15 +22,21 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
 export default isAuthenticated(handler);
 
-async function addCollaboratorToRepo(
+export async function addCollaboratorToRepo(
   plan: TechStackPricingPlan,
   username: string
 ) {
   let _repoName = "";
   try {
-    const repo = STACK_AVAILABILITY_REPO_NAME.filter(
-      (repo) => repo.plan === plan && repo.available
-    );
+    const repo = STACK_AVAILABILITY_REPO_NAME.filter((repo) => {
+      const planLevels = {
+        FREE_PKG: 1,
+        BASIC_PKG: 2,
+        STANDARD_PKG: 3,
+        ENTERPRISE_PKG: 4,
+      };
+      if (planLevels[plan] >= planLevels[repo.plan]) return repo;
+    });
     if (repo.length > 0) {
       for (const ghR of repo) {
         _repoName = ghR.repo;
@@ -53,6 +59,18 @@ async function addCollaboratorToRepo(
           console.log(
             `✅ [Collaborator Invite]: Invitation sent to [user: ${username}] for [repo: ${ghR.repo}]`
           );
+
+          // add to gh_invite table
+          const user = await User.findOne({ gh_username: username });
+          if (user) {
+            await GhInvite.create({
+              uId: user?.uId,
+              repo_name: ghR.repo,
+              template_name: ghR.template_name,
+            });
+          }
+
+          return true;
         }
       }
     }
@@ -62,5 +80,6 @@ async function addCollaboratorToRepo(
     console.log(
       `❌ [Collaborator Invite]: Invitation failed for ${username} for [repo: ${_repoName}]`
     );
+    return false;
   }
 }

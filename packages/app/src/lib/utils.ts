@@ -19,7 +19,9 @@ export function isUserEligibleForStack(
   stackName: string,
   userPricingPlan: TechStackPricingPlan
 ) {
-  const techStack = FINE_TUNED_STACKS.find((stack) => stack.name === stackName);
+  const techStack = FINE_TUNED_STACKS.find(
+    (stack) => stack.name.toLowerCase() === stackName.toLowerCase()
+  );
 
   if (techStack) {
     const { plan } = techStack;
