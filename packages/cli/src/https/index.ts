@@ -1,7 +1,7 @@
 import axios from "axios";
 import storage from "../config/storage.js";
 
-const BASE_URL = `http://localhost:3001/api`;
+const BASE_URL = `http://localhost:3000/api`;
 
 const $http = axios.create({
   baseURL: BASE_URL,

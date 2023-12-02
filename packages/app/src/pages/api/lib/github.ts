@@ -62,11 +62,23 @@ export async function addCollaboratorToRepo(
       // add to gh_invite table
       const user = await User.findOne({ gh_username: username });
       if (user) {
-        await GhInvite.create({
+        // check if already invited
+        const ghInvite = await GhInvite.findOne({
           uId: user?.uId,
           repo_name: ghR.repo,
           template_name: ghR.template_name,
         });
+        if (ghInvite) {
+          console.log(
+            `❌ [Collaborator Invite]: Already invited [user: ${username}] for [repo: ${ghR.repo}]`
+          );
+        } else {
+          await GhInvite.create({
+            uId: user?.uId,
+            repo_name: ghR.repo,
+            template_name: ghR.template_name,
+          });
+        }
       }
 
       return true;
