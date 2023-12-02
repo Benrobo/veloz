@@ -9,6 +9,9 @@ import githubRepos from "./github_repo.json";
 
 interface IFINE_TUNED_STACKS_TEMP extends FINE_TUNED_STACKS_TYPE {
   media: string;
+  tagline: string;
+  difficulty: string;
+  tags: string[];
 }
 
 export const FINE_TUNED_STACKS = templates as IFINE_TUNED_STACKS_TEMP[];

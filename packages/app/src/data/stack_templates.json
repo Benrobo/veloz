@@ -8,6 +8,7 @@
     "label": "Vortex",
     "tags": ["nextjs", "typescript", "saas"],
     "difficulty": "intermediate",
+    "tagline": "",
     "tech_stacks": [
       {
         "title": "frontend",
