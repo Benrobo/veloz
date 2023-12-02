@@ -15,7 +15,6 @@ interface IUser {
   gh_username: string;
   gh_ref_token: string;
   gh_acc_token: string;
-  default_nextjs_router: "APP" | "PAGE";
   createdAt?: Date;
 }
 
@@ -33,12 +32,6 @@ const userSchema = new Schema<IUser>(
     gh_username: { type: String, default: null },
     gh_ref_token: { type: String, default: null },
     gh_acc_token: { type: String, default: null },
-    default_nextjs_router: {
-      type: String,
-      enum: ["APP", "PAGE"],
-      required: true,
-      default: "PAGE",
-    },
     createdAt: { type: Date, default: Date.now },
   },
   {

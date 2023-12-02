@@ -1,3 +1,4 @@
+import { FINE_TUNED_STACKS } from "@/data/stack";
 import axios from "axios";
 import { connect } from "mongoose";
 
@@ -86,3 +87,9 @@ export async function connectDB(MONGO_DB_URL: string) {
     console.log(`Error connecting to mongodb: ${e?.message}`);
   }
 }
+
+export const _checkFineTunedStackAvailability = (name: string) => {
+  const stack = FINE_TUNED_STACKS.find((stack) => stack.name === name);
+  if (!stack) return false;
+  return stack.available;
+};

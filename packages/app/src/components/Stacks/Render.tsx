@@ -1,14 +1,14 @@
-import { REFINED_STACKS as REFINED_STACKS_DATA } from "@data/stack";
+import { GENERAL_STACKS as GENERAL_STACKS_DATA } from "@data/stack";
 import React, { useContext, useEffect, useState } from "react";
-import { FlexColCenter, FlexColEnd, FlexRowStart } from "../Flex";
+import { FlexColCenter, FlexColEnd, FlexColStart, FlexRowStart } from "../Flex";
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
 import {
   CodebaseArchitectureMap,
-  REFINED_STACK_VALUE,
+  GENERAL_STACK_VALUE,
   TechStackCategory,
 } from "@veloz/shared/types";
-import { cn, isUserEligibleForStack, isStackAvailable } from "@/lib/utils";
+import { cn, isUserEligibleForStack } from "@/lib/utils";
 import { DataContext } from "@/context/DataContext";
 import { StackImages } from "@/data/images";
 
@@ -32,7 +32,7 @@ const stackWithExtendedHeight = [
 
 function RenderStacks({ tech_stacks, category }: RenderStacksProps) {
   const validStacks: StackObj[] = [];
-  const stacks = REFINED_STACKS_DATA.find(
+  const stacks = GENERAL_STACKS_DATA.find(
     (stk: any) => stk.category === category
   )?.stacks;
   const stackData = stacks?.map((d) => d.key);
@@ -95,123 +95,13 @@ interface RenderSelectableStacksProps {
   selecedStacks: CodebaseArchitectureMap;
 }
 
-export function RenderSelectableStacks({
-  category,
-  updateStacksState,
-  selecedStacks,
-}: RenderSelectableStacksProps) {
-  const { userPlan, togglePremiumModalVisibility, setPkgPlan } =
-    useContext(DataContext);
-  const tech_stacks = REFINED_STACKS_DATA.find(
-    (stk) => stk.category === category
-  )?.stacks as REFINED_STACK_VALUE[];
-
-  function handleStackSelection(key: string, name: string) {
-    const techCategory = category as TechStackCategory;
-    updateStacksState(key, name, techCategory);
-  }
-
-  const selectedDefaultStacks = ["monorepo", "tailwindcss"];
-
-  const selectedStackExists = selecedStacks[category as TechStackCategory];
-
-  return (
-    <FlexRowStart className="w-full flex-wrap gap-8">
-      {tech_stacks.length > 0 ? (
-        tech_stacks.map((stack) => (
-          <button
-            key={stack.key}
-            className={cn(
-              "min-w-[120px] min-h-[120px] relative px-3 py-2 rounded-md border-solid border-[1px] border-white-600 overflow-hidden ",
-              selectedStackExists &&
-                selectedStackExists.stack === stack.key &&
-                "border-orange-100",
-              !selectedStackExists &&
-                selectedDefaultStacks.includes(stack.key) &&
-                "border-orange-100"
-            )}
-            onClick={() => {
-              if (!isStackAvailable(stack.key, category)) return;
-              if (
-                isStackAvailable(stack.key, category) &&
-                !isUserEligibleForStack(stack.key, category, userPlan)
-              ) {
-                setPkgPlan(stack.pricing_plan);
-                togglePremiumModalVisibility();
-                return;
-              }
-              handleStackSelection(stack.key, stack.name);
-            }}
-            disabled={!isStackAvailable(stack.key, category)}
-          >
-            {/* Coming soon badge */}
-            {!isStackAvailable(stack.key, category) && (
-              <FlexColCenter className="w-full h-full absolute top-0 left-0 backdrop-blur-[1px] ">
-                <span className="px-2 py-1 rounded-[30px] bg-orange-301 border-solid border-[.5px] border-white-600 text-orange-100 font-ppSB text-[9px] ">
-                  Coming Soon
-                </span>
-              </FlexColCenter>
-            )}
-
-            {isStackAvailable(stack.key, category) &&
-              !isUserEligibleForStack(stack.key, category, userPlan) && (
-                <FlexColCenter className="w-full h-full absolute top-0 left-0 backdrop-blur-[1.5px] z-[10] ">
-                  <Image
-                    src={
-                      stack.pricing_plan === "STANDARD_PKG"
-                        ? "/images/diamond.png"
-                        : "/images/diamond-2.png"
-                    }
-                    width={30}
-                    height={0}
-                    alt="premium"
-                  />
-                </FlexColCenter>
-              )}
-
-            <FlexColCenter
-              key={stack.key}
-              className="w-full min-h-[85px] h-fit "
-            >
-              <Image
-                width={
-                  stackWithExtendedHeight.includes(stack.key)
-                    ? 40
-                    : stack.key === "lemonsqueezy"
-                      ? 120
-                      : 30
-                }
-                height={0}
-                alt={stack.key}
-                src={getImageUrl(stack.key) as string}
-                className={twMerge(
-                  stackWithRoundedCorners.includes(stack.key)
-                    ? "rounded-[50%]"
-                    : "",
-                  stackWithWhiteBg.includes(stack.key) ? "bg-white-105" : "",
-                  stack.key === "nextjs-api" ? "scale-[3] mt-2" : ""
-                )}
-              />
-              <span className="px-2 py-1 mt-2 text-[10px] text-white-100 rounded-md bg-dark-200 font-ppR">
-                {stack.name}
-              </span>
-            </FlexColCenter>
-          </button>
-        ))
-      ) : (
-        <p className="text-gray-100 font-ppR text-[12px] ">Nothing yet</p>
-      )}
-    </FlexRowStart>
-  );
-}
-
 export function RenderFineTunedStacks({
   tech_stacks,
 }: {
   tech_stacks: string[];
 }) {
   const validStacks: StackObj[] = [];
-  const stacks = REFINED_STACKS_DATA.map((stk: any) => stk.stacks);
+  const stacks = GENERAL_STACKS_DATA.map((stk: any) => stk.stacks);
   const _traversedStacks: { name: string; key: string }[] = [];
   const stackData: string[] = [];
 
@@ -239,7 +129,10 @@ export function RenderFineTunedStacks({
   return (
     <FlexRowStart className="w-full flex-wrap gap-8">
       {validStacks.map((stack) => (
-        <FlexColCenter key={stack.key} className="w-fit h-[70px]">
+        <FlexColCenter
+          key={stack.key}
+          className="w-fit h-[90px] flex flex-col items-center justify-around py-3 px-2 rounded-md "
+        >
           <Image
             width={
               stackWithExtendedHeight.includes(stack.key)

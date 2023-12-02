@@ -1,5 +1,5 @@
 import User from "./users.model";
-import Project from "./projects.model";
-import Secret from "./secrets.model";
+import Invites from "./invites.model";
+import TemplateConsumption from "./template_consumption.model";
 
-export { User, Project, Secret };
+export { User, Invites, TemplateConsumption };

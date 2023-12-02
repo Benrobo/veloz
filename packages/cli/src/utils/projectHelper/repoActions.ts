@@ -33,8 +33,6 @@ class GithubRepoActions {
     }
   }
 
-  async createGhRepo(proj_name: string, path: string) {}
-
   async initGit(path: string) {
     try {
       await $`git -C ${path} init`;

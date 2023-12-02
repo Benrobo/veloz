@@ -1,4 +1,6 @@
 import fs from "fs-extra";
+import { confirm } from "@clack/prompts";
+import chalk from "chalk";
 
 export async function createDir(
   path: string,
@@ -25,6 +27,40 @@ export async function createDir(
       resp["success"] = true;
       resp["msg"] = null;
     } else {
+      // check if the content inside the dir is empty
+      const dirContents = fs.readdirSync(dir);
+      if (dirContents.length > 0) {
+        const shouldDelete = await confirm({
+          message: `${chalk.cyanBright(
+            name
+          )} isn't empty, do you want to empty it?`,
+          initialValue: true,
+        });
+
+        if (!shouldDelete) {
+          resp["success"] = false;
+          return resp;
+        }
+
+        await new Promise((res) => {
+          emptyDirectory(dir, (err, success) => {
+            if (err !== null) {
+              resp["msg"] = err as string;
+              resp["success"] = false;
+              res(false);
+            }
+            if (success) {
+              fs.mkdirSync(dir);
+              resp["msg"] = null;
+              resp["success"] = true;
+              res(true);
+            }
+          });
+        });
+        return resp;
+      }
+
+      // check if user added force delete option
       if (forceDelete && fs.existsSync(dir)) {
         await new Promise((res) => {
           emptyDirectory(dir, (err, success) => {
@@ -43,6 +79,9 @@ export async function createDir(
         });
         return resp;
       }
+
+      resp["success"] = true;
+      return resp;
     }
     return resp;
   } catch (e: any) {

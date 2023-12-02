@@ -1,12 +1,6 @@
 import {
-  CodebaseArchitecture,
-  CodebaseArchitectureMap,
-  FINE_TUNED_STACKS,
   FineTunedStacksName,
-  ProjectSideBarConfigKeysType,
   ProjectType,
-  REFINED_STACKS,
-  SupportedArchitecture,
   TechStackCategory,
   TechStackPricingPlan,
   VelozProjectOption,
@@ -26,13 +20,6 @@ export type ProjectListType = {
   description: string;
   status: "pending" | "done" | "failed";
   fineTunedStackName: FineTunedStacksName | string;
-  tech_stacks: {
-    category: TechStackCategory;
-    name: string;
-    technology: string;
-  }[];
-  env_id: string | null;
-  secrets: string;
   createdAt?: Date;
 };
 
@@ -82,15 +69,6 @@ export type createProjectPayload = {
   label: ProjectType;
   type: VelozProjectOption;
   fineTunedStackName: string;
-  env_id: string;
-  tech_stacks: Record<
-    TechStackCategory,
-    {
-      category: TechStackCategory;
-      name: string;
-      stack: string;
-    }
-  >;
 };
 
 export type ResponseData = {

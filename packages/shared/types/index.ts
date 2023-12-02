@@ -1,28 +1,15 @@
-import {
-  validFrontendStacks,
-  validBackendStacks,
-  validDesignSystem,
-  validDatabases,
-  validCodebaseArchitecture,
-  validPaymentProviders,
-  validAuthProviders,
-  mailingProviders,
-} from "../../app/src/data/stack";
-
 export type ProjectType = "Vortex" | "Apex" | "Serenity" | "Nebula" | "Odyssey";
 
 export type TechStackCategory =
   | "frontend"
-  | "design_system"
   | "backend"
   | "payment"
   | "database"
   | "mailing"
-  | "authentication"
-  | "codebase_acrhitecture";
+  | "authentication";
 
 export enum ProjectOption {
-  Refined = "Refined",
+  // Refined = "Refined",
   FineTuned = "Fine-Tuned",
 }
 
@@ -45,28 +32,19 @@ export interface FINE_TUNED_STACKS {
     title: TechStackCategory;
     stacks: string[];
   }[];
+  label: ProjectType;
   available: boolean;
 }
 
-type ValidStacks =
-  | (typeof validFrontendStacks)[number]
-  | (typeof validBackendStacks)[number]
-  | (typeof validDesignSystem)[number]
-  | (typeof validDatabases)[number]
-  | (typeof validCodebaseArchitecture)[number]
-  | (typeof validPaymentProviders)[number]
-  | (typeof validAuthProviders)[number]
-  | (typeof mailingProviders)[number];
-
-export type REFINED_STACK_VALUE = {
+export type GENERAL_STACK_VALUE = {
   name: string;
-  key: ValidStacks;
+  key: string;
   pricing_plan: TechStackPricingPlan;
 };
 
-export interface REFINED_STACKS {
+export interface GENERAL_STACKS {
   category: TechStackCategory;
-  stacks: REFINED_STACK_VALUE[];
+  stacks: GENERAL_STACK_VALUE[];
 }
 
 export type FineTunedStacksName =
@@ -121,29 +99,21 @@ export enum RESPONSE_CODE {
   VALIDATION_ERROR,
   STACK_NOT_AVAILABLE,
   PROJECTS,
+  TEMPLATE_NOT_FOUND,
+  NOT_ELIGIBLE,
+  FAILED_INVITING_COLLABORATOR,
+  INVALID_PARAMS,
 
   // User Operations
   SIGNUP_SUCCESSFULL,
   LOGIN_SUCCESSFULL,
   UNAUTHORIZED,
   FORBIDDEN,
-  INVALID_TRANSACTION_PIN,
   USER_DETAILS,
   SETTINGS_DETAILS,
 
-  // Secrets Responses
-  SECRET_CREATED,
-  SECRET_EXISTS,
-  SECRET_DETAILS,
-  SECRET_NOT_FOUND,
-
   // Project Responses
   SUCCESS,
-  PROJECT_NOT_FOUND,
-  MONOREPO_SETUP_SUCCESS,
-  MONOREPO_SETUP_FAILED,
-  REFINED_PROJECT_GENERATION_FAILED,
-  REFINED_PROJECT_GENERATION_SUCCEEDED,
   INVALID_TOKEN,
 }
 
@@ -160,27 +130,6 @@ export type createProjectPayload = {
     stack: string;
   }[];
 };
-
-export interface IGenerateProjectDetails {
-  _id: string;
-  uId: string;
-  name: string;
-  description: string;
-  label: ProjectType;
-  type: VelozProjectOption;
-  fineTunedStackName: string | null;
-  env_id: string;
-  download_link: string;
-  status: "pending" | "failed" | "done";
-  secrets: string;
-  tech_stacks: {
-    category: TechStackCategory;
-    name: string;
-    technology: string;
-    _id: object;
-    key: string;
-  }[];
-}
 
 export type StackAvailabilityType = {
   category: TechStackCategory;

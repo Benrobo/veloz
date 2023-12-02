@@ -49,29 +49,10 @@ export const updateSecretSchema = zod.object({
 // create project validator
 const categorySchema = zod.enum(STACK_CATEGORIES as any);
 
-const stackInfoSchema = zod
-  .object({
-    stack: zod.string(),
-    name: zod.string(),
-    category: categorySchema,
-  })
-  .optional();
-
 export const createProjectSchema = zod.object({
   name: zod.string(),
   description: zod.string(),
-  type: zod.enum(["Refined", "Fine-Tuned"]),
+  type: zod.enum(["Fine-Tuned"]),
   label: zod.enum(ProjectLabels as any).optional(),
-  env_id: zod.string().optional(),
   fineTunedStackName: zod.string().optional(),
-  tech_stacks: zod.object({
-    frontend: stackInfoSchema,
-    codebase_acrhitecture: stackInfoSchema,
-    design_system: stackInfoSchema,
-    backend: stackInfoSchema,
-    database: stackInfoSchema,
-    payment: stackInfoSchema,
-    mailing: stackInfoSchema,
-    authentication: stackInfoSchema,
-  }),
 });

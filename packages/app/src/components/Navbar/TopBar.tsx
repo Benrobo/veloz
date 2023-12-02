@@ -14,14 +14,14 @@ import { logout } from "@/lib/utils";
 function TopBar() {
   const { user } = useUser();
   return (
-    <div className="w-full flex items-center justify-end border-b-solid border-b-[1px] border-b-dark-400 py-2 px-4">
+    <div className="w-full flex items-center justify-end border-b-solid border-b-[1px] border-b-dark-400 py-1 px-4">
       <div className="w-auto flex">
         <DropdownMenu>
-          <DropdownMenuTrigger className="w-[40px] h-[40px] bg-dark-200 font-ppReg text-white-100 border-solid border-[1px] border-dark-300 rounded-[50%] text-[13px] outline-none ">
+          <DropdownMenuTrigger className="w-[30px] h-[30px] bg-dark-200 font-ppReg text-white-100 border-solid border-[1px] border-dark-300 rounded-[50%] text-[13px] outline-none ">
             <Image
               src={user?.imageUrl ?? ("/images/finetuned/zeus.jpeg" as string)}
-              width={40}
-              height={40}
+              width={20}
+              height={20}
               className="w-full p-[1px] rounded-[50%]"
               alt="veloz user avatar"
             />
