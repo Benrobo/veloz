@@ -8,29 +8,38 @@ import {
 import Layout from "@/components/Layout";
 import RenderStacks from "@/components/Stacks/Render";
 import { FINE_TUNED_STACKS } from "@/data/stack";
+import usePageLoaded from "@/hooks/usePageLoaded";
 import { renderAccdIcon } from "@/lib/comp_utils";
+import { getLastUpdated } from "@/lib/http/requests";
+import { ResponseData } from "@/types";
+import { useQuery } from "@tanstack/react-query";
 import { FineTunedStacksName } from "@veloz/shared/types";
 import { ArrowLeftToLine } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 
 function ProjectTemplate() {
+  const pageLoaded = usePageLoaded(1000);
   const { name } = useRouter().query;
+  const [lastUpdatedDate, setLastUpdatedDate] = React.useState<string>("");
+  const getLastUpdatedQuery = useQuery({
+    queryKey: ["last_updated"],
+    queryFn: async () => await getLastUpdated((name as string)?.toLowerCase()),
+    enabled: pageLoaded,
+  });
 
-  const extractFineTunedStack = (
-    stacks: { title: string; stacks: string[] }[]
-  ) => {
-    const validStacks: string[] = [];
-    stacks.forEach((stack) => {
-      stack.stacks.forEach((s) => {
-        if (!validStacks.includes(s)) {
-          validStacks.push(s);
-        }
-      });
-    });
-    return validStacks;
-  };
+  useEffect(() => {
+    if (getLastUpdatedQuery.data) {
+      const responseData = getLastUpdatedQuery.data as ResponseData;
+      const formatted = responseData?.data?.formatted;
+      setLastUpdatedDate(formatted ?? "N/A");
+    }
+  }, [
+    getLastUpdatedQuery.data,
+    getLastUpdatedQuery.isPending,
+    getLastUpdatedQuery.isError,
+  ]);
 
   const returnFineTunedStackDetails = (name: FineTunedStacksName) => {
     const stack = FINE_TUNED_STACKS.find((d) => d.name === name);
@@ -84,7 +93,9 @@ function ProjectTemplate() {
                 <span className="bg-green-400 w-[10px] h-[10px] rounded-[50%] animate-pulse "></span>
                 <span className="text-white-300 text-[12px] font-jbSB">
                   Last updated:{" "}
-                  <span className="text-white-100 font-jbEB">12/11/20202</span>
+                  <span className="text-white-100 font-jbEB">
+                    {getLastUpdatedQuery.isPending ? "..." : lastUpdatedDate}
+                  </span>
                 </span>
               </FlexRowStartCenter>
             </FlexColStart>
