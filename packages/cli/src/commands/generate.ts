@@ -29,6 +29,7 @@ class VelozGenerate {
       const resp: HttpResponse = await getTemplateDetails(projName);
       if (resp?.errorStatus) {
         s.stop(`🚩 ${chalk.redBright(resp?.message)}`);
+        outro(`🛠️  Done`);
         return;
       }
 

@@ -1,6 +1,6 @@
 import { TEMPLATES_REPOSITORY } from "@/data/stack";
 import { TechStackPricingPlan } from "@veloz/shared/types";
-import { GhInvite, User } from "../models";
+import { Invites, User } from "../models";
 import axios from "axios";
 
 // [ref](https://stackoverflow.com/questions/64371517/how-to-invite-a-user-to-a-private-github-repo-within-an-organisation-using-the-c)
@@ -39,6 +39,31 @@ export async function addCollaboratorToRepo(
       return false;
     }
 
+    // check if user exists
+    const user = await User.findOne({ gh_username: username });
+    if (user) {
+      // check if already invited
+      const invites = await Invites.findOne({
+        uId: user?.uId,
+        repo_name: ghR.repo,
+        template_name: ghR.template_name,
+        type: "github",
+      });
+      if (invites) {
+        console.log(
+          `❌ [Collaborator Invite]: Already invited [user: ${username}] for [repo: ${ghR.repo}]`
+        );
+        return true;
+      } else {
+        await Invites.create({
+          uId: user?.uId,
+          repo_name: ghR.repo,
+          template_name: ghR.template_name,
+          type: "github",
+        });
+      }
+    }
+
     const org = "veloz-org";
     const permission = "triage";
     const apiUrl = `https://api.github.com/repos/${org}/${ghR.repo}/collaborators/${username}`;
@@ -58,29 +83,6 @@ export async function addCollaboratorToRepo(
       console.log(
         `✅ [Collaborator Invite]: Invitation sent to [user: ${username}] for [repo: ${ghR.repo}]`
       );
-
-      // add to gh_invite table
-      const user = await User.findOne({ gh_username: username });
-      if (user) {
-        // check if already invited
-        const ghInvite = await GhInvite.findOne({
-          uId: user?.uId,
-          repo_name: ghR.repo,
-          template_name: ghR.template_name,
-        });
-        if (ghInvite) {
-          console.log(
-            `❌ [Collaborator Invite]: Already invited [user: ${username}] for [repo: ${ghR.repo}]`
-          );
-        } else {
-          await GhInvite.create({
-            uId: user?.uId,
-            repo_name: ghR.repo,
-            template_name: ghR.template_name,
-          });
-        }
-      }
-
       return true;
     }
   } catch (e: any) {

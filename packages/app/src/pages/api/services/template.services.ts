@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { GhInvite, TemplateConsumption, User } from "../models";
+import { Invites, TemplateConsumption, User } from "../models";
 import sendResponse from "../lib/sendResponse";
 import { RESPONSE_CODE } from "@veloz/shared/types";
 import { _checkFineTunedStackAvailability } from "../lib/utils";
@@ -61,7 +61,7 @@ class TemplateService {
     }
 
     // check if user has been invited to the repo
-    const ghInvites = await GhInvite.findOne({
+    const ghInvites = await Invites.findOne({
       uId: userId,
       temp_name: tempName,
     });
