@@ -5,6 +5,7 @@ import {
   TechStackCategory,
 } from "@veloz/shared/types";
 import templates from "./stack_templates.json";
+import githubRepos from "./github_repo.json";
 
 interface IFINE_TUNED_STACKS_TEMP extends FINE_TUNED_STACKS_TYPE {
   media: string;
@@ -13,21 +14,14 @@ interface IFINE_TUNED_STACKS_TEMP extends FINE_TUNED_STACKS_TYPE {
 export const FINE_TUNED_STACKS = templates as IFINE_TUNED_STACKS_TEMP[];
 
 // Stack Repos Name
-type StackAvailabilityRepoName = {
+type TemplateRepositoryType = {
   plan: TechStackPricingPlan;
   repo: string;
   available: boolean;
   template_name: string;
 };
 
-export const STACK_AVAILABILITY_REPO_NAME = [
-  {
-    plan: "BASIC_PKG",
-    repo: "veloz-zeus",
-    template_name: "zeus",
-    available: true,
-  },
-] satisfies StackAvailabilityRepoName[];
+export const TEMPLATES_REPOSITORY = githubRepos as TemplateRepositoryType[];
 
 // GENERAL STACKS
 export const GENERAL_STACKS = [

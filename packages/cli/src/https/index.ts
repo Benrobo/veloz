@@ -26,7 +26,18 @@ export const authenticate = async (token: string) => {
   }
 };
 
-export const getProjects = async (name: string) => {
+export const inviteToRepo = async (name: string) => {
+  try {
+    const resp = await $http.post(`/template/cli/invite`, {
+      temp_name: name,
+    });
+    return resp?.data ?? (resp as any)?.response?.data;
+  } catch (e: any) {
+    return e.response.data ?? { message: e.message };
+  }
+};
+
+export const getTemplateDetails = async (name: string) => {
   try {
     const resp = await $http.get(`/template/cli/${name}`);
     return resp?.data ?? (resp as any)?.response?.data;

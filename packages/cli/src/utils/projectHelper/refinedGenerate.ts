@@ -1,8 +1,4 @@
-import {
-  REFINED_STACK_VALUE,
-  RESPONSE_CODE,
-  TechStackCategory,
-} from "@veloz/shared/types";
+import { TechStackCategory } from "@veloz/shared/types";
 import _FrontendSetup from "./_frontendSetup.js";
 import BaseSetup from "./base.js";
 
@@ -51,10 +47,8 @@ export default class RefinedProjectGenerate extends BaseSetup {
     userData: ProjUserData
   ) {
     this.formatedName = name?.toLowerCase().replace(/\s/gi, "-");
-    this.codebaseArchitecture = findStack(tech_stacks, "codebase_acrhitecture");
     this._frontend = findStack(tech_stacks, "frontend");
     this._backend = findStack(tech_stacks, "backend");
-    this._design_system = findStack(tech_stacks, "design_system");
     this._database = findStack(tech_stacks, "database");
     this._mailing = findStack(tech_stacks, "mailing");
     this._authentication = findStack(tech_stacks, "authentication");

@@ -4,14 +4,17 @@ import { isCancel, spinner, text, intro, outro, cancel } from "@clack/prompts";
 import { sleep } from "../utils/index.js";
 import chalk from "chalk";
 import storage from "../config/storage.js";
-import { getProjects } from "../https/index.js";
-import { HttpResponse, IGenerateProjectDetails } from "@veloz/shared/types";
+import { getTemplateDetails } from "../https/index.js";
+import { HttpResponse } from "@veloz/shared/types";
+import CodebaseSetup from "../utils/projectHelper/setup_codebase.js";
 
-interface IProjectRespData extends IGenerateProjectDetails {
+interface IProjectRespData {
   userData: {
     id: string;
     username: string;
   };
+  name: string;
+  available: boolean;
 }
 
 class VelozGenerate extends BaseSetup {
@@ -27,7 +30,7 @@ class VelozGenerate extends BaseSetup {
       s.start("Fetching..");
 
       await sleep(1);
-      const resp: HttpResponse = await getProjects(projName);
+      const resp: HttpResponse = await getTemplateDetails(projName);
       if (resp?.errorStatus) {
         s.stop(`🚩 ${chalk.redBright(resp?.message)}`);
         return;
@@ -36,13 +39,10 @@ class VelozGenerate extends BaseSetup {
       s.stop(`✅ Done fetching..`);
 
       const projData = resp?.data as IProjectRespData;
-      console.log(projData);
-      const { name, tech_stacks, userData, secrets } = projData;
-      const _userData = {
-        proj_id: projData?._id,
-        secrets,
-        ...userData,
-      };
+      const { name, available } = projData;
+
+      // setup codebase
+      new CodebaseSetup(name);
     } catch (e: any) {
       console.log(e);
       s.stop(`🚩 ${chalk.redBright(e?.message)}`);

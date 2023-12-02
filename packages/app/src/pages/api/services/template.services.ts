@@ -6,7 +6,7 @@ import { _checkFineTunedStackAvailability } from "../lib/utils";
 import { isUserEligibleForStack } from "@/lib/utils";
 import { FINE_TUNED_STACKS } from "@/data/stack";
 import HttpException from "../lib/exception";
-import { addCollaboratorToRepo } from "../github/invites";
+import { addCollaboratorToRepo } from "../lib/github";
 
 class TemplateService {
   async templateDetails(req: NextApiRequest, res: NextApiResponse) {
@@ -44,9 +44,21 @@ class TemplateService {
 
   async inviteToRepo(req: NextApiRequest, res: NextApiResponse) {
     const userId = (req as any)?.user?.id;
-    const tempName = req?.query?.temp_name;
+    const tempName = req?.body?.temp_name;
     const user = await User.findOne({ uId: userId });
     const gh_name = user?.gh_username;
+
+    // check if tempName is valid
+    const template =
+      FINE_TUNED_STACKS.find((t) => t.name.toLowerCase() === tempName) ?? null;
+
+    if (!template) {
+      throw new HttpException(
+        RESPONSE_CODE.TEMPLATE_NOT_FOUND,
+        "template not found",
+        404
+      );
+    }
 
     // check if user has been invited to the repo
     const ghInvites = await GhInvite.findOne({
@@ -57,7 +69,8 @@ class TemplateService {
     if (!ghInvites) {
       const collabInvited = await addCollaboratorToRepo(
         user?.proj_plan,
-        gh_name
+        gh_name,
+        tempName as string
       );
       if (collabInvited) {
         return sendResponse.success(
