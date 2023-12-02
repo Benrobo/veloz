@@ -2,9 +2,9 @@ import { program } from "commander";
 import useGradinent from "../utils/useGradient.js";
 
 function showCliCommands() {
-  const name = "create-prospark-app";
+  const name = "veeloz";
   const description =
-    "Easily scaffold a new project with prefered technologies.";
+    "Ship fast with Veloz 🚢";
 
   const cliCmds = `
     

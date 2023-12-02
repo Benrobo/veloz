@@ -1,9 +1,7 @@
-import RefinedProjectGenerate from "../utils/projectHelper/refinedGenerate.js";
 import BaseSetup from "../utils/projectHelper/base.js";
-import { isCancel, spinner, text, intro, outro, cancel } from "@clack/prompts";
+import { spinner, intro, outro, cancel } from "@clack/prompts";
 import { sleep } from "../utils/index.js";
 import chalk from "chalk";
-import storage from "../config/storage.js";
 import { getTemplateDetails } from "../https/index.js";
 import { HttpResponse } from "@veloz/shared/types";
 import CodebaseSetup from "../utils/projectHelper/setup_codebase.js";
@@ -17,10 +15,8 @@ interface IProjectRespData {
   available: boolean;
 }
 
-class VelozGenerate extends BaseSetup {
-  constructor() {
-    super();
-  }
+class VelozGenerate {
+  constructor() {}
 
   async start(projName: string) {
     console.log("");
@@ -36,7 +32,7 @@ class VelozGenerate extends BaseSetup {
         return;
       }
 
-      s.stop(`✅ Done fetching..`);
+      s.stop(`✅ Done`);
 
       const projData = resp?.data as IProjectRespData;
       const { name, available } = projData;

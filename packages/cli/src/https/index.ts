@@ -45,14 +45,3 @@ export const getTemplateDetails = async (name: string) => {
     return e.response.data ?? { message: e.message };
   }
 };
-
-export const updateProjectStatus = async (status: string, proj_id: string) => {
-  try {
-    const resp = await $http.patch(
-      `/project/cli/status?proj_id=${proj_id}&status=${status}`
-    );
-    return resp?.data ?? (resp as any)?.response?.data;
-  } catch (e: any) {
-    return e.response.data ?? { message: e.message };
-  }
-};
