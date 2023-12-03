@@ -8,7 +8,7 @@ import {
 } from "@clack/prompts";
 import BaseSetup from "./base.js";
 import { sleep } from "../index.js";
-import { inviteToRepo } from "../../https/index.js";
+import { inviteToRepo, storeTemplateConsumption } from "../../https/index.js";
 import chalk from "chalk";
 import { createDir } from "../filemanager.js";
 
@@ -113,6 +113,9 @@ export default class CodebaseSetup extends BaseSetup {
           .replace(/\s+\n/g, " ")
       );
       console.log("");
+
+      // store template consumption
+      await storeTemplateConsumption(this._templateName);
     } catch (e: any) {
       s.stop(`🚩 ${chalk.redBright(e?.message)}`);
       cancel(`Operation cancelled: ${chalk.redBright(e?.message)}`);
