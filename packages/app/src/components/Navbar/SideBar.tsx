@@ -5,7 +5,7 @@ import { HomeIcon, MoneyIcon, ProjectIcon } from "../Icon";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 import { Settings, Zap } from "lucide-react";
-import { FlexColCenter, FlexColStart } from "../Flex";
+import { FlexColCenter, FlexColStart, FlexRowCenterBtw } from "../Flex";
 import { cn, getPlanTitle, planColor } from "@/lib/utils";
 import { DataContext } from "@/context/DataContext";
 import { TechStackPricingPlan } from "@veloz/shared/types";
@@ -132,16 +132,20 @@ function UpgradePlanWidget() {
   return (
     <FlexColCenter className="w-full px-5 py-4 absolute bottom-2">
       <FlexColStart className="w-full bg-dark-200 p-3 rounded-md border-solid border-[.5px] border-white-600 ">
-        <p className="text-gray-100 text-[10px] leading-none font-ppL">
-          Current Plan
-        </p>
-        <p
-          className={cn(
-            "text-white-100 text-[20px] leading-none font-jbEB",
-            planColor(userPlan).txtColor
-          )}
-        >
-          {getPlanTitle(userPlan)}
+        <FlexRowCenterBtw>
+          <p className="text-white-300 text-[10px] leading-none font-ppL">
+            Current Plan
+          </p>
+          <span
+            className={cn(
+              "text-white-100 text-[10px] px-3 py-1 rounded-[30px] border-solid border-[1px] border-white-600 leading-none font-jbSB"
+            )}
+          >
+            {getPlanTitle(userPlan)}
+          </span>
+        </FlexRowCenterBtw>
+        <p className="text-gray-100 font-jbPR text-[10px] ">
+          Upgrade your account to get access to incredible features.
         </p>
         <FlexColCenter className="w-full mt-2">
           <Button
