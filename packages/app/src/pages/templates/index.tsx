@@ -22,6 +22,7 @@ import { cn, getPlanTitle } from "@/lib/utils";
 import Image from "next/image";
 import { ProjectContext } from "@/context/ProjectContext";
 import { RenderProjectIcons } from "@/components/Projects/Card";
+import { PricingBadge } from "@/components/Badge";
 
 function Projects() {
   const { setSelectedFinetunedStack, selectedFinetunedStack } =
@@ -109,32 +110,9 @@ function FineTunedCard({
               </p>
             </FlexColStart>
           </FlexRowStart>
-          <FlexRowCenterBtw className="w-auto absolute top-4 right-2 px-3 py-1 rounded-[30px] bg-dark-200 scale-[.85] border-solid border-white-600 border-[1px]">
-            <p
-              className={cn(
-                "text-white-100 text-[12px] font-ppB",
-                pricing_plan === "BASIC_PKG"
-                  ? "text-blue-100"
-                  : pricing_plan === "STANDARD_PKG"
-                    ? "text-orange-100"
-                    : pricing_plan === "ENTERPRISE_PKG"
-                      ? "text-pink-100"
-                      : ""
-              )}
-            >
-              {getPlanTitle(pricing_plan)}
-            </p>
-            <Image
-              src={
-                pricing_plan === "STANDARD_PKG"
-                  ? "/images/diamond.png"
-                  : "/images/diamond-2.png"
-              }
-              width={15}
-              height={0}
-              alt="premium"
-            />
-          </FlexRowCenterBtw>
+          <div className="absolute top-3 right-3">
+            <PricingBadge pricing_plan={pricing_plan} />
+          </div>
         </FlexRowStartBtw>
         <FlexRowStart className="w-full gap-2 px-3">
           {extractStack.map((stack, i) => (
