@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { ProjectContext } from "@/context/ProjectContext";
 import { FINE_TUNED_STACKS } from "@data/stack";
 import Link from "next/link";
+import { PricingBadge } from "@/components/Badge";
 
 interface FineTunedProps {}
 
@@ -138,32 +139,7 @@ function FineTunedCard({
               <span className="text-white-200 font-ppSB">2 days ago</span>
             </p>
           </FlexColStart>
-          <FlexRowCenterBtw className="w-auto px-3 py-1 rounded-[30px] bg-dark-200 scale-[.85] border-solid border-white-600 border-[1px]">
-            <p
-              className={cn(
-                "text-white-100 text-[12px] font-ppB",
-                pricing_plan === "BASIC_PKG"
-                  ? "text-blue-100"
-                  : pricing_plan === "STANDARD_PKG"
-                    ? "text-orange-100"
-                    : pricing_plan === "ENTERPRISE_PKG"
-                      ? "text-pink-100"
-                      : ""
-              )}
-            >
-              {getPlanTitle(pricing_plan)}
-            </p>
-            <Image
-              src={
-                pricing_plan === "STANDARD_PKG"
-                  ? "/images/diamond.png"
-                  : "/images/diamond-2.png"
-              }
-              width={15}
-              height={0}
-              alt="premium"
-            />
-          </FlexRowCenterBtw>
+          <PricingBadge pricing_plan={pricing_plan} />
         </FlexRowStartBtw>
         <FlexRowStart className="w-full gap-2 px-3">
           {extractStack.map((stack, i) => (
