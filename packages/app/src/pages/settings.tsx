@@ -10,8 +10,6 @@ import { Button } from "@/components/ui/button";
 import { withAuth } from "@/lib/helpers";
 import { getUserSettings } from "@/lib/http/requests";
 import { cn } from "@/lib/utils";
-import { RadioGroup } from "@radix-ui/themes";
-import { useQuery } from "@tanstack/react-query";
 import { Github, LayoutDashboard, Settings } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -36,33 +34,33 @@ type SettingsResponse = {
 
 function SettingsPage() {
   const [activeTab, setActiveTab] = useState<SettingsTabs>("general");
-  const [settings, setSettings] = useState<SettingsDetails>({
-    ghAccountConnected: false,
-    routerConfig: "page",
-  });
-  const getSettingsQuery = useQuery({
-    queryKey: ["getSettings"],
-    queryFn: async () => await getUserSettings(),
-  });
+  // const [settings, setSettings] = useState<SettingsDetails>({
+  //   ghAccountConnected: false,
+  //   routerConfig: "page",
+  // });
+  // const getSettingsQuery = useQuery({
+  //   queryKey: ["getSettings"],
+  //   queryFn: async () => await getUserSettings(),
+  // });
 
-  useEffect(() => {
-    if (getSettingsQuery.data) {
-      const data = getSettingsQuery.data as SettingsResponse;
-      if (data.errorStatus) {
-        toast.error(getSettingsQuery.data?.message as string);
-        return;
-      }
-      console.log(data?.data);
-      setSettings({
-        ghAccountConnected: data?.data?.ghAccountConnected,
-        routerConfig: data?.data?.default_nextjs_router,
-      });
-    }
-  }, [
-    getSettingsQuery.data,
-    getSettingsQuery.error,
-    getSettingsQuery.isLoading,
-  ]);
+  // useEffect(() => {
+  //   if (getSettingsQuery.data) {
+  //     const data = getSettingsQuery.data as SettingsResponse;
+  //     if (data.errorStatus) {
+  //       toast.error(getSettingsQuery.data?.message as string);
+  //       return;
+  //     }
+  //     console.log(data?.data);
+  //     setSettings({
+  //       ghAccountConnected: data?.data?.ghAccountConnected,
+  //       routerConfig: data?.data?.default_nextjs_router,
+  //     });
+  //   }
+  // }, [
+  //   getSettingsQuery.data,
+  //   getSettingsQuery.error,
+  //   getSettingsQuery.isLoading,
+  // ]);
 
   const getTabTitle = (tab: SettingsTabs) => {
     switch (tab) {
@@ -112,101 +110,15 @@ function SettingsPage() {
         </FlexRowStartCenter>
 
         {/* Loading */}
-        {getSettingsQuery.isLoading && (
+        {/* {getSettingsQuery.isLoading && (
           <FlexColCenter className="w-full">
             <Spinner color="#fff" />
           </FlexColCenter>
-        )}
+        )} */}
 
         {/* General Tab Content */}
-        {getSettingsQuery.isLoading
-          ? null
-          : activeTab === "general" && (
-              <FlexColStart className="w-full mt-5">
-                <FlexColStart className="w-fit">
-                  <h1 className="text-white-100 text-[15px] font-ppB">
-                    Connect your Github account
-                  </h1>
-                  <p className="text-gray-100 leading-none font-ppL text-[13px]">
-                    Connect your Github account to Veloz to enable Github
-                    integration.
-                  </p>
-                  <Button
-                    className={cn(
-                      "w-auto mt-2 gap-2",
-                      settings.ghAccountConnected
-                        ? "bg-dark-300"
-                        : "bg-green-105"
-                    )}
-                    variant={
-                      settings.ghAccountConnected ? "success" : "success"
-                    }
-                    onClick={() =>
-                      (window.location.href = "/api/github/connect")
-                    }
-                    disabled={settings.ghAccountConnected}
-                  >
-                    <Github size={15} />
-                    <span className="text-white-100 text-[10px] font-ppSB">
-                      {settings.ghAccountConnected
-                        ? "Connected"
-                        : "Connect Github"}
-                    </span>
-                  </Button>
-                </FlexColStart>
-                <br />
-              </FlexColStart>
-            )}
 
         {/* Project Tab Content */}
-        {!getSettingsQuery.isPending && activeTab === "project" && (
-          <FlexColStart className="w-full mt-5">
-            {/* Nextjs (App / Page) router config */}
-            <FlexColStart>
-              <h1 className="text-white-100 text-[15px] font-ppB">
-                Nextjs router config
-              </h1>
-              <p className="text-gray-100 leading-none font-ppL text-[13px]">
-                Veloz uses page router by default, you can select your default
-                router here.
-              </p>
-              <FlexRowStartCenter className="mt-2">
-                <RadioGroup.Root
-                  onValueChange={(value) =>
-                    setSettings((prev) => ({ ...prev, routerConfig: "page" }))
-                  }
-                  defaultValue={settings.routerConfig}
-                >
-                  <FlexRowCenter className="w-fit gap-4">
-                    <FlexRowCenter>
-                      <RadioGroup.Item value="page" />
-                      <span className="text-white-100 text-[13px] font-ppSB">
-                        Page
-                      </span>
-                    </FlexRowCenter>
-                    <FlexRowCenter>
-                      <RadioGroup.Item value="app" />
-                      <span className="text-white-100 text-[13px] font-ppSB">
-                        App
-                      </span>
-                    </FlexRowCenter>
-                  </FlexRowCenter>
-                </RadioGroup.Root>
-              </FlexRowStartCenter>
-              <Button
-                className="w-auto mt-2"
-                variant={"appeal"}
-                disabled={settings.routerConfig === "page"}
-              >
-                <span className="text-white-100 text-[10px] font-ppSB">
-                  Save Changes
-                </span>
-              </Button>
-            </FlexColStart>
-
-            <br />
-          </FlexColStart>
-        )}
       </FlexColStart>
     </Layout>
   );
