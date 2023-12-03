@@ -6,6 +6,11 @@ import {
   FlexRowStartCenter,
 } from "@/components/Flex";
 import Layout from "@/components/Layout";
+import {
+  DifficultyBadge,
+  PricingBadge,
+  StackedAvatar,
+} from "@/components/Badge";
 import RenderStacks from "@/components/Stacks/Render";
 import { FINE_TUNED_STACKS } from "@/data/stack";
 import usePageLoaded from "@/hooks/usePageLoaded";
@@ -13,15 +18,24 @@ import { renderAccdIcon } from "@/lib/comp_utils";
 import { getLastUpdated } from "@/lib/http/requests";
 import { ResponseData } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { FineTunedStacksName } from "@veloz/shared/types";
-import { ArrowLeftToLine } from "lucide-react";
+import { FineTunedStacksName, TechStackPricingPlan } from "@veloz/shared/types";
+import { ArrowDownFromLine, ArrowLeftToLine } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { ReactElement, useEffect } from "react";
+import { formatNumber } from "@/lib/utils";
+
+const testImages = Array(1).fill(
+  `https://flowbite.com/docs/images/people/profile-picture-${Math.floor(
+    Math.random() * 5
+  )}.jpg`
+);
 
 function ProjectTemplate() {
   const pageLoaded = usePageLoaded(1000);
   const { name } = useRouter().query;
+  const [installs, setInstalls] = React.useState<number>(0);
+  const [usedBy, setUsedBy] = React.useState<string[]>([...testImages]);
   const [lastUpdatedDate, setLastUpdatedDate] = React.useState<string>("");
   const getLastUpdatedQuery = useQuery({
     queryKey: ["last_updated"],
@@ -61,6 +75,8 @@ function ProjectTemplate() {
   const _mailing = stackDetails?.tech_stacks.find((s) => s.title === "mailing");
   const _payment = stackDetails?.tech_stacks.find((s) => s.title === "payment");
 
+  console.log(stackDetails);
+
   return (
     <Layout activePage="templates">
       <FlexColStart className="w-full h-full hideScrollBar2 overflow-y-scroll">
@@ -82,13 +98,56 @@ function ProjectTemplate() {
         {returnFineTunedStackDetails(name as FineTunedStacksName) ? (
           <FlexRowStartBtw className="w-full px-9 py-5">
             <FlexColStart className="w-full">
-              <p className="text-white-100 font-jbEB text-[24px]">
-                {stackDetails?.name}
-              </p>
-              <p className="text-white-300 font-jbR text-[14px]">
-                {stackDetails?.description}
-              </p>
+              <FlexColStart className="w-full">
+                <FlexRowStartBtw className="w-full pr-7">
+                  <p className="text-white-100 font-jbEB text-[24px]">
+                    {stackDetails?.name}
+                  </p>
+                  <FlexRowStartCenter>
+                    {/* Template Consumption */}
+                    <FlexRowStartCenter className="w-fit gap-1">
+                      <ArrowDownFromLine size={14} className="text-white-100" />
+                      <span className="text-white-100 text-[14px] font-jbSB">
+                        {formatNumber(installs)}
+                      </span>
+                    </FlexRowStartCenter>
+                    {/* divider */}
+                    <span className="text-white-600">|</span>
+                    {/* Pricing badge */}
+                    <PricingBadge
+                      pricing_plan={stackDetails?.plan as TechStackPricingPlan}
+                    />
+                  </FlexRowStartCenter>
+                </FlexRowStartBtw>
+                <FlexColStart>
+                  <p className="text-white-300 text-[12px] font-jbEB">
+                    {stackDetails?.tagline}
+                  </p>
+                  <FlexRowStartCenter className="w-fit">
+                    <p className="text-white-300 text-[12px] font-jbEB">
+                      Used By:{" "}
+                    </p>
+                    <StackedAvatar limit={5} images={usedBy} />
+                  </FlexRowStartCenter>
+                </FlexColStart>
+              </FlexColStart>
               <br />
+              {stackDetails?.description.split("\n").map((d, i) => (
+                <p className="text-white-200 font-ppReg text-[14px]" key={i}>
+                  {d}
+                </p>
+              ))}
+              <br />
+              <FlexRowStartCenter className="w-auto">
+                <span className="text-white-300 text-[12px] font-jbSB">
+                  Difficulty:{" "}
+                  {/* <span className="text-white-100 font-jbEB">
+                    {stackDetails?.difficulty}
+                  </span> */}
+                </span>
+                <DifficultyBadge difficulty={stackDetails?.difficulty as any} />
+              </FlexRowStartCenter>
+
               <FlexRowStartCenter className="w-auto">
                 <span className="bg-green-400 w-[10px] h-[10px] rounded-[50%] animate-pulse "></span>
                 <span className="text-white-300 text-[12px] font-jbSB">
