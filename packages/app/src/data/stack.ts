@@ -8,9 +8,12 @@ import templates from "./stack_templates.json";
 import githubRepos from "./github_repo.json";
 
 interface IFINE_TUNED_STACKS_TEMP extends FINE_TUNED_STACKS_TYPE {
-  media: string;
+  media: {
+    thumbnail: string | null;
+    video: string | null;
+  };
   tagline: string;
-  difficulty: string;
+  difficulty: "intermediate" | "advanced" | "beginner";
   tags: string[];
 }
 
@@ -34,27 +37,30 @@ export const GENERAL_STACKS = [
       {
         name: "Vue.js",
         key: "vuejs",
-        pricing_plan: "FREE_PKG",
+      },
+      {
+        name: "Javascript",
+        key: "javascript",
+      },
+      {
+        name: "Typescript",
+        key: "typescript",
       },
       {
         name: "Next.js",
         key: "nextjs",
-        pricing_plan: "BASIC_PKG",
       },
       {
         name: "React",
         key: "react",
-        pricing_plan: "FREE_PKG",
       },
       {
         name: "Tailwind CSS",
         key: "tailwindcss",
-        pricing_plan: "FREE_PKG",
       },
       {
         name: "Sass",
         key: "sass",
-        pricing_plan: "FREE_PKG",
       },
     ],
   },
@@ -66,27 +72,26 @@ export const GENERAL_STACKS = [
       {
         name: "Next.js API",
         key: "nextjs-api",
-        pricing_plan: "BASIC_PKG",
+      },
+      {
+        name: "Typescript",
+        key: "typescript",
       },
       {
         name: "Node.js",
         key: "nodejs",
-        pricing_plan: "BASIC_PKG",
       },
       {
         name: "Golang",
         key: "golang",
-        pricing_plan: "BASIC_PKG",
       },
       {
         name: "PHP",
         key: "php",
-        pricing_plan: "BASIC_PKG",
       },
       {
         name: "Python",
         key: "python",
-        pricing_plan: "BASIC_PKG",
       },
     ],
   },
@@ -98,17 +103,14 @@ export const GENERAL_STACKS = [
       {
         name: "MongoDB",
         key: "mongodb",
-        pricing_plan: "FREE_PKG",
       },
       {
         name: "MySQL",
         key: "mysql",
-        pricing_plan: "BASIC_PKG",
       },
       {
         name: "PostgreSQL",
         key: "postgresql",
-        pricing_plan: "BASIC_PKG",
       },
     ],
   },
@@ -120,17 +122,14 @@ export const GENERAL_STACKS = [
       {
         name: "LemonSqueezy",
         key: "lemonsqueezy",
-        pricing_plan: "BASIC_PKG",
       },
       {
         name: "Paddle",
         key: "paddle",
-        pricing_plan: "BASIC_PKG",
       },
       {
         name: "Stripe",
         key: "stripe",
-        pricing_plan: "BASIC_PKG",
       },
     ],
   },
@@ -142,17 +141,14 @@ export const GENERAL_STACKS = [
       {
         name: "Elasticmail",
         key: "elasticmail",
-        pricing_plan: "FREE_PKG",
       },
       {
         name: "Postmark",
         key: "postmark",
-        pricing_plan: "BASIC_PKG",
       },
       {
         name: "Resend",
         key: "resend",
-        pricing_plan: "BASIC_PKG",
       },
     ],
   },
@@ -164,17 +160,14 @@ export const GENERAL_STACKS = [
       {
         name: "JSON Web Token",
         key: "jsonwebtoken",
-        pricing_plan: "FREE_PKG",
       },
       {
         name: "Clerk",
         key: "clerk",
-        pricing_plan: "BASIC_PKG",
       },
       {
         name: "Passage",
         key: "passage",
-        pricing_plan: "BASIC_PKG",
       },
     ],
   },
