@@ -102,3 +102,10 @@ export const logout = () => {
   localStorage.removeItem("clerk-db-jwt");
   window.location.href = "/auth";
 };
+
+// format number to 100, 1k, 2.5k, 1m, 2.5m
+export function formatNumber(number: number) {
+  // International number formatting
+  let formatter = Intl.NumberFormat("en", { notation: "compact" });
+  return formatter.format(number);
+}
