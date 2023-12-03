@@ -39,7 +39,6 @@ export interface FINE_TUNED_STACKS {
 export type GENERAL_STACK_VALUE = {
   name: string;
   key: string;
-  pricing_plan: TechStackPricingPlan;
 };
 
 export interface GENERAL_STACKS {
