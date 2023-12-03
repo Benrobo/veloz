@@ -94,7 +94,102 @@ class TemplateService {
     );
   }
 
-  async storeTemplateConsumption(req: NextApiRequest, res: NextApiResponse) {}
+  // invoke from cli
+  async storeTemplateConsumption(req: NextApiRequest, res: NextApiResponse) {
+    const userId = (req as any)?.user?.id;
+    const tempName = req?.query?.template;
+
+    // check if tempName is valid
+    const template =
+      FINE_TUNED_STACKS.find((t) => t.name.toLowerCase() === tempName) ?? null;
+
+    if (!template) {
+      throw new HttpException(
+        RESPONSE_CODE.TEMPLATE_NOT_FOUND,
+        "template not found",
+        404
+      );
+    }
+
+    const _template = await TemplateConsumption.findOne({
+      name: tempName,
+      uId: userId,
+    });
+
+    const user = await User.findOne({ uId: userId });
+
+    if (!_template) {
+      // store template consumption
+      await TemplateConsumption.create({
+        uId: userId,
+        name: tempName,
+        used_count: 1,
+      });
+
+      console.log(
+        `Template consumption stored for [user: @${user?.gh_username}] [template: ${tempName}]`
+      );
+      sendResponse.success(res, RESPONSE_CODE.SUCCESS, `success`, 200);
+      return;
+    }
+
+    // update template consumption
+    const prevCount = _template?.used_count ?? 0;
+    await TemplateConsumption.updateOne(
+      { uId: userId, name: tempName },
+      { used_count: prevCount + 1 }
+    );
+
+    console.log(
+      `Template consumption updated for [user: @${user?.gh_username}] [template: ${tempName}]`
+    );
+    sendResponse.success(res, RESPONSE_CODE.SUCCESS, `success`, 200);
+  }
+
+  // get specific template consumption/installs
+  async getTemplateConsumption(req: NextApiRequest, res: NextApiResponse) {
+    const tempName = req?.query?.template;
+
+    // check if tempName is valid
+    const template =
+      FINE_TUNED_STACKS.find((t) => t.name.toLowerCase() === tempName) ?? null;
+
+    if (!template) {
+      throw new HttpException(
+        RESPONSE_CODE.TEMPLATE_NOT_FOUND,
+        "template not found",
+        404
+      );
+    }
+
+    const _template = await TemplateConsumption.find({
+      name: (tempName as string).toLowerCase(),
+    });
+
+    const totalInstall = _template.reduce(
+      (acc, curr) => acc + curr.used_count,
+      0
+    );
+
+    // get used by avatars
+    const usersAvatars: string[] = [];
+
+    for (const t of _template) {
+      const user = await User.findOne({ uId: t.uId });
+      if (!usersAvatars.includes(user.avatar)) {
+        usersAvatars.push(user.avatar);
+      }
+    }
+
+    sendResponse.success(res, RESPONSE_CODE.SUCCESS, `success`, 200, {
+      name: tempName,
+      installs: totalInstall,
+      users: {
+        images: usersAvatars,
+        count: usersAvatars.length,
+      },
+    });
+  }
 }
 
 export default new TemplateService();
