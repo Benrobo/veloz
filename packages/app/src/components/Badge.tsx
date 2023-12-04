@@ -95,10 +95,11 @@ export function StackedAvatar({ limit, images }: StackedAvatarProps) {
           height={8}
         />
       ))}
-      <span className="flex items-center justify-center w-8 h-8 font-jbSB text-xs font-medium text-white-100 bg-gray-100 border-2 border-white rounded-full">
-        {rest > 1 ? "+" : ""}
-        {rest}
-      </span>
+      {rest > _limit && (
+        <span className="flex items-center justify-center w-8 h-8 font-jbSB text-xs font-medium text-white-100 bg-gray-100 border-2 border-white rounded-full">
+          +{rest}
+        </span>
+      )}
     </div>
   );
 }
