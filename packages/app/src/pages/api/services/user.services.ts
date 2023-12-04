@@ -3,6 +3,7 @@ import { User } from "../models";
 import sendResponse from "../lib/sendResponse";
 import { RESPONSE_CODE } from "@veloz/shared/types";
 import { _checkGhTokenValidity, _refreshGhToken } from "../lib/utils";
+import shortUUID from "short-uuid";
 
 class UserService {
   async getInfo(req: NextApiRequest, res: NextApiResponse) {
@@ -43,50 +44,11 @@ class UserService {
 
   async getSettings(req: NextApiRequest, res: NextApiResponse) {
     const userId = (req as any)?.user?.id;
-    const info = await User.findOne({ uId: userId });
-
-    if (!info) {
-      return sendResponse.error(
-        res,
-        RESPONSE_CODE.USER_NOT_FOUND,
-        `User not found`,
-        404
-      );
-    }
-
-    let ghAccountConnected = false;
-    // check if gh_ref_token exists and hasn't expired
-    if (info?.gh_ref_token && info?.gh_acc_token) {
-      const { gh_acc_token, gh_ref_token } = info;
-      const isAccTokenValid = await _checkGhTokenValidity(gh_acc_token);
-
-      if (!isAccTokenValid) {
-        // refresh token
-        const refreshed = await _refreshGhToken(
-          gh_ref_token,
-          process.env.GH_CLIENT_ID as string,
-          process.env.GH_CLIENT_SECRET as string
-        );
-
-        if (refreshed.success) {
-          ghAccountConnected = true;
-          info.gh_acc_token = refreshed.data?.accToken;
-          info.gh_ref_token = refreshed.data?.refToken;
-          await info.save();
-          console.log(`✅ Github access token refreshed`);
-        } else {
-          console.log(`❌ Github access token couldn't be refreshed`);
-        }
-      } else {
-        ghAccountConnected = true;
-        console.log(`✅ Github access token is valid`);
-      }
-    }
+    const user = await User.findOne({ uId: userId });
 
     // needed user details
     const _details = {
-      default_nextjs_router: info?.default_nextjs_router.toLowerCase(),
-      ghAccountConnected,
+      veloz_token: user?.veloz_token,
     };
 
     sendResponse.success(
@@ -108,6 +70,21 @@ class UserService {
       {
         user_id: userId,
       }
+    );
+  }
+
+  async rotateToken(req: NextApiRequest, res: NextApiResponse) {
+    const userId = (req as any)?.user?.id;
+    const newToken = shortUUID.generate();
+
+    // update uset veloz token
+    await User.updateOne({ uId: userId }, { veloz_token: newToken });
+
+    sendResponse.success(
+      res,
+      RESPONSE_CODE.SUCCESS,
+      `Successfully rotated token`,
+      200
     );
   }
 }
