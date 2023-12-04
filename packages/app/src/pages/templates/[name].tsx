@@ -15,7 +15,7 @@ import RenderStacks from "@/components/Stacks/Render";
 import { FINE_TUNED_STACKS } from "@/data/stack";
 import usePageLoaded from "@/hooks/usePageLoaded";
 import { renderAccdIcon } from "@/lib/comp_utils";
-import { getLastUpdated } from "@/lib/http/requests";
+import { getLastUpdated, getTemplateConsumption } from "@/lib/http/requests";
 import { ResponseData } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { FineTunedStacksName, TechStackPricingPlan } from "@veloz/shared/types";
@@ -42,6 +42,12 @@ function ProjectTemplate() {
     queryFn: async () => await getLastUpdated((name as string)?.toLowerCase()),
     enabled: pageLoaded,
   });
+  const getTemplateConsumptionQuery = useQuery({
+    queryKey: ["get_template_consumption"],
+    queryFn: async () =>
+      await getTemplateConsumption((name as string)?.toLowerCase()),
+    enabled: pageLoaded,
+  });
 
   useEffect(() => {
     if (getLastUpdatedQuery.data) {
@@ -53,6 +59,24 @@ function ProjectTemplate() {
     getLastUpdatedQuery.data,
     getLastUpdatedQuery.isPending,
     getLastUpdatedQuery.isError,
+  ]);
+
+  useEffect(() => {
+    if (getTemplateConsumptionQuery.data) {
+      const responseData = getTemplateConsumptionQuery.data as ResponseData;
+      const data: {
+        installs: number;
+        name: string;
+        users: { images: string[]; count: number };
+      } = responseData?.data;
+      // setLastUpdatedDate(formatted ?? "N/A");
+      setInstalls(data.installs);
+      setUsedBy(data.users.images);
+    }
+  }, [
+    getTemplateConsumptionQuery.data,
+    getTemplateConsumptionQuery.isPending,
+    getTemplateConsumptionQuery.isError,
   ]);
 
   const returnFineTunedStackDetails = (name: FineTunedStacksName) => {
