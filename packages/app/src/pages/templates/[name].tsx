@@ -99,7 +99,7 @@ function ProjectTemplate() {
   const _mailing = stackDetails?.tech_stacks.find((s) => s.title === "mailing");
   const _payment = stackDetails?.tech_stacks.find((s) => s.title === "payment");
 
-  console.log(stackDetails);
+  // console.log(stackDetails);
 
   return (
     <Layout activePage="templates">
