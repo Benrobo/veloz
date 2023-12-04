@@ -1,4 +1,4 @@
-import { FINE_TUNED_STACKS } from "@data/stack";
+import { FINE_TUNED_STACKS, PARENT_TEMPLATES } from "@data/stack";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { TechStackCategory, TechStackPricingPlan } from "@veloz/shared/types";
@@ -22,10 +22,15 @@ export function isUserEligibleForStack(
   const techStack = FINE_TUNED_STACKS.find(
     (stack) => stack.name.toLowerCase() === stackName.toLowerCase()
   );
+  const parentStack = PARENT_TEMPLATES.find(
+    (t) => t.id === techStack?.parent_id
+  );
 
   if (techStack) {
-    const { plan } = techStack;
-    if (planLevels[userPricingPlan] >= planLevels[plan]) {
+    if (
+      planLevels[userPricingPlan] >=
+      planLevels[parentStack?.pricing_plan as TechStackPricingPlan]
+    ) {
       return true;
     } else {
       return false;
@@ -107,5 +112,15 @@ export const logout = () => {
 export function formatNumber(number: number) {
   // International number formatting
   let formatter = Intl.NumberFormat("en", { notation: "compact" });
+  return formatter.format(number);
+}
+
+// currency formatter
+export function formatCurrency(number: number, currency: string) {
+  // International number formatting
+  let formatter = Intl.NumberFormat("en", {
+    style: "currency",
+    currency,
+  });
   return formatter.format(number);
 }

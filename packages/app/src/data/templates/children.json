@@ -1,9 +1,9 @@
 [
   {
     "id": 3,
-    "plan": "FREE_PKG",
     "name": "Zeus",
     "available": true,
+    "parent_id": "zeus_11209",
     "media": {
       "thumbnail": "",
       "video": ""

@@ -11,22 +11,32 @@ import { useQuery } from "@tanstack/react-query";
 import { getProjects } from "@/lib/http/requests";
 import {
   FlexColStart,
+  FlexRowCenter,
   FlexRowCenterBtw,
   FlexRowStart,
   FlexRowStartBtw,
+  FlexRowStartCenter,
 } from "@/components/Flex";
 import { Spinner } from "@/components/Spinner";
 import DataContext from "@/context/DataContext";
-import { FINE_TUNED_STACKS } from "@/data/stack";
+import { FINE_TUNED_STACKS, PARENT_TEMPLATES } from "@/data/stack";
 import { cn, getPlanTitle } from "@/lib/utils";
 import Image from "next/image";
 import { ProjectContext } from "@/context/ProjectContext";
-import { RenderProjectIcons } from "@/components/Projects/Card";
+import { RenderProjectIcons } from "@/components/Templates/Card";
 import { PricingBadge } from "@/components/Badge";
+import TemplateCard from "@/components/Templates/TemplateCard";
 
-function Projects() {
+const testImages = Array(5).fill(
+  `https://flowbite.com/docs/images/people/profile-picture-${Math.floor(
+    Math.random() * 3
+  )}.jpg`
+);
+
+function Templates() {
   const { setSelectedFinetunedStack, selectedFinetunedStack } =
     useContext(ProjectContext);
+  const [parentTemplates, setParentTemplates] = useState(PARENT_TEMPLATES);
   // const { togglePremiumModalVisibility, setPkgPlan, userPlan } =
   // useContext(DataContext);
 
@@ -47,8 +57,34 @@ function Projects() {
   return (
     <Layout activePage="templates">
       <FlexColStart className="w-full px-4 py-4 ">
+        <FlexRowCenterBtw className="w-full">
+          <FlexColStart className="gap-2">
+            <p className="text-white-100 font-jbEB text-[14px]">
+              Veloz Templates
+            </p>
+            <p className="text-white-300 font-jbSB text-[11px]">
+              Ship your project faster with our templates. Select a template to
+              start with.
+            </p>
+          </FlexColStart>
+        </FlexRowCenterBtw>
+
         <br />
-        <FlexRowStartBtw className="gap-2 flex-wrap">
+        {/* Template parents */}
+        <FlexRowStartCenter className="w-full flex-wrap">
+          {parentTemplates.map((d) => (
+            <TemplateCard
+              name={d.name}
+              tagline={d.tagline}
+              pricing_plan={d.pricing_plan}
+              userImages={testImages}
+              thumbnail={d.image}
+              key={d.id}
+            />
+          ))}
+        </FlexRowStartCenter>
+
+        {/* <FlexRowStartBtw className="gap-2 flex-wrap">
           {FINE_TUNED_STACKS.map(
             (d) =>
               d.available && (
@@ -61,13 +97,13 @@ function Projects() {
                 />
               )
           )}
-        </FlexRowStartBtw>
+        </FlexRowStartBtw> */}
       </FlexColStart>
     </Layout>
   );
 }
 
-export default withAuth(Projects);
+export default withAuth(Templates);
 
 interface FineTunedCardProps {
   name: FineTunedStacksName;

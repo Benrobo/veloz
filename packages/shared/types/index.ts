@@ -25,7 +25,7 @@ export type SupportedArchitecture = "monolith" | "monorepo";
 
 export interface FINE_TUNED_STACKS {
   id: any;
-  plan: TechStackPricingPlan;
+  plan?: TechStackPricingPlan;
   name: string;
   description: string;
   tech_stacks: {

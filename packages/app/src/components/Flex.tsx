@@ -48,6 +48,24 @@ export function FlexColCenter({ children, className, ...props }: FlexProps) {
   );
 }
 
+export function FlexColStartCenter({
+  children,
+  className,
+  ...props
+}: FlexProps) {
+  return (
+    <div
+      className={twMerge(
+        "w-auto flex flex-col items-center justify-start gap-3",
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
 export function FlexRowStart({ children, className, ...props }: FlexProps) {
   return (
     <div

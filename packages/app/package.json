@@ -27,6 +27,7 @@
     "monaco-editor-webpack-plugin": "^7.1.0",
     "mongoose": "^8.0.0",
     "next": "13.5.4",
+    "nprogress": "^0.2.0",
     "postcss": "8.4.30",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -41,6 +42,7 @@
   },
   "devDependencies": {
     "@types/node": "20.6.4",
+    "@types/nprogress": "^0.2.3",
     "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7"
   }

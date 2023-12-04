@@ -1,3 +1,4 @@
+"use client";
 import Accordion from "@/components/Accordion";
 import {
   FlexColStart,
@@ -21,7 +22,7 @@ import { useQuery } from "@tanstack/react-query";
 import { FineTunedStacksName, TechStackPricingPlan } from "@veloz/shared/types";
 import { ArrowDownFromLine, ArrowLeftToLine } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import React, { ReactElement, useEffect } from "react";
 import { formatNumber } from "@/lib/utils";
 
@@ -99,14 +100,12 @@ function ProjectTemplate() {
   const _mailing = stackDetails?.tech_stacks.find((s) => s.title === "mailing");
   const _payment = stackDetails?.tech_stacks.find((s) => s.title === "payment");
 
-  // console.log(stackDetails);
-
   return (
     <Layout activePage="templates">
       <FlexColStart className="w-full h-full hideScrollBar2 overflow-y-scroll">
         <FlexRowStart className="px-4 py-4">
-          <Link
-            href="/templates"
+          <button
+            onClick={() => Router.back()}
             className="underline w-auto flex gap-2 items-center justify-start"
           >
             <ArrowLeftToLine
@@ -116,7 +115,7 @@ function ProjectTemplate() {
             <span className="text-white-300 group-hover:text-white-100 text-[12px] transition-all font-ppSB">
               Back
             </span>
-          </Link>
+          </button>
         </FlexRowStart>
         <br />
         {returnFineTunedStackDetails(name as FineTunedStacksName) ? (
@@ -137,23 +136,12 @@ function ProjectTemplate() {
                     </FlexRowStartCenter>
                     {/* divider */}
                     <span className="text-white-600">|</span>
-                    {/* Pricing badge */}
-                    <PricingBadge
-                      pricing_plan={stackDetails?.plan as TechStackPricingPlan}
-                    />
+                    {/* Used By */}
+                    <FlexRowStartCenter className="w-fit">
+                      <StackedAvatar limit={5} images={usedBy} />
+                    </FlexRowStartCenter>
                   </FlexRowStartCenter>
                 </FlexRowStartBtw>
-                <FlexColStart>
-                  <p className="text-white-300 text-[12px] font-jbEB">
-                    {stackDetails?.tagline}
-                  </p>
-                  <FlexRowStartCenter className="w-fit">
-                    <p className="text-white-300 text-[12px] font-jbEB">
-                      Used By:{" "}
-                    </p>
-                    <StackedAvatar limit={5} images={usedBy} />
-                  </FlexRowStartCenter>
-                </FlexColStart>
               </FlexColStart>
               <br />
               {stackDetails?.description.split("\n").map((d, i) => (

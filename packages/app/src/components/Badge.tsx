@@ -12,16 +12,16 @@ export function PricingBadge({ pricing_plan }: PricingBadgeProps) {
     <FlexRowCenterBtw className="w-auto px-4 py-1 rounded-[30px] bg-dark-200 scale-[.85] border-solid border-white-600 border-[1px]">
       <p
         className={cn(
-          "text-[12px] font-ppB",
-          pricing_plan === "FREE_PKG"
-            ? "text-white-100"
-            : pricing_plan === "BASIC_PKG"
-              ? "text-blue-100"
-              : pricing_plan === "STANDARD_PKG"
-                ? "text-orange-100"
-                : pricing_plan === "ENTERPRISE_PKG"
-                  ? "text-pink-100"
-                  : ""
+          "text-[12px] font-ppB text-white-100"
+          // pricing_plan === "FREE_PKG"
+          //   ? "text-white-100"
+          //   : pricing_plan === "BASIC_PKG"
+          //     ? "text-blue-100"
+          //     : pricing_plan === "STANDARD_PKG"
+          //       ? "text-orange-100"
+          //       : pricing_plan === "ENTERPRISE_PKG"
+          //         ? "text-pink-100"
+          //         : ""
         )}
       >
         {getPlanTitle(pricing_plan)}
@@ -83,22 +83,24 @@ export function StackedAvatar({ limit, images }: StackedAvatarProps) {
     return null;
   }
 
+  console.log({ _images, rest, images });
+
   return (
-    <div className="flex -space-x-3 rtl:space-x-reverse">
+    <div className="w-fit flex -space-x-3 rtl:space-x-reverse">
       {_images.map((img, i) => (
         <Image
           key={i}
-          className="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800"
+          className="w-8 h-8 border-2 border-white rounded-full "
           src={img}
           alt=""
           width={8}
           height={8}
         />
       ))}
-      {rest > _limit && (
-        <span className="flex items-center justify-center w-8 h-8 font-jbSB text-xs font-medium text-white-100 bg-gray-100 border-2 border-white rounded-full">
+      {rest > 0 && rest > _limit && (
+        <div className="flex items-center justify-center px-3 min-w-8 min-h-8 w-8 h-8 font-jbSB text-xs font-medium text-white-100 bg-gray-100 border-2 border-white rounded-full">
           +{rest}
-        </span>
+        </div>
       )}
     </div>
   );
