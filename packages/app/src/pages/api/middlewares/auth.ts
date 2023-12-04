@@ -39,8 +39,8 @@ export function isCliAuth(fn: Function) {
 
     if (!user) {
       throw new HttpException(
-        RESPONSE_CODE.INVALID_TOKEN,
-        `invalid token, user not found`,
+        RESPONSE_CODE.UNAUTHORIZED,
+        `Unauthorized, Invalid Token`,
         404
       );
     }
