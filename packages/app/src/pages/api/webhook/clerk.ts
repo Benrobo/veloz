@@ -59,7 +59,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         name: `${fullname}`,
         email,
         avatar: image_url,
-        hasSubscribed: false,
         veloz_token: shortUUID.generate(),
         gh_username,
       });
