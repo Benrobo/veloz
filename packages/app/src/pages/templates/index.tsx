@@ -75,10 +75,12 @@ function Templates() {
           {parentTemplates.map((d) => (
             <TemplateCard
               name={d.name}
+              id={d.id}
               tagline={d.tagline}
               pricing_plan={d.pricing_plan}
               userImages={testImages}
               thumbnail={d.image}
+              shop_url={d.shop_url}
               key={d.id}
             />
           ))}
