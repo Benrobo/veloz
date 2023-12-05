@@ -5,7 +5,8 @@
     "image": "/images/templates/zeus.jpeg",
     "tagline": "Turbocharge Your Indie Hacker Journey",
     "pricing_plan": "BASIC_PKG",
-    "available": true
+    "available": true,
+    "shop_url": "#"
   },
   {
     "id": "athena_10294",
@@ -13,6 +14,7 @@
     "image": "/images/templates/athena.jpeg",
     "tagline": "Empowering Indies, One Kit at a Time",
     "pricing_plan": "STANDARD_PKG",
-    "available": true
+    "available": true,
+    "shop_url": "#"
   }
 ]
