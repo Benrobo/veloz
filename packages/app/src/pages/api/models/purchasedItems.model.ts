@@ -11,6 +11,7 @@ interface PurchasedItemType {
   user_name: string | null;
   user_email: string | null;
   product_id: string | null;
+  variant_id: string | null;
   createdAt?: Date;
 }
 
