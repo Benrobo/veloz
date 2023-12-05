@@ -23,7 +23,7 @@ export const TEMPLATES_PRICING_MODEL = [
     pricing: {
       currency: "USD",
       currency_symbol: "$",
-      price: 150,
+      price: 250,
     },
   },
   {
@@ -31,7 +31,7 @@ export const TEMPLATES_PRICING_MODEL = [
     pricing: {
       currency: "USD",
       currency_symbol: "$",
-      price: 300,
+      price: 299,
     },
   },
   {
