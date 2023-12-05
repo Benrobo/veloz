@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { User } from "../models";
+import { PurchasedItems, User } from "../models";
 import sendResponse from "../lib/sendResponse";
 import { RESPONSE_CODE } from "@veloz/shared/types";
 import { _checkGhTokenValidity, _refreshGhToken } from "../lib/utils";
@@ -19,6 +19,9 @@ class UserService {
       );
     }
 
+    // get purchased items
+    const purchased_items = await PurchasedItems.find({ uId: userId });
+
     // needed user details
     const _details = {
       _id: info?._id,
@@ -26,11 +29,11 @@ class UserService {
       email: info?.email,
       name: info?.name,
       avatar: info?.avatar,
-      proj_plan: info?.proj_plan,
       role: info?.role,
-      hasSubscribed: info?.hasSubscribed,
       isTester: info?.isTester,
-      default_nextjs_router: info?.default_nextjs_router,
+      purchased_items: purchased_items.map((item) => {
+        return { name: item?.template_name, id: item?.temp_id, ref: item?.ref };
+      }),
     };
 
     sendResponse.success(
