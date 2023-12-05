@@ -12,7 +12,7 @@ import {
 import { TechStackPricingPlan } from "@veloz/shared/types";
 import { PricingBadge, StackedAvatar } from "../Badge";
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
+import { BadgeCheck, CheckCheck, ExternalLink } from "lucide-react";
 import { TEMPLATES_PRICING_MODEL } from "@/constant/template";
 import { formatCurrency, hasTemplateBeenPurchased } from "@/lib/utils";
 import Image from "next/image";
@@ -62,7 +62,7 @@ function TemplateCard({
             <FlexColStart className="w-full">
               <p className="text-white-100 font-jbEB leading-none">{name}</p>
               <p className="text-white-200 font-jbSB text-[11px] leading-none ">
-                {tagline.length > 35 ? tagline.slice(0, 35) + "..." : tagline}
+                {tagline.length > 40 ? tagline.slice(0, 40) + "..." : tagline}
               </p>
             </FlexColStart>
             <FlexRowCenter className="w-fit px-5 ">
@@ -89,12 +89,25 @@ function TemplateCard({
             </FlexRowStartCenter>
             <FlexRowEnd className="w-full">
               <h1 className="text-white-100 text-2xl font-jbEB">
-                {pricing_plan === "FREE_PKG"
-                  ? "Free"
-                  : formatCurrency(
-                      pricingModel?.pricing.price as number,
-                      pricingModel?.pricing.currency as string
-                    )}
+                {pricing_plan === "FREE_PKG" ? (
+                  "Free"
+                ) : alreadyPurchased ? (
+                  <FlexRowStartCenter className="gap-1 w-auto px-5 py-[3px] bg-dark-200 rounded-[30px] scale-[.85] ">
+                    <CheckCheck
+                      size={15}
+                      strokeWidth={"3px"}
+                      className="text-orange-100"
+                    />
+                    <span className="text-orange-100 font-jbEB text-[11px] ">
+                      Purchased
+                    </span>
+                  </FlexRowStartCenter>
+                ) : (
+                  formatCurrency(
+                    pricingModel?.pricing.price as number,
+                    pricingModel?.pricing.currency as string
+                  )
+                )}
               </h1>
             </FlexRowEnd>
           </FlexRowStartCenter>
