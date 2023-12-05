@@ -11,7 +11,7 @@ export const withAuth = <P extends { children: React.ReactNode }>(
   WrappedComponent: React.ComponentType<P>
 ) => {
   const Wrapper: React.FC<P> = (props) => {
-    const { setUserInfo, userInfo, setGlobalLoading, setUserPlan } =
+    const { setUserInfo, userInfo, setGlobalLoading, setPurchasedTemplates } =
       useContext(DataContext);
     const userInfoQuery = useQuery({
       queryKey: ["userInfo"],
@@ -39,7 +39,7 @@ export const withAuth = <P extends { children: React.ReactNode }>(
         if (!userInfoQuery?.data?.errorStatus) {
           const reqData = userInfoQuery.data?.data as UserInfo;
           setUserInfo(reqData);
-          setUserPlan(reqData.proj_plan);
+          setPurchasedTemplates(reqData.purchased_items);
         }
       }
     }, [userInfoQuery.isLoading, userInfoQuery.data]);
