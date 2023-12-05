@@ -67,8 +67,9 @@ function Accordion({
               className="text-white-300 group-hover:text-white-100"
             />
           )}
-          <p className="text-white-200 text-[15px] group-hover:text-white-100 font-ppR">
-            {title ?? "Accordion"}
+          <p className="text-white-200 text-[15px] group-hover:text-white-100 font-jbSB">
+            {(title as string)?.charAt(0).toUpperCase() + title?.slice(1) ??
+              "Accordion"}
           </p>
         </FlexRowCenter>
         <FlexRowCenter>

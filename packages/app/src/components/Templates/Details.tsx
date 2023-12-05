@@ -44,8 +44,8 @@ function AthenaDetails() {
         and the versatility of <Kbd>React</Kbd> (both <Kbd>Typescript</Kbd> and{" "}
         <Kbd>Javascript</Kbd>). If empowering indies is your game, then{" "}
         <Kbd>Athena</Kbd> is your go-to kit. Fuel your projects with the dynamic
-        duo of <Kbd>Node.js</Kbd> and <Kbd>React</Kbd>, and let Athena be your
-        guide to indie development success – one kit at a time.
+        duo of <Kbd>Node.js + Express.js</Kbd> and <Kbd>React</Kbd>, and let
+        Athena be your guide to indie development success – one kit at a time.
       </p>
     </FlexColStart>
   );
