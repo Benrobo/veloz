@@ -11,9 +11,10 @@ import { Spinner } from "@/components/Spinner";
 import { RenderProjectIcons } from "@/components/Templates/Card";
 import { Button } from "@/components/ui/button";
 import { TEMPLATES_PRICING_MODEL } from "@/constant/template";
+import { DataContext } from "@/context/DataContext";
 import { FINE_TUNED_STACKS, PARENT_TEMPLATES } from "@/data/stack";
 import usePageLoaded from "@/hooks/usePageLoaded";
-import { cn, formatCurrency } from "@/lib/utils";
+import { cn, formatCurrency, hasTemplateBeenPurchased } from "@/lib/utils";
 import {
   FineTunedStacksName,
   ProjectType,
@@ -22,9 +23,10 @@ import {
 import { ArrowLeftToLine, Zap } from "lucide-react";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 function Page() {
+  const { purchasedTemplates } = useContext(DataContext);
   const pageLoaded = usePageLoaded();
   const parentName = useRouter().query.parent as string;
   const [parentTemplates, setParentTemplates] = useState(PARENT_TEMPLATES);
@@ -65,6 +67,13 @@ function Page() {
     );
   }
 
+  const alreadyPurchased =
+    hasTemplateBeenPurchased(
+      purchasedTemplates,
+      parentTemplate?.id as string,
+      parentTemplate?.name as string
+    ) || parentTemplate?.pricing_plan === "FREE_PKG";
+
   return (
     <Layout activePage="templates">
       {!parentTemplates && (
@@ -100,18 +109,21 @@ function Page() {
                 </p>
               </FlexColStart>
               <FlexColStart>
-                <Button
-                  variant={"primary"}
-                  className={cn(
-                    "w-full rounded-[30px] font-ppSB text-[15px] gap-2 premium-button"
-                  )}
-                >
-                  <Zap size={15} /> <span className="text-[13px]">Buy Now</span>{" "}
-                  {formatCurrency(
-                    pricingModel?.pricing.price as number,
-                    pricingModel?.pricing.currency as string
-                  )}
-                </Button>
+                {!alreadyPurchased && (
+                  <Button
+                    variant={"primary"}
+                    className={cn(
+                      "w-full rounded-[30px] font-ppSB text-[15px] gap-2 premium-button"
+                    )}
+                  >
+                    <Zap size={15} />{" "}
+                    <span className="text-[13px]">Buy Now</span>{" "}
+                    {formatCurrency(
+                      pricingModel?.pricing.price as number,
+                      pricingModel?.pricing.currency as string
+                    )}
+                  </Button>
+                )}
               </FlexColStart>
             </FlexRowStartBtw>
             <br />
