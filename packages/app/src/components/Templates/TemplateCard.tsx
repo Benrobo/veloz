@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   FlexColCenter,
   FlexColStart,
@@ -14,15 +14,18 @@ import { PricingBadge, StackedAvatar } from "../Badge";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { TEMPLATES_PRICING_MODEL } from "@/constant/template";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, hasTemplateBeenPurchased } from "@/lib/utils";
 import Image from "next/image";
+import { DataContext } from "@/context/DataContext";
 
 type TemplateCardProps = {
   name: string;
+  id: string;
   pricing_plan: TechStackPricingPlan;
   tagline: string;
   userImages: string[];
   thumbnail: string;
+  shop_url: string;
 };
 
 // parent template card
@@ -32,17 +35,17 @@ function TemplateCard({
   userImages,
   pricing_plan,
   thumbnail,
+  shop_url,
+  id,
 }: TemplateCardProps) {
-  const bgImageStyle = {
-    backgroundImage: `url(${thumbnail})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-  };
-
+  const { purchasedTemplates } = useContext(DataContext);
   const pricingModel = TEMPLATES_PRICING_MODEL.find(
     (m) => m.plan === pricing_plan
   );
+
+  const alreadyPurchased =
+    hasTemplateBeenPurchased(purchasedTemplates, id, name) ||
+    pricing_plan === "FREE_PKG";
 
   return (
     <FlexColCenter className="w-auto min-w-[350px] min-h-[300px] relative bg-dark-200 border-solid border-[.9px] border-gray-100 rounded-md overflow-hidden shadow-xl shadow-dark-200 transition duration-150">
@@ -68,9 +71,9 @@ function TemplateCard({
           </FlexRowStartBtw>
           <FlexRowStartCenter className="w-full">
             <FlexRowStartCenter className="w-full">
-              {pricing_plan !== "FREE_PKG" && (
+              {alreadyPurchased ? null : (
                 <a
-                  href=""
+                  href={shop_url}
                   target={"_blank"}
                   className="underline text-white-100 text-[10px] font-jbSB"
                 >
