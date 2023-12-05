@@ -9,6 +9,7 @@ import {
 import Layout from "@/components/Layout";
 import { Spinner } from "@/components/Spinner";
 import { RenderProjectIcons } from "@/components/Templates/Card";
+import TemplateDetails from "@/components/Templates/Details";
 import { Button } from "@/components/ui/button";
 import { TEMPLATES_PRICING_MODEL } from "@/constant/template";
 import { DataContext } from "@/context/DataContext";
@@ -100,20 +101,22 @@ function Page() {
           </FlexRowStart>
           <FlexColStart className="w-full px-3">
             <FlexRowStartBtw className="w-full">
-              <FlexColStart>
+              <FlexColStart className="w-full">
                 <h1 className="text-white-100 font-jbEB text-2xl">
                   {parentName}
                 </h1>
                 <p className="text-white-300 font-jbR text-[12px]">
                   {parentTemplate?.tagline}
                 </p>
+                {/* Template description */}
+                <TemplateDetails name={parentName} />
               </FlexColStart>
-              <FlexColStart>
+              <FlexColStart className="w-fit">
                 {!alreadyPurchased && (
                   <Button
                     variant={"primary"}
                     className={cn(
-                      "w-full rounded-[30px] font-ppSB text-[15px] gap-2 premium-button"
+                      "w-fit min-w-[190px] rounded-[30px] font-ppSB text-[15px] gap-2 premium-button"
                     )}
                   >
                     <Zap size={15} />{" "}
