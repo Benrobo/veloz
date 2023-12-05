@@ -37,8 +37,6 @@ function Templates() {
   const { setSelectedFinetunedStack, selectedFinetunedStack } =
     useContext(ProjectContext);
   const [parentTemplates, setParentTemplates] = useState(PARENT_TEMPLATES);
-  // const { togglePremiumModalVisibility, setPkgPlan, userPlan } =
-  // useContext(DataContext);
 
   const extractFineTunedStack = (
     stacks: { title: string; stacks: string[] }[]
@@ -85,21 +83,6 @@ function Templates() {
             />
           ))}
         </FlexRowStartCenter>
-
-        {/* <FlexRowStartBtw className="gap-2 flex-wrap">
-          {FINE_TUNED_STACKS.map(
-            (d) =>
-              d.available && (
-                <FineTunedCard
-                  name={d.name as FineTunedStacksName}
-                  pricing_plan={d.plan}
-                  stacks={extractFineTunedStack(d.tech_stacks)}
-                  available={d.available}
-                  label={d.label}
-                />
-              )
-          )}
-        </FlexRowStartBtw> */}
       </FlexColStart>
     </Layout>
   );
