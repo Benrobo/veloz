@@ -83,8 +83,6 @@ export function StackedAvatar({ limit, images }: StackedAvatarProps) {
     return null;
   }
 
-  console.log({ _images, rest, images });
-
   return (
     <div className="w-fit flex -space-x-3 rtl:space-x-reverse">
       {_images.map((img, i) => (
