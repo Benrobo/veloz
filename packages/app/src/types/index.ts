@@ -30,9 +30,12 @@ export type UserInfo = {
   uid: string;
   role: string;
   createdAt: Date;
-  proj_plan: TechStackPricingPlan;
+  purchased_items: {
+    name: string;
+    id: string;
+    ref: string;
+  }[];
   isTester: boolean;
-  hasSubscribed: boolean;
 };
 
 export type createSecretSchemaType = {
