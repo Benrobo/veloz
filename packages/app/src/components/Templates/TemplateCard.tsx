@@ -48,7 +48,7 @@ function TemplateCard({
     pricing_plan === "FREE_PKG";
 
   return (
-    <FlexColCenter className="w-auto min-w-[350px] min-h-[300px] relative bg-dark-200 border-solid border-[.9px] border-gray-100 rounded-md overflow-hidden shadow-xl shadow-dark-200 transition duration-150">
+    <FlexColCenter className="w-auto min-w-[320px] min-h-[300px] relative bg-dark-200 border-solid border-[.9px] border-gray-100 rounded-md overflow-hidden shadow-xl shadow-dark-200 transition duration-150">
       <Image
         width={0}
         height={0}
