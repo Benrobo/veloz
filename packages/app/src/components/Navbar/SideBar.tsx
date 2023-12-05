@@ -117,7 +117,7 @@ function SideBar({ activePage }: SidebarProps) {
         </Link>
       </div>
 
-      <UpgradePlanWidget />
+      {/* <UpgradePlanWidget /> */}
     </div>
   );
 }
@@ -125,10 +125,6 @@ function SideBar({ activePage }: SidebarProps) {
 export default SideBar;
 
 function UpgradePlanWidget() {
-  const { userPlan } = useContext(DataContext);
-
-  if (!userPlan) return null;
-
   return (
     <FlexColCenter className="w-full px-5 py-4 absolute bottom-2">
       <FlexColStart className="w-full bg-dark-200 p-3 rounded-md border-solid border-[.5px] border-white-600 ">
@@ -141,7 +137,7 @@ function UpgradePlanWidget() {
               "text-white-100 text-[10px] px-3 py-1 rounded-[30px] border-solid border-[1px] border-white-600 leading-none font-jbSB"
             )}
           >
-            {getPlanTitle(userPlan)}
+            {/* {getPlanTitle(userPlan)} */}
           </span>
         </FlexRowCenterBtw>
         <p className="text-gray-100 font-jbPR text-[10px] ">
