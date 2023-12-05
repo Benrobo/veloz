@@ -2,6 +2,7 @@ import { FINE_TUNED_STACKS, PARENT_TEMPLATES } from "@data/stack";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { TechStackCategory, TechStackPricingPlan } from "@veloz/shared/types";
+import { isTemplateSpan } from "typescript";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -39,6 +40,29 @@ export function isUserEligibleForStack(
   // Stack not found
   console.log("Stack not found");
   return false;
+}
+
+// check if user has bought a specific template
+export function hasTemplateBeenPurchased(
+  items: { name: string; id: string }[],
+  template_id: string,
+  template_name: string
+) {
+  if (items.length === 0) return false;
+  for (const item of items) {
+    const template = PARENT_TEMPLATES.find(
+      (t) =>
+        t.id === template_id ||
+        t.name.toLowerCase() === template_name.toLowerCase()
+    );
+    if (
+      item.id === template?.id ||
+      item.name.toLowerCase() === template?.name.toLowerCase()
+    ) {
+      return true;
+    }
+    return false;
+  }
 }
 
 export function parseEnvString(envString: string) {
