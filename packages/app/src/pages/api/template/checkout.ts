@@ -24,7 +24,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         null
       );
     } else {
-      sendResponse.success(res, RESPONSE_CODE.SUCCESS, "success", 200, data);
+      sendResponse.success(
+        res,
+        RESPONSE_CODE.SUCCESS,
+        "success",
+        200,
+        data.data
+      );
     }
   }
 }

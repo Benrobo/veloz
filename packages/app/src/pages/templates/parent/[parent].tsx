@@ -18,6 +18,7 @@ import { FINE_TUNED_STACKS, PARENT_TEMPLATES } from "@/data/stack";
 import usePageLoaded from "@/hooks/usePageLoaded";
 import { createCheckout } from "@/lib/http/requests";
 import { cn, formatCurrency, hasTemplateBeenPurchased } from "@/lib/utils";
+import { ResponseData } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 import {
   FineTunedStacksName,
@@ -71,9 +72,8 @@ function Page() {
       toast.error(errMsg);
     }
     if (createCheckoutMut.data) {
-      const data = createCheckoutMut.data;
-      console.log({ check: data });
-      // Router.push(data.data.checkout_url);
+      const data = createCheckoutMut.data as ResponseData;
+      window.open(data.data.url, "_blank");
     }
   }, [
     createCheckoutMut.data,

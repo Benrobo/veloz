@@ -25,6 +25,7 @@ const OrderSchema = new Schema<OrderType>(
     user_name: { type: String, required: false, default: null },
     user_email: { type: String, required: false, default: null },
     product_id: { type: String, required: false, default: null },
+    variant_id: { type: String, required: false, default: null },
     createdAt: { type: Date, default: Date.now },
   },
   {
