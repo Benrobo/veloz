@@ -85,3 +85,17 @@ export type ResponseData = {
     error: any;
   };
 };
+
+export type ReturnedTemplatesType = {
+  id: string;
+  name: string;
+  tagline: string;
+  image: string;
+  pricing_plan: TechStackPricingPlan;
+  available: boolean;
+  installs: number;
+  users: {
+    images: string[];
+    count: number;
+  };
+};

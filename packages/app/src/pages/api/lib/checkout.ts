@@ -1,6 +1,7 @@
 import { TEMPLATES_PRICING_MODEL } from "@/constant/template";
 import { PARENT_TEMPLATES } from "@/data/stack";
 import axios from "axios";
+import env from "../config/env";
 
 const IN_TEST_MODE = process.env.NODE_ENV === "development";
 
@@ -15,13 +16,7 @@ export async function createCheckout(user_id: string, template_id: string) {
     };
   }
 
-  const tempPrice = TEMPLATES_PRICING_MODEL.find(
-    (m) => m.plan === parentTemplate.pricing_plan
-  )?.pricing.price as number;
-
-  const custom_redirect_url = IN_TEST_MODE
-    ? `http://localhost:3000/templates/parent/${parentTemplate.name}`
-    : `https://veloz.dev/templates/parent/${parentTemplate.name}`;
+  const custom_redirect_url = `${env.BASE_URL}/templates/parent/${parentTemplate.name}`;
 
   const payload = {
     data: {
@@ -51,7 +46,7 @@ export async function createCheckout(user_id: string, template_id: string) {
         },
         variant: {},
       },
-      test_mode: false,
+      test_mode: IN_TEST_MODE,
     },
   };
   let response = { error: null, data: null };

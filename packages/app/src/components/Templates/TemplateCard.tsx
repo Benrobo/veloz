@@ -25,7 +25,6 @@ type TemplateCardProps = {
   tagline: string;
   userImages: string[];
   thumbnail: string;
-  shop_url: string;
 };
 
 // parent template card
@@ -35,7 +34,6 @@ function TemplateCard({
   userImages,
   pricing_plan,
   thumbnail,
-  shop_url,
   id,
 }: TemplateCardProps) {
   const { purchasedTemplates } = useContext(DataContext);
@@ -71,15 +69,6 @@ function TemplateCard({
           </FlexRowStartBtw>
           <FlexRowStartCenter className="w-full">
             <FlexRowStartCenter className="w-full">
-              {alreadyPurchased ? null : (
-                <a
-                  href={shop_url}
-                  target={"_blank"}
-                  className="underline text-white-100 text-[10px] font-jbSB"
-                >
-                  Buy Now
-                </a>
-              )}
               <Link
                 href={`/templates/parent/${name}`}
                 className="underline flex gap-1 text-white-100 text-[10px] font-jbSB"

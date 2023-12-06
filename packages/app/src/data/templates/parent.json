@@ -14,7 +14,7 @@
     "image": "/images/templates/athena.jpeg",
     "tagline": "Empowering Indies, One Kit at a Time",
     "pricing_plan": "STANDARD_PKG",
-    "available": true,
+    "available": false,
     "shop_url": "#"
   }
 ]

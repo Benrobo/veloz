@@ -39,3 +39,9 @@ export const createCheckout = async (template_id: string) => {
   );
   return req.data;
 };
+
+// get all templates
+export const getTemplates = async () => {
+  const req = await $axios.get(`/api/template`);
+  return req.data;
+};

@@ -8,7 +8,7 @@ import children_templates from "./templates/children.json";
 import parent_templates from "./templates/parent.json";
 import githubRepos from "./github_repo.json";
 
-interface IFINE_TUNED_STACKS_TEMP extends FINE_TUNED_STACKS_TYPE {
+export interface IFINE_TUNED_STACKS_TEMP extends FINE_TUNED_STACKS_TYPE {
   media: {
     thumbnail: string | null;
     video: string | null;

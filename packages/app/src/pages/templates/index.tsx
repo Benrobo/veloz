@@ -8,9 +8,10 @@ import {
   TechStackPricingPlan,
 } from "@veloz/shared/types";
 import { useQuery } from "@tanstack/react-query";
-import { getProjects } from "@/lib/http/requests";
+import { getProjects, getTemplates } from "@/lib/http/requests";
 import {
   FlexColStart,
+  FlexColStartCenter,
   FlexRowCenter,
   FlexRowCenterBtw,
   FlexRowStart,
@@ -26,6 +27,8 @@ import { ProjectContext } from "@/context/ProjectContext";
 import { RenderProjectIcons } from "@/components/Templates/Card";
 import { PricingBadge } from "@/components/Badge";
 import TemplateCard from "@/components/Templates/TemplateCard";
+import { ResponseData, ReturnedTemplatesType } from "@/types";
+import toast from "react-hot-toast";
 
 const testImages = Array(5).fill(
   `https://flowbite.com/docs/images/people/profile-picture-${Math.floor(
@@ -36,21 +39,29 @@ const testImages = Array(5).fill(
 function Templates() {
   const { setSelectedFinetunedStack, selectedFinetunedStack } =
     useContext(ProjectContext);
+  const [templates, setTemplates] = useState<ReturnedTemplatesType[]>([]);
+
+  const getTemplatesQuery = useQuery({
+    queryKey: ["getTemplates"],
+    queryFn: async () => await getTemplates(),
+  });
+
   const [parentTemplates, setParentTemplates] = useState(PARENT_TEMPLATES);
 
-  const extractFineTunedStack = (
-    stacks: { title: string; stacks: string[] }[]
-  ) => {
-    const validStacks: string[] = [];
-    stacks.forEach((stack) => {
-      stack.stacks.forEach((s) => {
-        if (!validStacks.includes(s)) {
-          validStacks.push(s);
-        }
-      });
-    });
-    return validStacks;
-  };
+  useEffect(() => {
+    if (getTemplatesQuery.error) {
+      const errMsg = (getTemplatesQuery.error as any)?.response?.data?.message;
+      toast.error(errMsg);
+    }
+    if (getTemplatesQuery.data) {
+      const data = getTemplatesQuery.data as ResponseData;
+      setTemplates(data.data as ReturnedTemplatesType[]);
+    }
+  }, [
+    getTemplatesQuery.data,
+    getTemplatesQuery.error,
+    getTemplatesQuery.isPending,
+  ]);
 
   return (
     <Layout activePage="templates">
@@ -67,21 +78,36 @@ function Templates() {
           </FlexColStart>
         </FlexRowCenterBtw>
 
+        {getTemplatesQuery.isPending && (
+          <FlexColStartCenter className="w-full h-full">
+            <Spinner size={15} />
+          </FlexColStartCenter>
+        )}
+
         <br />
         {/* Template parents */}
         <FlexRowStartCenter className="w-full flex-wrap">
-          {parentTemplates.map((d) => (
-            <TemplateCard
-              name={d.name}
-              id={d.id}
-              tagline={d.tagline}
-              pricing_plan={d.pricing_plan}
-              userImages={testImages}
-              thumbnail={d.image}
-              shop_url={d.shop_url}
-              key={d.id}
-            />
-          ))}
+          {!getTemplatesQuery.isPending &&
+            templates.length > 0 &&
+            templates.map((d) => (
+              <TemplateCard
+                name={d.name}
+                id={d.id}
+                tagline={d.tagline}
+                pricing_plan={d.pricing_plan}
+                userImages={d.users.images}
+                thumbnail={d.image}
+                key={d.id}
+              />
+            ))}
+
+          {!getTemplatesQuery.isPending && templates.length === 0 && (
+            <FlexColStartCenter className="w-full h-full">
+              <p className="text-white-300 font-jbSB text-[12px] ">
+                No templates found
+              </p>
+            </FlexColStartCenter>
+          )}
         </FlexRowStartCenter>
       </FlexColStart>
     </Layout>

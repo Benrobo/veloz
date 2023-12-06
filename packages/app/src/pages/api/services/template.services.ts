@@ -4,11 +4,58 @@ import sendResponse from "../lib/sendResponse";
 import { RESPONSE_CODE } from "@veloz/shared/types";
 import { _checkFineTunedStackAvailability } from "../lib/utils";
 import { isUserEligibleForStack } from "@/lib/utils";
-import { FINE_TUNED_STACKS } from "@/data/stack";
+import {
+  FINE_TUNED_STACKS,
+  IFINE_TUNED_STACKS_TEMP,
+  PARENT_TEMPLATES,
+} from "@/data/stack";
 import HttpException from "../lib/exception";
 import { addCollaboratorToRepo } from "../lib/github";
 
 class TemplateService {
+  // get child template consumptions
+  async getUsersConsumptions(tempName: string) {
+    // check if tempName is valid
+    const template =
+      FINE_TUNED_STACKS.find((t) => t.name.toLowerCase() === tempName) ?? null;
+
+    if (!template) {
+      throw new HttpException(
+        RESPONSE_CODE.TEMPLATE_NOT_FOUND,
+        "template not found",
+        404
+      );
+    }
+
+    const _template = await TemplateConsumption.find({
+      name: (tempName as string).toLowerCase(),
+    });
+
+    const totalInstall = _template.reduce(
+      (acc, curr) => acc + curr.used_count,
+      0
+    );
+
+    // get used by avatars
+    const usersAvatars: string[] = [];
+
+    for (const t of _template) {
+      const user = await User.findOne({ uId: t.uId });
+      if (!usersAvatars.includes(user.avatar)) {
+        usersAvatars.push(user.avatar);
+      }
+    }
+
+    return {
+      name: tempName,
+      installs: totalInstall,
+      users: {
+        images: usersAvatars,
+        count: usersAvatars.length,
+      },
+    };
+  }
+
   async templateDetails(req: NextApiRequest, res: NextApiResponse) {
     const { id, pricing_plan } = (req as any)?.user;
     const temp_name = (req?.query?.temp_name as string)?.toLowerCase();
@@ -148,47 +195,62 @@ class TemplateService {
 
   // get specific template consumption/installs
   async getTemplateConsumption(req: NextApiRequest, res: NextApiResponse) {
-    const tempName = req?.query?.template;
-
-    // check if tempName is valid
-    const template =
-      FINE_TUNED_STACKS.find((t) => t.name.toLowerCase() === tempName) ?? null;
-
-    if (!template) {
-      throw new HttpException(
-        RESPONSE_CODE.TEMPLATE_NOT_FOUND,
-        "template not found",
-        404
-      );
-    }
-
-    const _template = await TemplateConsumption.find({
-      name: (tempName as string).toLowerCase(),
-    });
-
-    const totalInstall = _template.reduce(
-      (acc, curr) => acc + curr.used_count,
-      0
+    const consumptions = await this.getUsersConsumptions(
+      req?.query?.template as string
     );
 
-    // get used by avatars
-    const usersAvatars: string[] = [];
+    sendResponse.success(
+      res,
+      RESPONSE_CODE.SUCCESS,
+      `success`,
+      200,
+      consumptions
+    );
+  }
 
-    for (const t of _template) {
-      const user = await User.findOne({ uId: t.uId });
-      if (!usersAvatars.includes(user.avatar)) {
-        usersAvatars.push(user.avatar);
+  async getTemplates(req: NextApiRequest, res: NextApiResponse) {
+    const child_templates: IFINE_TUNED_STACKS_TEMP[] = [];
+
+    // get child templates
+    PARENT_TEMPLATES.forEach(async (t) => {
+      if (t.available) {
+        const children = FINE_TUNED_STACKS.find((s) => s.parent_id === t.id);
+        if (children) {
+          child_templates.push(children);
+        }
       }
+    });
+
+    let installs = 0;
+    let usersImages = [];
+    let templates = [];
+
+    // get installs and users images for each child template
+    for (const child of child_templates) {
+      const parent = PARENT_TEMPLATES.find((t) => t.id === child.parent_id);
+      const _consumptions = await this.getUsersConsumptions(
+        child.name.toLowerCase()
+      );
+      installs += _consumptions.installs;
+      usersImages.push(..._consumptions.users.images);
+
+      templates.push({
+        ...parent,
+        installs: _consumptions.installs,
+        users: {
+          images: _consumptions.users.images,
+          count: _consumptions.users.count,
+        },
+      });
     }
 
-    sendResponse.success(res, RESPONSE_CODE.SUCCESS, `success`, 200, {
-      name: tempName,
-      installs: totalInstall,
-      users: {
-        images: usersAvatars,
-        count: usersAvatars.length,
-      },
-    });
+    return sendResponse.success(
+      res,
+      RESPONSE_CODE.SUCCESS,
+      "success",
+      200,
+      templates
+    );
   }
 }
 
