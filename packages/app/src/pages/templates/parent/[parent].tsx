@@ -3,6 +3,7 @@ import { PricingBadge } from "@/components/Badge";
 import {
   FlexColCenter,
   FlexColStart,
+  FlexRowCenter,
   FlexRowStart,
   FlexRowStartBtw,
 } from "@/components/Flex";
@@ -15,7 +16,9 @@ import { TEMPLATES_PRICING_MODEL } from "@/constant/template";
 import { DataContext } from "@/context/DataContext";
 import { FINE_TUNED_STACKS, PARENT_TEMPLATES } from "@/data/stack";
 import usePageLoaded from "@/hooks/usePageLoaded";
+import { createCheckout } from "@/lib/http/requests";
 import { cn, formatCurrency, hasTemplateBeenPurchased } from "@/lib/utils";
+import { useMutation } from "@tanstack/react-query";
 import {
   FineTunedStacksName,
   ProjectType,
@@ -24,13 +27,17 @@ import {
 import { ArrowLeftToLine, Zap } from "lucide-react";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 function Page() {
   const { purchasedTemplates } = useContext(DataContext);
   const pageLoaded = usePageLoaded();
   const parentName = useRouter().query.parent as string;
   const [parentTemplates, setParentTemplates] = useState(PARENT_TEMPLATES);
+  const createCheckoutMut = useMutation({
+    mutationFn: async (data: any) => await createCheckout(data),
+  });
 
   const parentTemplate = parentTemplates.find(
     (t) => t.name.toLowerCase() === parentName?.toLowerCase()
@@ -57,6 +64,22 @@ function Page() {
     });
     return validStacks;
   };
+
+  useEffect(() => {
+    if (createCheckoutMut.error) {
+      const errMsg = (createCheckoutMut.error as any)?.response?.data?.message;
+      toast.error(errMsg);
+    }
+    if (createCheckoutMut.data) {
+      const data = createCheckoutMut.data;
+      console.log({ check: data });
+      // Router.push(data.data.checkout_url);
+    }
+  }, [
+    createCheckoutMut.data,
+    createCheckoutMut.error,
+    createCheckoutMut.isPending,
+  ]);
 
   if (!pageLoaded) {
     return (
@@ -116,14 +139,30 @@ function Page() {
                   <Button
                     variant={"primary"}
                     className={cn(
-                      "w-fit min-w-[190px] rounded-[30px] font-ppSB text-[15px] gap-2 premium-button"
+                      "w-fit min-w-[190px] rounded-[30px] font-ppSB text-[15px] gap-2",
+                      createCheckoutMut.isPending
+                        ? "bg-purple-100/50 hover:cursor-not-allowed"
+                        : "premium-button"
                     )}
+                    onClick={() => {
+                      const parentTempId = parentTemplate?.id as string;
+                      createCheckoutMut.mutate(parentTempId);
+                    }}
+                    disabled={createCheckoutMut.isPending}
                   >
-                    <Zap size={15} />{" "}
-                    <span className="text-[13px]">Buy Now</span>{" "}
-                    {formatCurrency(
-                      pricingModel?.pricing.price as number,
-                      pricingModel?.pricing.currency as string
+                    {createCheckoutMut.isPending ? (
+                      <FlexRowCenter className="w-full py-10">
+                        <Spinner color="#fff" size={16} />
+                      </FlexRowCenter>
+                    ) : (
+                      <>
+                        <Zap size={15} />{" "}
+                        <span className="text-[13px]">Buy Now</span>{" "}
+                        {formatCurrency(
+                          pricingModel?.pricing.price as number,
+                          pricingModel?.pricing.currency as string
+                        )}
+                      </>
                     )}
                   </Button>
                 )}

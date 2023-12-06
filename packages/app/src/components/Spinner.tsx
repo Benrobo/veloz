@@ -20,7 +20,7 @@ export const Spinner: React.FC<SpinnerProps> = ({
   return (
     <div
       id="showccial-spinner"
-      className="rounded-full border-4 animate-spin-fast"
+      className="rounded-full border-[3px] animate-spin-fast"
       style={spinnerStyle}
     ></div>
   );

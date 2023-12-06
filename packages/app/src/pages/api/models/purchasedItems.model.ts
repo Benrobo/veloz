@@ -17,15 +17,9 @@ interface PurchasedItemType {
 
 const PurchasedItemSchema = new Schema<PurchasedItemType>(
   {
-    uId: { type: String, required: true },
     temp_id: { type: String, required: true },
-    template_name: { type: String, required: false, default: null },
-    order_id: { type: String, required: false, default: null },
-    payment_status: { type: String, required: false, default: null },
-    payment_amount: { type: Number, required: false, default: null },
-    user_name: { type: String, required: false, default: null },
-    user_email: { type: String, required: false, default: null },
-    product_id: { type: String, required: false, default: null },
+    template_name: { type: String, required: true, default: null },
+    user_email: { type: String, required: true, default: null },
     createdAt: { type: Date, default: Date.now },
   },
   {

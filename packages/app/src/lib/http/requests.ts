@@ -31,3 +31,11 @@ export const rotateToken = async () => {
   const req = await $axios.patch(`/api/user/rotate_token`);
   return req.data;
 };
+
+// create checkout
+export const createCheckout = async (template_id: string) => {
+  const req = await $axios.get(
+    `/api/template/checkout?template_id=${template_id}`
+  );
+  return req.data;
+};

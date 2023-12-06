@@ -7,7 +7,7 @@ import { RESPONSE_CODE } from "@veloz/shared/types";
 type Response = {
   errorMsg: string | null;
   success: boolean;
-  data: WebhookPayload | null;
+  data: WebhookPayload;
 };
 
 type LemonsqueezyWebhookResponse = Promise<Response>;
@@ -17,7 +17,7 @@ export default async function LemonsqueezyWebhookHandler(
   res: ServerResponse,
   secret: string
 ): LemonsqueezyWebhookResponse {
-  const response: Response = { errorMsg: null, success: false, data: null };
+  const response = { errorMsg: null, success: false, data: {} } as Response;
 
   if (req.method !== "POST") {
     const msg = `❌ Method not allowed for lemonsqueezy webhook`;
