@@ -30,12 +30,6 @@ import TemplateCard from "@/components/Templates/TemplateCard";
 import { ResponseData, ReturnedTemplatesType } from "@/types";
 import toast from "react-hot-toast";
 
-const testImages = Array(5).fill(
-  `https://flowbite.com/docs/images/people/profile-picture-${Math.floor(
-    Math.random() * 3
-  )}.jpg`
-);
-
 function Templates() {
   const { setSelectedFinetunedStack, selectedFinetunedStack } =
     useContext(ProjectContext);

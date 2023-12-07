@@ -16,6 +16,7 @@ import { TEMPLATES_PRICING_MODEL } from "@/constant/template";
 import { DataContext } from "@/context/DataContext";
 import { FINE_TUNED_STACKS, PARENT_TEMPLATES } from "@/data/stack";
 import usePageLoaded from "@/hooks/usePageLoaded";
+import { withAuth } from "@/lib/helpers";
 import { createCheckout, getUser } from "@/lib/http/requests";
 import { cn, formatCurrency, hasTemplateBeenPurchased } from "@/lib/utils";
 import { ResponseData, UserInfo } from "@/types";
@@ -215,7 +216,7 @@ function Page() {
   );
 }
 
-export default Page;
+export default withAuth(Page);
 
 interface FineTunedCardProps {
   name: FineTunedStacksName;

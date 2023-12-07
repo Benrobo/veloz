@@ -25,18 +25,13 @@ import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import React, { ReactElement, useEffect } from "react";
 import { formatNumber } from "@/lib/utils";
-
-const testImages = Array(1).fill(
-  `https://flowbite.com/docs/images/people/profile-picture-${Math.floor(
-    Math.random() * 5
-  )}.jpg`
-);
+import { withAuth } from "@/lib/helpers";
 
 function ProjectTemplate() {
   const pageLoaded = usePageLoaded(1000);
   const { name } = useRouter().query;
   const [installs, setInstalls] = React.useState<number>(0);
-  const [usedBy, setUsedBy] = React.useState<string[]>([...testImages]);
+  const [usedBy, setUsedBy] = React.useState<string[]>([]);
   const [lastUpdatedDate, setLastUpdatedDate] = React.useState<string>("");
   const getLastUpdatedQuery = useQuery({
     queryKey: ["last_updated"],
@@ -279,4 +274,4 @@ function ProjectTemplate() {
   );
 }
 
-export default ProjectTemplate;
+export default withAuth(ProjectTemplate);

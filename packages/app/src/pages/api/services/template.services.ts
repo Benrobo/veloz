@@ -77,9 +77,10 @@ class TemplateService {
       where: { uId: id },
     });
 
+    // compare if user has purchased this template based on the template parent_id not name.
     const purchased =
       purchasedTemplates.find(
-        (t) => t.template_name?.toLowerCase() === temp_name.toLowerCase()
+        (t) => t.temp_id?.toLowerCase() === template.parent_id
       ) ?? null;
 
     if (!purchased) {
