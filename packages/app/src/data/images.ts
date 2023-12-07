@@ -6,16 +6,12 @@ export default LocalImages;
 
 export const StackImages = [
   {
-    name: "monolith",
-    img: "/images/cb_architecture/monolith.png",
-  },
-  {
-    name: "monorepo",
-    img: "/images/cb_architecture/monorepo.png",
-  },
-  {
     name: "vuejs",
     img: "/images/tech_stacks/vuejs.svg",
+  },
+  {
+    name: "typescript",
+    img: "/images/tech_stacks/typescript.svg",
   },
   {
     name: "nextjs",

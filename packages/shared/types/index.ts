@@ -25,7 +25,7 @@ export type SupportedArchitecture = "monolith" | "monorepo";
 
 export interface FINE_TUNED_STACKS {
   id: any;
-  plan: TechStackPricingPlan;
+  plan?: TechStackPricingPlan;
   name: string;
   description: string;
   tech_stacks: {
@@ -39,7 +39,6 @@ export interface FINE_TUNED_STACKS {
 export type GENERAL_STACK_VALUE = {
   name: string;
   key: string;
-  pricing_plan: TechStackPricingPlan;
 };
 
 export interface GENERAL_STACKS {
@@ -103,6 +102,10 @@ export enum RESPONSE_CODE {
   NOT_ELIGIBLE,
   FAILED_INVITING_COLLABORATOR,
   INVALID_PARAMS,
+  METHOD_NOT_ALLOWED,
+  ORDER_EXISTS,
+  CHECKOUT_ERROR,
+  ORDER_NOT_CREATED,
 
   // User Operations
   SIGNUP_SUCCESSFULL,

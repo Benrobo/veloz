@@ -1,4 +1,4 @@
-import { FINE_TUNED_STACKS } from "@data/stack";
+import { FINE_TUNED_STACKS, PARENT_TEMPLATES } from "@data/stack";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { TechStackCategory, TechStackPricingPlan } from "@veloz/shared/types";
@@ -7,33 +7,27 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-const planLevels = {
-  FREE_PKG: 1,
-  BASIC_PKG: 2,
-  STANDARD_PKG: 3,
-  ENTERPRISE_PKG: 4,
-};
-
-// check if user is eligible or not for a specific plan
-export function isUserEligibleForStack(
-  stackName: string,
-  userPricingPlan: TechStackPricingPlan
+// check if user has bought a specific template
+export function hasTemplateBeenPurchased(
+  items: { name: string; id: string }[],
+  template_id: string,
+  template_name: string
 ) {
-  const techStack = FINE_TUNED_STACKS.find(
-    (stack) => stack.name.toLowerCase() === stackName.toLowerCase()
-  );
-
-  if (techStack) {
-    const { plan } = techStack;
-    if (planLevels[userPricingPlan] >= planLevels[plan]) {
+  if (items.length === 0) return false;
+  for (const item of items) {
+    const template = PARENT_TEMPLATES.find(
+      (t) =>
+        t.id === template_id ||
+        t.name.toLowerCase() === template_name.toLowerCase()
+    );
+    if (
+      item.id === template?.id ||
+      item.name.toLowerCase() === template?.name.toLowerCase()
+    ) {
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
-  // Stack not found
-  console.log("Stack not found");
-  return false;
 }
 
 export function parseEnvString(envString: string) {
@@ -102,3 +96,20 @@ export const logout = () => {
   localStorage.removeItem("clerk-db-jwt");
   window.location.href = "/auth";
 };
+
+// format number to 100, 1k, 2.5k, 1m, 2.5m
+export function formatNumber(number: number) {
+  // International number formatting
+  let formatter = Intl.NumberFormat("en", { notation: "compact" });
+  return formatter.format(number);
+}
+
+// currency formatter
+export function formatCurrency(number: number, currency: string) {
+  // International number formatting
+  let formatter = Intl.NumberFormat("en", {
+    style: "currency",
+    currency,
+  });
+  return formatter.format(number);
+}

@@ -1,3 +1,4 @@
+"use client";
 import Accordion from "@/components/Accordion";
 import {
   FlexColStart,
@@ -6,26 +7,41 @@ import {
   FlexRowStartCenter,
 } from "@/components/Flex";
 import Layout from "@/components/Layout";
+import {
+  DifficultyBadge,
+  PricingBadge,
+  StackedAvatar,
+} from "@/components/Badge";
 import RenderStacks from "@/components/Stacks/Render";
 import { FINE_TUNED_STACKS } from "@/data/stack";
 import usePageLoaded from "@/hooks/usePageLoaded";
 import { renderAccdIcon } from "@/lib/comp_utils";
-import { getLastUpdated } from "@/lib/http/requests";
+import { getLastUpdated, getTemplateConsumption } from "@/lib/http/requests";
 import { ResponseData } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { FineTunedStacksName } from "@veloz/shared/types";
-import { ArrowLeftToLine } from "lucide-react";
+import { FineTunedStacksName, TechStackPricingPlan } from "@veloz/shared/types";
+import { ArrowDownFromLine, ArrowLeftToLine } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import React, { ReactElement, useEffect } from "react";
+import { formatNumber } from "@/lib/utils";
+import { withAuth } from "@/lib/helpers";
 
 function ProjectTemplate() {
   const pageLoaded = usePageLoaded(1000);
   const { name } = useRouter().query;
+  const [installs, setInstalls] = React.useState<number>(0);
+  const [usedBy, setUsedBy] = React.useState<string[]>([]);
   const [lastUpdatedDate, setLastUpdatedDate] = React.useState<string>("");
   const getLastUpdatedQuery = useQuery({
     queryKey: ["last_updated"],
     queryFn: async () => await getLastUpdated((name as string)?.toLowerCase()),
+    enabled: pageLoaded,
+  });
+  const getTemplateConsumptionQuery = useQuery({
+    queryKey: ["get_template_consumption"],
+    queryFn: async () =>
+      await getTemplateConsumption((name as string)?.toLowerCase()),
     enabled: pageLoaded,
   });
 
@@ -39,6 +55,24 @@ function ProjectTemplate() {
     getLastUpdatedQuery.data,
     getLastUpdatedQuery.isPending,
     getLastUpdatedQuery.isError,
+  ]);
+
+  useEffect(() => {
+    if (getTemplateConsumptionQuery.data) {
+      const responseData = getTemplateConsumptionQuery.data as ResponseData;
+      const data: {
+        installs: number;
+        name: string;
+        users: { images: string[]; count: number };
+      } = responseData?.data;
+      // setLastUpdatedDate(formatted ?? "N/A");
+      setInstalls(data.installs);
+      setUsedBy(data.users.images);
+    }
+  }, [
+    getTemplateConsumptionQuery.data,
+    getTemplateConsumptionQuery.isPending,
+    getTemplateConsumptionQuery.isError,
   ]);
 
   const returnFineTunedStackDetails = (name: FineTunedStacksName) => {
@@ -65,8 +99,8 @@ function ProjectTemplate() {
     <Layout activePage="templates">
       <FlexColStart className="w-full h-full hideScrollBar2 overflow-y-scroll">
         <FlexRowStart className="px-4 py-4">
-          <Link
-            href="/templates"
+          <button
+            onClick={() => Router.back()}
             className="underline w-auto flex gap-2 items-center justify-start"
           >
             <ArrowLeftToLine
@@ -76,19 +110,51 @@ function ProjectTemplate() {
             <span className="text-white-300 group-hover:text-white-100 text-[12px] transition-all font-ppSB">
               Back
             </span>
-          </Link>
+          </button>
         </FlexRowStart>
         <br />
         {returnFineTunedStackDetails(name as FineTunedStacksName) ? (
           <FlexRowStartBtw className="w-full px-9 py-5">
             <FlexColStart className="w-full">
-              <p className="text-white-100 font-jbEB text-[24px]">
-                {stackDetails?.name}
-              </p>
-              <p className="text-white-300 font-jbR text-[14px]">
-                {stackDetails?.description}
-              </p>
+              <FlexColStart className="w-full">
+                <FlexRowStartBtw className="w-full pr-7">
+                  <p className="text-white-100 font-jbEB text-[24px]">
+                    {stackDetails?.name}
+                  </p>
+                  <FlexRowStartCenter>
+                    {/* Template Consumption */}
+                    <FlexRowStartCenter className="w-fit gap-1">
+                      <ArrowDownFromLine size={14} className="text-white-100" />
+                      <span className="text-white-100 text-[14px] font-jbSB">
+                        {formatNumber(installs)}
+                      </span>
+                    </FlexRowStartCenter>
+                    {/* divider */}
+                    <span className="text-white-600">|</span>
+                    {/* Used By */}
+                    <FlexRowStartCenter className="w-fit">
+                      <StackedAvatar limit={5} images={usedBy} />
+                    </FlexRowStartCenter>
+                  </FlexRowStartCenter>
+                </FlexRowStartBtw>
+              </FlexColStart>
               <br />
+              {stackDetails?.description.split("\n").map((d, i) => (
+                <p className="text-white-200 font-ppReg text-[14px]" key={i}>
+                  {d}
+                </p>
+              ))}
+              <br />
+              <FlexRowStartCenter className="w-auto">
+                <span className="text-white-300 text-[12px] font-jbSB">
+                  Difficulty:{" "}
+                  {/* <span className="text-white-100 font-jbEB">
+                    {stackDetails?.difficulty}
+                  </span> */}
+                </span>
+                <DifficultyBadge difficulty={stackDetails?.difficulty as any} />
+              </FlexRowStartCenter>
+
               <FlexRowStartCenter className="w-auto">
                 <span className="bg-green-400 w-[10px] h-[10px] rounded-[50%] animate-pulse "></span>
                 <span className="text-white-300 text-[12px] font-jbSB">
@@ -208,4 +274,4 @@ function ProjectTemplate() {
   );
 }
 
-export default ProjectTemplate;
+export default withAuth(ProjectTemplate);

@@ -1,0 +1,80 @@
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+    // relationMode = "prisma"
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+enum Role {
+    user
+    admin
+}
+
+model User {
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    uId         String   @unique
+    name        String
+    email       String   @unique
+    avatar      String?
+    role        Role     @default(user)
+    isTester    Boolean  @default(false)
+    veloz_token String
+    gh_username String?
+    createdAt   DateTime @default(now())
+
+    templateConsumption TemplateConsumption[]
+    purchasedItem       PurchasedItem[]
+    order               Order[]
+    invites             Invites[]
+}
+
+model TemplateConsumption {
+    id         String   @id @default(auto()) @map("_id") @db.ObjectId
+    uId        String
+    name       String
+    used_count Int      @default(0)
+    createdAt  DateTime @default(now())
+
+    user User @relation(fields: [uId], references: [uId], onDelete: Cascade)
+}
+
+model PurchasedItem {
+    id            String   @id @default(auto()) @map("_id") @db.ObjectId
+    uId           String
+    temp_id       String
+    template_name String?
+    createdAt     DateTime @default(now())
+
+    user User @relation(fields: [uId], references: [uId], onDelete: Cascade)
+}
+
+model Order {
+    id             String   @id @default(auto()) @map("_id") @db.ObjectId
+    uId            String
+    temp_id        String
+    template_name  String?
+    order_id       String?
+    payment_status String?
+    payment_amount Float?
+    user_name      String?
+    user_email     String?
+    product_id     String?
+    variant_id     String?
+    createdAt      DateTime @default(now())
+
+    user User @relation(fields: [uId], references: [uId], onDelete: Cascade)
+}
+
+model Invites {
+    id            String   @id @default(auto()) @map("_id") @db.ObjectId
+    uId           String
+    repo_name     String?
+    template_name String?
+    type          String
+    createdAt     DateTime @default(now())
+
+    user User @relation(fields: [uId], references: [uId], onDelete: Cascade)
+}

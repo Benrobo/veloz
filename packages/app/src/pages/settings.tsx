@@ -2,17 +2,24 @@ import {
   FlexColCenter,
   FlexColStart,
   FlexRowCenter,
+  FlexRowStart,
   FlexRowStartCenter,
 } from "@/components/Flex";
 import Layout from "@/components/Layout";
 import { Spinner } from "@/components/Spinner";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { withAuth } from "@/lib/helpers";
-import { getUserSettings } from "@/lib/http/requests";
+import { getUserSettings, rotateToken } from "@/lib/http/requests";
 import { cn } from "@/lib/utils";
-import { RadioGroup } from "@radix-ui/themes";
-import { useQuery } from "@tanstack/react-query";
-import { Github, LayoutDashboard, Settings } from "lucide-react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  Copy,
+  Github,
+  LayoutDashboard,
+  RotateCw,
+  Settings,
+} from "lucide-react";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -21,15 +28,13 @@ const Tabs = ["general", "project"] as const;
 type SettingsTabs = (typeof Tabs)[number];
 
 type SettingsDetails = {
-  ghAccountConnected: boolean;
-  routerConfig: "page" | "app";
+  veloz_token: string;
 };
 
 type SettingsResponse = {
   errorStatus: boolean;
   data: {
-    ghAccountConnected: boolean;
-    default_nextjs_router: "page" | "app";
+    veloz_token: string;
   };
   message: string;
 };
@@ -37,31 +42,53 @@ type SettingsResponse = {
 function SettingsPage() {
   const [activeTab, setActiveTab] = useState<SettingsTabs>("general");
   const [settings, setSettings] = useState<SettingsDetails>({
-    ghAccountConnected: false,
-    routerConfig: "page",
+    veloz_token: "",
   });
   const getSettingsQuery = useQuery({
     queryKey: ["getSettings"],
     queryFn: async () => await getUserSettings(),
   });
+  const rotateTokenMutation = useMutation({
+    mutationFn: async () => await rotateToken(),
+  });
 
   useEffect(() => {
+    if (getSettingsQuery.error) {
+      toast.error(getSettingsQuery.error?.message as string);
+      return;
+    }
+
     if (getSettingsQuery.data) {
       const data = getSettingsQuery.data as SettingsResponse;
       if (data.errorStatus) {
         toast.error(getSettingsQuery.data?.message as string);
         return;
       }
-      console.log(data?.data);
       setSettings({
-        ghAccountConnected: data?.data?.ghAccountConnected,
-        routerConfig: data?.data?.default_nextjs_router,
+        veloz_token: data?.data.veloz_token,
       });
     }
   }, [
     getSettingsQuery.data,
     getSettingsQuery.error,
     getSettingsQuery.isLoading,
+  ]);
+
+  useEffect(() => {
+    if (rotateTokenMutation.error) {
+      rotateTokenMutation.reset();
+      toast.error(rotateTokenMutation.error?.message as string);
+      return;
+    }
+
+    if (rotateTokenMutation.data) {
+      rotateTokenMutation.reset();
+      getSettingsQuery.refetch();
+    }
+  }, [
+    rotateTokenMutation.data,
+    rotateTokenMutation.error,
+    rotateTokenMutation.isPending,
   ]);
 
   const getTabTitle = (tab: SettingsTabs) => {
@@ -112,101 +139,68 @@ function SettingsPage() {
         </FlexRowStartCenter>
 
         {/* Loading */}
-        {getSettingsQuery.isLoading && (
+        {/* {getSettingsQuery.isLoading && (
           <FlexColCenter className="w-full">
             <Spinner color="#fff" />
           </FlexColCenter>
-        )}
+        )} */}
 
         {/* General Tab Content */}
-        {getSettingsQuery.isLoading
-          ? null
-          : activeTab === "general" && (
-              <FlexColStart className="w-full mt-5">
-                <FlexColStart className="w-fit">
-                  <h1 className="text-white-100 text-[15px] font-ppB">
-                    Connect your Github account
-                  </h1>
-                  <p className="text-gray-100 leading-none font-ppL text-[13px]">
-                    Connect your Github account to Veloz to enable Github
-                    integration.
-                  </p>
-                  <Button
-                    className={cn(
-                      "w-auto mt-2 gap-2",
-                      settings.ghAccountConnected
-                        ? "bg-dark-300"
-                        : "bg-green-105"
-                    )}
-                    variant={
-                      settings.ghAccountConnected ? "success" : "success"
-                    }
-                    onClick={() =>
-                      (window.location.href = "/api/github/connect")
-                    }
-                    disabled={settings.ghAccountConnected}
-                  >
-                    <Github size={15} />
-                    <span className="text-white-100 text-[10px] font-ppSB">
-                      {settings.ghAccountConnected
-                        ? "Connected"
-                        : "Connect Github"}
-                    </span>
-                  </Button>
-                </FlexColStart>
-                <br />
-              </FlexColStart>
-            )}
-
-        {/* Project Tab Content */}
-        {!getSettingsQuery.isPending && activeTab === "project" && (
-          <FlexColStart className="w-full mt-5">
-            {/* Nextjs (App / Page) router config */}
-            <FlexColStart>
-              <h1 className="text-white-100 text-[15px] font-ppB">
-                Nextjs router config
-              </h1>
-              <p className="text-gray-100 leading-none font-ppL text-[13px]">
-                Veloz uses page router by default, you can select your default
-                router here.
+        {activeTab === "general" && (
+          <FlexColStart className="w-full mt-4">
+            <FlexColStart className="w-fit max-w-[70%]">
+              <p className="text-white-100 text-[13px] font-ppSB">Account</p>
+              <p className="text-[12px] text-white-200 font-jbSB">
+                Veloz token authenticates your CLI. Keep it confidential.
+                Rotating the token invalidates the previous one;
+                reauthentication with the new token is{" "}
+                <span className="text-white-100 font-jbEB">required</span>.
               </p>
-              <FlexRowStartCenter className="mt-2">
-                <RadioGroup.Root
-                  onValueChange={(value) =>
-                    setSettings((prev) => ({ ...prev, routerConfig: "page" }))
-                  }
-                  defaultValue={settings.routerConfig}
-                >
-                  <FlexRowCenter className="w-fit gap-4">
-                    <FlexRowCenter>
-                      <RadioGroup.Item value="page" />
-                      <span className="text-white-100 text-[13px] font-ppSB">
-                        Page
-                      </span>
-                    </FlexRowCenter>
-                    <FlexRowCenter>
-                      <RadioGroup.Item value="app" />
-                      <span className="text-white-100 text-[13px] font-ppSB">
-                        App
-                      </span>
-                    </FlexRowCenter>
-                  </FlexRowCenter>
-                </RadioGroup.Root>
-              </FlexRowStartCenter>
-              <Button
-                className="w-auto mt-2"
-                variant={"appeal"}
-                disabled={settings.routerConfig === "page"}
-              >
-                <span className="text-white-100 text-[10px] font-ppSB">
-                  Save Changes
-                </span>
-              </Button>
             </FlexColStart>
-
-            <br />
+            <FlexRowStart className="w-fit min-w-[350px] gap-2 bg-dark-200 px-3 py-[5px] rounded-md">
+              <Input
+                placeholder="veloz token"
+                value={settings.veloz_token}
+                disabled
+                className="min-w-[200px] bg-dark-200 border-none font-jbSB text-white-300 focus-visible:ring-transparent placeholder:text-white-400 focus-visible:outline-none  "
+              />
+              <button
+                className=" px-3 py-3 rounded-lg border-solid border-[.5px] border-white-600 font-jbSB text-white-300 scale-[.85]"
+                onClick={() => {
+                  navigator.clipboard.writeText(settings.veloz_token);
+                  toast.success("Copied to clipboard");
+                }}
+              >
+                <Copy size={15} />
+              </button>
+              <button
+                className={cn(
+                  " px-3 py-3 rounded-lg border-solid border-[.5px] border-white-600 font-jbSB text-white-300 scale-[.85]"
+                )}
+                onClick={() => {
+                  const confirm = window.confirm(
+                    "This would rotate your token, Are you sure about this action?"
+                  );
+                  if (confirm) {
+                    rotateTokenMutation.mutate();
+                  }
+                }}
+                disabled={
+                  rotateTokenMutation.isPending ?? getSettingsQuery.isPending
+                }
+              >
+                <RotateCw
+                  size={15}
+                  className={cn(
+                    rotateTokenMutation.isPending ? "animate-spin" : ""
+                  )}
+                />
+              </button>
+            </FlexRowStart>
           </FlexColStart>
         )}
+
+        {/* Project Tab Content */}
       </FlexColStart>
     </Layout>
   );

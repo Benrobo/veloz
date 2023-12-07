@@ -1,6 +1,5 @@
 import { FINE_TUNED_STACKS } from "@/data/stack";
 import axios from "axios";
-import { connect } from "mongoose";
 
 // check if github access token is valid
 export async function _checkGhTokenValidity(token: String) {
@@ -77,14 +76,6 @@ export async function _refreshGhToken(
     response.message = e.message;
     response.success = false;
     return response;
-  }
-}
-
-export async function connectDB(MONGO_DB_URL: string) {
-  try {
-    await connect(MONGO_DB_URL, {});
-  } catch (e: any) {
-    console.log(`Error connecting to mongodb: ${e?.message}`);
   }
 }
 

@@ -24,8 +24,6 @@ const Modal = ({
   scrollable,
 }: ModalProp) => {
   const [isVisible, setIsVisible] = useState(isOpen);
-  const blurBg = `backdrop-blur-xl opacity-[1]`;
-  const transBg = ``;
 
   React.useEffect(() => {
     setIsVisible(isOpen);
@@ -92,8 +90,6 @@ export const ChildBlurModal = ({
   scrollable,
 }: ModalProp) => {
   const [isVisible, setIsVisible] = useState(isOpen);
-  const blurBg = `backdrop-blur-xl opacity-[1]`;
-  const transBg = ``;
 
   React.useEffect(() => {
     setIsVisible(isOpen);

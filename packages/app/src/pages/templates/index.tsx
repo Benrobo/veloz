@@ -8,65 +8,107 @@ import {
   TechStackPricingPlan,
 } from "@veloz/shared/types";
 import { useQuery } from "@tanstack/react-query";
-import { getProjects } from "@/lib/http/requests";
+import { getProjects, getTemplates } from "@/lib/http/requests";
 import {
   FlexColStart,
+  FlexColStartCenter,
+  FlexRowCenter,
   FlexRowCenterBtw,
   FlexRowStart,
   FlexRowStartBtw,
+  FlexRowStartCenter,
 } from "@/components/Flex";
 import { Spinner } from "@/components/Spinner";
 import DataContext from "@/context/DataContext";
-import { FINE_TUNED_STACKS } from "@/data/stack";
+import { FINE_TUNED_STACKS, PARENT_TEMPLATES } from "@/data/stack";
 import { cn, getPlanTitle } from "@/lib/utils";
 import Image from "next/image";
 import { ProjectContext } from "@/context/ProjectContext";
-import { RenderProjectIcons } from "@/components/Projects/Card";
+import { RenderProjectIcons } from "@/components/Templates/Card";
+import { PricingBadge } from "@/components/Badge";
+import TemplateCard from "@/components/Templates/TemplateCard";
+import { ResponseData, ReturnedTemplatesType } from "@/types";
+import toast from "react-hot-toast";
 
-function Projects() {
+function Templates() {
   const { setSelectedFinetunedStack, selectedFinetunedStack } =
     useContext(ProjectContext);
-  // const { togglePremiumModalVisibility, setPkgPlan, userPlan } =
-  // useContext(DataContext);
+  const [templates, setTemplates] = useState<ReturnedTemplatesType[]>([]);
 
-  const extractFineTunedStack = (
-    stacks: { title: string; stacks: string[] }[]
-  ) => {
-    const validStacks: string[] = [];
-    stacks.forEach((stack) => {
-      stack.stacks.forEach((s) => {
-        if (!validStacks.includes(s)) {
-          validStacks.push(s);
-        }
-      });
-    });
-    return validStacks;
-  };
+  const getTemplatesQuery = useQuery({
+    queryKey: ["getTemplates"],
+    queryFn: async () => await getTemplates(),
+  });
+
+  const [parentTemplates, setParentTemplates] = useState(PARENT_TEMPLATES);
+
+  useEffect(() => {
+    if (getTemplatesQuery.error) {
+      const errMsg = (getTemplatesQuery.error as any)?.response?.data?.message;
+      toast.error(errMsg);
+    }
+    if (getTemplatesQuery.data) {
+      const data = getTemplatesQuery.data as ResponseData;
+      setTemplates(data.data as ReturnedTemplatesType[]);
+    }
+  }, [
+    getTemplatesQuery.data,
+    getTemplatesQuery.error,
+    getTemplatesQuery.isPending,
+  ]);
 
   return (
     <Layout activePage="templates">
       <FlexColStart className="w-full px-4 py-4 ">
+        <FlexRowCenterBtw className="w-full">
+          <FlexColStart className="gap-2">
+            <p className="text-white-100 font-jbEB text-[14px]">
+              Veloz Templates
+            </p>
+            <p className="text-white-300 font-jbSB text-[11px]">
+              Ship your project faster with our templates. Select a template to
+              start with.
+            </p>
+          </FlexColStart>
+        </FlexRowCenterBtw>
+
+        {getTemplatesQuery.isPending && (
+          <FlexColStartCenter className="w-full h-full">
+            <Spinner size={15} />
+          </FlexColStartCenter>
+        )}
+
         <br />
-        <FlexRowStartBtw className="gap-2 flex-wrap">
-          {FINE_TUNED_STACKS.map(
-            (d) =>
-              d.available && (
-                <FineTunedCard
-                  name={d.name as FineTunedStacksName}
-                  pricing_plan={d.plan}
-                  stacks={extractFineTunedStack(d.tech_stacks)}
-                  available={d.available}
-                  label={d.label}
-                />
-              )
+        {/* Template parents */}
+        <FlexRowStartCenter className="w-full flex-wrap">
+          {!getTemplatesQuery.isPending &&
+            templates.length > 0 &&
+            templates.map((d) => (
+              <TemplateCard
+                name={d.name}
+                id={d.id}
+                tagline={d.tagline}
+                pricing_plan={d.pricing_plan}
+                userImages={d.users.images}
+                thumbnail={d.image}
+                key={d.id}
+              />
+            ))}
+
+          {!getTemplatesQuery.isPending && templates.length === 0 && (
+            <FlexColStartCenter className="w-full h-full">
+              <p className="text-white-300 font-jbSB text-[12px] ">
+                No templates found
+              </p>
+            </FlexColStartCenter>
           )}
-        </FlexRowStartBtw>
+        </FlexRowStartCenter>
       </FlexColStart>
     </Layout>
   );
 }
 
-export default withAuth(Projects);
+export default withAuth(Templates);
 
 interface FineTunedCardProps {
   name: FineTunedStacksName;
@@ -109,32 +151,9 @@ function FineTunedCard({
               </p>
             </FlexColStart>
           </FlexRowStart>
-          <FlexRowCenterBtw className="w-auto absolute top-4 right-2 px-3 py-1 rounded-[30px] bg-dark-200 scale-[.85] border-solid border-white-600 border-[1px]">
-            <p
-              className={cn(
-                "text-white-100 text-[12px] font-ppB",
-                pricing_plan === "BASIC_PKG"
-                  ? "text-blue-100"
-                  : pricing_plan === "STANDARD_PKG"
-                    ? "text-orange-100"
-                    : pricing_plan === "ENTERPRISE_PKG"
-                      ? "text-pink-100"
-                      : ""
-              )}
-            >
-              {getPlanTitle(pricing_plan)}
-            </p>
-            <Image
-              src={
-                pricing_plan === "STANDARD_PKG"
-                  ? "/images/diamond.png"
-                  : "/images/diamond-2.png"
-              }
-              width={15}
-              height={0}
-              alt="premium"
-            />
-          </FlexRowCenterBtw>
+          <div className="absolute top-3 right-3">
+            <PricingBadge pricing_plan={pricing_plan} />
+          </div>
         </FlexRowStartBtw>
         <FlexRowStart className="w-full gap-2 px-3">
           {extractStack.map((stack, i) => (

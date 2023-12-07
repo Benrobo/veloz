@@ -45,3 +45,15 @@ export const getTemplateDetails = async (name: string) => {
     return e.response.data ?? { message: e.message };
   }
 };
+
+// store template consumption
+export const storeTemplateConsumption = async (name: string) => {
+  try {
+    const resp = await $http.patch(
+      `/template/consumption/store?template=${name}`
+    );
+    return resp?.data ?? (resp as any)?.response?.data;
+  } catch (e: any) {
+    return e.response.data ?? { message: e.message };
+  }
+};

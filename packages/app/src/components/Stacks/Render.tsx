@@ -84,17 +84,6 @@ function RenderStacks({ tech_stacks, category }: RenderStacksProps) {
 
 export default RenderStacks;
 
-// Refined Renderer
-interface RenderSelectableStacksProps {
-  category: TechStackCategory;
-  updateStacksState: (
-    key: string,
-    name: string,
-    category: TechStackCategory
-  ) => void;
-  selecedStacks: CodebaseArchitectureMap;
-}
-
 export function RenderFineTunedStacks({
   tech_stacks,
 }: {

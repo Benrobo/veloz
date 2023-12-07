@@ -13,7 +13,7 @@ function Home() {
   return (
     <Layout activePage="home">
       <p className="text-white-100">Dashboard</p>
-      <Modal isBlurBg isOpen>
+      <Modal isBlurBg isOpen fixed={false}>
         <FlexColCenter className="w-full h-full">
           <h1 className="text-white-100 text-3xl font-ppEB">Coming Soon</h1>
         </FlexColCenter>
