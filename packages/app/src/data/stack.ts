@@ -35,7 +35,6 @@ export const FINE_TUNED_STACKS =
 
 // Stack Repos Name
 type TemplateRepositoryType = {
-  plan: TechStackPricingPlan;
   repo: string;
   available: boolean;
   template_name: string;

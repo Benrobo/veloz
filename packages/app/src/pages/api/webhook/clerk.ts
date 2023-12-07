@@ -2,15 +2,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Webhook } from "svix";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import env from "../config/env";
-import { Invites, TemplateConsumption, User } from "../models";
-import { connectDB } from "../lib/utils";
 import CatchError from "../lib/error";
 import shortUUID from "short-uuid";
+import prisma from "../config/prisma";
 
 // handle clerk webhook
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  await connectDB(env.MONGO_DB_URL as string);
-
   const wh_body = req?.body;
   const payload = JSON.stringify(wh_body);
   const headers = req.headers;
@@ -45,7 +42,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     // check if user exists, if it doesn't then create a new user
     // if it does do nothing
     const email = email_addresses[0]?.email_address;
-    const user = await User.findOne({ email });
+    const user = await prisma.user.findFirst({ where: { email } });
     const fullname =
       first_name === null
         ? last_name
@@ -54,13 +51,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           : `${first_name} ${last_name}`;
 
     if (!user) {
-      await User.create({
-        uId: id,
-        name: `${fullname}`,
-        email,
-        avatar: image_url,
-        veloz_token: shortUUID.generate(),
-        gh_username,
+      await prisma.user.create({
+        data: {
+          uId: id,
+          name: `${fullname}`,
+          email,
+          avatar: image_url,
+          veloz_token: shortUUID.generate(),
+          gh_username,
+        },
       });
 
       console.log(`✅ User ${email} created!`);
@@ -75,12 +74,20 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     try {
       // delere related user data from database
-      await User.deleteOne({ uId: id });
-      await Invites.deleteMany({ uId: id });
-      await TemplateConsumption.deleteMany({ uId: id });
+
+      // check if user exist
+      const user = await prisma.user.findFirst({ where: { uId: id } });
+
+      if (!user) {
+        console.log(`❌ Failed to delete: User ${id} not found`);
+        return;
+      }
+
+      await prisma.user.delete({ where: { uId: id } });
 
       console.log(`✅ User ${id} data deleted`);
     } catch (e: any) {
+      console.log(e);
       console.log(`❌ Error deleting user ${id} data`);
     }
   }

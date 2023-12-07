@@ -1,9 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import CatchError from "../lib/error";
 import { isAuthenticated } from "../middlewares/auth";
-import projectServices from "../services/template.services";
-import { connectDB } from "../lib/utils";
-import env from "../config/env";
 import { createCheckout } from "../lib/checkout";
 import { RESPONSE_CODE } from "@veloz/shared/types";
 import sendResponse from "../lib/sendResponse";

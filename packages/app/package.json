@@ -6,11 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "dbPush": "npx prisma db push"
+  },
+  "prisma": {
+    "schema": "./src/pages/api/prisma/schema.prisma"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.26.2",
     "@monaco-editor/react": "^4.6.0",
+    "@prisma/client": "^5.7.0",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/themes": "^2.0.0",
@@ -29,6 +34,7 @@
     "next": "13.5.4",
     "nprogress": "^0.2.0",
     "postcss": "8.4.30",
+    "prisma": "^5.7.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.4.1",

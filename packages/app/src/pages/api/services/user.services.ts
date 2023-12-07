@@ -1,18 +1,18 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PurchasedItems, User } from "../models";
 import sendResponse from "../lib/sendResponse";
 import { RESPONSE_CODE } from "@veloz/shared/types";
 import { _checkGhTokenValidity, _refreshGhToken } from "../lib/utils";
 import shortUUID from "short-uuid";
+import prisma from "../config/prisma";
+import HttpException from "../lib/exception";
 
 class UserService {
   async getInfo(req: NextApiRequest, res: NextApiResponse) {
     const userId = (req as any)?.user?.id;
-    const info = await User.findOne({ uId: userId });
+    const info = await prisma.user.findFirst({ where: { uId: userId } });
 
     if (!info) {
-      return sendResponse.error(
-        res,
+      throw new HttpException(
         RESPONSE_CODE.USER_NOT_FOUND,
         `User not found`,
         404
@@ -20,11 +20,13 @@ class UserService {
     }
 
     // get purchased items
-    const purchased_items = await PurchasedItems.find({ uId: userId });
+    const purchased_items = await prisma.purchasedItem.findMany({
+      where: { uId: userId },
+    });
 
     // needed user details
     const _details = {
-      _id: info?._id,
+      _id: info?.id,
       uId: info?.uId,
       email: info?.email,
       name: info?.name,
@@ -32,7 +34,7 @@ class UserService {
       role: info?.role,
       isTester: info?.isTester,
       purchased_items: purchased_items.map((item) => {
-        return { name: item?.template_name, id: item?.temp_id, ref: item?.ref };
+        return { name: item?.template_name, id: item?.temp_id };
       }),
     };
 
@@ -47,7 +49,7 @@ class UserService {
 
   async getSettings(req: NextApiRequest, res: NextApiResponse) {
     const userId = (req as any)?.user?.id;
-    const user = await User.findOne({ uId: userId });
+    const user = await prisma.user.findFirst({ where: { uId: userId } });
 
     // needed user details
     const _details = {
@@ -81,7 +83,10 @@ class UserService {
     const newToken = shortUUID.generate();
 
     // update uset veloz token
-    await User.updateOne({ uId: userId }, { veloz_token: newToken });
+    await prisma.user.update({
+      where: { uId: userId },
+      data: { veloz_token: newToken },
+    });
 
     sendResponse.success(
       res,

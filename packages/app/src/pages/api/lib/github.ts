@@ -1,14 +1,12 @@
 import { TEMPLATES_REPOSITORY } from "@/data/stack";
-import { TechStackPricingPlan } from "@veloz/shared/types";
-import { Invites, User } from "../models";
 import axios from "axios";
+import prisma from "../config/prisma";
 
 // [ref](https://stackoverflow.com/questions/64371517/how-to-invite-a-user-to-a-private-github-repo-within-an-organisation-using-the-c)
 // gh api -X PUT repos/:org/:repo/collaborators/:username -f permission=:perm
 // https://docs.github.com/en/rest/collaborators/collaborators?apiVersion=2022-11-28#add-a-repository-collaborator
 
 export async function addCollaboratorToRepo(
-  plan: TechStackPricingPlan,
   username: string,
   _tempName: string
 ) {
@@ -24,30 +22,19 @@ export async function addCollaboratorToRepo(
       return false;
     }
 
-    // check template plan
-    const planLevels = {
-      FREE_PKG: 1,
-      BASIC_PKG: 2,
-      STANDARD_PKG: 3,
-      ENTERPRISE_PKG: 4,
-    };
-
-    if (planLevels[plan] < planLevels[ghR.plan]) {
-      console.log(
-        `❌ [Collaborator Invite]: User [user: @${username}] [plan: ${plan}] is not eligible for template plan ${ghR.plan}`
-      );
-      return false;
-    }
-
     // check if user exists
-    const user = await User.findOne({ gh_username: username });
+    const user = await prisma.user.findFirst({
+      where: { gh_username: username },
+    });
     if (user) {
       // check if already invited
-      const invites = await Invites.findOne({
-        uId: user?.uId,
-        repo_name: ghR.repo,
-        template_name: ghR.template_name,
-        type: "github",
+      const invites = await prisma.invites.findFirst({
+        where: {
+          uId: user?.uId,
+          repo_name: ghR.repo,
+          template_name: ghR.template_name,
+          type: "github",
+        },
       });
       if (invites) {
         console.log(
@@ -55,11 +42,13 @@ export async function addCollaboratorToRepo(
         );
         return true;
       } else {
-        await Invites.create({
-          uId: user?.uId,
-          repo_name: ghR.repo,
-          template_name: ghR.template_name,
-          type: "github",
+        await prisma.invites.create({
+          data: {
+            uId: user?.uId,
+            repo_name: ghR.repo,
+            template_name: ghR.template_name,
+            type: "github",
+          },
         });
       }
     }

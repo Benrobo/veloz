@@ -1,14 +1,16 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import env from "../config/env";
-import { connectDB } from "../lib/utils";
 import LemonsqueezyWebhookHandler from "../lib/lemonsqueezy";
-import { PurchasedItems, User } from "../models";
 import sendResponse from "../lib/sendResponse";
 import { RESPONSE_CODE } from "@veloz/shared/types";
-import { PARENT_TEMPLATES } from "@/data/stack";
+import {
+  FINE_TUNED_STACKS,
+  PARENT_TEMPLATES,
+  TEMPLATES_REPOSITORY,
+} from "@/data/stack";
 import CatchError from "../lib/error";
 import HttpException from "../lib/exception";
-import Order from "../models/orders.model";
+import prisma from "../config/prisma";
+import { addCollaboratorToRepo } from "../lib/github";
 
 export const config = {
   api: {
@@ -18,8 +20,6 @@ export const config = {
 };
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  await connectDB(env.MONGO_DB_URL as string);
-
   const secret = String(process.env.LEMONSQUEEZY_WEBHOOK_SECRET);
   const { data, success } = await LemonsqueezyWebhookHandler(req, res, secret);
 
@@ -39,7 +39,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const { user_id, template_id } = custom_data;
 
       // check if user and template exists
-      const user = await User.findOne({ uId: user_id });
+      const user = await prisma.user.findFirst({ where: { uId: user_id } });
 
       if (!user) {
         const msg = `User ${user_email} with id ${user_id} not found`;
@@ -48,9 +48,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       }
 
       //   check if order exists
-      const order = await Order.findOne({
-        user_email,
-        order_id: orderId,
+      const order = await prisma.order.findFirst({
+        where: {
+          user_email,
+          order_id: orderId,
+        },
       });
 
       if (order) {
@@ -69,16 +71,23 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       }
 
       // create new order
-      const order_created = await Order.create({
-        temp_id: template_id,
-        template_name: product_name,
-        order_id: orderId,
-        payment_status: status,
-        payment_amount: subtotal / 100,
-        user_name: user.name,
-        user_email,
-        product_id,
-        variant_id,
+      const order_created = await prisma.order.create({
+        data: {
+          temp_id: template_id,
+          template_name: product_name,
+          order_id: orderId,
+          payment_status: status,
+          payment_amount: subtotal / 100,
+          user_name: user.name,
+          user_email,
+          product_id: String(product_id) as any,
+          variant_id: String(variant_id) as any,
+          user: {
+            connect: {
+              uId: user_id,
+            },
+          },
+        },
       });
 
       if (!order_created) {
@@ -87,11 +96,35 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         throw new HttpException(RESPONSE_CODE.ORDER_NOT_CREATED, msg, 404);
       }
 
-      await PurchasedItems.create({
-        uId: user_id,
-        temp_id: template_id,
-        template_name: product_name,
+      await prisma.purchasedItem.create({
+        data: {
+          uId: user_id,
+          temp_id: template_id,
+          template_name: product_name,
+        },
       });
+
+      // add user as collaborator to github repo
+      const repositories = [];
+      for (const stack of FINE_TUNED_STACKS) {
+        const name = stack.name.toLowerCase();
+        const repo = TEMPLATES_REPOSITORY.find((r) => r.template_name === name);
+        if (repo) {
+          repositories.push(repo);
+        }
+      }
+
+      // add user as collaborator to github repo
+      const gh_username = user.gh_username;
+      for (const repo of repositories) {
+        const invitedToRepo = await addCollaboratorToRepo(
+          gh_username as string,
+          repo.repo
+        );
+        if (invitedToRepo) {
+          console.log(`✅ ${gh_username} invited to veloz repo [${repo.repo}]`);
+        }
+      }
 
       console.log(
         `✅ Order created for [LS_user: ${user_email}] | [db_user: ${user.email}] | [template: ${product_name}]`

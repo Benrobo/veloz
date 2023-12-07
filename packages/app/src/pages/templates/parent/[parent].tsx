@@ -16,10 +16,10 @@ import { TEMPLATES_PRICING_MODEL } from "@/constant/template";
 import { DataContext } from "@/context/DataContext";
 import { FINE_TUNED_STACKS, PARENT_TEMPLATES } from "@/data/stack";
 import usePageLoaded from "@/hooks/usePageLoaded";
-import { createCheckout } from "@/lib/http/requests";
+import { createCheckout, getUser } from "@/lib/http/requests";
 import { cn, formatCurrency, hasTemplateBeenPurchased } from "@/lib/utils";
-import { ResponseData } from "@/types";
-import { useMutation } from "@tanstack/react-query";
+import { ResponseData, UserInfo } from "@/types";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   FineTunedStacksName,
   ProjectType,
@@ -32,12 +32,17 @@ import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 function Page() {
-  const { purchasedTemplates } = useContext(DataContext);
+  const { purchasedTemplates, setPurchasedTemplates } = useContext(DataContext);
   const pageLoaded = usePageLoaded();
   const parentName = useRouter().query.parent as string;
   const [parentTemplates, setParentTemplates] = useState(PARENT_TEMPLATES);
   const createCheckoutMut = useMutation({
     mutationFn: async (data: any) => await createCheckout(data),
+  });
+
+  const userInfoQuery = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: () => getUser(),
   });
 
   const parentTemplate = parentTemplates.find(
@@ -73,7 +78,7 @@ function Page() {
     }
     if (createCheckoutMut.data) {
       const data = createCheckoutMut.data as ResponseData;
-      window.open(data.data.url, "_blank");
+      window.location.href = data.data.url;
     }
   }, [
     createCheckoutMut.data,
@@ -81,7 +86,14 @@ function Page() {
     createCheckoutMut.isPending,
   ]);
 
-  if (!pageLoaded) {
+  React.useEffect(() => {
+    if (!userInfoQuery?.data?.errorStatus) {
+      const reqData = userInfoQuery.data?.data as UserInfo;
+      setPurchasedTemplates(reqData?.purchased_items);
+    }
+  }, [userInfoQuery.isLoading, userInfoQuery.data]);
+
+  if (!pageLoaded || userInfoQuery.isPending) {
     return (
       <Layout activePage="templates">
         <FlexColCenter className="w-full h-screen">
@@ -109,8 +121,8 @@ function Page() {
       {parentTemplates && (
         <FlexColStart className="w-full h-full px-5 py-4">
           <FlexRowStart className="px-4 py-4">
-            <button
-              onClick={() => Router.back()}
+            <Link
+              href="/templates"
               className="underline w-auto flex gap-2 items-center justify-start"
             >
               <ArrowLeftToLine
@@ -120,7 +132,7 @@ function Page() {
               <span className="text-white-300 group-hover:text-white-100 text-[12px] transition-all font-ppSB">
                 Back
               </span>
-            </button>
+            </Link>
           </FlexRowStart>
           <FlexColStart className="w-full px-3">
             <FlexRowStartBtw className="w-full">

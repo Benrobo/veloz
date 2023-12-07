@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { Invites, TemplateConsumption, User } from "../models";
 import sendResponse from "../lib/sendResponse";
 import { RESPONSE_CODE } from "@veloz/shared/types";
 import { _checkFineTunedStackAvailability } from "../lib/utils";
@@ -11,6 +10,7 @@ import {
 } from "@/data/stack";
 import HttpException from "../lib/exception";
 import { addCollaboratorToRepo } from "../lib/github";
+import prisma from "../config/prisma";
 
 class TemplateService {
   // get child template consumptions
@@ -27,9 +27,13 @@ class TemplateService {
       );
     }
 
-    const _template = await TemplateConsumption.find({
-      name: (tempName as string).toLowerCase(),
+    const _template = await prisma.templateConsumption.findMany({
+      where: {
+        name: tempName.toLowerCase(),
+      },
     });
+
+    console.log({ _template });
 
     const totalInstall = _template.reduce(
       (acc, curr) => acc + curr.used_count,
@@ -40,9 +44,9 @@ class TemplateService {
     const usersAvatars: string[] = [];
 
     for (const t of _template) {
-      const user = await User.findOne({ uId: t.uId });
-      if (!usersAvatars.includes(user.avatar)) {
-        usersAvatars.push(user.avatar);
+      const user = await prisma.user.findFirst({ where: { uId: t.uId } });
+      if (user && !usersAvatars.includes(user?.avatar as string)) {
+        usersAvatars.push(user.avatar as string);
       }
     }
 
@@ -92,7 +96,7 @@ class TemplateService {
   async inviteToRepo(req: NextApiRequest, res: NextApiResponse) {
     const userId = (req as any)?.user?.id;
     const tempName = req?.body?.temp_name;
-    const user = await User.findOne({ uId: userId });
+    const user = await prisma.user.findFirst({ where: { uId: userId } });
     const gh_name = user?.gh_username;
 
     // check if tempName is valid
@@ -108,15 +112,16 @@ class TemplateService {
     }
 
     // check if user has been invited to the repo
-    const ghInvites = await Invites.findOne({
-      uId: userId,
-      temp_name: tempName,
+    const ghInvites = await prisma.invites.findFirst({
+      where: {
+        uId: userId,
+        template_name: tempName as string,
+      },
     });
 
     if (!ghInvites) {
       const collabInvited = await addCollaboratorToRepo(
-        user?.proj_plan,
-        gh_name,
+        gh_name as string,
         tempName as string
       );
       if (collabInvited) {
@@ -158,19 +163,23 @@ class TemplateService {
       );
     }
 
-    const _template = await TemplateConsumption.findOne({
-      name: tempName,
-      uId: userId,
+    const _template = await prisma.templateConsumption.findFirst({
+      where: {
+        name: tempName as string,
+        uId: userId,
+      },
     });
 
-    const user = await User.findOne({ uId: userId });
+    const user = await prisma.user.findFirst({ where: { uId: userId } });
 
     if (!_template) {
       // store template consumption
-      await TemplateConsumption.create({
-        uId: userId,
-        name: tempName,
-        used_count: 1,
+      await prisma.templateConsumption.create({
+        data: {
+          uId: userId,
+          name: tempName as string,
+          used_count: 1,
+        },
       });
 
       console.log(
@@ -182,10 +191,12 @@ class TemplateService {
 
     // update template consumption
     const prevCount = _template?.used_count ?? 0;
-    await TemplateConsumption.updateOne(
-      { uId: userId, name: tempName },
-      { used_count: prevCount + 1 }
-    );
+    await prisma.templateConsumption.update({
+      where: {
+        id: _template.id,
+      },
+      data: { used_count: prevCount + 1 },
+    });
 
     console.log(
       `Template consumption updated for [user: @${user?.gh_username}] [template: ${tempName}]`
