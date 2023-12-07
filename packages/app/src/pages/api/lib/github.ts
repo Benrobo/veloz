@@ -12,8 +12,9 @@ export async function addCollaboratorToRepo(
 ) {
   try {
     const ghR =
-      TEMPLATES_REPOSITORY.find((repo) => repo.template_name === _tempName) ??
-      null;
+      TEMPLATES_REPOSITORY.find(
+        (repo) => repo.template_name === _tempName.toLowerCase()
+      ) ?? null;
 
     if (!ghR) {
       console.log(
@@ -31,7 +32,6 @@ export async function addCollaboratorToRepo(
       const invites = await prisma.invites.findFirst({
         where: {
           uId: user?.uId,
-          repo_name: ghR.repo,
           template_name: ghR.template_name,
           type: "github",
         },

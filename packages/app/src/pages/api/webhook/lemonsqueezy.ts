@@ -119,7 +119,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       for (const repo of repositories) {
         const invitedToRepo = await addCollaboratorToRepo(
           gh_username as string,
-          repo.repo
+          repo.template_name
         );
         if (invitedToRepo) {
           console.log(`✅ ${gh_username} invited to veloz repo [${repo.repo}]`);

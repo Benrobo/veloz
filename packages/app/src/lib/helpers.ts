@@ -35,12 +35,10 @@ export const withAuth = <P extends { children: React.ReactNode }>(
     React.useEffect(() => {
       // fetch user info if none exists and user is logged in
       setGlobalLoading(userInfoQuery.isLoading);
-      if (userInfoQuery.data && Object.entries(userInfo).length === 0) {
-        if (!userInfoQuery?.data?.errorStatus) {
-          const reqData = userInfoQuery.data?.data as UserInfo;
-          setUserInfo(reqData);
-          setPurchasedTemplates(reqData.purchased_items);
-        }
+      if (!userInfoQuery?.data?.errorStatus) {
+        const reqData = userInfoQuery.data?.data as UserInfo;
+        setUserInfo(reqData);
+        setPurchasedTemplates(reqData.purchased_items);
       }
     }, [userInfoQuery.isLoading, userInfoQuery.data]);
 
