@@ -6,6 +6,7 @@ import {
   FlexRowCenter,
   FlexRowStart,
   FlexRowStartBtw,
+  FlexRowStartCenter,
 } from "@/components/Flex";
 import Layout from "@/components/Layout";
 import { Spinner } from "@/components/Spinner";
@@ -26,7 +27,7 @@ import {
   ProjectType,
   TechStackPricingPlan,
 } from "@veloz/shared/types";
-import { ArrowLeftToLine, Zap } from "lucide-react";
+import { ArrowLeftToLine, CheckCheck, Zap } from "lucide-react";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
@@ -178,6 +179,19 @@ function Page() {
                       </>
                     )}
                   </Button>
+                )}
+
+                {alreadyPurchased && (
+                  <FlexRowStartCenter className="gap-1 w-auto px-5 py-[10px] bg-dark-200 rounded-[30px] scale-[.85] ">
+                    <CheckCheck
+                      size={15}
+                      strokeWidth={"3px"}
+                      className="text-orange-100"
+                    />
+                    <span className="text-orange-100 font-jbEB text-[11px] ">
+                      Purchased
+                    </span>
+                  </FlexRowStartCenter>
                 )}
               </FlexColStart>
             </FlexRowStartBtw>
