@@ -11,12 +11,11 @@ export const withAuth = <P extends { children: React.ReactNode }>(
   WrappedComponent: React.ComponentType<P>
 ) => {
   const Wrapper: React.FC<P> = (props) => {
-    const { setUserInfo, userInfo, setGlobalLoading, setPurchasedTemplates } =
+    const { setUserInfo, setGlobalLoading, setPurchasedTemplates } =
       useContext(DataContext);
     const userInfoQuery = useQuery({
       queryKey: ["userInfo"],
       queryFn: () => getUser(),
-      enabled: Object.entries(userInfo).length === 0,
     });
     const { isLoaded, userId } = useAuth();
     const { user } = useUser();
@@ -38,7 +37,7 @@ export const withAuth = <P extends { children: React.ReactNode }>(
       if (!userInfoQuery?.data?.errorStatus) {
         const reqData = userInfoQuery.data?.data as UserInfo;
         setUserInfo(reqData);
-        setPurchasedTemplates(reqData.purchased_items);
+        setPurchasedTemplates(reqData?.purchased_items);
       }
     }, [userInfoQuery.isLoading, userInfoQuery.data]);
 

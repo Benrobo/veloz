@@ -13,7 +13,7 @@ export async function addCollaboratorToRepo(
   try {
     const ghR =
       TEMPLATES_REPOSITORY.find(
-        (repo) => repo.template_name === _tempName.toLowerCase()
+        (repo) => repo.template_name.toLowerCase() === _tempName.toLowerCase()
       ) ?? null;
 
     if (!ghR) {
@@ -29,13 +29,16 @@ export async function addCollaboratorToRepo(
     });
     if (user) {
       // check if already invited
-      const invites = await prisma.invites.findFirst({
+      const invites = await prisma.invites?.findFirst({
         where: {
-          uId: user?.uId,
-          template_name: ghR.template_name,
-          type: "github",
+          AND: {
+            uId: user?.uId,
+            template_name: ghR.template_name,
+            type: "github",
+          },
         },
       });
+
       if (invites) {
         console.log(
           `❌ [Collaborator Invite]: Already invited [user: ${username}] for [repo: ${ghR.repo}]`
@@ -75,8 +78,9 @@ export async function addCollaboratorToRepo(
       return true;
     }
   } catch (e: any) {
-    const msg = e.response.data ?? e?.message;
+    const msg = e.response?.data ?? e?.message;
     console.log(msg);
+    console.log(e);
     console.log(
       `❌ [Collaborator Invite]: Invitation failed for ${username} for [template: ${_tempName}]`
     );
