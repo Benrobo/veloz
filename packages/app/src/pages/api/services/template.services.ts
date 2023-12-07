@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import sendResponse from "../lib/sendResponse";
 import { RESPONSE_CODE } from "@veloz/shared/types";
 import { _checkFineTunedStackAvailability } from "../lib/utils";
-import { isUserEligibleForStack } from "@/lib/utils";
 import {
   FINE_TUNED_STACKS,
   IFINE_TUNED_STACKS_TEMP,
@@ -61,7 +60,7 @@ class TemplateService {
   }
 
   async templateDetails(req: NextApiRequest, res: NextApiResponse) {
-    const { id, pricing_plan } = (req as any)?.user;
+    const { id } = (req as any)?.user;
     const temp_name = (req?.query?.temp_name as string)?.toLowerCase();
     const template =
       FINE_TUNED_STACKS.find((t) => t.name.toLowerCase() === temp_name) ?? null;
@@ -74,12 +73,16 @@ class TemplateService {
       );
     }
 
-    const isUserEligible = isUserEligibleForStack(
-      temp_name as string,
-      pricing_plan
-    );
+    const purchasedTemplates = await prisma.purchasedItem.findMany({
+      where: { uId: id },
+    });
 
-    if (!isUserEligible) {
+    const purchased =
+      purchasedTemplates.find(
+        (t) => t.template_name?.toLowerCase() === temp_name.toLowerCase()
+      ) ?? null;
+
+    if (!purchased) {
       throw new HttpException(
         RESPONSE_CODE.NOT_ELIGIBLE,
         "not eligible for this template.",

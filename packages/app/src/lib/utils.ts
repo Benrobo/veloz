@@ -2,44 +2,9 @@ import { FINE_TUNED_STACKS, PARENT_TEMPLATES } from "@data/stack";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { TechStackCategory, TechStackPricingPlan } from "@veloz/shared/types";
-import { isTemplateSpan } from "typescript";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
-}
-
-const planLevels = {
-  FREE_PKG: 1,
-  BASIC_PKG: 2,
-  STANDARD_PKG: 3,
-  ENTERPRISE_PKG: 4,
-};
-
-// check if user is eligible or not for a specific plan
-export function isUserEligibleForStack(
-  stackName: string,
-  userPricingPlan: TechStackPricingPlan
-) {
-  const techStack = FINE_TUNED_STACKS.find(
-    (stack) => stack.name.toLowerCase() === stackName.toLowerCase()
-  );
-  const parentStack = PARENT_TEMPLATES.find(
-    (t) => t.id === techStack?.parent_id
-  );
-
-  if (techStack) {
-    if (
-      planLevels[userPricingPlan] >=
-      planLevels[parentStack?.pricing_plan as TechStackPricingPlan]
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  // Stack not found
-  console.log("Stack not found");
-  return false;
 }
 
 // check if user has bought a specific template
