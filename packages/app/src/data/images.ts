@@ -38,16 +38,24 @@ export const StackImages = [
     img: "/images/tech_stacks/nextjs-api.png",
   },
   {
-    name: "mysql",
-    img: "/images/tech_stacks/mysql.svg",
+    name: "nextauth",
+    img: "/images/tech_stacks/nextauth.png",
   },
   {
     name: "tailwindcss",
     img: "/images/tech_stacks/tailwindcss.svg",
   },
   {
-    name: "sass",
-    img: "/images/tech_stacks/sass.svg",
+    name: "mysql",
+    img: "/images/tech_stacks/mysql.svg",
+  },
+  {
+    name: "mysql",
+    img: "/images/tech_stacks/mysql.svg",
+  },
+  {
+    name: "prisma",
+    img: "/images/tech_stacks/prisma.svg",
   },
   {
     name: "python",

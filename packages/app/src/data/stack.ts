@@ -88,7 +88,7 @@ export const GENERAL_STACKS = [
       // Example:
       {
         name: "Next.js API",
-        key: "nextjs-api",
+        key: "nextjs",
       },
       {
         name: "Typescript",
@@ -128,6 +128,10 @@ export const GENERAL_STACKS = [
       {
         name: "PostgreSQL",
         key: "postgresql",
+      },
+      {
+        name: "Prisma ORM",
+        key: "prisma",
       },
     ],
   },
@@ -183,8 +187,8 @@ export const GENERAL_STACKS = [
         key: "clerk",
       },
       {
-        name: "Passage",
-        key: "passage",
+        name: "NextAuth",
+        key: "nextauth",
       },
     ],
   },

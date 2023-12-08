@@ -12,7 +12,7 @@
     "label": "Vortex",
     "tags": ["nextjs", "typescript", "saas"],
     "difficulty": "intermediate",
-    "tagline": "Zeus: Turbocharge Your Indie Hacker Journey",
+    "tagline": "Typescript version of Zeus",
     "tech_stacks": [
       {
         "title": "frontend",
@@ -20,19 +20,19 @@
       },
       {
         "title": "backend",
-        "stacks": ["nextjs-api", "typescript"]
+        "stacks": ["nextjs", "typescript"]
       },
       {
         "title": "database",
-        "stacks": ["mysql"]
+        "stacks": ["mysql", "postgresql", "mongodb", "prisma"]
       },
       {
         "title": "mailing",
-        "stacks": ["postmark"]
+        "stacks": ["resend"]
       },
       {
         "title": "authentication",
-        "stacks": ["clerk"]
+        "stacks": ["clerk", "nextauth"]
       },
       {
         "title": "payment",

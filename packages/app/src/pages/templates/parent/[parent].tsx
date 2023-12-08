@@ -139,9 +139,9 @@ function Page() {
               </span>
             </Link>
           </FlexRowStart>
-          <FlexColStart className="w-full px-3">
+          <FlexColStart className="w-full px-5">
             <FlexRowStartBtw className="w-full">
-              <FlexColStart className="w-full">
+              <FlexColStart className="w-full mr-3">
                 <h1 className="text-white-100 font-jbEB text-2xl">
                   {parentName}
                 </h1>
@@ -158,7 +158,7 @@ function Page() {
                   </p>
                 </blockquote>
               </FlexColStart>
-              <FlexColStart className="w-fit min-w-[300px]">
+              <FlexColStart className="w-fit h-full min-w-[320px]  ">
                 <FlexRowEnd className="w-full">
                   {!alreadyPurchased && (
                     <Button
@@ -219,11 +219,11 @@ function Page() {
                 </FlexRowEnd>
 
                 {/* Template cards */}
-                <FlexColStart className="w-full mt-4">
-                  <h1 className="text-white-100 text-[14px] font-jbEB">
+                <FlexColCenter className="w-full mt-4">
+                  {/* <h1 className="text-white-100 text-[14px] font-jbEB">
                     Templates
-                  </h1>
-                </FlexColStart>
+                  </h1> */}
+                </FlexColCenter>
                 <FlexColEnd className="w-full gap-2 flex-wrap">
                   {childTemplates.length > 0 ? (
                     childTemplates.map(
@@ -235,6 +235,7 @@ function Page() {
                             stacks={extractFineTunedStack(d.tech_stacks)}
                             available={d.available}
                             label={d.label}
+                            tagline={d.tagline}
                           />
                         )
                     )
@@ -263,6 +264,7 @@ interface FineTunedCardProps {
   stacks: string[];
   available: boolean;
   label: ProjectType;
+  tagline: string;
 }
 
 function FineTunedCard({
@@ -271,6 +273,7 @@ function FineTunedCard({
   stacks,
   label,
   available,
+  tagline,
 }: FineTunedCardProps) {
   const max_stack = 5;
   const stack_count = stacks.length;
@@ -294,7 +297,7 @@ function FineTunedCard({
                 {name}
               </p>
               <p className="text-white-300 leading-none text-[11px] font-jbSB">
-                Fine-tuned stack.
+                {tagline}
               </p>
             </FlexColStart>
           </FlexRowStart>

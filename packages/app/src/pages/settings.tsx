@@ -23,7 +23,7 @@ import {
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const Tabs = ["general", "project"] as const;
+const Tabs = ["general"] as const;
 
 type SettingsTabs = (typeof Tabs)[number];
 
@@ -201,6 +201,11 @@ function SettingsPage() {
         )}
 
         {/* Project Tab Content */}
+        {/* {activeTab === "project" && (
+          <FlexColStart className="w-auto">
+            
+          </FlexColStart>
+        )} */}
       </FlexColStart>
     </Layout>
   );
