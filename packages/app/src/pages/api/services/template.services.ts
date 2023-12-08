@@ -32,8 +32,6 @@ class TemplateService {
       },
     });
 
-    console.log({ _template });
-
     const totalInstall = _template.reduce(
       (acc, curr) => acc + curr.used_count,
       0
