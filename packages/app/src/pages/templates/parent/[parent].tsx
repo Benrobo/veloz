@@ -2,6 +2,7 @@
 import { PricingBadge } from "@/components/Badge";
 import {
   FlexColCenter,
+  FlexColEnd,
   FlexColStart,
   FlexRowCenter,
   FlexRowEnd,
@@ -123,7 +124,7 @@ function Page() {
       )}
 
       {parentTemplates && (
-        <FlexColStart className="w-full h-full px-5 py-4">
+        <FlexColStart className="w-full h-full overflow-y-scroll px-5 py-4 pb-[10em]">
           <FlexRowStart className="px-4 py-4">
             <Link
               href="/templates"
@@ -149,8 +150,15 @@ function Page() {
                 </p>
                 {/* Template description */}
                 <TemplateDetails name={parentName} />
+                <br />
+                <blockquote className="w-full bg-dark-200/50 px-3 py-3 border-l-solid border-l-[3px] border-l-orange-100 ">
+                  <p className="text-white-300 font-jbSB text-[13px]">
+                    Purchasing this template will give you access to all related
+                    templates listed.
+                  </p>
+                </blockquote>
               </FlexColStart>
-              <FlexColStart className="w-fit min-w-[250px]">
+              <FlexColStart className="w-fit min-w-[300px]">
                 <FlexRowEnd className="w-full">
                   {!alreadyPurchased && (
                     <Button
@@ -198,7 +206,7 @@ function Page() {
                   )}
 
                   <Link
-                    href={parentTemplate?.demo_url as string}
+                    href={parentTemplate?.demo?.live_url as string}
                     target="_blank"
                   >
                     <FlexRowStartCenter className="gap-2 w-[120px] px-5 py-[10px] bg-dark-200 rounded-[30px] scale-[.85] ">
@@ -209,37 +217,38 @@ function Page() {
                     </FlexRowStartCenter>
                   </Link>
                 </FlexRowEnd>
+
+                {/* Template cards */}
+                <FlexColStart className="w-full mt-4">
+                  <h1 className="text-white-100 text-[14px] font-jbEB">
+                    Templates
+                  </h1>
+                </FlexColStart>
+                <FlexColEnd className="w-full gap-2 flex-wrap">
+                  {childTemplates.length > 0 ? (
+                    childTemplates.map(
+                      (d) =>
+                        d.available && (
+                          <FineTunedCard
+                            name={d.name as FineTunedStacksName}
+                            pricing_plan={d.plan as any}
+                            stacks={extractFineTunedStack(d.tech_stacks)}
+                            available={d.available}
+                            label={d.label}
+                          />
+                        )
+                    )
+                  ) : (
+                    <FlexColCenter className="w-full h-full">
+                      <p className="text-white-100 font-jbSB text-[15px]">
+                        No templates found. Check back later.
+                      </p>
+                    </FlexColCenter>
+                  )}
+                </FlexColEnd>
               </FlexColStart>
             </FlexRowStartBtw>
-            <br />
-            <p className="text-white-300 font-jbR text-[12px]">
-              Buying this template will give you access to all the child
-              templates listed below.
-            </p>
           </FlexColStart>
-          <br />
-          <FlexRowStartBtw className="px-3 gap-2 flex-wrap">
-            {childTemplates.length > 0 ? (
-              childTemplates.map(
-                (d) =>
-                  d.available && (
-                    <FineTunedCard
-                      name={d.name as FineTunedStacksName}
-                      pricing_plan={d.plan as any}
-                      stacks={extractFineTunedStack(d.tech_stacks)}
-                      available={d.available}
-                      label={d.label}
-                    />
-                  )
-              )
-            ) : (
-              <FlexColCenter className="w-full h-full">
-                <p className="text-white-100 font-jbSB text-[15px]">
-                  No templates found. Check back later.
-                </p>
-              </FlexColCenter>
-            )}
-          </FlexRowStartBtw>
         </FlexColStart>
       )}
     </Layout>

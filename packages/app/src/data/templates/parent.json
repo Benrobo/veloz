@@ -7,7 +7,10 @@
     "pricing_plan": "BASIC_PKG",
     "available": true,
     "shop_url": "https://veloz.lemonsqueezy.com/checkout/buy/b341dd13-dd70-4829-9d59-fdace2b2e144",
-    "demo_url": "#"
+    "demo": {
+      "live_url": "",
+      "video_url": "https://www.youtube.com/watch?v=Q1L5rWcj8zg"
+    }
   },
   {
     "id": "athena_10294",
@@ -17,6 +20,9 @@
     "pricing_plan": "STANDARD_PKG",
     "available": false,
     "shop_url": "#",
-    "demo_url": "#"
+    "demo": {
+      "live_url": "",
+      "video_url": "#"
+    }
   }
 ]

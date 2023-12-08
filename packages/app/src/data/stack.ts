@@ -27,7 +27,10 @@ interface IPARENT_TEMPLATES {
   pricing_plan: TechStackPricingPlan;
   available: boolean;
   shop_url: string;
-  demo_url: string;
+  demo: {
+    live_url: string;
+    video_url: string;
+  };
 }
 
 export const PARENT_TEMPLATES = parent_templates as IPARENT_TEMPLATES[];
