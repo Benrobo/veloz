@@ -7,6 +7,7 @@ import {
 import Header from "@/components/Header";
 import Layout from "@/components/Layout";
 import HomeTopBar from "@/components/Navbar/HomeTopBar";
+import Why from "@/components/Why";
 import useScrollVisible from "@/hooks/useScrollVisible";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -16,9 +17,10 @@ export default function Home() {
   const scrollVisible = useScrollVisible();
 
   return (
-    <FlexColStart className="w-full h-screen min-h-screen bg-dark-105">
+    <FlexColStart className="w-full h-screen min-h-screen overflow-y-scroll bg-dark-105 scroll-smooth">
       <HomeTopBar scrollVisible={scrollVisible} />
       <Header />
+      <Why />
     </FlexColStart>
   );
 }
