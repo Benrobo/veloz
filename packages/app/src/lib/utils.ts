@@ -13,7 +13,7 @@ export function hasTemplateBeenPurchased(
   template_id: string,
   template_name: string
 ) {
-  if (items.length === 0) return false;
+  if (!items || items?.length === 0) return false;
   for (const item of items) {
     const template = PARENT_TEMPLATES.find(
       (t) =>
@@ -113,3 +113,6 @@ export function formatCurrency(number: number, currency: string) {
   });
   return formatter.format(number);
 }
+
+export const sleep = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
