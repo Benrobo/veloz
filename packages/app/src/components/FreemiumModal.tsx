@@ -15,9 +15,9 @@ interface FreemiumModalProps {
 function FreemiumModal({ price_plan, isOpen, onClose }: FreemiumModalProps) {
   const planTitle = {
     FREE_PKG: "Free Package",
-    BASIC_PKG: "Basic Package",
+    LITE_PKG: "Lite Package",
     STANDARD_PKG: "Standard Package",
-    ENTERPRISE_PKG: "Enterprise Package",
+    PRO_PKG: "Pro Package",
   };
 
   return (
