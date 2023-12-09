@@ -1,4 +1,4 @@
-import Features from "@/components/Features";
+import Features from "@/components/Landing/Features";
 import {
   FlexColCenter,
   FlexColStart,
@@ -8,21 +8,20 @@ import {
 import Header from "@/components/Header";
 import Layout from "@/components/Layout";
 import HomeTopBar from "@/components/Navbar/HomeTopBar";
-import Why from "@/components/Why";
+import Why from "@/components/Landing/Why";
 import useScrollVisible from "@/hooks/useScrollVisible";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
-import { useState } from "react";
+import Overview from "@/components/Landing/Overview";
 
 export default function Home() {
   const scrollVisible = useScrollVisible();
 
   return (
-    <FlexColStart className="w-full h-screen min-h-screen overflow-y-scroll bg-dark-105 scroll-smooth">
+    <FlexColStart className="w-full h-screen min-h-screen overflow-y-scroll bg-dark-103 scroll-smooth">
       <HomeTopBar scrollVisible={scrollVisible} />
       <Header />
-      <Why />
+      {/* <Why /> */}
       <Features />
+      <Overview />
     </FlexColStart>
   );
 }
