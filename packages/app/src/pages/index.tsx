@@ -1,3 +1,4 @@
+import Features from "@/components/Features";
 import {
   FlexColCenter,
   FlexColStart,
@@ -21,6 +22,7 @@ export default function Home() {
       <HomeTopBar scrollVisible={scrollVisible} />
       <Header />
       <Why />
+      <Features />
     </FlexColStart>
   );
 }
