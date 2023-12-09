@@ -54,8 +54,8 @@ export function parseEnvString(envString: string) {
 
 export function getPlanTitle(plan: TechStackPricingPlan) {
   switch (plan) {
-    case "FREE_PKG":
-      return "Free";
+    // case "FREE_PKG":
+    //   return "Free";
     case "LITE_PKG":
       return "Lite";
     case "PRO_PKG":
@@ -66,10 +66,10 @@ export function getPlanTitle(plan: TechStackPricingPlan) {
 export const planColor = (plan: TechStackPricingPlan) => {
   let txtColor = "",
     bgColor = "";
-  if (plan === "FREE_PKG") {
-    txtColor = "text-green-100";
-    bgColor = "bg-green-100";
-  }
+  // if (plan === "FREE_PKG") {
+  //   txtColor = "text-green-100";
+  //   bgColor = "bg-green-100";
+  // }
   if (plan === "LITE_PKG") {
     txtColor = "text-blue-100";
     bgColor = "bg-blue-100";

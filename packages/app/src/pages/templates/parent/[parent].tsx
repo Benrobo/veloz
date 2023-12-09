@@ -108,7 +108,7 @@ function Page() {
   }
 
   const alreadyPurchased =
-    parentTemplate?.pricing_plan === "FREE_PKG" ||
+    // parentTemplate?.pricing_plan === "FREE_PKG" ||
     hasTemplateBeenPurchased(
       purchasedTemplates,
       parentTemplate?.id as string,

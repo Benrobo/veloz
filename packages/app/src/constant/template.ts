@@ -11,14 +11,6 @@ type TEMPLATE_PLAN_TYPE = {
 
 export const TEMPLATES_PRICING_MODEL = [
   {
-    plan: "FREE_PKG",
-    pricing: {
-      currency: "USD",
-      currency_symbol: "$",
-      price: 0,
-    },
-  },
-  {
     plan: "LITE_PKG",
     pricing: {
       currency: "USD",
