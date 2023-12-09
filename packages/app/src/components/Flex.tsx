@@ -109,6 +109,20 @@ export function FlexRowEnd({ children, className, ...props }: FlexProps) {
   );
 }
 
+export function FlexRowEndCenter({ children, className, ...props }: FlexProps) {
+  return (
+    <div
+      className={twMerge(
+        "w-auto flex items-center justify-end gap-3",
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
 export function FlexRowStartBtw({ children, className, ...props }: FlexProps) {
   return (
     <div
