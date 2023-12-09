@@ -11,7 +11,7 @@ import HomeTopBar from "@/components/Navbar/HomeTopBar";
 import Why from "@/components/Landing/Why";
 import useScrollVisible from "@/hooks/useScrollVisible";
 import Overview from "@/components/Landing/Overview";
-import Pricing from "@/components/Landing/Pricing";
+import StarterKits from "@/components/Landing/StarterKit";
 
 export default function Home() {
   const scrollVisible = useScrollVisible();
@@ -23,7 +23,7 @@ export default function Home() {
       {/* <Why /> */}
       <Features />
       <Overview />
-      <Pricing />
+      <StarterKits />
     </FlexColStart>
   );
 }
