@@ -10,6 +10,9 @@
     "demo": {
       "live_url": "",
       "video_url": "https://www.youtube.com/watch?v=Q1L5rWcj8zg"
+    },
+    "discount": {
+      "amount": 100
     }
   },
   {
@@ -23,6 +26,7 @@
     "demo": {
       "live_url": "",
       "video_url": "#"
-    }
+    },
+    "discount": null
   }
 ]
