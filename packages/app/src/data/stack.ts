@@ -31,6 +31,9 @@ interface IPARENT_TEMPLATES {
     live_url: string;
     video_url: string;
   };
+  discount: {
+    amount: number;
+  } | null;
 }
 
 export const PARENT_TEMPLATES = parent_templates as IPARENT_TEMPLATES[];
