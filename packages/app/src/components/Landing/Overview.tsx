@@ -25,7 +25,7 @@ const overviewData = [
     desc: "Our templates are built with a flexible architecture that allows you to use any framework of your choice.",
   },
   {
-    title: "Ready for Deployment",
+    title: "Production Ready",
     key: "Apex",
     desc: "Veloz is pre-configured with everything you need to deploy your app to production.",
   },
