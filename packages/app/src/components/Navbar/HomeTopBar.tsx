@@ -7,9 +7,9 @@ import { useUser } from "@clerk/nextjs";
 
 const navigations = [
   {
-    link: "#",
+    link: "#starter-kits",
     visible: true,
-    title: "Pricing",
+    title: "Starter Kits",
   },
   {
     link: "#",
@@ -34,7 +34,7 @@ type Props = {
 
 function HomeTopBar({ scrollVisible }: Props) {
   const { isLoaded, user } = useUser();
-  const [activeTab, setActiveTab] = useState("pricing");
+  const [activeTab, setActiveTab] = useState("");
 
   return (
     <FlexRowCenterBtw
