@@ -57,8 +57,6 @@ function Features() {
   ];
   const _stackWithWhiteBg = ["nextjs"];
 
-  console.log(_features);
-
   return (
     <FlexColCenter className="relative w-full h-auto md:h-screen py-[10em] bg-dark-103 ">
       <FlexColCenter className="text-center w-full h-full md:max-w-[60%]">
@@ -111,7 +109,7 @@ function Features() {
             </FlexColStart>
 
             {/* Stacks Section */}
-            <FlexRowStart className="w-full md:min-h-[250px] lg:min-h-[250px] flex-wrap mt-9 gap-9">
+            <FlexRowStart className="w-full h-0 flex-wrap mt-9 gap-9">
               {_features?.includeStacks &&
                 _activeStacks.map((d, i) => (
                   <FlexColCenter

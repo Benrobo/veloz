@@ -11,7 +11,7 @@ function Header() {
   return (
     <FlexColStartCenter className="relative w-full h-screen min-h-screen overflow-hidden pattern-bg border-b-solid border-b-[1px] border-b-gray-100/30 ">
       {/* Blur radius */}
-      <BlurBgRadial className=" w-[100%] lg:w-[60%] h-[300px] absolute top-[10%] lg:top-[-10%] bg-white-300 " />
+      <BlurBgRadial className=" w-[100%] lg:w-[60%] h-[300px] absolute top-[10%] lg:top-[-10%] bg-white-300/10 " />
       <FlexColCenter className="relative w-full h-auto mt-[10em] text-center">
         <FlexRowCenter className="rainbowBorder mb-10 inline-flex items-center justify-center text-[14px] ">
           <span className="inline-flex items-center gap-1 whitespace-nowrap px-6 py-2 bg-dark-105 font-ppReg text-[12px] text-white-100">
