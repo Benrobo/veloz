@@ -6,6 +6,7 @@ export type TechStackCategory =
   | "payment"
   | "database"
   | "mailing"
+  | "seo"
   | "authentication";
 
 export enum ProjectOption {
