@@ -19,23 +19,15 @@ export const TEMPLATES_PRICING_MODEL = [
     },
   },
   {
-    plan: "BASIC_PKG",
+    plan: "LITE_PKG",
     pricing: {
       currency: "USD",
       currency_symbol: "$",
-      price: 150,
+      price: 399,
     },
   },
   {
-    plan: "STANDARD_PKG",
-    pricing: {
-      currency: "USD",
-      currency_symbol: "$",
-      price: 299,
-    },
-  },
-  {
-    plan: "ENTERPRISE_PKG",
+    plan: "PRO_PKG",
     pricing: {
       currency: "USD",
       currency_symbol: "$",

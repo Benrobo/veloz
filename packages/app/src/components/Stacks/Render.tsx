@@ -8,8 +8,6 @@ import {
   GENERAL_STACK_VALUE,
   TechStackCategory,
 } from "@veloz/shared/types";
-import { cn, isUserEligibleForStack } from "@/lib/utils";
-import { DataContext } from "@/context/DataContext";
 import { StackImages } from "@/data/images";
 
 interface RenderStacksProps {
@@ -27,7 +25,10 @@ const stackWithExtendedHeight = [
   "golang",
   "laravel",
   "nodejs",
-  "nextjs-api",
+  "prisma",
+  "mongodb",
+  "postgresql",
+  "typescript",
 ];
 
 function RenderStacks({ tech_stacks, category }: RenderStacksProps) {
@@ -61,7 +62,9 @@ function RenderStacks({ tech_stacks, category }: RenderStacksProps) {
                 ? 50
                 : stack.key === "lemonsqueezy"
                   ? 120
-                  : 30
+                  : stack.key === "nextjs"
+                    ? 50
+                    : 30
             }
             height={0}
             alt={stack.key}

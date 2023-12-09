@@ -2,11 +2,15 @@
   {
     "id": "zeus_11209",
     "name": "Zeus",
-    "image": "/images/templates/zeus.jpeg",
+    "image": "/images/templates/thumbnails/zeus.svg",
     "tagline": "Turbocharge Your Indie Hacker Journey",
-    "pricing_plan": "BASIC_PKG",
+    "pricing_plan": "LITE_PKG",
     "available": true,
-    "shop_url": "https://veloz.lemonsqueezy.com/checkout/buy/b341dd13-dd70-4829-9d59-fdace2b2e144"
+    "shop_url": "https://veloz.lemonsqueezy.com/checkout/buy/b341dd13-dd70-4829-9d59-fdace2b2e144",
+    "demo": {
+      "live_url": "",
+      "video_url": "https://www.youtube.com/watch?v=Q1L5rWcj8zg"
+    }
   },
   {
     "id": "athena_10294",
@@ -15,6 +19,10 @@
     "tagline": "Empowering Indies, One Kit at a Time",
     "pricing_plan": "STANDARD_PKG",
     "available": false,
-    "shop_url": "#"
+    "shop_url": "#",
+    "demo": {
+      "live_url": "",
+      "video_url": "#"
+    }
   }
 ]

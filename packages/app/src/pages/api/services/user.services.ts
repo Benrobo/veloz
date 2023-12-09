@@ -5,6 +5,9 @@ import { _checkGhTokenValidity, _refreshGhToken } from "../lib/utils";
 import shortUUID from "short-uuid";
 import prisma from "../config/prisma";
 import HttpException from "../lib/exception";
+import nextRouteZodValidation from "../lib/nextRouteZodValidation";
+import { addTemplateCollaboratorSchema } from "../lib/validationSchema";
+import { PARENT_TEMPLATES } from "@/data/stack";
 
 class UserService {
   async getInfo(req: NextApiRequest, res: NextApiResponse) {
@@ -92,6 +95,102 @@ class UserService {
       res,
       RESPONSE_CODE.SUCCESS,
       `Successfully rotated token`,
+      200
+    );
+  }
+
+  // add user as collaborator to a template/templates
+  async addTemplateCollaborator(req: NextApiRequest, res: NextApiResponse) {
+    const userId = (req as any)?.user?.id;
+    const { templates, collaborators } = req.body;
+
+    // validate schema
+    const isValidated = nextRouteZodValidation(
+      addTemplateCollaboratorSchema,
+      req,
+      res
+    );
+    if (!isValidated) {
+      throw new HttpException(
+        RESPONSE_CODE.VALIDATION_ERROR,
+        `Validation error`,
+        400
+      );
+    }
+
+    // check if user has purchased template
+    const purchasedTemplate = await prisma.purchasedItem.findMany({
+      where: { uId: userId },
+    });
+
+    // if the user has none purchased, then they can't add collaborators to a template
+    if (purchasedTemplate.length === 0) {
+      throw new HttpException(
+        RESPONSE_CODE.NOT_ELIGIBLE,
+        `Not eligible to add collaborators to a template`,
+        400
+      );
+    }
+
+    // check if collaborators exists
+    if (collaborators.length === 0) {
+      throw new HttpException(
+        RESPONSE_CODE.NOT_ELIGIBLE,
+        `No collaborators provided`,
+        400
+      );
+    }
+
+    for (const collaborator of collaborators) {
+      const user = await prisma.user.findFirst({
+        where: { uId: collaborator },
+      });
+      if (!user) {
+        throw new HttpException(
+          RESPONSE_CODE.USER_NOT_FOUND,
+          `One of the Collaborator was not found`,
+          404
+        );
+      }
+    }
+
+    // check if templates exists
+    if (templates.length === 0) {
+      throw new HttpException(
+        RESPONSE_CODE.NOT_ELIGIBLE,
+        `No templates provided`,
+        400
+      );
+    }
+
+    for (const template of templates) {
+      const temp = PARENT_TEMPLATES.find((t) => t.id === template);
+      if (!temp) {
+        throw new HttpException(
+          RESPONSE_CODE.TEMPLATE_NOT_FOUND,
+          `One of the template was not found`,
+          404
+        );
+      }
+    }
+
+    // add collaborators to templates
+    for (const template of templates) {
+      for (const collaborator of collaborators) {
+        await prisma.collaboratedTemplates.create({
+          data: {
+            template_id: template,
+            sender_id: userId,
+            receiver_id: collaborator,
+          },
+        });
+      }
+    }
+
+    sendResponse.success(
+      res,
+      RESPONSE_CODE.SUCCESS,
+      `Successfully added collaborators`,
       200
     );
   }

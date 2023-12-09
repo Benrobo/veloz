@@ -2,8 +2,10 @@
 import { PricingBadge } from "@/components/Badge";
 import {
   FlexColCenter,
+  FlexColEnd,
   FlexColStart,
   FlexRowCenter,
+  FlexRowEnd,
   FlexRowStart,
   FlexRowStartBtw,
   FlexRowStartCenter,
@@ -106,11 +108,12 @@ function Page() {
   }
 
   const alreadyPurchased =
+    parentTemplate?.pricing_plan === "FREE_PKG" ||
     hasTemplateBeenPurchased(
       purchasedTemplates,
       parentTemplate?.id as string,
       parentTemplate?.name as string
-    ) || parentTemplate?.pricing_plan === "FREE_PKG";
+    );
 
   return (
     <Layout activePage="templates">
@@ -121,7 +124,7 @@ function Page() {
       )}
 
       {parentTemplates && (
-        <FlexColStart className="w-full h-full px-5 py-4">
+        <FlexColStart className="w-full h-full overflow-y-scroll px-5 py-4 pb-[10em]">
           <FlexRowStart className="px-4 py-4">
             <Link
               href="/templates"
@@ -136,9 +139,9 @@ function Page() {
               </span>
             </Link>
           </FlexRowStart>
-          <FlexColStart className="w-full px-3">
+          <FlexColStart className="w-full px-5">
             <FlexRowStartBtw className="w-full">
-              <FlexColStart className="w-full">
+              <FlexColStart className="w-full mr-3">
                 <h1 className="text-white-100 font-jbEB text-2xl">
                   {parentName}
                 </h1>
@@ -147,83 +150,106 @@ function Page() {
                 </p>
                 {/* Template description */}
                 <TemplateDetails name={parentName} />
+                <br />
+                <blockquote className="w-full bg-dark-200/50 px-3 py-3 border-l-solid border-l-[3px] border-l-orange-100 ">
+                  <p className="text-white-300 font-jbSB text-[13px]">
+                    Purchasing this template will give you access to all related
+                    templates listed.
+                  </p>
+                </blockquote>
               </FlexColStart>
-              <FlexColStart className="w-fit">
-                {!alreadyPurchased && (
-                  <Button
-                    variant={"primary"}
-                    className={cn(
-                      "w-fit min-w-[190px] rounded-[30px] font-ppSB text-[15px] gap-2",
-                      createCheckoutMut.isPending
-                        ? "bg-purple-100/50 hover:cursor-not-allowed"
-                        : "premium-button"
-                    )}
-                    onClick={() => {
-                      const parentTempId = parentTemplate?.id as string;
-                      createCheckoutMut.mutate(parentTempId);
-                    }}
-                    disabled={createCheckoutMut.isPending}
-                  >
-                    {createCheckoutMut.isPending ? (
-                      <FlexRowCenter className="w-full py-10">
-                        <Spinner color="#fff" size={16} />
-                      </FlexRowCenter>
-                    ) : (
-                      <>
-                        <Zap size={15} />{" "}
-                        <span className="text-[13px]">Buy Now</span>{" "}
-                        {formatCurrency(
-                          pricingModel?.pricing.price as number,
-                          pricingModel?.pricing.currency as string
-                        )}
-                      </>
-                    )}
-                  </Button>
-                )}
+              <FlexColStart className="w-fit h-full min-w-[320px]  ">
+                <FlexRowEnd className="w-full">
+                  {!alreadyPurchased && (
+                    <Button
+                      variant={"primary"}
+                      className={cn(
+                        "w-fit min-w-[190px] rounded-[30px] font-ppSB text-[15px] gap-2",
+                        createCheckoutMut.isPending
+                          ? "bg-purple-100/50 hover:cursor-not-allowed"
+                          : "premium-button"
+                      )}
+                      onClick={() => {
+                        const parentTempId = parentTemplate?.id as string;
+                        createCheckoutMut.mutate(parentTempId);
+                      }}
+                      disabled={createCheckoutMut.isPending}
+                    >
+                      {createCheckoutMut.isPending ? (
+                        <FlexRowCenter className="w-full py-10">
+                          <Spinner color="#fff" size={16} />
+                        </FlexRowCenter>
+                      ) : (
+                        <>
+                          <Zap size={15} />{" "}
+                          <span className="text-[13px]">Buy Now</span>{" "}
+                          {formatCurrency(
+                            pricingModel?.pricing.price as number,
+                            pricingModel?.pricing.currency as string
+                          )}
+                        </>
+                      )}
+                    </Button>
+                  )}
 
-                {alreadyPurchased && (
-                  <FlexRowStartCenter className="gap-1 w-auto px-5 py-[10px] bg-dark-200 rounded-[30px] scale-[.85] ">
-                    <CheckCheck
-                      size={15}
-                      strokeWidth={"3px"}
-                      className="text-orange-100"
-                    />
-                    <span className="text-orange-100 font-jbEB text-[11px] ">
-                      Purchased
-                    </span>
-                  </FlexRowStartCenter>
-                )}
+                  {alreadyPurchased && (
+                    <FlexRowStartCenter className="gap-1 w-auto px-5 py-[10px] bg-dark-200 rounded-[30px] scale-[.85] ">
+                      <CheckCheck
+                        size={15}
+                        strokeWidth={"3px"}
+                        className="text-orange-100"
+                      />
+                      <span className="text-orange-100 font-jbEB text-[11px] ">
+                        Purchased
+                      </span>
+                    </FlexRowStartCenter>
+                  )}
+
+                  <Link
+                    href={parentTemplate?.demo?.live_url as string}
+                    target="_blank"
+                  >
+                    <FlexRowStartCenter className="gap-2 w-[120px] px-5 py-[10px] bg-dark-200 rounded-[30px] scale-[.85] ">
+                      <span className="p-[5px] rounded-[50%] bg-green-400 "></span>
+                      <span className="text-orange-100 underline font-jbEB text-[11px] ">
+                        Live Demo
+                      </span>
+                    </FlexRowStartCenter>
+                  </Link>
+                </FlexRowEnd>
+
+                {/* Template cards */}
+                <FlexColCenter className="w-full mt-4">
+                  {/* <h1 className="text-white-100 text-[14px] font-jbEB">
+                    Templates
+                  </h1> */}
+                </FlexColCenter>
+                <FlexColEnd className="w-full gap-2 flex-wrap">
+                  {childTemplates.length > 0 ? (
+                    childTemplates.map(
+                      (d) =>
+                        d.available && (
+                          <FineTunedCard
+                            name={d.name as FineTunedStacksName}
+                            pricing_plan={d.plan as any}
+                            stacks={extractFineTunedStack(d.tech_stacks)}
+                            available={d.available}
+                            label={d.label}
+                            tagline={d.tagline}
+                          />
+                        )
+                    )
+                  ) : (
+                    <FlexColCenter className="w-full h-full">
+                      <p className="text-white-100 font-jbSB text-[15px]">
+                        No templates found. Check back later.
+                      </p>
+                    </FlexColCenter>
+                  )}
+                </FlexColEnd>
               </FlexColStart>
             </FlexRowStartBtw>
-            <br />
-            <p className="text-white-300 font-jbR text-[12px]">
-              Buying this template will give you access to all the child
-              templates listed below.
-            </p>
           </FlexColStart>
-          <br />
-          <FlexRowStartBtw className="px-3 gap-2 flex-wrap">
-            {childTemplates.length > 0 ? (
-              childTemplates.map(
-                (d) =>
-                  d.available && (
-                    <FineTunedCard
-                      name={d.name as FineTunedStacksName}
-                      pricing_plan={d.plan as any}
-                      stacks={extractFineTunedStack(d.tech_stacks)}
-                      available={d.available}
-                      label={d.label}
-                    />
-                  )
-              )
-            ) : (
-              <FlexColCenter className="w-full h-full">
-                <p className="text-white-100 font-jbSB text-[15px]">
-                  No templates found. Check back later.
-                </p>
-              </FlexColCenter>
-            )}
-          </FlexRowStartBtw>
         </FlexColStart>
       )}
     </Layout>
@@ -238,6 +264,7 @@ interface FineTunedCardProps {
   stacks: string[];
   available: boolean;
   label: ProjectType;
+  tagline: string;
 }
 
 function FineTunedCard({
@@ -246,6 +273,7 @@ function FineTunedCard({
   stacks,
   label,
   available,
+  tagline,
 }: FineTunedCardProps) {
   const max_stack = 5;
   const stack_count = stacks.length;
@@ -269,7 +297,7 @@ function FineTunedCard({
                 {name}
               </p>
               <p className="text-white-300 leading-none text-[11px] font-jbSB">
-                Fine-tuned stack.
+                {tagline}
               </p>
             </FlexColStart>
           </FlexRowStart>

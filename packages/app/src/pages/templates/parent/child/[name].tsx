@@ -20,7 +20,7 @@ import { getLastUpdated, getTemplateConsumption } from "@/lib/http/requests";
 import { ResponseData } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { FineTunedStacksName, TechStackPricingPlan } from "@veloz/shared/types";
-import { ArrowDownFromLine, ArrowLeftToLine } from "lucide-react";
+import { ArrowDownFromLine, ArrowLeftToLine, MoveRight } from "lucide-react";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import React, { ReactElement, useEffect } from "react";
@@ -144,6 +144,20 @@ function ProjectTemplate() {
                   {d}
                 </p>
               ))}
+              <br />
+              <FlexColStart className="w-auto min-w-[200px] rounded-sm bg-[#000] font-mono px-7 py-3 gap-0">
+                <span className="text-white-400/50 font-jbR text-[12px] ">
+                  # Run the code snippet below to install the template
+                </span>
+                <FlexRowStartCenter className="">
+                  <span className="text-green-400 text-[10px] flex items-center justify-center">
+                    ~/
+                  </span>
+                  <span className="text-white-100 font-jbEB text-[12px] ">
+                    veeloz use {stackDetails?.name.toLowerCase()}
+                  </span>
+                </FlexRowStartCenter>
+              </FlexColStart>
               <br />
               <FlexRowStartCenter className="w-auto">
                 <span className="text-white-300 text-[12px] font-jbSB">

@@ -10,6 +10,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { getProjects, getTemplates } from "@/lib/http/requests";
 import {
+  FlexColCenter,
   FlexColStart,
   FlexColStartCenter,
   FlexRowCenter,
@@ -29,18 +30,19 @@ import { PricingBadge } from "@/components/Badge";
 import TemplateCard from "@/components/Templates/TemplateCard";
 import { ResponseData, ReturnedTemplatesType } from "@/types";
 import toast from "react-hot-toast";
+import usePageActive from "@/hooks/usePageActive";
+import { get } from "http";
 
 function Templates() {
-  const { setSelectedFinetunedStack, selectedFinetunedStack } =
-    useContext(ProjectContext);
+  const {} = useContext(ProjectContext);
   const [templates, setTemplates] = useState<ReturnedTemplatesType[]>([]);
-
   const getTemplatesQuery = useQuery({
     queryKey: ["getTemplates"],
     queryFn: async () => await getTemplates(),
   });
 
-  const [parentTemplates, setParentTemplates] = useState(PARENT_TEMPLATES);
+  // refetch templates when page is active
+  // usePageActive({ fn: () => getTemplatesQuery.refetch(), log: true });
 
   useEffect(() => {
     if (getTemplatesQuery.error) {
@@ -84,6 +86,16 @@ function Templates() {
           {!getTemplatesQuery.isPending &&
             templates.length > 0 &&
             templates.map((d) => (
+              // <TemplateCard
+              //   name={d.name}
+              //   id={d.id}
+              //   tagline={d.tagline}
+              //   pricing_plan={d.pricing_plan}
+              //   userImages={d.users.images}
+              //   thumbnail={d.image}
+              //   key={d.id}
+              // />
+
               <TemplateCard
                 name={d.name}
                 id={d.id}

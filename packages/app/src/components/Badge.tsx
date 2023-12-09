@@ -15,11 +15,11 @@ export function PricingBadge({ pricing_plan }: PricingBadgeProps) {
           "text-[12px] font-ppB text-white-100"
           // pricing_plan === "FREE_PKG"
           //   ? "text-white-100"
-          //   : pricing_plan === "BASIC_PKG"
+          //   : pricing_plan === "LITE_PKG"
           //     ? "text-blue-100"
           //     : pricing_plan === "STANDARD_PKG"
           //       ? "text-orange-100"
-          //       : pricing_plan === "ENTERPRISE_PKG"
+          //       : pricing_plan === "PRO_PKG"
           //         ? "text-pink-100"
           //         : ""
         )}
@@ -29,7 +29,7 @@ export function PricingBadge({ pricing_plan }: PricingBadgeProps) {
       {pricing_plan !== "FREE_PKG" ? (
         <Image
           src={
-            pricing_plan === "STANDARD_PKG"
+            pricing_plan === "LITE_PKG"
               ? "/images/diamond.png"
               : "/images/diamond-2.png"
           }

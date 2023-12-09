@@ -1,5 +1,6 @@
 import React from "react";
-import { FlexColStart } from "../Flex";
+import { FlexColCenter, FlexColStart } from "../Flex";
+import { PARENT_TEMPLATES } from "@/data/stack";
 
 type Props = {
   name: string;
@@ -7,11 +8,17 @@ type Props = {
 
 function TemplateDetails({ name }: Props) {
   let component = null;
+  const templateInfo = PARENT_TEMPLATES.find(
+    (t) => t.name.toLowerCase() === name.toLowerCase()
+  );
+  const videoUrl = templateInfo?.demo.video_url;
+  const videoId = videoUrl?.split("v=")[1];
+
   if (name.toLowerCase() === "zeus") {
-    component = <ZeusDetails />;
+    component = <ZeusDetails video={videoUrl} videoId={videoId} />;
   }
   if (name.toLowerCase() === "athena") {
-    component = <AthenaDetails />;
+    component = <AthenaDetails video={videoUrl} videoId={videoId} />;
   }
 
   return component;
@@ -19,9 +26,25 @@ function TemplateDetails({ name }: Props) {
 
 export default TemplateDetails;
 
-function ZeusDetails() {
+type TemplateDetailsProps = {
+  video?: string;
+  videoId?: string;
+};
+
+function ZeusDetails({ video, videoId }: TemplateDetailsProps) {
   return (
     <FlexColStart className="w-full">
+      <FlexColCenter className="w-full">
+        <iframe
+          className="w-full"
+          width="560"
+          height="415"
+          src={`https://www.youtube.com/embed/${videoId}`}
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        ></iframe>
+      </FlexColCenter>
+      <br />
       <p className="text-white-300 font-jbSB text-[13px]">
         You're passionate about <Kbd>Next.js</Kbd> (<Kbd>Typescript</Kbd>,{" "}
         <Kbd>Javascript</Kbd>), and your goal is to accelerate your project
@@ -36,7 +59,7 @@ function ZeusDetails() {
   );
 }
 
-function AthenaDetails() {
+function AthenaDetails({ video }: TemplateDetailsProps) {
   return (
     <FlexColStart className="w-full">
       <p className="text-white-300 font-jbSB text-[13px]">

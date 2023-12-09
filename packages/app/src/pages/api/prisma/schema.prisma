@@ -22,13 +22,16 @@ model User {
     role        Role     @default(user)
     isTester    Boolean  @default(false)
     veloz_token String
+    veloz_plan  String?  @default("FREE_PKG")
     gh_username String?
     createdAt   DateTime @default(now())
 
-    templateConsumption TemplateConsumption[]
-    purchasedItem       PurchasedItem[]
-    order               Order[]
-    invites             Invites[]
+    templateConsumption    TemplateConsumption[]
+    purchasedItem          PurchasedItem[]
+    order                  Order[]
+    invites                Invites[]
+    templateInviteSent     CollaboratedTemplates[] @relation("SENDER")
+    templateInviteReceived CollaboratedTemplates[] @relation("RECEIVER")
 }
 
 model TemplateConsumption {
@@ -68,6 +71,7 @@ model Order {
     user User @relation(fields: [uId], references: [uId], onDelete: Cascade)
 }
 
+// github invites
 model Invites {
     id            String   @id @default(auto()) @map("_id") @db.ObjectId
     uId           String
@@ -77,4 +81,17 @@ model Invites {
     createdAt     DateTime @default(now())
 
     user User @relation(fields: [uId], references: [uId], onDelete: Cascade)
+}
+
+model CollaboratedTemplates {
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    template_id String
+    sender_id   String
+    receiver_id String
+    status      String   @default("pending")
+    revoked     Boolean  @default(false)
+    createdAt   DateTime @default(now())
+
+    sender   User @relation(name: "SENDER", fields: [sender_id], references: [uId], onDelete: Cascade)
+    receiver User @relation(name: "RECEIVER", fields: [receiver_id], references: [uId], onDelete: Cascade)
 }

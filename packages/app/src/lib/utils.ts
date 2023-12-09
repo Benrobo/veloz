@@ -13,7 +13,7 @@ export function hasTemplateBeenPurchased(
   template_id: string,
   template_name: string
 ) {
-  if (items.length === 0) return false;
+  if (!items || items?.length === 0) return false;
   for (const item of items) {
     const template = PARENT_TEMPLATES.find(
       (t) =>
@@ -56,12 +56,10 @@ export function getPlanTitle(plan: TechStackPricingPlan) {
   switch (plan) {
     case "FREE_PKG":
       return "Free";
-    case "BASIC_PKG":
-      return "Basic";
-    case "STANDARD_PKG":
-      return "Standard";
-    case "ENTERPRISE_PKG":
-      return "Enterprise";
+    case "LITE_PKG":
+      return "Lite";
+    case "PRO_PKG":
+      return "Pro";
   }
 }
 
@@ -72,15 +70,11 @@ export const planColor = (plan: TechStackPricingPlan) => {
     txtColor = "text-green-100";
     bgColor = "bg-green-100";
   }
-  if (plan === "BASIC_PKG") {
+  if (plan === "LITE_PKG") {
     txtColor = "text-blue-100";
     bgColor = "bg-blue-100";
   }
-  if (plan === "STANDARD_PKG") {
-    txtColor = "text-orange-100";
-    bgColor = "bg-orange-100";
-  }
-  if (plan === "ENTERPRISE_PKG") {
+  if (plan === "PRO_PKG") {
     txtColor = "text-pink-100";
     bgColor = "bg-pink-100";
   }
@@ -113,3 +107,6 @@ export function formatCurrency(number: number, currency: string) {
   });
   return formatter.format(number);
 }
+
+export const sleep = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));

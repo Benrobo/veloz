@@ -21,7 +21,7 @@ export const ProjectLabels = [
 ];
 
 export const TechPricingPlans = [
-  "BASIC_PKG",
-  "ENTERPRISE_PKG",
+  "LITE_PKG",
+  "PRO_PKG",
   "STANDARD_PKG",
 ] as TechStackPricingPlan[];
