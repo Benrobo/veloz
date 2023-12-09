@@ -16,7 +16,7 @@ export enum ProjectOption {
 
 export type VelozProjectOption = keyof typeof ProjectOption;
 
-export type TechStackPricingPlan = "FREE_PKG" | "LITE_PKG" | "PRO_PKG";
+export type TechStackPricingPlan = "LITE_PKG" | "PRO_PKG";
 
 export type SupportedArchitecture = "monolith" | "monorepo";
 
