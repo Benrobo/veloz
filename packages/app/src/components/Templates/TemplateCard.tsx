@@ -42,12 +42,12 @@ function TemplateCard({
   );
 
   const alreadyPurchased =
-    pricing_plan === "FREE_PKG" ||
+    // pricing_plan === "FREE_PKG" ||
     hasTemplateBeenPurchased(purchasedTemplates, id, name);
 
   return (
     <FlexColStart className="w-fit max-w-[450px] h-auto min-h-[300px] gap-0  rounded-md overflow-hidden scale-[.90] translate-x-[-20px] ">
-      <div
+      {/* <div
         className="w-full rounded-[10px] group overflow-hidden border-solid border-[.9px] border-gray-100/20 transition-all "
         style={{
           backgroundImage: `url(${thumbnail})`,
@@ -57,7 +57,14 @@ function TemplateCard({
           height: "250px",
           width: "450px",
         }}
-      ></div>
+      ></div> */}
+      <Image
+        src={thumbnail}
+        alt="template"
+        width={450}
+        height={250}
+        className="rounded-md"
+      />
       <br />
       <FlexRowCenterBtw className="w-full px-1">
         <FlexColStart className="w-full">
@@ -68,9 +75,7 @@ function TemplateCard({
         </FlexColStart>
         <FlexRowEnd className="w-auto">
           <h1 className="text-white-100 text-2xl font-jbEB">
-            {pricing_plan === "FREE_PKG" ? (
-              "Free"
-            ) : alreadyPurchased ? (
+            {alreadyPurchased ? (
               <FlexRowStartCenter className="gap-1 w-auto px-5 py-[3px] bg-dark-200 rounded-[30px] scale-[.85] ">
                 <CheckCheck
                   size={15}
