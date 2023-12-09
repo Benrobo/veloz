@@ -43,8 +43,8 @@ function HomeTopBar({ scrollVisible }: Props) {
         scrollVisible ? "bg-dark-200/50 fixed top-0 left-0" : "absolute"
       )}
     >
-      <FlexRowCenter className="w-full gap-5">
-        <FlexRowCenter className="w-full min-w-[100px]">
+      <FlexRowCenter className="md:w-full gap-5">
+        <FlexRowCenter className="w-full md:min-w-[100px]">
           <Image
             src={"/images/logo/logo.png"}
             width={30}
@@ -54,7 +54,7 @@ function HomeTopBar({ scrollVisible }: Props) {
           <p className="text-white-100 font-ppEB">Veloz</p>
         </FlexRowCenter>
       </FlexRowCenter>
-      <FlexRowCenter className="w-full gap-5 transition-all">
+      <FlexRowCenter className="w-full hidden md:flex gap-5 transition-all">
         {navigations
           .filter((n) => n.visible)
           .map((n) => (
@@ -72,7 +72,7 @@ function HomeTopBar({ scrollVisible }: Props) {
             </Link>
           ))}
       </FlexRowCenter>
-      <FlexRowEnd className="w-full">
+      <FlexRowEnd className="w-full hidden md:flex ">
         <Link
           href="/dashboard"
           className={cn(
