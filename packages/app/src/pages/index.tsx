@@ -12,6 +12,7 @@ import Why from "@/components/Landing/Why";
 import useScrollVisible from "@/hooks/useScrollVisible";
 import Overview from "@/components/Landing/Overview";
 import StarterKits from "@/components/Landing/StarterKit";
+import TemplateSection from "@/components/Landing/Template";
 
 export default function Home() {
   const scrollVisible = useScrollVisible();
@@ -24,6 +25,7 @@ export default function Home() {
       <Features />
       <Overview />
       <StarterKits />
+      <TemplateSection />
     </FlexColStart>
   );
 }

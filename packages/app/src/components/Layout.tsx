@@ -38,53 +38,20 @@ function Layout({ children, activePage, className }: LayoutProps) {
 
 export default Layout;
 
-// export function ComponentLayout({
-//   children,
-// }: {
-//   children: React.ReactElement;
-// }) {
-//   const { activePage } = useContext(LayoutContext);
-//   const [pathname, setPathname] = useState("");
-//   // pages that uses the default Layout
-//   const validPages = [
-//     "dashboard",
-//     "billing",
-//     "templates/create",
-//     "settings",
-//     pathname.includes("templates") && pathname,
-//   ];
+interface KitsLayoutProps {
+  children?: React.ReactNode;
+  className?: React.ComponentProps<"div">["className"];
+}
 
-//   // check if route is cached
-//   useEffect(() => {
-//     const cachedRoute = localStorage.getItem("@veloz:activePage");
-//     if (cachedRoute) {
-//       setPathname(cachedRoute);
-//     }
-//   });
-
-//   useEffect(() => {
-//     const { pathname } = window.location;
-//     setPathname(pathname.replace("/", ""));
-//     localStorage.setItem("@veloz:activePage", pathname.replace("/", ""));
-//   }, [pathname, validPages]);
-
-//   return (
-//     <div
-//       className={twMerge(
-//         "w-full relative h-screen overflow-y-auto hideScrollBar bg-dark-100"
-//       )}
-//     >
-//       {validPages.includes(pathname) ? (
-//         <div className="w-full h-screen flex">
-//           <SideBar activePage={activePage} />
-//           <div className="w-full z-upper  overflow-hidden">
-//             <TopBar />
-//             {children}
-//           </div>
-//         </div>
-//       ) : (
-//         children
-//       )}
-//     </div>
-//   );
-// }
+export function KitsLayout({ children, className }: KitsLayoutProps) {
+  return (
+    <div
+      className={twMerge(
+        "w-full relative h-screen overflow-y-auto scroll-smooth hideScrollBar bg-dark-100",
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
+}
