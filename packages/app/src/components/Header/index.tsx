@@ -10,6 +10,7 @@ import BlurBgRadial from "../BlurBgRadial";
 function Header() {
   return (
     <FlexColStartCenter className="relative w-full h-screen min-h-screen overflow-hidden pattern-bg border-b-solid border-b-[1px] border-b-gray-100/30 ">
+      <a id="home"></a>
       {/* Blur radius */}
       <BlurBgRadial className=" w-[100%] lg:w-[60%] h-[300px] absolute top-[10%] lg:top-[-10%] bg-white-300/10 " />
       <FlexColCenter className="relative w-full h-auto mt-[10em] text-center">

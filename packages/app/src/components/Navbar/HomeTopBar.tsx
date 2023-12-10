@@ -43,16 +43,18 @@ function HomeTopBar({ scrollVisible }: Props) {
         scrollVisible ? "bg-dark-200/50 fixed top-0 left-0" : "absolute"
       )}
     >
-      <FlexRowCenter className="md:w-full gap-5">
-        <FlexRowCenter className="w-full md:min-w-[100px]">
-          <Image
-            src={"/images/logo/logo.png"}
-            width={30}
-            height={0}
-            alt="veloz logo"
-          />
-          <p className="text-white-100 font-ppEB">Veloz</p>
-        </FlexRowCenter>
+      <FlexRowCenter className="w-auto md:w-full gap-5">
+        <Link href={"/#home"}>
+          <FlexRowCenter className="w-auto md:min-w-[100px]">
+            <Image
+              src={"/images/logo/logo.png"}
+              width={30}
+              height={0}
+              alt="veloz logo"
+            />
+            <p className="text-white-100 font-ppEB">Veloz</p>
+          </FlexRowCenter>
+        </Link>
       </FlexRowCenter>
       <FlexRowCenter className="w-full hidden md:flex gap-5 transition-all">
         {navigations
