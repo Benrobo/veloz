@@ -7,7 +7,7 @@ interface ContextValuesType {
   setPurchasedTemplates: React.Dispatch<
     React.SetStateAction<PurchasedTemplatesType[]>
   >;
-  purchasedTemplates: PurchasedTemplatesType[];
+  purchasedKits: PurchasedTemplatesType[];
   userInfo: UserInfo;
   setUserInfo: React.Dispatch<React.SetStateAction<UserInfo>>;
   globalLoading: boolean;
@@ -25,7 +25,7 @@ type PurchasedTemplatesType = {
 };
 
 function DataContextProvider({ children }: { children: ReactNode }) {
-  const [purchasedTemplates, setPurchasedTemplates] = useState<
+  const [purchasedKits, setPurchasedTemplates] = useState<
     PurchasedTemplatesType[]
   >([]);
   const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
@@ -36,7 +36,7 @@ function DataContextProvider({ children }: { children: ReactNode }) {
     setUserInfo,
     globalLoading,
     setGlobalLoading,
-    purchasedTemplates,
+    purchasedKits,
     setPurchasedTemplates,
   };
 

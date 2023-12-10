@@ -71,13 +71,13 @@ class TemplateService {
       );
     }
 
-    const purchasedTemplates = await prisma.purchasedItem.findMany({
+    const purchasedKits = await prisma.purchasedItem.findMany({
       where: { uId: id },
     });
 
     // compare if user has purchased this template based on the template parent_id not name.
     const purchased =
-      purchasedTemplates.find(
+      purchasedKits.find(
         (t) => t.temp_id?.toLowerCase() === template.parent_id
       ) ?? null;
 

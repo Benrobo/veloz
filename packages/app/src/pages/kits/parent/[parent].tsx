@@ -36,7 +36,7 @@ import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 function Page() {
-  const { purchasedTemplates, setPurchasedTemplates } = useContext(DataContext);
+  const { purchasedKits, setPurchasedTemplates } = useContext(DataContext);
   const pageLoaded = usePageLoaded();
   const parentName = useRouter().query.parent as string;
   const [parentTemplates, setParentTemplates] = useState(PARENT_TEMPLATES);
@@ -49,16 +49,16 @@ function Page() {
     queryFn: () => getUser(),
   });
 
-  const parentTemplate = parentTemplates.find(
+  const parentKit = parentTemplates.find(
     (t) => t.name.toLowerCase() === parentName?.toLowerCase()
   );
 
   const childTemplates = FINE_TUNED_STACKS.filter(
-    (s) => s.parent_id === parentTemplate?.id
+    (s) => s.parent_id === parentKit?.id
   );
 
   const pricingModel = TEMPLATES_PRICING_MODEL.find(
-    (m) => m.plan === parentTemplate?.pricing_plan
+    (m) => m.plan === parentKit?.pricing_plan
   );
 
   const extractFineTunedStack = (
@@ -108,15 +108,15 @@ function Page() {
   }
 
   const alreadyPurchased =
-    // parentTemplate?.pricing_plan === "FREE_PKG" ||
+    // parentKit?.pricing_plan === "FREE_PKG" ||
     hasTemplateBeenPurchased(
-      purchasedTemplates,
-      parentTemplate?.id as string,
-      parentTemplate?.name as string
+      purchasedKits,
+      parentKit?.id as string,
+      parentKit?.name as string
     );
 
   return (
-    <Layout activePage="templates">
+    <Layout activePage="kits">
       {!parentTemplates && (
         <div className="w-full h-full flex justify-center items-center">
           <p className="text-white-100">No templates found</p>
@@ -146,7 +146,7 @@ function Page() {
                   {parentName}
                 </h1>
                 <p className="text-white-300 font-jbR text-[12px]">
-                  {parentTemplate?.tagline}
+                  {parentKit?.tagline}
                 </p>
                 {/* Template description */}
                 <TemplateDetails name={parentName} />
@@ -170,7 +170,7 @@ function Page() {
                           : "premium-button"
                       )}
                       onClick={() => {
-                        const parentTempId = parentTemplate?.id as string;
+                        const parentTempId = parentKit?.id as string;
                         createCheckoutMut.mutate(parentTempId);
                       }}
                       disabled={createCheckoutMut.isPending}
@@ -206,7 +206,7 @@ function Page() {
                   )}
 
                   <Link
-                    href={parentTemplate?.demo?.live_url as string}
+                    href={parentKit?.demo?.live_url as string}
                     target="_blank"
                   >
                     <FlexRowStartCenter className="gap-2 w-[120px] px-5 py-[10px] bg-dark-200 rounded-[30px] scale-[.85] ">

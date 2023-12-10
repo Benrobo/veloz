@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  FlexColCenter,
   FlexColEnd,
   FlexColStart,
   FlexRowCenterBtw,

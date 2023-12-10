@@ -36,14 +36,14 @@ function StarterKitCard({
   thumbnail,
   id,
 }: StarterKitsProps) {
-  const { purchasedTemplates } = useContext(DataContext);
+  const { purchasedKits } = useContext(DataContext);
   const pricingModel = TEMPLATES_PRICING_MODEL.find(
     (m) => m.plan === pricing_plan
   );
 
   const alreadyPurchased =
     // pricing_plan === "FREE_PKG" ||
-    hasTemplateBeenPurchased(purchasedTemplates, id, name);
+    hasTemplateBeenPurchased(purchasedKits, id, name);
 
   return (
     <FlexColStart className="w-fit max-w-[450px] h-auto min-h-[300px] gap-0  rounded-md overflow-hidden scale-[.90] translate-x-[-20px] ">

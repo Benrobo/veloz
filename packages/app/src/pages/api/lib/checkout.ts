@@ -7,16 +7,16 @@ const IN_TEST_MODE = process.env.NODE_ENV === "development";
 
 // create checkout session
 export async function createCheckout(user_id: string, template_id: string) {
-  const parentTemplate = PARENT_TEMPLATES.find((t) => t.id === template_id);
+  const parentKit = PARENT_TEMPLATES.find((t) => t.id === template_id);
 
-  if (!parentTemplate) {
+  if (!parentKit) {
     return {
       error: `Template ${template_id} not found.`,
       data: null,
     };
   }
 
-  const custom_redirect_url = `${env.BASE_URL}/templates/parent/${parentTemplate.name}`;
+  const custom_redirect_url = `${env.BASE_URL}/templates/parent/${parentKit.name}`;
 
   const payload = {
     data: {
