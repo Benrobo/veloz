@@ -40,8 +40,12 @@ function StarterKits() {
         <p className="text-white-300 max-w-[90%] md:max-w-[70%] text-[13px] font-ppReg">
           Finally, it high time you ship that idea of yours and turn it into a
           reality. We are here to help you get started. Checkout the starter kit
-          below. Purchasing a starter kit, provides you access to subsequent
-          related kit's available and future added kit's. 😻
+          below.{" "}
+          <span className="text-white-100">
+            Purchasing a starter kit, provides you access to subsequent related
+            kit's available and future added kit's
+          </span>
+          . 😻
         </p>
         <br />
         {tempDiscount && (

@@ -19,7 +19,7 @@ import { formatCurrency, hasTemplateBeenPurchased } from "@/lib/utils";
 import Image from "next/image";
 import { DataContext } from "@/context/DataContext";
 
-type TemplateCardProps = {
+type StarterKitsProps = {
   name: string;
   id: string;
   pricing_plan: TechStackPricingPlan;
@@ -28,14 +28,14 @@ type TemplateCardProps = {
   thumbnail: string;
 };
 
-function TemplateCard({
+function StarterKitCard({
   name,
   tagline,
   userImages,
   pricing_plan,
   thumbnail,
   id,
-}: TemplateCardProps) {
+}: StarterKitsProps) {
   const { purchasedTemplates } = useContext(DataContext);
   const pricingModel = TEMPLATES_PRICING_MODEL.find(
     (m) => m.plan === pricing_plan
@@ -98,7 +98,7 @@ function TemplateCard({
       <FlexRowCenterBtw className="w-full mt-4 px-1">
         <FlexRowStart>
           <Link
-            href={`/templates/parent/${name}`}
+            href={`/kits/parent/${name}`}
             className="underline flex gap-1 text-white-100 text-[10px] font-jbSB"
           >
             Learn more
@@ -113,4 +113,4 @@ function TemplateCard({
   );
 }
 
-export default TemplateCard;
+export default StarterKitCard;

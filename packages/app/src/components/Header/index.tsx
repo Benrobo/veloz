@@ -13,8 +13,8 @@ function Header() {
       {/* Blur radius */}
       <BlurBgRadial className=" w-[100%] lg:w-[60%] h-[300px] absolute top-[10%] lg:top-[-10%] bg-white-300/10 " />
       <FlexColCenter className="relative w-full h-auto mt-[10em] text-center">
-        <FlexRowCenter className="rainbowBorder mb-10 inline-flex items-center justify-center text-[14px] ">
-          <span className="inline-flex items-center gap-1 whitespace-nowrap px-6 py-2 bg-dark-105 font-ppReg text-[12px] text-white-100">
+        <FlexRowCenter className="rainbowBorder mb-10 inline-flex items-center justify-center text-[14px] px-[2px] ">
+          <span className="inline-flex items-center gap-1 whitespace-nowrap px-6 py-2 bg-dark-100 font-ppReg text-[12px] text-white-100">
             The last starter kit you'll ever need!.
           </span>
         </FlexRowCenter>

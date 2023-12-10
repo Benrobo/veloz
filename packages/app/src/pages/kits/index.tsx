@@ -23,15 +23,14 @@ import { Spinner } from "@/components/Spinner";
 import DataContext from "@/context/DataContext";
 import { FINE_TUNED_STACKS, PARENT_TEMPLATES } from "@/data/stack";
 import { cn, getPlanTitle } from "@/lib/utils";
-import Image from "next/image";
 import { ProjectContext } from "@/context/ProjectContext";
-import { RenderProjectIcons } from "@/components/Templates/Card";
+import { RenderProjectIcons } from "@/components/StarterKits/Card";
 import { PricingBadge } from "@/components/Badge";
-import TemplateCard from "@/components/Templates/TemplateCard";
 import { ResponseData, ReturnedTemplatesType } from "@/types";
 import toast from "react-hot-toast";
 import usePageActive from "@/hooks/usePageActive";
 import { get } from "http";
+import StarterKitCard from "@/components/StarterKits/StarterKitCard";
 
 function Templates() {
   const {} = useContext(ProjectContext);
@@ -60,7 +59,7 @@ function Templates() {
   ]);
 
   return (
-    <Layout activePage="templates">
+    <Layout activePage="kits">
       <FlexColStart className="w-full px-4 py-4 ">
         <FlexRowCenterBtw className="w-full">
           <FlexColStart className="gap-2">
@@ -86,17 +85,7 @@ function Templates() {
           {!getTemplatesQuery.isPending &&
             templates.length > 0 &&
             templates.map((d) => (
-              // <TemplateCard
-              //   name={d.name}
-              //   id={d.id}
-              //   tagline={d.tagline}
-              //   pricing_plan={d.pricing_plan}
-              //   userImages={d.users.images}
-              //   thumbnail={d.image}
-              //   key={d.id}
-              // />
-
-              <TemplateCard
+              <StarterKitCard
                 name={d.name}
                 id={d.id}
                 tagline={d.tagline}

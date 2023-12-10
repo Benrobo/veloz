@@ -12,8 +12,8 @@ import {
 } from "@/components/Flex";
 import Layout from "@/components/Layout";
 import { Spinner } from "@/components/Spinner";
-import { RenderProjectIcons } from "@/components/Templates/Card";
-import TemplateDetails from "@/components/Templates/Details";
+import { RenderProjectIcons } from "@/components/StarterKits/Card";
+import TemplateDetails from "@/components/StarterKits/Details";
 import { Button } from "@/components/ui/button";
 import { TEMPLATES_PRICING_MODEL } from "@/constant/template";
 import { DataContext } from "@/context/DataContext";
@@ -127,7 +127,7 @@ function Page() {
         <FlexColStart className="w-full h-full overflow-y-scroll px-5 py-4 pb-[10em]">
           <FlexRowStart className="px-4 py-4">
             <Link
-              href="/templates"
+              href="/kits"
               className="underline w-auto flex gap-2 items-center justify-start"
             >
               <ArrowLeftToLine
@@ -283,7 +283,7 @@ function FineTunedCard({
 
   return (
     <Link
-      href={`/templates/parent/child/${name}`}
+      href={`/kits/parent/child/${name}`}
       className={cn(
         "w-auto relative rounded-md border-solid border-[2px] border-transparent"
       )}

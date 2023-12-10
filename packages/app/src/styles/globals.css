@@ -227,7 +227,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .rainbowBorder {
   border-radius: 9999px;
   background: linear-gradient(90deg, #02fcef70, #ffb52b70 50%, #a02bfe70);
-  height: 32px;
+  height: 35px;
   line-height: 0;
   transition: transform 0.2s ease-in-out;
   transform-origin: 0 100%;

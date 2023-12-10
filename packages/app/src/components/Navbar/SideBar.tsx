@@ -60,20 +60,20 @@ function SideBar({ activePage }: SidebarProps) {
 
         {/* projects */}
         <Link
-          href="/templates"
+          href="/kits"
           className={twMerge(
             "w-full h-auto group px-4 py-3 rounded-lg flex items-center justify-start gap-2 font-ppReg transition ease-in-out text-[14px]",
-            buttonStyle(activePage, "templates").btn
+            buttonStyle(activePage, "kits").btn
           )}
         >
           <ProjectIcon
             pathCss="group-hover:fill-white-100 transition ease-in-out"
             width={15}
             height={15}
-            fill={buttonStyle(activePage, "templates").icon}
+            fill={buttonStyle(activePage, "kits").icon}
           />
           <span className="group-hover:text-white-100 transition ease-in-out">
-            Templates
+            Starter Kits
           </span>
         </Link>
 

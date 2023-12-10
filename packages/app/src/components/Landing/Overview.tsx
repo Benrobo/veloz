@@ -10,7 +10,7 @@ import {
 import { Bird, Flame } from "lucide-react";
 import Image from "next/image";
 import { ProjectType } from "@veloz/shared/types";
-import { RenderProjectIcons } from "../Templates/Card";
+import { RenderProjectIcons } from "../StarterKits/Card";
 
 type OverviewData = {
   title: string;
