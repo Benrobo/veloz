@@ -64,7 +64,7 @@ function StarterKits() {
         )}
       </FlexColStartCenter>
       <br />
-      <FlexRowStart className="w-full  h-auto px-[4em] flex-wrap ">
+      <FlexRowStart className="w-full  h-auto px-[1em] md:px-[4em] flex-wrap ">
         {templates.map((t) => (
           <PricingTemplateCard
             key={t.id}
@@ -138,7 +138,7 @@ function PricingTemplateCard({
               {formatCurrency(plan?.price as number, plan?.currency as string)}
             </h1>
           )}
-          <h1 className="text-white-100 text-3xl font-ppSB">
+          <h1 className="text-white-100 text-1xl md:text-3xl font-ppSB">
             {discount
               ? formatCurrency(
                   plan?.price - discount?.amount || 0,

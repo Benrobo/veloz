@@ -58,7 +58,7 @@ function Features() {
   const _stackWithWhiteBg = ["nextjs"];
 
   return (
-    <FlexColCenter className="relative w-full h-auto md:h-screen py-[10em] bg-dark-103 ">
+    <FlexColCenter className="relative w-full h-auto md:h-auto py-[5em] mb-[10em] bg-dark-103 ">
       <FlexColCenter className="text-center w-full h-full md:max-w-[60%]">
         <h1 className="text-white-100 text-[1.5em] md:text-[2em] font-ppEB">
           Your SaaS{" "}
@@ -109,32 +109,39 @@ function Features() {
             </FlexColStart>
 
             {/* Stacks Section */}
-            <FlexRowStart className="w-full h-0 flex-wrap mt-9 gap-9">
+            <FlexRowStart className="w-full h-0 flex-wrap mt-9 gap-3 md:gap-9">
               {_features?.includeStacks &&
                 _activeStacks.map((d, i) => (
-                  <FlexColCenter
-                    key={i}
-                    className="w-auto h-auto p-3 relative border-solid border-white-600 border-[.5px] rounded-lg "
-                  >
-                    {_notAvailableStacks.includes(d.key) && (
-                      <span className="px-2 py-[2px] rounded-[30px] text-[8px] font-ppSB text-white-100 bg-red-305 absolute top-[-17%] right-[-5%]">
-                        soon!
-                      </span>
-                    )}
-                    <div
-                      className={cn(
-                        "rounded-[50%]",
-                        _stackWithWhiteBg.includes(d.key) ? "bg-white-100" : ""
-                      )}
+                  <FlexColCenter>
+                    <FlexColCenter
+                      key={i}
+                      className="w-auto h-auto p-3 relative border-solid border-white-600 border-[.5px] rounded-lg "
                     >
-                      <Image
-                        src={d.img}
-                        width={d.key === "lemonsqueezy" ? 120 : 30}
-                        height={0}
-                        className="rounded-md"
-                        alt="image"
-                      />
-                    </div>
+                      {_notAvailableStacks.includes(d.key) && (
+                        <span className="px-2 py-[2px] rounded-[30px] text-[8px] font-ppSB text-white-100 bg-red-305 absolute top-[-17%] right-[-5%]">
+                          soon!
+                        </span>
+                      )}
+                      <div
+                        className={cn(
+                          "rounded-[50%]",
+                          _stackWithWhiteBg.includes(d.key)
+                            ? "bg-white-100"
+                            : ""
+                        )}
+                      >
+                        <Image
+                          src={d.img}
+                          width={d.key === "lemonsqueezy" ? 120 : 30}
+                          height={0}
+                          className="rounded-md"
+                          alt="image"
+                        />
+                      </div>
+                    </FlexColCenter>
+                    <span className="text-white-300 text-[10px] font-ppReg">
+                      {d.name}
+                    </span>
                   </FlexColCenter>
                 ))}
             </FlexRowStart>

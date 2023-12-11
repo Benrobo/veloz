@@ -51,7 +51,7 @@ function Pricing({ name }: Props) {
       </FlexColCenter>
       <br />
       <FlexColCenter className="w-full">
-        <FlexColStart className="w-full max-w-[350px] min-h-[450px] bg-dark-200 py-4 px-5 pb-4 rounded-md border-solid border-[1px] border-orange-100 ">
+        <FlexColStart className="w-full scale-[.90] md:scale-1 max-w-[350px] min-h-[450px] bg-dark-200 py-4 px-5 pb-4 rounded-md border-solid border-[1px] border-orange-100 ">
           <FlexColStart className="w-full py-5">
             <h1 className="text-white-100 font-ppEB text-2xl md:text-2xl leadning-none">
               Life Time Access
