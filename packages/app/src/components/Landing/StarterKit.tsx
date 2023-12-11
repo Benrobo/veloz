@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  FlexColCenter,
   FlexColStart,
   FlexColStartCenter,
   FlexRowCenter,
@@ -16,6 +17,7 @@ import { TEMPLATES_PRICING_MODEL } from "@/constant/template";
 import { PARENT_TEMPLATES } from "@/data/stack";
 import Link from "next/link";
 import Image from "next/image";
+import Name from "@/pages/kits/parent/child/[name]";
 
 function StarterKits() {
   const templates = PARENT_TEMPLATES.map((t) => {
@@ -31,7 +33,7 @@ function StarterKits() {
   const tempDiscount = templates.map((t) => t.discount)[0] ?? null;
 
   return (
-    <FlexColStart className="w-full h-full py-[5em] border-t-solid border-t-[1px] border-t-gray-100/30">
+    <FlexColStart className="w-full h-auto py-[5em] border-t-solid border-t-[1px] border-t-gray-100/30">
       <a id="starter-kits" className="invisible"></a>
       <FlexColStartCenter className="w-full h-full text-center">
         <h1 className="text-white-100 font-ppEB text-2xl md:text-4xl">
@@ -64,25 +66,28 @@ function StarterKits() {
         )}
       </FlexColStartCenter>
       <br />
-      <FlexRowStart className="w-full  h-auto px-[1em] md:px-[4em] flex-wrap ">
+      <FlexRowStartCenter className="w-full h-auto px-[1em] md:px-[2em] flex-wrap gap-5">
         {templates.map((t) => (
-          <PricingTemplateCard
-            key={t.id}
-            name={t.name}
-            plan={t.plan as any}
-            tagline={t.tagline}
-            thumbnail={t.image}
-            discount={t.discount}
-          />
+          <>
+            <KitCard
+              key={t.id}
+              name={t.name}
+              plan={t.plan as any}
+              tagline={t.tagline}
+              thumbnail={t.image}
+              discount={t.discount}
+            />
+          </>
         ))}
-      </FlexRowStart>
+        <EmptyStarterKit name="Athena" />
+      </FlexRowStartCenter>
     </FlexColStart>
   );
 }
 
 export default StarterKits;
 
-type PricingTemplateCardProps = {
+type KitCardProps = {
   name: string;
   plan: {
     currency: string;
@@ -94,18 +99,13 @@ type PricingTemplateCardProps = {
   discount: {
     amount: number;
   } | null;
+  available?: boolean;
 };
 
-function PricingTemplateCard({
-  name,
-  plan,
-  thumbnail,
-  tagline,
-  discount,
-}: PricingTemplateCardProps) {
+function KitCard({ name, plan, thumbnail, tagline, discount }: KitCardProps) {
   if (!plan) return null;
   return (
-    <FlexColStart className="w-full max-w-[450px] h-auto min-h-[300px] gap-0  rounded-md scale-[.90] translate-x-[-20px] ">
+    <FlexColStart className="w-full md:max-w-[450px] h-auto min-h-[300px] gap-0  rounded-md scale-[.90] translate-x-[-20px] relative">
       {/* <div
         className="w-[700px] md:max-w-[450px] h-[250px] relative rounded-[10px] group overflow-hidden border-solid border-[.9px] border-gray-100/20 transition-all "
         style={{
@@ -120,16 +120,16 @@ function PricingTemplateCard({
       <Image
         src={thumbnail}
         alt="template"
-        width={450}
-        height={250}
-        className="rounded-md"
+        width={0}
+        height={0}
+        className="rounded-md w-full"
       />
       <br />
       <FlexRowCenterBtw className="w-full px-1">
         <FlexColStart className="w-full">
           <p className="text-white-100 font-jbEB leading-none">{name}</p>
           <p className="text-white-200 font-jbSB text-[11px] leading-none ">
-            {tagline.length > 40 ? tagline.slice(0, 40) + "..." : tagline}
+            {tagline?.length > 40 ? tagline?.slice(0, 40) + "..." : tagline}
           </p>
         </FlexColStart>
         <FlexRowEndCenter className="w-auto">
@@ -149,7 +149,7 @@ function PricingTemplateCard({
         </FlexRowEndCenter>
       </FlexRowCenterBtw>
       <Link
-        href={`/product/kits/${name.toLowerCase()}`}
+        href={`/product/kits/${name?.toLowerCase()}`}
         className="w-full mt-4 "
       >
         <FlexRowStartCenter className="gap-1 w-[135px] px-5 py-3 bg-dark-200 rounded-[30px] scale-[.85] ">
@@ -163,6 +163,28 @@ function PricingTemplateCard({
           />
         </FlexRowStartCenter>
       </Link>
+    </FlexColStart>
+  );
+}
+
+function EmptyStarterKit({ name }: { name: string }) {
+  return (
+    <FlexColStart className="w-full md:max-w-[450px] h-[365px] gap-0  rounded-md scale-[.90] translate-x-[-20px] relative bg-dark-200 overflow-hidden  backdrop-blur">
+      <FlexColCenter className="w-full h-full top-0 left-0 bg-dark-100/20 text-center z-[100]">
+        <p className="text-orange-100 font-ppSB text-[12px] px-3 py-2 rounded-[30px] bg-dark-300 shadow-xl ">
+          Coming soon!
+        </p>
+      </FlexColCenter>
+      <FlexColCenter className="absolute w-full h-full">
+        <span
+          className="font-ppEB text-white-100 text-6xl opacity-[.1] "
+          style={{
+            transform: "rotate(60deg)",
+          }}
+        >
+          {name}
+        </span>
+      </FlexColCenter>
     </FlexColStart>
   );
 }

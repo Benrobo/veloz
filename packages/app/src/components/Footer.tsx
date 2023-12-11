@@ -19,8 +19,8 @@ const legalData = [
 
 function Footer() {
   return (
-    <FlexColStart className="w-full h-full py-9 pb-9 bg-dark-102 border-t-solid border-t-[1px] border-t-gray-100/20 ">
-      <div className="w-full h-full min-h-[200px] gap-10 grid grid-cols-1 md:grid-cols-3 px-9 md:px-[5em]">
+    <FlexColStart className="w-full h-auto py-9 pb-9 bg-dark-102 border-t-solid border-t-[1px] border-t-gray-100/20 ">
+      <div className="w-full h-full gap-10 grid grid-cols-1 md:grid-cols-3 px-9 md:px-[5em]">
         <FlexColStart className="w-full h-full">
           <FlexRowStartCenter className="gap-0">
             <Image
