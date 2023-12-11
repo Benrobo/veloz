@@ -14,12 +14,17 @@ import Overview from "@/components/Landing/Overview";
 import StarterKits from "@/components/Landing/StarterKit";
 import TemplateSection from "@/components/Landing/Template";
 import Footer from "@/components/Footer";
+import Seo from "@/components/Seo";
 
 export default function Home() {
   const scrollVisible = useScrollVisible();
 
   return (
     <FlexColStart className="w-full h-screen min-h-screen gap-0 overflow-y-scroll bg-dark-103 scroll-smooth">
+      <Seo
+        title="Veloz"
+        description="A simple, fast, and reliable starter kit for your SaaS project."
+      />
       <HomeTopBar scrollVisible={scrollVisible} />
       <Header />
       {/* <Why /> */}
