@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
 
-const navigations = [
+export const navigations = [
   {
     link: "#starter-kits",
     visible: true,
