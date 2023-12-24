@@ -1,15 +1,10 @@
 import { FlexColCenter } from "@/components/Flex";
 import Layout from "@/components/Layout";
 import Modal from "@/components/Modal";
-import { withAuth } from "@/lib/helpers";
-import { useUser } from "@clerk/nextjs";
+import withAuth from "@/lib/auth/withAuth";
 import Image from "next/image";
 
 function Home() {
-  const { user } = useUser();
-
-  console.log(user);
-
   return (
     <Layout activePage="home">
       <p className="text-white-100">Dashboard</p>

@@ -1,22 +1,13 @@
-import { authMiddleware, redirectToSignIn } from "@clerk/nextjs";
-import env from "./pages/api/config/env";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+export { default } from "next-auth/middleware";
 
-export default authMiddleware({
-  publicRoutes: [
-    "/api/(.*)",
-    "/",
-    "/product/kits(.*)",
-    "/auth",
-    "/api/webhook/(.*)",
-  ],
-  afterAuth: (auth, req, evt) => {
-    // handle users who aren't authenticated
-    if (!auth.userId && !auth.isPublicRoute) {
-      return redirectToSignIn({ returnBackUrl: req.url });
-    }
-  },
-});
+// next-auth middleware
+export function middleware(request: NextRequest) {
+  return NextResponse.next();
+}
 
+// default config
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/(api)(.*)"],
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };

@@ -1,58 +1,49 @@
-import { getAuth } from "@clerk/nextjs/server";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest } from "next";
+import { getServerSession } from "next-auth";
+import nextAuthOptions from "../auth/options";
 import { RESPONSE_CODE } from "@veloz/shared/types";
-import HttpException from "../lib/exception";
 import prisma from "../config/prisma";
+import HttpException from "../lib/exception";
 
 export function isAuthenticated(fn: Function) {
-  return async (req: NextApiRequest, res: NextApiResponse) => {
-    const currUser = getAuth(req);
-    if (!currUser.userId) {
+  return async (req: NextApiRequest) => {
+    const session = await getServerSession(nextAuthOptions);
+    if (!session) {
       throw new HttpException(RESPONSE_CODE.UNAUTHORIZED, "Unauthorized", 401);
     }
 
-    // check if user exists
     const user = await prisma.user.findFirst({
-      where: { uId: currUser.userId },
-    });
-    if (!user) {
-      throw new HttpException(
-        RESPONSE_CODE.UNAUTHORIZED,
-        `Unauthorized, Invalid Token`,
-        404
-      );
-    }
-
-    (req as any)["user"] = { id: currUser.userId };
-    await fn(req, res);
-  };
-}
-
-export function isCliAuth(fn: Function) {
-  return async (req: NextApiRequest, res: NextApiResponse) => {
-    const token = req.headers["x-veloz-token"];
-    if (!token) {
-      throw new HttpException(
-        RESPONSE_CODE.UNAUTHORIZED,
-        `Token is notfound`,
-        401
-      );
-    }
-
-    // check if token exists
-    const user = await prisma.user.findFirst({
-      where: { veloz_token: token as string },
+      where: { email: session.user?.email as string },
     });
 
     if (!user) {
       throw new HttpException(
         RESPONSE_CODE.UNAUTHORIZED,
         `Unauthorized, Invalid Token`,
-        404
+        403
       );
     }
 
     (req as any)["user"] = { id: user.uId };
-    await fn(req, res);
+    return await fn(req);
+  };
+}
+
+export function isAdmin(fn: Function) {
+  return async (req: NextApiRequest) => {
+    const userId = (req as any)?.user?.id;
+
+    if (!userId) {
+      throw new HttpException(RESPONSE_CODE.UNAUTHORIZED, "Unauthorized", 401);
+    }
+
+    const admin = await prisma.user.findFirst({
+      where: { uId: userId, role: "admin" },
+    });
+
+    if (!admin) {
+      throw new HttpException(RESPONSE_CODE.UNAUTHORIZED, "Unauthorized", 401);
+    }
+    return await fn(req);
   };
 }

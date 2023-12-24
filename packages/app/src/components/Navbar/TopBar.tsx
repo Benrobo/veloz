@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,19 +7,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { logout } from "@/lib/utils";
+import { useSession } from "next-auth/react";
+import { DataContext } from "@/context/DataContext";
 
 function TopBar() {
-  const { user } = useUser();
+  // const { data } = useSession();
+  const { userInfo } = useContext(DataContext);
   return (
     <div className="w-full flex items-center justify-end border-b-solid border-b-[1px] border-b-dark-400 py-1 px-4">
       <div className="w-auto flex">
         <DropdownMenu>
           <DropdownMenuTrigger className="w-[30px] h-[30px] bg-dark-200 font-ppReg text-white-100 border-solid border-[1px] border-dark-300 rounded-[50%] text-[13px] outline-none ">
             <Image
-              src={user?.imageUrl ?? ("/images/finetuned/zeus.jpeg" as string)}
+              src={
+                userInfo?.avatar ?? ("/images/finetuned/zeus.jpeg" as string)
+              }
               width={20}
               height={20}
               className="w-full p-[1px] rounded-[50%]"
@@ -32,7 +36,7 @@ function TopBar() {
                 Signed in as
               </span>
               <p className="text-white-100 font-ppReg text-[13px]">
-                {user?.emailAddresses[0]?.emailAddress ?? "N/A"}
+                {userInfo?.email ?? "N/A"}
               </p>
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-dark-300 h-[1px]" />

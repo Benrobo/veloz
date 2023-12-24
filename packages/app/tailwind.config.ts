@@ -54,6 +54,7 @@ const config: Config = {
         },
         blue: {
           100: "#3B82F6",
+          101: "#6b77f1",
           200: "rgba(59, 130, 246, 0.3)",
         },
         green: {

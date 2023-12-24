@@ -185,10 +185,10 @@ export const GENERAL_STACKS = [
         name: "JSON Web Token",
         key: "jsonwebtoken",
       },
-      {
-        name: "Clerk",
-        key: "clerk",
-      },
+      // {
+      //   name: "Clerk",
+      //   key: "clerk",
+      // },
       {
         name: "NextAuth",
         key: "nextauth",

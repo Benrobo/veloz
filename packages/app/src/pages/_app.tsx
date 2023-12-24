@@ -1,4 +1,3 @@
-// import { ComponentLayout } from "@/components/Layout";
 import { jbEB, jbR, jbSB, ppB, ppEB, ppL, ppReg, ppSB } from "@/config/font";
 import DataContextProvider from "@/context/DataContext";
 import LayoutContextProvider from "@/context/LayoutContext";
@@ -8,8 +7,8 @@ import "@radix-ui/themes/styles.css";
 import type { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
 import { Theme } from "@radix-ui/themes";
-import { ClerkProvider } from "@clerk/nextjs";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SessionProvider } from "next-auth/react";
 import Router from "next/router";
 import nProgress from "nprogress";
 import "../styles/globals.css";
@@ -39,7 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
           }
         `}
       </style>
-      <ClerkProvider>
+      <SessionProvider>
         <QueryClientProvider client={queryClient}>
           <DataContextProvider>
             <LayoutContextProvider>
@@ -54,7 +53,7 @@ export default function App({ Component, pageProps }: AppProps) {
             </LayoutContextProvider>
           </DataContextProvider>
         </QueryClientProvider>
-      </ClerkProvider>
+      </SessionProvider>
     </>
   );
 }

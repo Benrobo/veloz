@@ -9,17 +9,11 @@ import Layout from "@/components/Layout";
 import { Spinner } from "@/components/Spinner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { withAuth } from "@/lib/helpers";
+import withAuth from "@/lib/auth/withAuth";
 import { getUserSettings, rotateToken } from "@/lib/http/requests";
 import { cn } from "@/lib/utils";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import {
-  Copy,
-  Github,
-  LayoutDashboard,
-  RotateCw,
-  Settings,
-} from "lucide-react";
+import { Copy, RotateCw, Settings } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -95,8 +89,6 @@ function SettingsPage() {
     switch (tab) {
       case "general":
         return "General";
-      case "project":
-        return "Project";
       default:
         return "General";
     }
@@ -222,17 +214,6 @@ function renderTabIcon(tab: SettingsTabs, activeTab: SettingsTabs) {
         className={cn(
           "group-hover:text-white-100 text-white-100",
           activeTab === "general" ? "text-white-100" : "text-gray-100"
-        )}
-      />
-    );
-  }
-  if (tab === "project") {
-    icon = (
-      <LayoutDashboard
-        size={15}
-        className={cn(
-          "group-hover:text-white-100 text-white-100",
-          activeTab === "project" ? "text-white-100" : "text-gray-100"
         )}
       />
     );

@@ -1,9 +1,16 @@
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
-import { FlexRowCenterBtw, FlexRowCenter, FlexRowEnd } from "../Flex";
+import {
+  FlexRowCenterBtw,
+  FlexRowCenter,
+  FlexRowEnd,
+  FlexRowStartCenter,
+} from "../Flex";
 import Image from "next/image";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
+import { ChevronRight } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 export const navigations = [
   {
@@ -33,7 +40,7 @@ type Props = {
 };
 
 function HomeTopBar({ scrollVisible }: Props) {
-  const { isLoaded, user } = useUser();
+  const { status, data } = useSession();
   const [activeTab, setActiveTab] = useState("");
 
   return (
@@ -76,13 +83,20 @@ function HomeTopBar({ scrollVisible }: Props) {
       </FlexRowCenter>
       <FlexRowEnd className="w-full hidden md:flex ">
         <Link
-          href="/dashboard"
-          className={cn(
-            "w-auto px-4 py-2 rounded-[30px] scale-[.85] bg-dark-200 text-white-100 font-ppSB text-[12px] ",
-            isLoaded && user ? "visible" : "invisible"
-          )}
+          href={status === "authenticated" && data ? "/dashboard" : "/auth"}
+          className="w-auto px-5 py-3 rounded-[30px] group bg-blue-101 hover:bg-blue-101/70  transition-all hidden md:block scale-[.90] "
         >
-          Dashboard
+          <FlexRowStartCenter className="gap-2">
+            <span className="text-white-100 text-sm font-ppSB">
+              {status === "authenticated" && data
+                ? "Dashboard"
+                : "Get started ✨"}
+            </span>
+            <ChevronRight
+              size={15}
+              className="text-white-100 group-hover:translate-x-2 translate-x-0 transition-all"
+            />
+          </FlexRowStartCenter>
         </Link>
       </FlexRowEnd>
     </FlexRowCenterBtw>

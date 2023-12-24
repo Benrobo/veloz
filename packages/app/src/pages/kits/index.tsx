@@ -1,5 +1,4 @@
 import Layout from "@/components/Layout";
-import { withAuth } from "@/lib/helpers";
 import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
 import {
@@ -31,6 +30,7 @@ import toast from "react-hot-toast";
 import usePageActive from "@/hooks/usePageActive";
 import { get } from "http";
 import StarterKitCard from "@/components/StarterKits/StarterKitCard";
+import withAuth from "@/lib/auth/withAuth";
 
 function Templates() {
   const {} = useContext(ProjectContext);
