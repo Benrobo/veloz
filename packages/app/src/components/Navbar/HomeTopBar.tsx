@@ -8,7 +8,6 @@ import {
 } from "../Flex";
 import Image from "next/image";
 import Link from "next/link";
-import { useUser } from "@clerk/nextjs";
 import { ChevronRight } from "lucide-react";
 import { useSession } from "next-auth/react";
 

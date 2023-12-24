@@ -5,7 +5,7 @@ import {
   FlexRowCenter,
   FlexRowStartCenter,
 } from "@/components/Flex";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HomeTopBar from "@/components/Navbar/HomeTopBar";
 import Seo from "@/components/Seo";
 import useScrollVisible from "@/hooks/useScrollVisible";
@@ -13,16 +13,29 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/Spinner";
 import { withoutAuth } from "@/lib/auth/withoutAuth";
 import { signIn } from "next-auth/react";
+import usePageLoaded from "@/hooks/usePageLoaded";
+import { useRouter } from "next/router";
+import toast from "react-hot-toast";
 
 function Auth() {
   const scrollVisible = useScrollVisible();
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const errorParams = router.query["error"];
 
   const handleAuth = async () => {
     setLoading(true);
     await signIn("github");
     setLoading(false);
   };
+
+  useEffect(() => {
+    if (errorParams) {
+      if (errorParams === "OAuthCallback") {
+        toast.error("Something went wrong. Please try again later.");
+      }
+    }
+  }, [errorParams]);
 
   return (
     <FlexColStart className="w-full h-full min-h-screen gap-0 overflow-y-scroll bg-dark-103 scroll-smooth hideScrollBar">
