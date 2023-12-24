@@ -1,6 +1,6 @@
 version: "3.1"
 services:
-  mongodb:
+  veloz-main-mongodb:
     build: ./mongodb_rs
     restart: always
     environment:
@@ -10,4 +10,4 @@ services:
       - MONGO_REPLICA_HOST=localhost
       - MONGO_REPLICA_PORT=27017
     ports:
-      - 27017:27017
+      - 27001:27001

@@ -17,7 +17,7 @@ model User {
     id          String   @id @default(auto()) @map("_id") @db.ObjectId
     uId         String   @unique
     name        String
-    email       String   @unique
+    email       String?  @unique
     avatar      String?
     role        Role     @default(user)
     isTester    Boolean  @default(false)
@@ -32,6 +32,8 @@ model User {
     invites                Invites[]
     templateInviteSent     CollaboratedTemplates[] @relation("SENDER")
     templateInviteReceived CollaboratedTemplates[] @relation("RECEIVER")
+
+    @@map("users")
 }
 
 model TemplateConsumption {
@@ -42,6 +44,8 @@ model TemplateConsumption {
     createdAt  DateTime @default(now())
 
     user User @relation(fields: [uId], references: [uId], onDelete: Cascade)
+
+    @@map("template_consumption")
 }
 
 model PurchasedItem {
@@ -52,6 +56,8 @@ model PurchasedItem {
     createdAt     DateTime @default(now())
 
     user User @relation(fields: [uId], references: [uId], onDelete: Cascade)
+
+    @@map("purchased_items")
 }
 
 model Order {
@@ -69,6 +75,8 @@ model Order {
     createdAt      DateTime @default(now())
 
     user User @relation(fields: [uId], references: [uId], onDelete: Cascade)
+
+    @@map("orders")
 }
 
 // github invites
@@ -81,6 +89,8 @@ model Invites {
     createdAt     DateTime @default(now())
 
     user User @relation(fields: [uId], references: [uId], onDelete: Cascade)
+
+    @@map("invites")
 }
 
 model CollaboratedTemplates {
@@ -94,4 +104,6 @@ model CollaboratedTemplates {
 
     sender   User @relation(name: "SENDER", fields: [sender_id], references: [uId], onDelete: Cascade)
     receiver User @relation(name: "RECEIVER", fields: [receiver_id], references: [uId], onDelete: Cascade)
+
+    @@map("collaborated_templates")
 }

@@ -34,6 +34,9 @@ function Auth() {
       if (errorParams === "OAuthCallback") {
         toast.error("Something went wrong. Please try again later.");
       }
+      if (errorParams === "AccessDenied") {
+        toast.error("Access denied. Please try again later.");
+      }
     }
   }, [errorParams]);
 

@@ -11,55 +11,48 @@ const nextAuthOptions: NextAuthOptions = {
       name: "github",
       clientId: process.env.GH_CLIENT_ID as string,
       clientSecret: process.env.GH_CLIENT_SECRET as string,
+      profile(profile) {
+        return {
+          id: profile.id.toString(),
+          name: profile.name || profile.login,
+          email: profile.email,
+          image: profile.avatar_url,
+          username: profile.login,
+        } as any;
+      },
     }),
   ],
   callbacks: {
     async signIn({ user, account }) {
-      if (account?.provider === "google") {
-        const { email, image, name, id } = user;
-
-        console.log({ email, name, image, id });
+      if (account?.provider === "github") {
+        const { image, username, name, id } = user as any;
 
         // check if user exist
-        const accountWithGoogleAuth = await prisma.user.findFirst({
+        const accountWithGithubAuth = await prisma.user.findFirst({
           where: {
-            email: email as string,
-          },
-        });
-
-        const accountWithoutGoogleAuth = await prisma.user.findFirst({
-          where: {
-            email: email as string,
+            uId: id as string,
           },
         });
         const users = await prisma.user.findMany();
 
-        if (!accountWithGoogleAuth && !accountWithoutGoogleAuth) {
+        if (!accountWithGithubAuth) {
           // create user
           await prisma.user.create({
             data: {
-              email: email as string,
+              email: "",
               name: name?.toLowerCase() as string,
               avatar: image as string,
               role: users.length === 0 ? "admin" : "user",
               uId: id,
-              gh_username: name,
+              gh_username: username,
               veloz_token: shortUUID.generate(),
             },
           });
           return true;
         }
 
-        if (accountWithGoogleAuth && !accountWithoutGoogleAuth) {
+        if (accountWithGithubAuth) {
           return true;
-        }
-
-        if (!accountWithGoogleAuth && accountWithoutGoogleAuth) {
-          throw new HttpException(
-            RESPONSE_CODE.USER_ALREADY_EXIST,
-            "OAuthAccountNotLinked",
-            400
-          );
         }
       }
       return true;
@@ -68,7 +61,6 @@ const nextAuthOptions: NextAuthOptions = {
       return `${baseUrl}/dashboard`;
     },
   },
-
   pages: {
     signIn: "/auth",
     error: "/auth",

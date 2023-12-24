@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "dbPush": "npx prisma db push",
+    "dbPush": "npx prisma db push && npx prisma generate",
     "dbGenerate": "npx prisma generate"
   },
   "prisma": {
