@@ -28,16 +28,13 @@ const nextAuthOptions: NextAuthOptions = {
         const { image, username, name, id } = user as any;
 
         // check if user exist
-        const accountWithGithubAuth = await prisma.user.findFirst({
-          where: {
-            uId: id as string,
-          },
-        });
-        const users = await prisma.user.findMany();
+        const users = await prisma.users.findMany();
+        const accountWithGithubAuth =
+          users.length > 0 ? users.find((u) => u.uId === id) : null;
 
         if (!accountWithGithubAuth) {
           // create user
-          await prisma.user.create({
+          await prisma.users.create({
             data: {
               email: "",
               name: name?.toLowerCase() as string,
@@ -57,9 +54,25 @@ const nextAuthOptions: NextAuthOptions = {
       }
       return true;
     },
+    jwt: async ({ user, token }) => {
+      if (user) {
+        token.uId = user?.id;
+      }
+      return token;
+    },
+    session: async ({ session, token }) => {
+      if (session?.user) {
+        session.user.id = token?.uId as string;
+      }
+      return session;
+    },
     async redirect({ url, baseUrl }) {
       return `${baseUrl}/dashboard`;
     },
+  },
+  secret: process.env.JWT_SECRET,
+  session: {
+    strategy: "jwt",
   },
   pages: {
     signIn: "/auth",

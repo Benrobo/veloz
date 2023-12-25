@@ -15,6 +15,9 @@ import { DataContext } from "@/context/DataContext";
 function TopBar() {
   // const { data } = useSession();
   const { userInfo } = useContext(DataContext);
+
+  console.log({ userInfo });
+
   return (
     <div className="w-full flex items-center justify-end border-b-solid border-b-[1px] border-b-dark-400 py-1 px-4">
       <div className="w-auto flex">

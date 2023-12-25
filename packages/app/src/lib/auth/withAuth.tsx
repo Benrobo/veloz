@@ -8,7 +8,7 @@ export default function withAuth<P extends { children: React.ReactNode }>(
   Component: React.ComponentType<P>
 ) {
   const ComponentWithAuth = (props: P) => {
-    const { setUserInfo } = useContext(DataContext);
+    const { setUserInfo, setPurchasedTemplates } = useContext(DataContext);
     const { data, loading, error, refetch } = useAuthUser(false);
     const { status } = useSession();
 
@@ -26,8 +26,8 @@ export default function withAuth<P extends { children: React.ReactNode }>(
     useEffect(() => {
       if (status === "authenticated") {
         if (data) {
-          //   setUserInfo(data);
-          console.log("user-data", data);
+          setUserInfo(data);
+          setPurchasedTemplates(data?.purchased_items);
         }
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps

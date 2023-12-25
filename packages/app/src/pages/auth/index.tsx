@@ -12,12 +12,17 @@ import useScrollVisible from "@/hooks/useScrollVisible";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/Spinner";
 import { withoutAuth } from "@/lib/auth/withoutAuth";
-import { signIn } from "next-auth/react";
+import { getCsrfToken, getProviders, signIn } from "next-auth/react";
 import usePageLoaded from "@/hooks/usePageLoaded";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 
-function Auth() {
+type AuthProps = {
+  providers: Record<string, { id: string }>;
+  csrfToken: any;
+};
+
+function Auth(props: AuthProps) {
   const scrollVisible = useScrollVisible();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -25,7 +30,7 @@ function Auth() {
 
   const handleAuth = async () => {
     setLoading(true);
-    await signIn("github");
+    signIn(props.providers["github"].id);
     setLoading(false);
   };
 
@@ -39,6 +44,8 @@ function Auth() {
       }
     }
   }, [errorParams]);
+
+  console.log();
 
   return (
     <FlexColStart className="w-full h-full min-h-screen gap-0 overflow-y-scroll bg-dark-103 scroll-smooth hideScrollBar">
@@ -59,6 +66,11 @@ function Auth() {
           </FlexColStart>
           <br />
           <FlexColStart className="w-full">
+            {/* <input
+              name="csrfToken"
+              type="hidden"
+              defaultValue={props.csrfToken}
+            /> */}
             <Button
               className="w-[280px] px-8 py-6 rounded-md bg-white-100 dark:bg-dark-102/70 hover:bg-white-100/70 border-solid border-[1px] border-white-400/40 dark:hover:bg-dark-102/70 dark:bg-dark-102 disabled:opacity-[.5] disabled:cursor-not-allowed "
               disabled={loading}
@@ -97,4 +109,15 @@ function Auth() {
   );
 }
 
-export default withoutAuth(Auth);
+export default withoutAuth(Auth as any);
+
+export async function getServerSideProps({ context }: any) {
+  const providers = await getProviders();
+  // const csrfToken = await getCsrfToken(context);
+  return {
+    props: {
+      providers,
+      // csrfToken,
+    },
+  };
+}

@@ -4,6 +4,7 @@ import { twMerge } from "tailwind-merge";
 import SideBar from "./Navbar/SideBar";
 import { LayoutContext } from "@/context/LayoutContext";
 import TopBar from "./Navbar/TopBar";
+import withAuth from "@/lib/auth/withAuth";
 
 interface LayoutProps {
   children?: React.ReactNode;
@@ -36,7 +37,7 @@ function Layout({ children, activePage, className }: LayoutProps) {
   );
 }
 
-export default Layout;
+export default withAuth(Layout as any);
 
 interface KitsLayoutProps {
   children?: React.ReactNode;

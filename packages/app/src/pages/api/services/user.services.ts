@@ -12,7 +12,7 @@ import { PARENT_TEMPLATES } from "@/data/stack";
 class UserService {
   async getInfo(req: NextApiRequest, res: NextApiResponse) {
     const userId = (req as any)?.user?.id;
-    const info = await prisma.user.findFirst({ where: { uId: userId } });
+    const info = await prisma.users.findFirst({ where: { uId: userId } });
 
     if (!info) {
       throw new HttpException(
@@ -52,7 +52,7 @@ class UserService {
 
   async getSettings(req: NextApiRequest, res: NextApiResponse) {
     const userId = (req as any)?.user?.id;
-    const user = await prisma.user.findFirst({ where: { uId: userId } });
+    const user = await prisma.users.findFirst({ where: { uId: userId } });
 
     // needed user details
     const _details = {
@@ -86,7 +86,7 @@ class UserService {
     const newToken = shortUUID.generate();
 
     // update uset veloz token
-    await prisma.user.update({
+    await prisma.users.update({
       where: { uId: userId },
       data: { veloz_token: newToken },
     });
@@ -142,7 +142,7 @@ class UserService {
     }
 
     for (const collaborator of collaborators) {
-      const user = await prisma.user.findFirst({
+      const user = await prisma.users.findFirst({
         where: { uId: collaborator },
       });
       if (!user) {

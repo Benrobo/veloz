@@ -41,7 +41,7 @@ class TemplateService {
     const usersAvatars: string[] = [];
 
     for (const t of _template) {
-      const user = await prisma.user.findFirst({ where: { uId: t.uId } });
+      const user = await prisma.users.findFirst({ where: { uId: t.uId } });
       if (user && !usersAvatars.includes(user?.avatar as string)) {
         usersAvatars.push(user.avatar as string);
       }
@@ -98,7 +98,7 @@ class TemplateService {
   async inviteToRepo(req: NextApiRequest, res: NextApiResponse) {
     const userId = (req as any)?.user?.id;
     const tempName = req?.body?.temp_name;
-    const user = await prisma.user.findFirst({ where: { uId: userId } });
+    const user = await prisma.users.findFirst({ where: { uId: userId } });
     const gh_name = user?.gh_username;
 
     // check if tempName is valid
@@ -172,7 +172,7 @@ class TemplateService {
       },
     });
 
-    const user = await prisma.user.findFirst({ where: { uId: userId } });
+    const user = await prisma.users.findFirst({ where: { uId: userId } });
 
     if (!_template) {
       // store template consumption

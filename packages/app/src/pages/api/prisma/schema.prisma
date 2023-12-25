@@ -13,7 +13,7 @@ enum Role {
     admin
 }
 
-model User {
+model Users {
     id          String   @id @default(auto()) @map("_id") @db.ObjectId
     uId         String   @unique
     name        String
@@ -43,7 +43,7 @@ model TemplateConsumption {
     used_count Int      @default(0)
     createdAt  DateTime @default(now())
 
-    user User @relation(fields: [uId], references: [uId], onDelete: Cascade)
+    user Users @relation(fields: [uId], references: [uId], onDelete: Cascade)
 
     @@map("template_consumption")
 }
@@ -55,7 +55,7 @@ model PurchasedItem {
     template_name String?
     createdAt     DateTime @default(now())
 
-    user User @relation(fields: [uId], references: [uId], onDelete: Cascade)
+    user Users @relation(fields: [uId], references: [uId], onDelete: Cascade)
 
     @@map("purchased_items")
 }
@@ -74,7 +74,7 @@ model Order {
     variant_id     String?
     createdAt      DateTime @default(now())
 
-    user User @relation(fields: [uId], references: [uId], onDelete: Cascade)
+    user Users @relation(fields: [uId], references: [uId], onDelete: Cascade)
 
     @@map("orders")
 }
@@ -88,7 +88,7 @@ model Invites {
     type          String
     createdAt     DateTime @default(now())
 
-    user User @relation(fields: [uId], references: [uId], onDelete: Cascade)
+    user Users @relation(fields: [uId], references: [uId], onDelete: Cascade)
 
     @@map("invites")
 }
@@ -102,8 +102,8 @@ model CollaboratedTemplates {
     revoked     Boolean  @default(false)
     createdAt   DateTime @default(now())
 
-    sender   User @relation(name: "SENDER", fields: [sender_id], references: [uId], onDelete: Cascade)
-    receiver User @relation(name: "RECEIVER", fields: [receiver_id], references: [uId], onDelete: Cascade)
+    sender   Users @relation(name: "SENDER", fields: [sender_id], references: [uId], onDelete: Cascade)
+    receiver Users @relation(name: "RECEIVER", fields: [receiver_id], references: [uId], onDelete: Cascade)
 
     @@map("collaborated_templates")
 }
