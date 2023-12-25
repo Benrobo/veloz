@@ -36,8 +36,7 @@ export default function useAuthUser(shouldFetchOnMount: boolean = false) {
     if (!userInfoMutation?.data?.errorStatus) {
       // fetch user info if none exists and user is logged in
       const reqData = userInfoMutation.data?.data as UserInfo;
-      console.log({ reqData });
-      if (reqData) setUserInfo(reqData);
+      setUserInfo(reqData);
     } else {
       setUserInfo(null as any);
       toast.error(

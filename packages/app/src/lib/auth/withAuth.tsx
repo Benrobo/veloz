@@ -8,7 +8,8 @@ export default function withAuth<P extends { children: React.ReactNode }>(
   Component: React.ComponentType<P>
 ) {
   const ComponentWithAuth = (props: P) => {
-    const { setUserInfo, setPurchasedTemplates } = useContext(DataContext);
+    const { setUserInfo, setPurchasedTemplates, userInfo } =
+      useContext(DataContext);
     const { data, loading, error, refetch } = useAuthUser(false);
     const { status } = useSession();
 
@@ -18,7 +19,7 @@ export default function withAuth<P extends { children: React.ReactNode }>(
         const pathname = window.location.pathname;
         if (status === "unauthenticated" && pathname !== "/auth")
           window.location.href = "/auth";
-        if (status === "authenticated") refetch();
+        if (status === "authenticated" && !userInfo) refetch();
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [status]);

@@ -11,7 +11,7 @@ export function withoutAuth<P extends { children: React.ReactNode }>(
     useEffect(() => {
       if (status !== "loading") {
         if (status === "authenticated") {
-          window.location.href = "/auth";
+          window.location.href = "/dashboard";
         }
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -45,8 +45,6 @@ function Auth(props: AuthProps) {
     }
   }, [errorParams]);
 
-  console.log();
-
   return (
     <FlexColStart className="w-full h-full min-h-screen gap-0 overflow-y-scroll bg-dark-103 scroll-smooth hideScrollBar">
       <Seo

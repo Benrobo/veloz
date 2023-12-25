@@ -8,8 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
-import { logout } from "@/lib/utils";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { DataContext } from "@/context/DataContext";
 
 function TopBar() {
@@ -39,7 +38,7 @@ function TopBar() {
                 Signed in as
               </span>
               <p className="text-white-100 font-ppReg text-[13px]">
-                {userInfo?.email ?? "N/A"}
+                {userInfo?.name ?? "N/A"}
               </p>
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-dark-300 h-[1px]" />
@@ -49,7 +48,7 @@ function TopBar() {
             <DropdownMenuSeparator className="bg-dark-300 h-[1px]" />
             <DropdownMenuItem
               className="hover:!bg-dark-200 hover:!text-red-305 cursor-pointer"
-              onClick={logout}
+              onClick={() => signOut()}
             >
               Logout
             </DropdownMenuItem>

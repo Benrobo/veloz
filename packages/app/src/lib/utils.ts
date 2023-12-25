@@ -86,11 +86,6 @@ type StackProps = Record<
   { category: TechStackCategory; name: string; stack: string }
 >;
 
-export const logout = () => {
-  localStorage.removeItem("clerk-db-jwt");
-  window.location.href = "/auth";
-};
-
 // format number to 100, 1k, 2.5k, 1m, 2.5m
 export function formatNumber(number: number) {
   // International number formatting

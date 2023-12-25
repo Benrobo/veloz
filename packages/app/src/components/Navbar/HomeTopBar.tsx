@@ -67,6 +67,7 @@ function HomeTopBar({ scrollVisible }: Props) {
           .filter((n) => n.visible)
           .map((n) => (
             <Link
+              key={n.link}
               href={n.link}
               className={cn(
                 "text-[12px] hover:text-white-100 hover:underline font-jbEB transition-all delay-700 hover:delay-700",
