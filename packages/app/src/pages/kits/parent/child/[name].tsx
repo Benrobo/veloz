@@ -23,7 +23,7 @@ import { FineTunedStacksName, TechStackPricingPlan } from "@veloz/shared/types";
 import { ArrowDownFromLine, ArrowLeftToLine, MoveRight } from "lucide-react";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement, useContext, useEffect } from "react";
 import { formatNumber } from "@/lib/utils";
 import withAuth from "@/lib/auth/withAuth";
 
@@ -97,7 +97,7 @@ function ProjectTemplate() {
 
   return (
     // @ts-expect-error
-    <Layout activePage="templates">
+    <Layout activePage="kits">
       <FlexColStart className="w-full h-full hideScrollBar2 overflow-y-scroll">
         <FlexRowStart className="px-4 py-4">
           <button
