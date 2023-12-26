@@ -8,6 +8,15 @@ export const STACKS_NOT_AVAILABLE = [
   "vuejs",
   "nuxtjs",
   "stripe",
+  "react",
+  "javascript",
+  "nodejs",
+  "php",
+  "python",
+  "paddle",
+  "stripe",
+  "elasticmail",
+  "postmark",
 ];
 
 type FeaturesDataType = {
