@@ -17,6 +17,7 @@ import TemplateDetails from "@/components/StarterKits/Details";
 import { Button } from "@/components/ui/button";
 import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
 import { DataContext } from "@/context/DataContext";
+import { LayoutContext } from "@/context/LayoutContext";
 import { FINE_TUNED_STACKS, PARENT_TEMPLATES } from "@/data/stack";
 import usePageLoaded from "@/hooks/usePageLoaded";
 import withAuth from "@/lib/auth/withAuth";
@@ -36,6 +37,7 @@ import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 function Page() {
+  const { setActivePage } = useContext(LayoutContext);
   const { purchasedKits, setPurchasedTemplates } = useContext(DataContext);
   const pageLoaded = usePageLoaded();
   const parentName = useRouter().query.parent as string;
@@ -43,6 +45,8 @@ function Page() {
   const createCheckoutMut = useMutation({
     mutationFn: async (data: any) => await createCheckout(data),
   });
+
+  setActivePage("kits");
 
   const userInfoQuery = useQuery({
     queryKey: ["userInfo"],
@@ -55,10 +59,6 @@ function Page() {
 
   const childTemplates = FINE_TUNED_STACKS.filter(
     (s) => s.parent_id === parentKit?.id
-  );
-
-  const pricingModel = TEMPLATES_PRICING_MODEL.find(
-    (m) => m.plan === parentKit?.pricing_plan
   );
 
   const extractFineTunedStack = (
