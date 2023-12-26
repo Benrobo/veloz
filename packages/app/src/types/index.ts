@@ -98,4 +98,7 @@ export type ReturnedTemplatesType = {
     images: string[];
     count: number;
   };
+  discount: {
+    amount: number;
+  } | null;
 };

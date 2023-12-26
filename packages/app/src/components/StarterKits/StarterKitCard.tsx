@@ -14,7 +14,7 @@ import { TechStackPricingPlan } from "@veloz/shared/types";
 import { PricingBadge, StackedAvatar } from "../Badge";
 import Link from "next/link";
 import { BadgeCheck, CheckCheck, ExternalLink } from "lucide-react";
-import { TEMPLATES_PRICING_MODEL } from "@/constant/template";
+import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
 import { formatCurrency, hasTemplateBeenPurchased } from "@/lib/utils";
 import Image from "next/image";
 import { DataContext } from "@/context/DataContext";
@@ -26,6 +26,9 @@ type StarterKitsProps = {
   tagline: string;
   userImages: string[];
   thumbnail: string;
+  discount: {
+    amount: number;
+  } | null;
 };
 
 function StarterKitCard({
@@ -35,11 +38,14 @@ function StarterKitCard({
   pricing_plan,
   thumbnail,
   id,
+  discount,
 }: StarterKitsProps) {
   const { purchasedKits } = useContext(DataContext);
   const pricingModel = TEMPLATES_PRICING_MODEL.find(
     (m) => m.plan === pricing_plan
   );
+
+  console.log({ discount });
 
   const alreadyPurchased =
     // pricing_plan === "FREE_PKG" ||
@@ -47,17 +53,6 @@ function StarterKitCard({
 
   return (
     <FlexColStart className="w-fit max-w-[450px] h-auto min-h-[300px] gap-0  rounded-md overflow-hidden scale-[.90] translate-x-[-20px] ">
-      {/* <div
-        className="w-full rounded-[10px] group overflow-hidden border-solid border-[.9px] border-gray-100/20 transition-all "
-        style={{
-          backgroundImage: `url(${thumbnail})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          height: "250px",
-          width: "450px",
-        }}
-      ></div> */}
       <Image
         src={thumbnail}
         alt="template"
@@ -87,10 +82,26 @@ function StarterKitCard({
                 </span>
               </FlexRowStartCenter>
             ) : (
-              formatCurrency(
-                pricingModel?.pricing.price as number,
-                pricingModel?.pricing.currency as string
-              )
+              <FlexRowStartCenter>
+                {discount && (
+                  <span className="text-sm text-white-300 line-through">
+                    {formatCurrency(
+                      pricingModel?.pricing.price as number,
+                      pricingModel?.pricing.currency as string
+                    )}
+                  </span>
+                )}
+                {discount
+                  ? formatCurrency(
+                      ((pricingModel?.pricing.price as number) -
+                        discount?.amount) as number,
+                      pricingModel?.pricing.currency as string
+                    )
+                  : formatCurrency(
+                      pricingModel?.pricing.price as number,
+                      pricingModel?.pricing.currency as string
+                    )}
+              </FlexRowStartCenter>
             )}
           </h1>
         </FlexRowEnd>
@@ -104,10 +115,14 @@ function StarterKitCard({
             Learn more
           </Link>
         </FlexRowStart>
-        <FlexRowCenter className="w-fit ">
-          <span className="text-gray-100 font-jbSB text-[10px] ">Used by:</span>
-          <StackedAvatar images={userImages} limit={2} />
-        </FlexRowCenter>
+        {userImages.length > 0 && (
+          <FlexRowCenter className="w-fit ">
+            <span className="text-gray-100 font-jbSB text-[10px] ">
+              Used by:
+            </span>
+            <StackedAvatar images={userImages} limit={2} />
+          </FlexRowCenter>
+        )}
       </FlexRowCenterBtw>
     </FlexColStart>
   );

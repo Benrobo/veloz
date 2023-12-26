@@ -13,7 +13,7 @@ import {
 import { TechStackPricingPlan } from "@veloz/shared/types";
 import { cn, formatCurrency } from "@/lib/utils";
 import { CheckCheck, MoveRight } from "lucide-react";
-import { TEMPLATES_PRICING_MODEL } from "@/constant/template";
+import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
 import { PARENT_TEMPLATES } from "@/data/stack";
 import Link from "next/link";
 import Image from "next/image";

@@ -1,4 +1,4 @@
-import { TEMPLATES_PRICING_MODEL } from "@/constant/template";
+import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
 import { PARENT_TEMPLATES } from "@/data/stack";
 import axios from "axios";
 import env from "../config/env";

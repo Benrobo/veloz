@@ -25,7 +25,7 @@ import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import React, { ReactElement, useEffect } from "react";
 import { formatNumber } from "@/lib/utils";
-import { withAuth } from "@/lib/helpers";
+import withAuth from "@/lib/auth/withAuth";
 
 function ProjectTemplate() {
   const pageLoaded = usePageLoaded(1000);
@@ -96,6 +96,7 @@ function ProjectTemplate() {
   const _payment = stackDetails?.tech_stacks.find((s) => s.title === "payment");
 
   return (
+    // @ts-expect-error
     <Layout activePage="templates">
       <FlexColStart className="w-full h-full hideScrollBar2 overflow-y-scroll">
         <FlexRowStart className="px-4 py-4">

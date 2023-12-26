@@ -15,11 +15,11 @@ import { Spinner } from "@/components/Spinner";
 import { RenderProjectIcons } from "@/components/StarterKits/Card";
 import TemplateDetails from "@/components/StarterKits/Details";
 import { Button } from "@/components/ui/button";
-import { TEMPLATES_PRICING_MODEL } from "@/constant/template";
+import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
 import { DataContext } from "@/context/DataContext";
 import { FINE_TUNED_STACKS, PARENT_TEMPLATES } from "@/data/stack";
 import usePageLoaded from "@/hooks/usePageLoaded";
-import { withAuth } from "@/lib/helpers";
+import withAuth from "@/lib/auth/withAuth";
 import { createCheckout, getUser } from "@/lib/http/requests";
 import { cn, formatCurrency, hasTemplateBeenPurchased } from "@/lib/utils";
 import { ResponseData, UserInfo } from "@/types";
@@ -99,6 +99,7 @@ function Page() {
 
   if (!pageLoaded || userInfoQuery.isPending) {
     return (
+      // @ts-expect-error
       <Layout activePage="templates">
         <FlexColCenter className="w-full h-screen">
           <Spinner />
@@ -116,6 +117,7 @@ function Page() {
     );
 
   return (
+    // @ts-expect-error
     <Layout activePage="kits">
       {!parentTemplates && (
         <div className="w-full h-full flex justify-center items-center">
@@ -164,7 +166,7 @@ function Page() {
                     <Button
                       variant={"primary"}
                       className={cn(
-                        "w-fit min-w-[190px] rounded-[30px] font-ppSB text-[15px] gap-2",
+                        "w-fit min-w-[150px] rounded-[30px] font-ppSB text-[15px] gap-2",
                         createCheckoutMut.isPending
                           ? "bg-purple-100/50 hover:cursor-not-allowed"
                           : "premium-button"
@@ -182,11 +184,7 @@ function Page() {
                       ) : (
                         <>
                           <Zap size={15} />{" "}
-                          <span className="text-[13px]">Buy Now</span>{" "}
-                          {formatCurrency(
-                            pricingModel?.pricing.price as number,
-                            pricingModel?.pricing.currency as string
-                          )}
+                          <span className="text-[13px]">Buy Now</span>
                         </>
                       )}
                     </Button>

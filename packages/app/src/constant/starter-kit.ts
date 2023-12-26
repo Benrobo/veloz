@@ -15,7 +15,7 @@ export const TEMPLATES_PRICING_MODEL = [
     pricing: {
       currency: "USD",
       currency_symbol: "$",
-      price: 499,
+      price: 299,
     },
   },
   {

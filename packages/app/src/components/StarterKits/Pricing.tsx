@@ -10,7 +10,7 @@ import { CheckCheck, Zap } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn, formatCurrency } from "@/lib/utils";
 import { PARENT_TEMPLATES } from "@/data/stack";
-import { TEMPLATES_PRICING_MODEL } from "@/constant/template";
+import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
 import { useUser } from "@clerk/nextjs";
 
 const features = [

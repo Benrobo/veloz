@@ -1,4 +1,4 @@
-import { TEMPLATES_PRICING_MODEL } from "@/constant/template";
+import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
 import { TechStackPricingPlan } from "@veloz/shared/types";
 
 type PricingPlan = {

@@ -30,8 +30,7 @@ function Auth(props: AuthProps) {
 
   const handleAuth = async () => {
     setLoading(true);
-    signIn(props.providers["github"].id);
-    setLoading(false);
+    signIn(props.providers["github"].id).then(() => setLoading(false));
   };
 
   useEffect(() => {
@@ -70,7 +69,7 @@ function Auth(props: AuthProps) {
               defaultValue={props.csrfToken}
             /> */}
             <Button
-              className="w-[280px] px-8 py-6 rounded-md bg-white-100 dark:bg-dark-102/70 hover:bg-white-100/70 border-solid border-[1px] border-white-400/40 dark:hover:bg-dark-102/70 dark:bg-dark-102 disabled:opacity-[.5] disabled:cursor-not-allowed "
+              className="w-[280px] px-8 py-5 rounded-md bg-white-100 dark:bg-dark-102/70 hover:bg-white-100/70 border-solid border-[1px] border-white-400/40 dark:hover:bg-dark-102/70 dark:bg-dark-102 disabled:opacity-[.5] disabled:cursor-not-allowed "
               disabled={loading}
               onClick={handleAuth}
             >
@@ -94,7 +93,7 @@ function Auth(props: AuthProps) {
                       <path d="M26.484 91.806c-.133.3-.605.39-1.035.185c-.44-.196-.685-.605-.543-.906c.13-.31.603-.395 1.04-.188c.44.197.69.61.537.91zm2.446 2.729c-.287.267-.85.143-1.232-.28c-.396-.42-.47-.983-.177-1.254c.298-.266.844-.14 1.24.28c.394.426.472.984.17 1.255zm2.382 3.477c-.37.258-.976.017-1.35-.52c-.37-.538-.37-1.183.01-1.44c.373-.258.97-.025 1.35.507c.368.545.368 1.19-.01 1.452zm3.261 3.361c-.33.365-1.036.267-1.552-.23c-.527-.487-.674-1.18-.343-1.544c.336-.366 1.045-.264 1.564.23c.527.486.686 1.18.333 1.543zm4.5 1.951c-.147.473-.825.688-1.51.486c-.683-.207-1.13-.76-.99-1.238c.14-.477.823-.7 1.512-.485c.683.206 1.13.756.988 1.237m4.943.361c.017.498-.563.91-1.28.92c-.723.017-1.308-.387-1.315-.877c0-.503.568-.91 1.29-.924c.717-.013 1.306.387 1.306.88zm4.598-.782c.086.485-.413.984-1.126 1.117c-.7.13-1.35-.172-1.44-.653c-.086-.498.422-.997 1.122-1.126c.714-.123 1.354.17 1.444.663zm0 0" />
                     </g>
                   </svg>
-                  <span className="text-sm text-dark-300 dark:text-white-300 font-ppReg">
+                  <span className="text-xs text-dark-300 dark:text-white-300 font-ppReg">
                     Continue with Github
                   </span>
                 </FlexRowStartCenter>

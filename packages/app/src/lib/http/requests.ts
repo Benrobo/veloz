@@ -1,7 +1,8 @@
+import shortUUID from "short-uuid";
 import $axios from "./axios";
 
 export const getUser = async () => {
-  const req = await $axios.get("/api/user");
+  const req = await $axios.get(`/api/user?tmp=${shortUUID.generate()}`);
   return req.data;
 };
 
