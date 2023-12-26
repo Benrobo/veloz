@@ -181,10 +181,10 @@ export const GENERAL_STACKS = [
     stacks: [
       // Add authentication stacks here
       // Example:
-      {
-        name: "JSON Web Token",
-        key: "jsonwebtoken",
-      },
+      // {
+      //   name: "JSON Web Token",
+      //   key: "jsonwebtoken",
+      // },
       // {
       //   name: "Clerk",
       //   key: "clerk",
