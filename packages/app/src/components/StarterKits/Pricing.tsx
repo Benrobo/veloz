@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   FlexColCenter,
   FlexColStart,
@@ -11,7 +11,7 @@ import { Button } from "../ui/button";
 import { cn, formatCurrency } from "@/lib/utils";
 import { PARENT_TEMPLATES } from "@/data/stack";
 import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
-import { useUser } from "@clerk/nextjs";
+import { DataContext } from "@/context/DataContext";
 
 const features = [
   "One Time purchase",
@@ -27,7 +27,7 @@ type Props = {
 };
 
 function Pricing({ name }: Props) {
-  const { isLoaded, user } = useUser();
+  const { userInfo } = useContext(DataContext);
 
   const template = PARENT_TEMPLATES.find(
     (t) => t.name.toLowerCase() === name.toLowerCase()
@@ -107,7 +107,7 @@ function Pricing({ name }: Props) {
               "w-full rounded-[30px] py-5 font-ppSB text-[15px] gap-2 premium-button"
             )}
             onClick={() => {
-              if (!isLoaded || !user) {
+              if (!userInfo) {
                 window.location.href = "/auth";
               } else {
                 window.location.href = `/kits/parent/${name.toLowerCase()}`;
