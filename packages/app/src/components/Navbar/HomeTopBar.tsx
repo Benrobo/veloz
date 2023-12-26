@@ -10,27 +10,32 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 export const navigations = [
   {
     link: "#starter-kits",
     visible: true,
     title: "Starter Kits",
+    external: false,
   },
   {
     link: "#",
     visible: true,
     title: "Documentation",
+    external: true,
   },
   {
     link: "#",
     visible: false,
     title: "Changelog",
+    external: false,
   },
   {
     link: "#",
     visible: false,
     title: "Changelog",
+    external: false,
   },
 ];
 
@@ -68,7 +73,7 @@ function HomeTopBar({ scrollVisible }: Props) {
           .map((n) => (
             <Link
               key={n.link}
-              href={n.link}
+              href={n.external ? n.link : `/${n.link}`}
               className={cn(
                 "text-[12px] hover:text-white-100 hover:underline font-jbEB transition-all delay-700 hover:delay-700",
                 activeTab === n.title.toLowerCase()
