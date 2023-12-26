@@ -38,8 +38,8 @@ function Pricing({ name }: Props) {
   const tempDiscount = template?.discount ?? null;
 
   return (
-    <FlexColStart className="w-full h-full">
-      <FlexColCenter className="w-full text-center">
+    <FlexColStart className="w-full h-full ">
+      <FlexColCenter className="w-full text-center z-[20]">
         <h1 className="text-white-100 font-ppEB text-2xl md:text-4xl">
           One Time Purchase
         </h1>
@@ -48,10 +48,11 @@ function Pricing({ name }: Props) {
           within the package.
         </p>
         <br />
+        <div id="kit-pricing" className="invisible"></div>
       </FlexColCenter>
       <br />
       <FlexColCenter className="w-full">
-        <FlexColStart className="w-full scale-[.90] md:scale-1 max-w-[350px] min-h-[450px] bg-dark-200 py-4 px-5 pb-4 rounded-md border-solid border-[1px] border-orange-100 ">
+        <FlexColStart className="w-full scale-[.90] z-[20] md:scale-1 max-w-[350px] min-h-[450px] bg-dark-200 py-4 px-5 pb-4 rounded-md border-solid border-[1px] border-orange-100 ">
           <FlexColStart className="w-full py-5">
             <h1 className="text-white-100 font-ppEB text-2xl md:text-2xl leadning-none">
               Life Time Access
