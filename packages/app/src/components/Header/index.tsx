@@ -6,13 +6,16 @@ import {
   FlexRowCenterBtw,
 } from "../Flex";
 import BlurBgRadial from "../BlurBgRadial";
+import Image from "next/image";
 
 function Header() {
+  const discordInviteLink = "https://discord.gg/JPCa4yq8";
   return (
-    <FlexColStartCenter className="relative w-full h-screen min-h-screen overflow-hidden pattern-bg border-b-solid border-b-[1px] border-b-gray-100/30 ">
+    <FlexColStartCenter className="relative w-full h-auto pattern-bg border-b-solid border-b-[1px] border-b-gray-100/30 ">
       <a id="home"></a>
       {/* Blur radius */}
       <BlurBgRadial className=" w-[100%] lg:w-[60%] h-[300px] absolute top-[10%] lg:top-[-10%] bg-white-300/10 " />
+
       <FlexColCenter className="relative w-full h-auto mt-[10em] text-center">
         <FlexRowCenter className="rainbowBorder mb-10 inline-flex items-center justify-center text-[14px] px-[2px] ">
           <span className="inline-flex items-center gap-1 whitespace-nowrap px-6 py-2 bg-dark-100 font-ppReg text-[12px] text-white-100">
@@ -30,7 +33,10 @@ function Header() {
             Veloz for a swift SaaS evolution.
           </p>
           <br />
-          <button className="w-auto px-5 py-3 rounded-[30px] border-solid border-[3px] border-blue-100 transition-all hover:scale-[1] scale-[.95] ">
+          <button
+            className="w-auto px-5 py-3 rounded-[30px] border-solid border-[3px] border-blue-100 transition-all hover:scale-[1] scale-[.95] "
+            onClick={() => window.open(discordInviteLink)}
+          >
             <FlexRowCenterBtw className="w-full">
               <svg
                 width="24"
@@ -55,6 +61,17 @@ function Header() {
             </FlexRowCenterBtw>
           </button>
         </FlexColCenter>
+      </FlexColCenter>
+      <br />
+      <FlexColCenter className="w-full h-full">
+        <Image
+          src={"/images/thumbnails/1.png"}
+          width={50}
+          height={0}
+          layout="responsive"
+          className="rounded-md"
+          alt="veloz starter kit"
+        />
       </FlexColCenter>
 
       {/* bottom blur radius */}
