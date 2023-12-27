@@ -50,7 +50,7 @@ function HomeTopBar({ scrollVisible }: Props) {
   return (
     <FlexRowCenterBtw
       className={cn(
-        "w-full h-auto px-9 py-3  backdrop-blur z-[1000] border-b-solid border-b-[.5px] border-b-gray-100/20 ",
+        "w-full h-auto px-5 md:px-9 py-3  backdrop-blur z-[1000] border-b-solid border-b-[.5px] border-b-gray-100/20 ",
         scrollVisible ? "bg-dark-200/50 fixed top-0 left-0" : "absolute"
       )}
     >
@@ -86,20 +86,18 @@ function HomeTopBar({ scrollVisible }: Props) {
             </Link>
           ))}
       </FlexRowCenter>
-      <FlexRowEnd className="w-full hidden md:flex ">
+      <FlexRowEnd className="w-full ">
         <Link
           href={status === "authenticated" && data ? "/dashboard" : "/auth"}
-          className="w-auto px-5 py-3 rounded-[30px] group bg-blue-101 hover:bg-blue-101/70  transition-all hidden md:block scale-[.90] "
+          className="w-auto px-5 py-3 rounded-[30px] group bg-white-100 hover:bg-white-100/40  transition-all scale-[1] md:scale-[.90] "
         >
           <FlexRowStartCenter className="gap-2">
-            <span className="text-white-100 text-sm font-ppSB">
-              {status === "authenticated" && data
-                ? "Dashboard"
-                : "Get started ✨"}
+            <span className="text-dark-100 text-xs md:text-sm font-ppSB">
+              {status === "authenticated" && data ? "Dashboard" : "Get started"}
             </span>
             <ChevronRight
               size={15}
-              className="text-white-100 group-hover:translate-x-2 translate-x-0 transition-all"
+              className="text-dark-100 group-hover:translate-x-2 translate-x-0 transition-all"
             />
           </FlexRowStartCenter>
         </Link>
