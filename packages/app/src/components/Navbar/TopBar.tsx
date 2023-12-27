@@ -12,7 +12,6 @@ import { signOut, useSession } from "next-auth/react";
 import { DataContext } from "@/context/DataContext";
 
 function TopBar() {
-  // const { data } = useSession();
   const { userInfo } = useContext(DataContext);
 
   console.log({ userInfo });
