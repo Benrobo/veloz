@@ -33,7 +33,7 @@ function Footer() {
             <p className="text-white-100 text-1xl font-ppEB">Veloz</p>
           </FlexRowStartCenter>
           <span className="text-white-300/50 font-ppReg text-[13px] ">
-            © 2021 Veloz. All rights reserved.
+            © {new Date().getFullYear()} Veloz. All rights reserved.
           </span>
           {SOCIALS.filter((d) => d.url.length > 0).map((s, i) => (
             <a href={s.url} key={i}>
