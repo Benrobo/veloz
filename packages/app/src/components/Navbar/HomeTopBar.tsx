@@ -32,9 +32,9 @@ export const navigations = [
     external: false,
   },
   {
-    link: "#",
-    visible: false,
-    title: "Changelog",
+    link: "#faq",
+    visible: true,
+    title: "FAQ",
     external: false,
   },
 ];
