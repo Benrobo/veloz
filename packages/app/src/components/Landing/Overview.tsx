@@ -43,9 +43,9 @@ const overviewData = [
 
 function Overview() {
   return (
-    <FlexColStart className="relative w-full h-auto bg-dark-102 border-t-solid border-t-[1px] border-t-gray-100/30 px-9 py-[6em]">
-      <FlexColCenter className="md:max-w-[95%] xl:max-w-[85%] mx-auto">
-        <div className="w-full h-auto grid grid-cols-1 md:grid-cols-2 gap-10 px-5">
+    <FlexColStart className="relative w-full h-auto bg-dark-102 border-t-solid border-t-[1px] border-t-gray-100/30 px-4 md:px-9 py-[6em]">
+      <FlexColCenter className="w-full md:max-w-[95%] xl:max-w-[85%] mx-auto">
+        <div className="w-full h-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:px-5">
           <FlexColStart className="w-full h-auto">
             <FlexRowStartCenter className="w-auto">
               <Flame
