@@ -16,6 +16,7 @@ import { getCsrfToken, getProviders, signIn } from "next-auth/react";
 import usePageLoaded from "@/hooks/usePageLoaded";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
+import MiniMenu from "@/components/Navbar/MiniMenu";
 
 type AuthProps = {
   providers: Record<string, { id: string }>;
@@ -51,7 +52,8 @@ function Auth(props: AuthProps) {
         description="A simple, fast, and reliable starter kit for your SaaS project."
       />
       <HomeTopBar scrollVisible={scrollVisible} />
-      <FlexColCenter className="w-full mt-[10em]">
+      <MiniMenu />
+      <FlexColCenter className="w-full mt-[10em] px-6">
         <FlexColStartCenter className="w-full md:max-w-[400px]">
           <FlexColStart className="w-full">
             <h1 className="font-ppSB text-2xl text-white-100">
