@@ -66,7 +66,7 @@ function StarterKits() {
         )}
       </FlexColStartCenter>
       <br />
-      <FlexRowStartCenter className="w-full h-auto px-[1em] md:px-[2em] flex-wrap gap-5">
+      <FlexRowStartCenter className="w-full h-auto px-1 md:px-[2em] flex-wrap gap-5">
         {templates.map((t) => (
           <>
             <KitCard
@@ -105,18 +105,7 @@ type KitCardProps = {
 function KitCard({ name, plan, thumbnail, tagline, discount }: KitCardProps) {
   if (!plan) return null;
   return (
-    <FlexColStart className="w-full md:max-w-[450px] h-auto min-h-[300px] gap-0  rounded-md scale-[.90] translate-x-[-20px] relative">
-      {/* <div
-        className="w-[700px] md:max-w-[450px] h-[250px] relative rounded-[10px] group overflow-hidden border-solid border-[.9px] border-gray-100/20 transition-all "
-        style={{
-          backgroundImage: `url(${thumbnail})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          // height: "250px",
-          // width: "450px",
-        }}
-      ></div> */}
+    <FlexColStart className="w-full md:max-w-[450px] h-auto min-h-[300px] gap-0  rounded-md scale-[.95] md:scale-[.90] md:translate-x-[-20px] relative">
       <Image
         src={thumbnail}
         alt="template"
@@ -169,7 +158,7 @@ function KitCard({ name, plan, thumbnail, tagline, discount }: KitCardProps) {
 
 function EmptyStarterKit({ name }: { name: string }) {
   return (
-    <FlexColStart className="w-full md:max-w-[450px] h-[365px] gap-0  rounded-md scale-[.90] translate-x-[-20px] relative bg-dark-200 overflow-hidden  backdrop-blur">
+    <FlexColStart className="w-full md:max-w-[450px] h-[350px] md:h-[365px] gap-0  rounded-md scale-[.90] md:translate-x-[-20px] relative bg-dark-200 overflow-hidden  backdrop-blur">
       <FlexColCenter className="w-full h-full top-0 left-0 bg-dark-100/20 text-center z-[100]">
         <p className="text-orange-100 font-ppSB text-[12px] px-3 py-2 rounded-[30px] bg-dark-300 shadow-xl ">
           Coming soon!
