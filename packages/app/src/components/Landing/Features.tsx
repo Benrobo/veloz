@@ -48,14 +48,25 @@ function Features() {
     return _stacks;
   };
 
+  // get active stacks
   const _activeStacks = getActiveFeatureStack(activeFeature);
   const _features = FeaturesData.find((f) => f.key === activeFeature);
-  const _notAvailableStacks = STACKS_NOT_AVAILABLE;
   const _allStacks = [
     ...GENERAL_STACKS.map((stk) => stk.category).flat(),
     "seo" as TechStackCategory,
   ];
   const _stackWithWhiteBg = ["nextjs"];
+
+  // sort stacks by availability in descending order
+  const activeStacksByAvailability = _activeStacks
+    ?.map((s) => {
+      const _unavailable = STACKS_NOT_AVAILABLE.includes(s.key);
+      return {
+        ...s,
+        _unavailable,
+      };
+    })
+    .toSorted((a, b) => (a?._unavailable as any) - (b._unavailable as any));
 
   return (
     <FlexColCenter className="relative w-full h-auto md:h-auto py-[5em] mb-[10em] bg-dark-103 ">
@@ -77,7 +88,7 @@ function Features() {
       </FlexColCenter>
       <FlexColCenter className="w-full md:max-w-[80%] z-[200]">
         <div className="w-full px-5 md:px-0 flex flex-col md:max-w-[90%] md:grid md:grid-cols-2">
-          <FlexRowStart className="w-full h-auto mx-auto md:h-0 gap-10  flex-wrap py-8 px-5  ">
+          <FlexRowStart className="w-full h-auto mx-auto md:h-0 gap-10  flex-wrap py-8 md:px-5 ">
             {_allStacks.map((stk, i) => (
               <StackFeatures
                 key={i}
@@ -87,7 +98,7 @@ function Features() {
               />
             ))}
           </FlexRowStart>
-          <FlexColStart className="w-full h-full py-8 px-5">
+          <FlexColStart className="w-full h-full py-8 md:px-5">
             <FlexColStart className="w-full h-auto">
               <h1 className="text-white-100 text-[13px] font-ppSB leading-none">
                 {_features?.title}
@@ -111,13 +122,13 @@ function Features() {
             {/* Stacks Section */}
             <FlexRowStart className="w-full h-0 flex-wrap mt-9 gap-3 md:gap-9">
               {_features?.includeStacks &&
-                _activeStacks.map((d, i) => (
+                activeStacksByAvailability.map((d, i) => (
                   <FlexColCenter>
                     <FlexColCenter
                       key={i}
                       className="w-auto h-auto p-3 relative border-solid border-white-600 border-[.5px] rounded-lg "
                     >
-                      {_notAvailableStacks.includes(d.key) && (
+                      {STACKS_NOT_AVAILABLE.includes(d.key) && (
                         <span className="px-2 py-[2px] rounded-[30px] text-[8px] font-ppSB text-white-100 bg-red-305 absolute top-[-17%] right-[-5%]">
                           soon!
                         </span>
@@ -179,7 +190,7 @@ function StackFeatures({
       <FlexColCenter>
         <p
           className={cn(
-            "text-[13px] font-ppReg",
+            "text-xs font-ppReg",
             activeFeature === category ? "text-white-100" : "text-white-300"
           )}
         >
