@@ -17,6 +17,7 @@ export interface IFINE_TUNED_STACKS_TEMP extends FINE_TUNED_STACKS_TYPE {
   difficulty: "intermediate" | "advanced" | "beginner";
   tags: string[];
   parent_id: string;
+  documentation?: string;
 }
 
 interface IPARENT_TEMPLATES {

@@ -142,14 +142,73 @@ function Page() {
             </Link>
           </FlexRowStart>
           <FlexColStart className="w-full px-5">
-            <FlexRowStartBtw className="w-full">
+            <FlexColStart className="w-full">
               <FlexColStart className="w-full mr-3">
-                <h1 className="text-white-100 font-jbEB text-2xl">
-                  {parentName}
-                </h1>
-                <p className="text-white-300 font-jbR text-[12px]">
-                  {parentKit?.tagline}
-                </p>
+                <FlexRowStartBtw className="w-full">
+                  <FlexColStart className="w-full">
+                    <h1 className="text-white-100 font-jbEB text-2xl">
+                      {parentName}
+                    </h1>
+                    <p className="text-white-300 font-jbR text-[12px]">
+                      {parentKit?.tagline}
+                    </p>
+                  </FlexColStart>
+                  <FlexRowEnd className="w-full">
+                    {!alreadyPurchased && (
+                      <Button
+                        variant={"primary"}
+                        className={cn(
+                          "w-fit min-w-[150px] rounded-[30px] font-ppSB text-[15px] gap-2",
+                          createCheckoutMut.isPending
+                            ? "bg-purple-100/50 hover:cursor-not-allowed"
+                            : "premium-button"
+                        )}
+                        onClick={() => {
+                          const parentTempId = parentKit?.id as string;
+                          createCheckoutMut.mutate(parentTempId);
+                        }}
+                        disabled={createCheckoutMut.isPending}
+                      >
+                        {createCheckoutMut.isPending ? (
+                          <FlexRowCenter className="w-full py-10">
+                            <Spinner color="#fff" size={16} />
+                          </FlexRowCenter>
+                        ) : (
+                          <>
+                            <Zap size={15} />{" "}
+                            <span className="text-xs">Buy Now</span>
+                          </>
+                        )}
+                      </Button>
+                    )}
+
+                    {alreadyPurchased && (
+                      <FlexRowStartCenter className="gap-1 w-auto px-5 py-[10px] bg-dark-200 rounded-[30px] scale-[.85] ">
+                        <CheckCheck
+                          size={15}
+                          strokeWidth={"3px"}
+                          className="text-orange-100"
+                        />
+                        <span className="text-orange-100 font-jbEB text-[11px] ">
+                          Purchased
+                        </span>
+                      </FlexRowStartCenter>
+                    )}
+
+                    <Link
+                      href={parentKit?.demo?.live_url as string}
+                      target="_blank"
+                    >
+                      <FlexRowStartCenter className="gap-2 w-[120px] px-5 py-[10px] bg-dark-200 rounded-[30px] scale-[.85] ">
+                        <span className="p-[5px] rounded-[50%] bg-green-400 "></span>
+                        <span className="text-orange-100 underline font-jbEB text-[11px] ">
+                          Live Demo
+                        </span>
+                      </FlexRowStartCenter>
+                    </Link>
+                  </FlexRowEnd>
+                </FlexRowStartBtw>
+
                 {/* Template description */}
                 <TemplateDetails name={parentName} />
                 <br />
@@ -161,68 +220,13 @@ function Page() {
                 </blockquote>
               </FlexColStart>
               <FlexColStart className="w-fit h-full min-w-[320px]  ">
-                <FlexRowEnd className="w-full">
-                  {!alreadyPurchased && (
-                    <Button
-                      variant={"primary"}
-                      className={cn(
-                        "w-fit min-w-[150px] rounded-[30px] font-ppSB text-[15px] gap-2",
-                        createCheckoutMut.isPending
-                          ? "bg-purple-100/50 hover:cursor-not-allowed"
-                          : "premium-button"
-                      )}
-                      onClick={() => {
-                        const parentTempId = parentKit?.id as string;
-                        createCheckoutMut.mutate(parentTempId);
-                      }}
-                      disabled={createCheckoutMut.isPending}
-                    >
-                      {createCheckoutMut.isPending ? (
-                        <FlexRowCenter className="w-full py-10">
-                          <Spinner color="#fff" size={16} />
-                        </FlexRowCenter>
-                      ) : (
-                        <>
-                          <Zap size={15} />{" "}
-                          <span className="text-[13px]">Buy Now</span>
-                        </>
-                      )}
-                    </Button>
-                  )}
-
-                  {alreadyPurchased && (
-                    <FlexRowStartCenter className="gap-1 w-auto px-5 py-[10px] bg-dark-200 rounded-[30px] scale-[.85] ">
-                      <CheckCheck
-                        size={15}
-                        strokeWidth={"3px"}
-                        className="text-orange-100"
-                      />
-                      <span className="text-orange-100 font-jbEB text-[11px] ">
-                        Purchased
-                      </span>
-                    </FlexRowStartCenter>
-                  )}
-
-                  <Link
-                    href={parentKit?.demo?.live_url as string}
-                    target="_blank"
-                  >
-                    <FlexRowStartCenter className="gap-2 w-[120px] px-5 py-[10px] bg-dark-200 rounded-[30px] scale-[.85] ">
-                      <span className="p-[5px] rounded-[50%] bg-green-400 "></span>
-                      <span className="text-orange-100 underline font-jbEB text-[11px] ">
-                        Live Demo
-                      </span>
-                    </FlexRowStartCenter>
-                  </Link>
-                </FlexRowEnd>
-
                 {/* Template cards */}
                 <FlexColCenter className="w-full mt-4">
                   {/* <h1 className="text-white-100 text-[14px] font-jbEB">
                     Templates
                   </h1> */}
                 </FlexColCenter>
-                <FlexColEnd className="w-full gap-2 flex-wrap">
+                <FlexColEnd className="w-full gap-1 flex-wrap">
                   {childTemplates.length > 0 ? (
                     childTemplates.map(
                       (d) =>
@@ -246,7 +250,7 @@ function Page() {
                   )}
                 </FlexColEnd>
               </FlexColStart>
-            </FlexRowStartBtw>
+            </FlexColStart>
           </FlexColStart>
         </FlexColStart>
       )}

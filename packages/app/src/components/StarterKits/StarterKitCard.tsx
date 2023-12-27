@@ -45,8 +45,6 @@ function StarterKitCard({
     (m) => m.plan === pricing_plan
   );
 
-  console.log({ discount });
-
   const alreadyPurchased =
     // pricing_plan === "FREE_PKG" ||
     hasTemplateBeenPurchased(purchasedKits, id, name);

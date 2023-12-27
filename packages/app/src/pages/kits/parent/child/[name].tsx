@@ -26,6 +26,7 @@ import Router, { useRouter } from "next/router";
 import React, { ReactElement, useContext, useEffect } from "react";
 import { formatNumber } from "@/lib/utils";
 import withAuth from "@/lib/auth/withAuth";
+import { Link1 } from "iconsax-react";
 
 function ProjectTemplate() {
   const pageLoaded = usePageLoaded(1000);
@@ -119,9 +120,22 @@ function ProjectTemplate() {
             <FlexColStart className="w-full">
               <FlexColStart className="w-full">
                 <FlexRowStartBtw className="w-full pr-7">
-                  <p className="text-white-100 font-jbEB text-[24px]">
-                    {stackDetails?.name}
-                  </p>
+                  <FlexRowStartCenter>
+                    <p className="text-white-100 font-jbEB text-[24px]">
+                      {stackDetails?.name}
+                    </p>
+                    {stackDetails?.documentation && (
+                      <Link
+                        href={stackDetails?.documentation as string}
+                        target="_blank"
+                        className="text-xs underline font-ppReg text-white-200"
+                      >
+                        <FlexRowStartCenter className="gap-1">
+                          documentation <Link1 size={15} />
+                        </FlexRowStartCenter>
+                      </Link>
+                    )}
+                  </FlexRowStartCenter>
                   <FlexRowStartCenter>
                     {/* Template Consumption */}
                     <FlexRowStartCenter className="w-fit gap-1">
