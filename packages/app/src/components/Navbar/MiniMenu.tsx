@@ -12,7 +12,7 @@ export default function MiniMenu() {
   return (
     <div
       id="mobile-menu-container"
-      className="fixed bottom-[20px] right-[15px] z-[999]"
+      className="flex md:hidden fixed bottom-[20px] right-[15px] z-[999]"
     >
       <div className="mobile-menu-container">
         <ul
@@ -71,7 +71,7 @@ export default function MiniMenu() {
         <div
           className={cn(
             " transition-all ease-in-out w-[70px] h-[70px] fixed bg-dark-200 z-[99] rounded-[50%]",
-            menuOpen ? "scale-[9] -translate-x-[20px]" : ""
+            menuOpen ? "scale-[9] -translate-x-[20px]" : "scale-[0]"
           )}
         ></div>
       </div>
