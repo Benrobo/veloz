@@ -16,14 +16,12 @@ import TemplateSection from "@/components/Landing/Template";
 import Footer from "@/components/Footer";
 import Seo from "@/components/Seo";
 import FAQ from "@/components/FAQ";
-import MiniMenu from "@/components/Navbar/MiniMenu";
 
 export default function Home() {
   const scrollVisible = useScrollVisible();
 
   return (
     <FlexColStart className="w-full h-screen min-h-screen gap-0 overflow-y-scroll hideScrollBar bg-dark-103 scroll-smooth">
-      <MiniMenu />
       <Seo
         title="Veloz"
         description="A simple, fast, and reliable starter kit for your SaaS project."
