@@ -95,6 +95,7 @@ function SettingsPage() {
   };
 
   return (
+    // @ts-expect-error
     <Layout activePage="settings">
       <FlexColStart className="w-full px-4 py-5">
         <h1 className="text-white-100 text-2xl font-ppSB">Settings</h1>
