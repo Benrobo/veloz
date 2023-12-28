@@ -1,5 +1,4 @@
 import { $, execa } from "execa";
-import logger from "../logger.js";
 
 let response = {
   success: false,
