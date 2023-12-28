@@ -29,11 +29,11 @@ export const authenticate = async (token: string) => {
 export const inviteToRepo = async (name: string) => {
   try {
     const resp = await $http.post(`/kit/cli/invite`, {
-      temp_name: name,
+      kit_name: name,
     });
     return resp?.data ?? (resp as any)?.response?.data;
   } catch (e: any) {
-    return e.response.data ?? { message: e.message };
+    return e.response.data?.message ?? { message: e.message };
   }
 };
 

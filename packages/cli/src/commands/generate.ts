@@ -40,7 +40,7 @@ class VelozGenerate {
       const { name, available, lang } = projData;
 
       // setup codebase
-      new CodebaseSetup(name);
+      new CodebaseSetup(name, lang);
     } catch (e: any) {
       console.log(e);
       s.stop(`🚩 ${chalk.redBright(e?.message)}`);

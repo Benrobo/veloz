@@ -46,7 +46,7 @@ export const FINE_TUNED_STACKS = children_kits as IFINE_TUNED_STACKS_TEMP[];
 type TemplateRepositoryType = {
   repo: string;
   available: boolean;
-  template_name: string;
+  kit_name: string;
 };
 
 export const TEMPLATES_REPOSITORY = githubRepos as TemplateRepositoryType[];

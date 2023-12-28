@@ -13,7 +13,7 @@ export async function addCollaboratorToRepo(
   try {
     const ghR =
       TEMPLATES_REPOSITORY.find(
-        (repo) => repo.template_name.toLowerCase() === _tempName.toLowerCase()
+        (repo) => repo.kit_name.toLowerCase() === _tempName.toLowerCase()
       ) ?? null;
 
     if (!ghR) {
@@ -24,7 +24,7 @@ export async function addCollaboratorToRepo(
     }
 
     // check if user exists
-    const user = await prisma.user.findFirst({
+    const user = await prisma.users.findFirst({
       where: { gh_username: username },
     });
     if (user) {
@@ -33,7 +33,7 @@ export async function addCollaboratorToRepo(
         where: {
           AND: {
             uId: user?.uId,
-            template_name: ghR.template_name,
+            kit_name: ghR.kit_name,
             type: "github",
           },
         },
@@ -49,7 +49,7 @@ export async function addCollaboratorToRepo(
           data: {
             uId: user?.uId,
             repo_name: ghR.repo,
-            template_name: ghR.template_name,
+            kit_name: ghR.kit_name,
             type: "github",
           },
         });

@@ -11,7 +11,7 @@ dayjs.extend(relativeTime);
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { template } = req?.query;
 
-  //   check if temp_name exists
+  //   check if kit_name exists
   if (!template) {
     sendResponse.error(
       res,

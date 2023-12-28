@@ -1,4 +1,4 @@
-import { $ } from "execa";
+import { $, execa } from "execa";
 import logger from "../logger.js";
 
 let response = {
@@ -7,9 +7,28 @@ let response = {
   errMsg: null,
 };
 class GithubRepoActions {
-  async cloneRepo(path: string, url: string) {
+  async isGitInstalled() {
     try {
-      await $`git clone ${url} ${path}`;
+      // Try running the git command with the --version option
+      await execa("git", ["--version"]);
+      return true; // Git is installed
+    } catch (error) {
+      return false; // Git is not installed
+    }
+  }
+
+  async cloneRepo(path: string, url: string) {
+    // check if git is installed
+    const isGitInstalled = await this.isGitInstalled();
+    if (!isGitInstalled) {
+      response["success"] = false;
+      response["msg"] = `Git is not installed.`;
+      response["errMsg"] = `Git is not installed.`;
+      return response;
+    }
+
+    try {
+      await execa("git", ["clone", url, path]);
       response["success"] = true;
       return response;
     } catch (e: any) {
@@ -22,7 +41,7 @@ class GithubRepoActions {
 
   async removeRemote(path: string) {
     try {
-      await $`git -C ${path} remote remove origin`;
+      await execa("git", ["remote", "remove", "origin"], { cwd: path });
       response["success"] = true;
       return response;
     } catch (e: any) {
@@ -35,7 +54,7 @@ class GithubRepoActions {
 
   async initGit(path: string) {
     try {
-      await $`git -C ${path} init`;
+      await execa("git", ["init"], { cwd: path });
       response["success"] = true;
       return response;
     } catch (e: any) {

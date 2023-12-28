@@ -61,7 +61,7 @@ export default class CodebaseSetup extends BaseSetup {
       s.start(`🚀 Creating project...`);
 
       // clone the repo
-      const gh_url = `https://github.com/veloz-org/veloz-${this._kitName.toLowerCase()}`;
+      const gh_url = `https://github.com/veloz-org/veloz-${this._kitName.toLowerCase()}.git`;
       const hasCloned = await this.githubActions.cloneRepo(
         _project_path,
         gh_url

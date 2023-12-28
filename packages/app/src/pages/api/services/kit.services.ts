@@ -98,7 +98,7 @@ class KitService {
 
   async inviteToRepo(req: NextApiRequest, res: NextApiResponse) {
     const userId = (req as any)?.user?.id;
-    const kitName = req?.body?.temp_name;
+    const kitName = req?.body?.kit_name;
     const user = await prisma.users.findFirst({ where: { uId: userId } });
     const gh_name = user?.gh_username;
 
