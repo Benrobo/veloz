@@ -10,7 +10,7 @@ import BaseSetup from "./base.js";
 import { sleep } from "../index.js";
 import { inviteToRepo, storeKitsConsumption } from "../../https/index.js";
 import chalk from "chalk";
-import { createDir } from "../filemanager.js";
+import { createDir, isDirEmpty } from "../filemanager.js";
 
 export default class CodebaseSetup extends BaseSetup {
   private _kitName: string | null = null;
@@ -50,72 +50,83 @@ export default class CodebaseSetup extends BaseSetup {
       const projName = await this.askForDirName();
       this.projName = projName;
 
-      // create folder
-      const _dirCreated = await createDir(this._cwd, this.projName);
-      const _project_path = _dirCreated.path;
-
-      if (!_dirCreated.success) {
-        cancel(`🚩 ${chalk.redBright("Aborted, directory isn't empty.")}`);
-      }
-
-      s.start(`🚀 Creating project...`);
-
-      // clone the repo
-      const gh_url = `https://github.com/veloz-org/veloz-${this._kitName.toLowerCase()}.git`;
-      const hasCloned = await this.githubActions.cloneRepo(
-        _project_path,
-        gh_url
-      );
-
-      if (!hasCloned.success) {
-        s.stop(`🚩 ${chalk.redBright(hasCloned.errMsg)}`);
-        cancel(`Operation cancelled: ${chalk.redBright(hasCloned.msg)}`);
-        return;
-      }
-
-      s.stop("✅ Done");
-
-      // remove remote origin from the cloned repo
-      await this.githubActions.removeRemote(_project_path);
-
-      // ask for git initialization
-      const shouldInitGit = await confirm({
-        message: "Initialize git?",
-        initialValue: true,
-      });
-
-      if (isCancel(shouldInitGit)) {
-        cancel("Operation cancelled.");
-        return;
-      }
-
-      if (shouldInitGit) {
-        s.start("🚀 Initializing git...");
-        const initialized = await this.githubActions.initGit(_project_path);
-        if (!initialized.success) {
-          s.stop(`🚩 ${chalk.redBright(initialized.errMsg)}`);
-          cancel(`Operation cancelled: ${chalk.redBright(initialized.msg)}`);
-          return;
+      // check if projName given is "."
+      if (projName === ".") {
+        // check if cwd is empty
+        const _cwdEmpty = await isDirEmpty(this._cwd);
+        if (!_cwdEmpty) {
+          cancel(`🚩 ${chalk.redBright("Aborted, directory isn't empty.")}`);
         }
-        s.stop("✅ Done");
-      }
+      } else {
+        // create folder
+        let _dirCreated = await createDir(this._cwd, this.projName);
+        const _project_path = _dirCreated.path;
 
-      console.log("");
-      console.log(
-        `
+        if (!_dirCreated.success) {
+          cancel(`🚩 ${chalk.redBright("Aborted, directory isn't empty.")}`);
+        } else {
+          s.start(`🚀 Creating project...`);
+
+          // clone the repo
+          const gh_url = `https://github.com/veloz-org/veloz-${this._kitName.toLowerCase()}.git`;
+          const hasCloned = await this.githubActions.cloneRepo(
+            _project_path,
+            gh_url
+          );
+
+          if (!hasCloned.success) {
+            s.stop(`🚩 ${chalk.redBright(hasCloned.errMsg)}`);
+            cancel(`Operation cancelled: ${chalk.redBright(hasCloned.msg)}`);
+            return;
+          }
+
+          s.stop("✅ Done");
+
+          // remove remote origin from the cloned repo
+          await this.githubActions.removeRemote(_project_path);
+
+          // ask for git initialization
+          const shouldInitGit = await confirm({
+            message: "Initialize git?",
+            initialValue: true,
+          });
+
+          if (isCancel(shouldInitGit)) {
+            cancel("Operation cancelled.");
+            return;
+          }
+
+          if (shouldInitGit) {
+            s.start("🚀 Initializing git...");
+            const initialized = await this.githubActions.initGit(_project_path);
+            if (!initialized.success) {
+              s.stop(`🚩 ${chalk.redBright(initialized.errMsg)}`);
+              cancel(
+                `Operation cancelled: ${chalk.redBright(initialized.msg)}`
+              );
+              return;
+            }
+            s.stop("✅ Done");
+          }
+
+          console.log("");
+          console.log(
+            `
         ✨ ${chalk.yellowBright(
           "Happy hacking, ship fast with Veloz 🚢."
         )}\n✨ ${chalk.yellowBright(
           "Ship it like it's hot – because it is! 🔥🚢."
         )}
         `
-          .trim()
-          .replace(/\s+\n/g, " ")
-      );
-      console.log("");
+              .trim()
+              .replace(/\s+\n/g, " ")
+          );
+          console.log("");
 
-      // store template consumption
-      await storeKitsConsumption(this._kitName);
+          // store template consumption
+          await storeKitsConsumption(this._kitName);
+        }
+      }
     } catch (e: any) {
       s.stop(`🚩 ${chalk.redBright(e?.message)}`);
       cancel(`Operation cancelled: ${chalk.redBright(e?.message)}`);
@@ -127,11 +138,6 @@ export default class CodebaseSetup extends BaseSetup {
     const folderName = await text({
       message: "Enter a folder name for your project",
       placeholder: "demo-1",
-      validate: (val) => {
-        if (val.length <= 2) {
-          return `Value must be greater than 3 characters`;
-        }
-      },
     });
 
     if (isCancel(folderName)) {
