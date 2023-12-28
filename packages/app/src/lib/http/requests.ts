@@ -34,7 +34,7 @@ export const createCheckout = async (template_id: string) => {
   return req.data;
 };
 
-// get all templates
+// get all kits
 export const getKits = async () => {
   const req = await $axios.get(`/api/kit`);
   return req.data;
