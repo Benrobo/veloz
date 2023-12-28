@@ -39,6 +39,7 @@
         "title": "payment",
         "stacks": ["lemonsqueezy"]
       }
-    ]
+    ],
+    "language": "JS"
   }
 ]

@@ -9,7 +9,7 @@ import {
 import { CheckCheck, Zap } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn, formatCurrency } from "@/lib/utils";
-import { PARENT_TEMPLATES } from "@/data/stack";
+import { PARENT_KITS } from "@/data/stack";
 import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
 import { DataContext } from "@/context/DataContext";
 
@@ -29,7 +29,7 @@ type Props = {
 function Pricing({ name }: Props) {
   const { userInfo } = useContext(DataContext);
 
-  const template = PARENT_TEMPLATES.find(
+  const template = PARENT_KITS.find(
     (t) => t.name.toLowerCase() === name.toLowerCase()
   );
   const tempModel = TEMPLATES_PRICING_MODEL.find(

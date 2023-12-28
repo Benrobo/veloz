@@ -13,7 +13,8 @@
     },
     "discount": {
       "amount": 100
-    }
+    },
+    "language": "JS"
   },
   {
     "id": "athena_10294",
@@ -27,6 +28,7 @@
       "live_url": "",
       "video_url": "#"
     },
-    "discount": null
+    "discount": null,
+    "language": "JS"
   }
 ]

@@ -16,7 +16,7 @@ import RenderStacks from "@/components/Stacks/Render";
 import { FINE_TUNED_STACKS } from "@/data/stack";
 import usePageLoaded from "@/hooks/usePageLoaded";
 import { renderAccdIcon } from "@/lib/comp_utils";
-import { getLastUpdated, getTemplateConsumption } from "@/lib/http/requests";
+import { getLastUpdated, getKitConsumption } from "@/lib/http/requests";
 import { ResponseData } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { FineTunedStacksName, TechStackPricingPlan } from "@veloz/shared/types";
@@ -42,7 +42,7 @@ function ProjectTemplate() {
   const getTemplateConsumptionQuery = useQuery({
     queryKey: ["get_template_consumption"],
     queryFn: async () =>
-      await getTemplateConsumption((name as string)?.toLowerCase()),
+      await getKitConsumption((name as string)?.toLowerCase()),
     enabled: pageLoaded,
   });
 

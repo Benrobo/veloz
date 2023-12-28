@@ -8,18 +8,18 @@ import {
 } from "@clack/prompts";
 import BaseSetup from "./base.js";
 import { sleep } from "../index.js";
-import { inviteToRepo, storeTemplateConsumption } from "../../https/index.js";
+import { inviteToRepo, storeKitsConsumption } from "../../https/index.js";
 import chalk from "chalk";
 import { createDir } from "../filemanager.js";
 
 export default class CodebaseSetup extends BaseSetup {
-  private _templateName: string | null = null;
+  private _kitName: string | null = null;
   private projName: string | null = null;
   private _cwd: string;
 
-  constructor(tempName: string) {
+  constructor(kitName: string, lang: string) {
     super();
-    this._templateName = tempName;
+    this._kitName = kitName;
     this.projName = "demo-1";
     this._cwd = process.cwd();
 
@@ -33,7 +33,7 @@ export default class CodebaseSetup extends BaseSetup {
       s.start("Repo integration...");
       await sleep(1);
 
-      const resp = await inviteToRepo(this._templateName);
+      const resp = await inviteToRepo(this._kitName);
       // console.log(resp);
       if (
         ["INVALID_TOKEN", "UNAUTHORIZED", "FORBIDDEN"].includes(resp?.code) ||
@@ -61,7 +61,7 @@ export default class CodebaseSetup extends BaseSetup {
       s.start(`🚀 Creating project...`);
 
       // clone the repo
-      const gh_url = `https://github.com/veloz-org/veloz-${this._templateName.toLowerCase()}`;
+      const gh_url = `https://github.com/veloz-org/veloz-${this._kitName.toLowerCase()}`;
       const hasCloned = await this.githubActions.cloneRepo(
         _project_path,
         gh_url
@@ -115,7 +115,7 @@ export default class CodebaseSetup extends BaseSetup {
       console.log("");
 
       // store template consumption
-      await storeTemplateConsumption(this._templateName);
+      await storeKitsConsumption(this._kitName);
     } catch (e: any) {
       s.stop(`🚩 ${chalk.redBright(e?.message)}`);
       cancel(`Operation cancelled: ${chalk.redBright(e?.message)}`);

@@ -7,7 +7,7 @@ import {
   FlexRowStart,
   FlexRowStartCenter,
 } from "../Flex";
-import { PARENT_TEMPLATES } from "@/data/stack";
+import { PARENT_KITS } from "@/data/stack";
 import Image from "next/image";
 import BlurBgRadial from "../BlurBgRadial";
 import { Globe, Zap } from "lucide-react";
@@ -20,9 +20,7 @@ type Props = {
 };
 
 function KitHeader({ name }: Props) {
-  const template = PARENT_TEMPLATES.find(
-    (t) => t.name.toLowerCase() === "zeus"
-  );
+  const template = PARENT_KITS.find((t) => t.name.toLowerCase() === "zeus");
 
   return (
     <FlexRowStart className="relative w-full h-full gap-2 py-[4em]">

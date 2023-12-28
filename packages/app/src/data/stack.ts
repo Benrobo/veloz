@@ -4,8 +4,8 @@ import {
   GENERAL_STACKS as GENERAL_STACKS_TYPE,
   TechStackCategory,
 } from "@veloz/shared/types";
-import children_templates from "./templates/children.json";
-import parent_templates from "./templates/parent.json";
+import children_kits from "./kits/children.json";
+import parent_kits from "./kits/parent.json";
 import githubRepos from "./github_repo.json";
 
 export interface IFINE_TUNED_STACKS_TEMP extends FINE_TUNED_STACKS_TYPE {
@@ -18,9 +18,10 @@ export interface IFINE_TUNED_STACKS_TEMP extends FINE_TUNED_STACKS_TYPE {
   tags: string[];
   parent_id: string;
   documentation?: string;
+  language: "JS" | "PY" | "GO";
 }
 
-interface IPARENT_TEMPLATES {
+interface IPARENT_KITS {
   id: string;
   name: string;
   tagline: string;
@@ -35,11 +36,11 @@ interface IPARENT_TEMPLATES {
   discount: {
     amount: number;
   } | null;
+  language: "JS" | "PY" | "GO";
 }
 
-export const PARENT_TEMPLATES = parent_templates as IPARENT_TEMPLATES[];
-export const FINE_TUNED_STACKS =
-  children_templates as IFINE_TUNED_STACKS_TEMP[];
+export const PARENT_KITS = parent_kits as IPARENT_KITS[];
+export const FINE_TUNED_STACKS = children_kits as IFINE_TUNED_STACKS_TEMP[];
 
 // Stack Repos Name
 type TemplateRepositoryType = {

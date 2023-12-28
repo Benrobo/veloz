@@ -4,7 +4,7 @@ import sendResponse from "../lib/sendResponse";
 import { RESPONSE_CODE } from "@veloz/shared/types";
 import {
   FINE_TUNED_STACKS,
-  PARENT_TEMPLATES,
+  PARENT_KITS,
   TEMPLATES_REPOSITORY,
 } from "@/data/stack";
 import CatchError from "../lib/error";
@@ -62,12 +62,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       }
 
       // check if template exists
-      const template = PARENT_TEMPLATES.find((t) => t.id === template_id);
+      const template = PARENT_KITS.find((t) => t.id === template_id);
 
       if (!template) {
         const msg = `Template ${product_name} with id ${template_id} not found`;
         console.log(`❌ ${msg}`);
-        throw new HttpException(RESPONSE_CODE.TEMPLATE_NOT_FOUND, msg, 404);
+        throw new HttpException(RESPONSE_CODE.KIT_NOT_FOUND, msg, 404);
       }
 
       // create new order

@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
 import { DataContext } from "@/context/DataContext";
 import { LayoutContext } from "@/context/LayoutContext";
-import { FINE_TUNED_STACKS, PARENT_TEMPLATES } from "@/data/stack";
+import { FINE_TUNED_STACKS, PARENT_KITS } from "@/data/stack";
 import usePageLoaded from "@/hooks/usePageLoaded";
 import withAuth from "@/lib/auth/withAuth";
 import { createCheckout, getUser } from "@/lib/http/requests";
@@ -41,7 +41,7 @@ function Page() {
   const { purchasedKits, setPurchasedTemplates } = useContext(DataContext);
   const pageLoaded = usePageLoaded();
   const parentName = useRouter().query.parent as string;
-  const [parentTemplates, setParentTemplates] = useState(PARENT_TEMPLATES);
+  const [parentTemplates, setParentTemplates] = useState(PARENT_KITS);
   const createCheckoutMut = useMutation({
     mutationFn: async (data: any) => await createCheckout(data),
   });

@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import CatchError from "../../lib/error";
-import templateService from "../../services/template.services";
+import kitService from "../../services/kit.services";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
-    await templateService.getTemplateConsumption(req, res);
+    await kitService.getKitConsumption(req, res);
   }
 }
 

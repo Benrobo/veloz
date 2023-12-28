@@ -2,7 +2,7 @@ import BaseSetup from "../utils/projectHelper/base.js";
 import { spinner, intro, outro, cancel } from "@clack/prompts";
 import { sleep } from "../utils/index.js";
 import chalk from "chalk";
-import { getTemplateDetails } from "../https/index.js";
+import { getKitDetails } from "../https/index.js";
 import { HttpResponse } from "@veloz/shared/types";
 import CodebaseSetup from "../utils/projectHelper/setup_codebase.js";
 
@@ -13,6 +13,7 @@ interface IProjectRespData {
   };
   name: string;
   available: boolean;
+  lang: string;
 }
 
 class VelozGenerate {
@@ -26,7 +27,7 @@ class VelozGenerate {
       s.start("Fetching..");
 
       await sleep(1);
-      const resp: HttpResponse = await getTemplateDetails(projName);
+      const resp: HttpResponse = await getKitDetails(projName);
       if (resp?.errorStatus) {
         s.stop(`🚩 ${chalk.redBright(resp?.message)}`);
         outro(`🛠️  Done`);
@@ -36,7 +37,7 @@ class VelozGenerate {
       s.stop(`✅ Done`);
 
       const projData = resp?.data as IProjectRespData;
-      const { name, available } = projData;
+      const { name, available, lang } = projData;
 
       // setup codebase
       new CodebaseSetup(name);

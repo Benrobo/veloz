@@ -6,24 +6,19 @@ export const getUser = async () => {
   return req.data;
 };
 
-export const getProjects = async () => {
-  const req = await $axios.get(`/api/project`);
-  return req.data;
-};
-
 export const getUserSettings = async () => {
   const req = await $axios.get(`/api/user/settings`);
   return req.data;
 };
 
-// get template last updated date
+// get kit last updated date
 export const getLastUpdated = async (name: string) => {
   const req = await $axios.get(`/api/github/last_commit?template=${name}`);
   return req.data;
 };
 
-export const getTemplateConsumption = async (name: string) => {
-  const req = await $axios.get(`/api/template/consumption?template=${name}`);
+export const getKitConsumption = async (name: string) => {
+  const req = await $axios.get(`/api/kit/consumption?template=${name}`);
   return req.data;
 };
 
@@ -35,14 +30,12 @@ export const rotateToken = async () => {
 
 // create checkout
 export const createCheckout = async (template_id: string) => {
-  const req = await $axios.get(
-    `/api/template/checkout?template_id=${template_id}`
-  );
+  const req = await $axios.get(`/api/kit/checkout?template_id=${template_id}`);
   return req.data;
 };
 
 // get all templates
-export const getTemplates = async () => {
-  const req = await $axios.get(`/api/template`);
+export const getKits = async () => {
+  const req = await $axios.get(`/api/kit`);
   return req.data;
 };

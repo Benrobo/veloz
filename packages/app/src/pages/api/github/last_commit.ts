@@ -50,6 +50,6 @@ export async function getLastRepoCommit(template_name: string): Promise<{
     };
   } catch (e: any) {
     const msg = e?.response?.data?.message ?? e?.message;
-    throw new HttpException(RESPONSE_CODE.TEMPLATE_NOT_FOUND, msg, 400);
+    throw new HttpException(RESPONSE_CODE.KIT_NOT_FOUND, msg, 400);
   }
 }

@@ -28,7 +28,7 @@ export const authenticate = async (token: string) => {
 
 export const inviteToRepo = async (name: string) => {
   try {
-    const resp = await $http.post(`/template/cli/invite`, {
+    const resp = await $http.post(`/kit/cli/invite`, {
       temp_name: name,
     });
     return resp?.data ?? (resp as any)?.response?.data;
@@ -37,21 +37,19 @@ export const inviteToRepo = async (name: string) => {
   }
 };
 
-export const getTemplateDetails = async (name: string) => {
+export const getKitDetails = async (name: string) => {
   try {
-    const resp = await $http.get(`/template/cli/${name}`);
+    const resp = await $http.get(`/kit/cli/${name}`);
     return resp?.data ?? (resp as any)?.response?.data;
   } catch (e: any) {
     return e.response.data ?? { message: e.message };
   }
 };
 
-// store template consumption
-export const storeTemplateConsumption = async (name: string) => {
+// store kit consumption
+export const storeKitsConsumption = async (name: string) => {
   try {
-    const resp = await $http.patch(
-      `/template/consumption/store?template=${name}`
-    );
+    const resp = await $http.patch(`/kit/consumption/store?template=${name}`);
     return resp?.data ?? (resp as any)?.response?.data;
   } catch (e: any) {
     return e.response.data ?? { message: e.message };

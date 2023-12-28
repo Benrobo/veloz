@@ -1,5 +1,5 @@
 import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
-import { PARENT_TEMPLATES } from "@/data/stack";
+import { PARENT_KITS } from "@/data/stack";
 import axios from "axios";
 import env from "../config/env";
 
@@ -7,7 +7,7 @@ const IN_TEST_MODE = process.env.NODE_ENV === "development";
 
 // create checkout session
 export async function createCheckout(user_id: string, template_id: string) {
-  const parentKit = PARENT_TEMPLATES.find((t) => t.id === template_id);
+  const parentKit = PARENT_KITS.find((t) => t.id === template_id);
 
   if (!parentKit) {
     return {

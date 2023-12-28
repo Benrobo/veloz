@@ -7,7 +7,7 @@ import prisma from "../config/prisma";
 import HttpException from "../lib/exception";
 import nextRouteZodValidation from "../lib/nextRouteZodValidation";
 import { addTemplateCollaboratorSchema } from "../lib/validationSchema";
-import { PARENT_TEMPLATES } from "@/data/stack";
+import { PARENT_KITS } from "@/data/stack";
 
 class UserService {
   async getInfo(req: NextApiRequest, res: NextApiResponse) {
@@ -164,10 +164,10 @@ class UserService {
     }
 
     for (const template of templates) {
-      const temp = PARENT_TEMPLATES.find((t) => t.id === template);
+      const temp = PARENT_KITS.find((t) => t.id === template);
       if (!temp) {
         throw new HttpException(
-          RESPONSE_CODE.TEMPLATE_NOT_FOUND,
+          RESPONSE_CODE.KIT_NOT_FOUND,
           `One of the template was not found`,
           404
         );

@@ -1,6 +1,6 @@
 import React from "react";
 import { FlexColCenter, FlexColStart } from "../Flex";
-import { PARENT_TEMPLATES } from "@/data/stack";
+import { PARENT_KITS } from "@/data/stack";
 
 type Props = {
   name: string;
@@ -8,7 +8,7 @@ type Props = {
 
 function TemplateDetails({ name }: Props) {
   let component = null;
-  const templateInfo = PARENT_TEMPLATES.find(
+  const templateInfo = PARENT_KITS.find(
     (t) => t.name.toLowerCase() === name.toLowerCase()
   );
   const videoUrl = templateInfo?.demo.video_url;

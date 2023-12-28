@@ -7,7 +7,7 @@ import {
   TechStackPricingPlan,
 } from "@veloz/shared/types";
 import { useQuery } from "@tanstack/react-query";
-import { getProjects, getTemplates } from "@/lib/http/requests";
+import { getProjects, getKits } from "@/lib/http/requests";
 import {
   FlexColCenter,
   FlexColStart,
@@ -30,8 +30,8 @@ function Templates() {
   const {} = useContext(ProjectContext);
   const [templates, setTemplates] = useState<ReturnedTemplatesType[]>([]);
   const getTemplatesQuery = useQuery({
-    queryKey: ["getTemplates"],
-    queryFn: async () => await getTemplates(),
+    queryKey: ["getKits"],
+    queryFn: async () => await getKits(),
   });
 
   // refetch templates when page is active

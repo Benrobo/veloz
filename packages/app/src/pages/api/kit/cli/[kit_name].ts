@@ -1,12 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import CatchError from "../../lib/error";
 import { isCliAuth } from "../../middlewares/auth";
-import templateService from "../../services/template.services";
-import env from "../../config/env";
+import kitService from "../../services/kit.services";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === "POST") {
-    await templateService.inviteToRepo(req, res);
+  if (req.method === "GET") {
+    await kitService.kitDetails(req, res);
   }
 }
 

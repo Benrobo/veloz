@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import CatchError from "../lib/error";
-import templateService from "../services/template.services";
+import kitService from "../services/kit.services";
 import env from "../config/env";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
-    await templateService.getTemplates(req, res);
+    await kitService.getKits(req, res);
   }
 }
 

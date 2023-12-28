@@ -50,3 +50,32 @@ export function isAdmin(fn: Function) {
     return await fn(req);
   };
 }
+
+export function isCliAuth(fn: Function) {
+  return async (req: NextApiRequest, res: NextApiResponse) => {
+    const token = req.headers["x-veloz-token"];
+    if (!token) {
+      throw new HttpException(
+        RESPONSE_CODE.UNAUTHORIZED,
+        `Token is notfound`,
+        401
+      );
+    }
+
+    // check if token exists
+    const user = await prisma.users.findFirst({
+      where: { veloz_token: token as string },
+    });
+
+    if (!user) {
+      throw new HttpException(
+        RESPONSE_CODE.UNAUTHORIZED,
+        `Unauthorized, Invalid Token`,
+        404
+      );
+    }
+
+    (req as any)["user"] = { id: user.uId };
+    await fn(req, res);
+  };
+}

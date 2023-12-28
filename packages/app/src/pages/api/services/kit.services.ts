@@ -5,42 +5,39 @@ import { _checkFineTunedStackAvailability } from "../lib/utils";
 import {
   FINE_TUNED_STACKS,
   IFINE_TUNED_STACKS_TEMP,
-  PARENT_TEMPLATES,
+  PARENT_KITS,
 } from "@/data/stack";
 import HttpException from "../lib/exception";
 import { addCollaboratorToRepo } from "../lib/github";
 import prisma from "../config/prisma";
 
-class TemplateService {
+class KitService {
   // get child template consumptions
-  async getUsersConsumptions(tempName: string) {
-    // check if tempName is valid
-    const template =
-      FINE_TUNED_STACKS.find((t) => t.name.toLowerCase() === tempName) ?? null;
+  async getUsersConsumptions(kitName: string) {
+    // check if kitName is valid
+    const kit =
+      FINE_TUNED_STACKS.find((t) => t.name.toLowerCase() === kitName) ?? null;
 
-    if (!template) {
+    if (!kit) {
       throw new HttpException(
-        RESPONSE_CODE.TEMPLATE_NOT_FOUND,
-        "template not found",
+        RESPONSE_CODE.KIT_NOT_FOUND,
+        "kit not found",
         404
       );
     }
 
-    const _template = await prisma.templateConsumption.findMany({
+    const _kits = await prisma.templateConsumption.findMany({
       where: {
-        name: tempName.toLowerCase(),
+        name: kitName.toLowerCase(),
       },
     });
 
-    const totalInstall = _template.reduce(
-      (acc, curr) => acc + curr.used_count,
-      0
-    );
+    const totalInstall = _kits.reduce((acc, curr) => acc + curr.used_count, 0);
 
     // get used by avatars
     const usersAvatars: string[] = [];
 
-    for (const t of _template) {
+    for (const t of _kits) {
       const user = await prisma.users.findFirst({ where: { uId: t.uId } });
       if (user && !usersAvatars.includes(user?.avatar as string)) {
         usersAvatars.push(user.avatar as string);
@@ -48,7 +45,7 @@ class TemplateService {
     }
 
     return {
-      name: tempName,
+      name: kitName,
       installs: totalInstall,
       users: {
         images: usersAvatars,
@@ -57,58 +54,62 @@ class TemplateService {
     };
   }
 
-  async templateDetails(req: NextApiRequest, res: NextApiResponse) {
+  async kitDetails(req: NextApiRequest, res: NextApiResponse) {
     const { id } = (req as any)?.user;
-    const temp_name = (req?.query?.temp_name as string)?.toLowerCase();
-    const template =
-      FINE_TUNED_STACKS.find((t) => t.name.toLowerCase() === temp_name) ?? null;
+    const kit_name = (req?.query?.kit_name as string)?.toLowerCase();
+    const kit =
+      FINE_TUNED_STACKS.find((t) => t.name.toLowerCase() === kit_name) ?? null;
 
-    if (!template) {
+    if (!kit) {
       throw new HttpException(
-        RESPONSE_CODE.TEMPLATE_NOT_FOUND,
-        "template not found",
+        RESPONSE_CODE.KIT_NOT_FOUND,
+        "kit not found",
         404
       );
     }
 
-    const purchasedKits = await prisma.purchasedItem.findMany({
-      where: { uId: id },
-    });
+    const user = await prisma.users.findFirst({ where: { uId: id } });
 
-    // compare if user has purchased this template based on the template parent_id not name.
-    const purchased =
-      purchasedKits.find(
-        (t) => t.temp_id?.toLowerCase() === template.parent_id
-      ) ?? null;
+    if (user?.role !== "admin") {
+      const purchasedKits = await prisma.purchasedItem.findMany({
+        where: { uId: id },
+      });
 
-    if (!purchased) {
-      throw new HttpException(
-        RESPONSE_CODE.NOT_ELIGIBLE,
-        "not eligible for this template.",
-        400
-      );
+      // compare if user has purchased this template based on the template parent_id not name.
+      const purchased =
+        purchasedKits.find((t) => t.temp_id?.toLowerCase() === kit.parent_id) ??
+        null;
+
+      if (!purchased) {
+        throw new HttpException(
+          RESPONSE_CODE.NOT_ELIGIBLE,
+          "not eligible for this kit.",
+          400
+        );
+      }
     }
 
     sendResponse.success(res, RESPONSE_CODE.SUCCESS, "success", 200, {
-      name: template?.name.toLowerCase(),
-      available: template?.available,
+      name: kit?.name.toLowerCase(),
+      available: kit?.available,
+      lang: kit.language ?? null,
     });
   }
 
   async inviteToRepo(req: NextApiRequest, res: NextApiResponse) {
     const userId = (req as any)?.user?.id;
-    const tempName = req?.body?.temp_name;
+    const kitName = req?.body?.temp_name;
     const user = await prisma.users.findFirst({ where: { uId: userId } });
     const gh_name = user?.gh_username;
 
-    // check if tempName is valid
-    const template =
-      FINE_TUNED_STACKS.find((t) => t.name.toLowerCase() === tempName) ?? null;
+    // check if kitName is valid
+    const kit =
+      FINE_TUNED_STACKS.find((t) => t.name.toLowerCase() === kitName) ?? null;
 
-    if (!template) {
+    if (!kit) {
       throw new HttpException(
-        RESPONSE_CODE.TEMPLATE_NOT_FOUND,
-        "template not found",
+        RESPONSE_CODE.KIT_NOT_FOUND,
+        "kit not found",
         404
       );
     }
@@ -117,14 +118,14 @@ class TemplateService {
     const ghInvites = await prisma.invites.findFirst({
       where: {
         uId: userId,
-        template_name: tempName as string,
+        kit_name: kitName as string,
       },
     });
 
     if (!ghInvites) {
       const collabInvited = await addCollaboratorToRepo(
         gh_name as string,
-        tempName as string
+        kitName as string
       );
       if (collabInvited) {
         return sendResponse.success(
@@ -149,7 +150,7 @@ class TemplateService {
   }
 
   // invoke from cli
-  async storeTemplateConsumption(req: NextApiRequest, res: NextApiResponse) {
+  async storeKitsConsumption(req: NextApiRequest, res: NextApiResponse) {
     const userId = (req as any)?.user?.id;
     const tempName = req?.query?.template;
 
@@ -159,7 +160,7 @@ class TemplateService {
 
     if (!template) {
       throw new HttpException(
-        RESPONSE_CODE.TEMPLATE_NOT_FOUND,
+        RESPONSE_CODE.KIT_NOT_FOUND,
         "template not found",
         404
       );
@@ -207,7 +208,7 @@ class TemplateService {
   }
 
   // get specific template consumption/installs
-  async getTemplateConsumption(req: NextApiRequest, res: NextApiResponse) {
+  async getKitConsumption(req: NextApiRequest, res: NextApiResponse) {
     const consumptions = await this.getUsersConsumptions(
       req?.query?.template as string
     );
@@ -221,11 +222,11 @@ class TemplateService {
     );
   }
 
-  async getTemplates(req: NextApiRequest, res: NextApiResponse) {
+  async getKits(req: NextApiRequest, res: NextApiResponse) {
     const child_templates: IFINE_TUNED_STACKS_TEMP[] = [];
 
     // get child templates
-    PARENT_TEMPLATES.forEach(async (t) => {
+    PARENT_KITS.forEach(async (t) => {
       if (t.available) {
         const children = FINE_TUNED_STACKS.find((s) => s.parent_id === t.id);
         if (children) {
@@ -240,7 +241,7 @@ class TemplateService {
 
     // get installs and users images for each child template
     for (const child of child_templates) {
-      const parent = PARENT_TEMPLATES.find((t) => t.id === child.parent_id);
+      const parent = PARENT_KITS.find((t) => t.id === child.parent_id);
       const _consumptions = await this.getUsersConsumptions(
         child.name.toLowerCase()
       );
@@ -267,4 +268,4 @@ class TemplateService {
   }
 }
 
-export default new TemplateService();
+export default new KitService();

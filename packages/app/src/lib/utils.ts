@@ -1,4 +1,4 @@
-import { FINE_TUNED_STACKS, PARENT_TEMPLATES } from "@data/stack";
+import { FINE_TUNED_STACKS, PARENT_KITS } from "@data/stack";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { TechStackCategory, TechStackPricingPlan } from "@veloz/shared/types";
@@ -15,7 +15,7 @@ export function hasTemplateBeenPurchased(
 ) {
   if (!items || items?.length === 0) return false;
   for (const item of items) {
-    const template = PARENT_TEMPLATES.find(
+    const template = PARENT_KITS.find(
       (t) =>
         t.id === template_id ||
         t.name.toLowerCase() === template_name.toLowerCase()

@@ -14,13 +14,13 @@ import { TechStackPricingPlan } from "@veloz/shared/types";
 import { cn, formatCurrency } from "@/lib/utils";
 import { CheckCheck, MoveRight } from "lucide-react";
 import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
-import { PARENT_TEMPLATES } from "@/data/stack";
+import { PARENT_KITS } from "@/data/stack";
 import Link from "next/link";
 import Image from "next/image";
 import Name from "@/pages/kits/parent/child/[name]";
 
 function StarterKits() {
-  const templates = PARENT_TEMPLATES.map((t) => {
+  const templates = PARENT_KITS.map((t) => {
     const tempModel = TEMPLATES_PRICING_MODEL.find(
       (m) => m.plan === t.pricing_plan
     );
