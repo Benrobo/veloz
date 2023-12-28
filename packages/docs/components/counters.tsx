@@ -1,24 +1,21 @@
-// Example from https://beta.reactjs.org/learn
-
-import { useState } from 'react'
-import styles from './counters.module.css'
+import { useState } from "react";
 
 function MyButton() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   function handleClick() {
-    setCount(count + 1)
+    setCount(count + 1);
   }
 
   return (
     <div>
-      <button onClick={handleClick} className={styles.counter}>
+      <button onClick={handleClick} className={"bg-red-200"}>
         Clicked {count} times
       </button>
     </div>
-  )
+  );
 }
 
 export default function MyApp() {
-  return <MyButton />
+  return <MyButton />;
 }
