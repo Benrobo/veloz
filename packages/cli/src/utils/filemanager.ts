@@ -2,6 +2,18 @@ import fs from "fs-extra";
 import { confirm } from "@clack/prompts";
 import chalk from "chalk";
 
+export async function isDirEmpty(path: string) {
+  try {
+    const dirContents = fs.readdirSync(path);
+    if (dirContents.length > 0) {
+      return false;
+    }
+    return true;
+  } catch (e: any) {
+    return false;
+  }
+}
+
 export async function createDir(
   path: string,
   name: string,
@@ -28,8 +40,7 @@ export async function createDir(
       resp["msg"] = null;
     } else {
       // check if the content inside the dir is empty
-      const dirContents = fs.readdirSync(dir);
-      if (dirContents.length > 0) {
+      if (!(await isDirEmpty(path))) {
         const shouldDelete = await confirm({
           message: `${chalk.cyanBright(
             name
