@@ -12,6 +12,8 @@ import { inviteToRepo, storeKitsConsumption } from "../../https/index.js";
 import chalk from "chalk";
 import { createDir, isDirEmpty } from "../filemanager.js";
 
+//! Remember to use the "lang" property to generate monorepo architecture based on the lang type. as different languages have different folder structure.
+
 export default class CodebaseSetup extends BaseSetup {
   private _kitName: string | null = null;
   private projName: string | null = null;
