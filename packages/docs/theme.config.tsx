@@ -6,12 +6,18 @@ import { RenderSidebarIcon } from "./components/sideBar";
 const config: DocsThemeConfig = {
   logo: <Brand />,
   project: {
-    link: "https://github.com/shuding/nextra-docs-template",
+    link: null,
   },
   chat: {
     link: "https://discord.com",
   },
-  docsRepositoryBase: "https://github.com/veloz-org",
+  // docsRepositoryBase: "",
+  feedback: {
+    content: null,
+  },
+  editLink: {
+    component: null,
+  },
   footer: {
     text: "Veloz",
     component: <Footer />,
