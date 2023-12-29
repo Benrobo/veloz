@@ -1,12 +1,9 @@
 import React from "react";
 import { DocsThemeConfig } from "nextra-theme-docs";
+import { Brand } from "./components/theme";
 
 const config: DocsThemeConfig = {
-  logo: (
-    <div className="flex">
-      <span className="bg-red-200">Veloz</span>
-    </div>
-  ),
+  logo: <Brand />,
   project: {
     link: "https://github.com/shuding/nextra-docs-template",
   },
