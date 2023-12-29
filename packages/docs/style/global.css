@@ -3,7 +3,11 @@
 @tailwind utilities;
 
 blockquote {
-  @apply bg-dark-200 py-3 font-ppSB text-xs not-italic;
+  @apply bg-dark-200/20 py-3;
+}
+
+blockquote p {
+  @apply text-xs md:not-italic;
 }
 
 .nextra-callout {
@@ -16,4 +20,8 @@ blockquote {
 
 p {
   @apply text-sm;
+}
+
+li {
+  @apply text-sm dark:text-white-100/80 text-dark-200;
 }
