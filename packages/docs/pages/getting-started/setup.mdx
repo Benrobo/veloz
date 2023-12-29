@@ -14,7 +14,7 @@ import { Steps } from "nextra/components";
 
 ## Getting Started
 
-> Make sure you have the latest version of [**Node.js**](https://nodejs.org/en/) installed.
+> Make sure you have the latest version of [**Node.js**](https://nodejs.org/en/) and [**git**](https://git-scm.com/downloads) installed on your machine.
 
 <Steps>
 
@@ -38,10 +38,28 @@ After installation of _veeloz_ cli, you would need to authenticate the cli with 
 
 Run the command below
 
-```bash
+```bash copy
 veeloz auth
 ```
 
-This would work you through the steps of authenticating your cli with your veloz account.
+This would work you through the steps of authenticating your cli with your veloz account token.
+
+### Step 3
+
+**Create a new project**
+
+Once the veeloz cli is authenticated, you can now create a new project by running the command below.
+
+```bash copy
+veeloz use kit-name
+```
+
+where `<kit-name>` are the available and purchased kits you have access to. You can get a list of available kits by visiting the [starterkits page](https://tryveeloz.com/kits).
+
+Running the above command would work you through the steps of creating a new project.
 
 </Steps>
+
+🎉 🎉 Congratulations! You've successfully created a new project. 🎉 🎉
+
+You can now go ahead and follow the steps needed based on the kit selected.

@@ -13,3 +13,7 @@ blockquote {
 .nextra-callout > div:nth-child(1) {
   @apply text-xs;
 }
+
+p {
+  @apply text-sm;
+}
