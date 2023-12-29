@@ -1,6 +1,7 @@
 import React from "react";
 import { DocsThemeConfig } from "nextra-theme-docs";
 import { Brand } from "./components/theme";
+import { RenderSidebarIcon } from "./components/sideBar";
 
 const config: DocsThemeConfig = {
   logo: <Brand />,
@@ -17,6 +18,19 @@ const config: DocsThemeConfig = {
   },
   components: {
     Footer,
+  },
+  sidebar: {
+    titleComponent({ title, type }) {
+      if (title.toLowerCase() === "zeus") {
+        return <RenderSidebarIcon title={title} />;
+      }
+      return title;
+    },
+  },
+  useNextSeoProps() {
+    return {
+      titleTemplate: "%s – Veloz Doc",
+    };
   },
 };
 

@@ -59,14 +59,16 @@ function Features() {
 
   // sort stacks by availability in descending order
   const activeStacksByAvailability = _activeStacks
-    ?.map((s) => {
-      const _unavailable = STACKS_NOT_AVAILABLE.includes(s.key);
-      return {
-        ...s,
-        _unavailable,
-      };
-    })
-    .toSorted((a, b) => (a?._unavailable as any) - (b._unavailable as any));
+    ? _activeStacks
+        ?.map((s) => {
+          const _unavailable = STACKS_NOT_AVAILABLE.includes(s.key);
+          return {
+            ...s,
+            _unavailable,
+          };
+        })
+        ?.sort((a, b) => (a?._unavailable as any) - (b._unavailable as any))
+    : [];
 
   return (
     <FlexColCenter className="relative w-full h-auto md:h-auto py-[5em] mb-[10em] bg-dark-103 ">

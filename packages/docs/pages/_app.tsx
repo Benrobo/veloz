@@ -1,4 +1,4 @@
-import { ppReg, ppB, ppEB, ppSB, ppL, blEB } from "../config/font";
+import { ppReg, ppB, ppEB, ppSB, ppL, blEB, poppins } from "../config/font";
 import "../style/global.css";
 
 export default function MyApp({ Component, pageProps }) {
@@ -16,7 +16,7 @@ export default function MyApp({ Component, pageProps }) {
           }
         `}
       </style>
-      <div className={"font-ppReg"}>
+      <div className={poppins.className}>
         <Component {...pageProps} />
       </div>
     </>

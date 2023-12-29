@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+blockquote {
+  @apply bg-dark-200 py-3 font-ppSB text-xs not-italic;
+}
+
+.nextra-callout {
+  @apply text-xs py-4;
+}
+
+.nextra-callout > div:nth-child(1) {
+  @apply text-xs;
+}
