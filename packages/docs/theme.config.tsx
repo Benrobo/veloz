@@ -25,6 +25,11 @@ const config: DocsThemeConfig = {
   components: {
     Footer,
   },
+  darkMode: false,
+  nextThemes: {
+    defaultTheme: "dark",
+    forcedTheme: "dark",
+  },
   sidebar: {
     titleComponent({ title, type }) {
       if (title.toLowerCase() === "zeus") {
