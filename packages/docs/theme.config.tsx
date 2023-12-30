@@ -32,11 +32,9 @@ const config: DocsThemeConfig = {
   },
   sidebar: {
     titleComponent({ title, type }) {
-      if (title.toLowerCase() === "zeus") {
-        return <RenderSidebarIcon title={title} />;
-      }
-      return title;
+      return <RenderSidebarIcon title={title} />;
     },
+    toggleButton: true,
   },
   useNextSeoProps() {
     return {
