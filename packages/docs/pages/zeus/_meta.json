@@ -5,6 +5,5 @@
   "intro": "Intro",
   "setup": "Setup",
   "authentication": "Authentication",
-  "database": "Database",
-  "private-page": "Private page"
+  "database": "Database"
 }
