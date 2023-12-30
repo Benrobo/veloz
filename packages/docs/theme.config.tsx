@@ -32,7 +32,7 @@ const config: DocsThemeConfig = {
   },
   sidebar: {
     titleComponent({ title, type }) {
-      return <RenderSidebarIcon title={title} />;
+      return <RenderSidebarIcon title={title} type={type} />;
     },
     toggleButton: true,
   },
