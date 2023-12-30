@@ -19,7 +19,7 @@ blockquote p {
 }
 
 p {
-  @apply text-sm;
+  @apply text-sm text-white-100/60;
 }
 
 li {
