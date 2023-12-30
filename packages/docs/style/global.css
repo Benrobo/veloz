@@ -22,6 +22,10 @@ p {
   @apply text-sm text-white-100/60;
 }
 
+.nextra-callout p {
+  @apply text-sm text-white-100;
+}
+
 li {
   @apply text-sm dark:text-white-100/80 text-dark-200;
 }

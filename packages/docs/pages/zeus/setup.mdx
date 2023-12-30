@@ -14,9 +14,9 @@ import { Callout } from "nextra/components";
 
 1. Rename `.env.example` to `.env` and update the values with your own credentials.
 
-> By default, the starter-kit uses `Mongodb` as the database. You can aswell switch to other databases like `Postgres` or `MySQL` by updating the `DATABASE_URL` in the `.env` file.
+> By default, the starter-kit uses `Mongodb` as the database. You can aswell switch to other databases like `Postgres` or `MySQL` by updating the `DATABASE_URL` in the `.env` file. Follow this [instructions](/zeus/database)
 
-```bash filename=".env" showLineNumbers
+```bash .env
 NEXTAUTH_URL="http://localhost:4000"
 
 NODE_ENV="development"
@@ -86,24 +86,9 @@ Visit [http://localhost:4000](http://localhost:4000) to see your app.
 
 ### 📝 Next steps
 
-Let setup authentication for your app. Head over to the [Authentication](/kits/zeus/authentication) section to learn more.
+Let setup authentication for your app. Head over to the [Authentication](/zeus/authentication) section to learn more.
 
 **Zeus** uses [Nextauth](https://next-auth.js.org/) for authentication.
 
 By default **Zeus** comes with 2 built-in ways to authenticate users:
-
-<span className=" font-ppSB  flex gap-3">
-  <a
-    href="/kits/zeus/authentication/oauth"
-    className="w-auto underline text-orange-100 hover:text-orange-100/60 transition-all"
-  >
-    OAuth (Google, Github)
-  </a>
-  <span>&</span>
-  <a
-    href="/kits/zeus/authentication/oauth"
-    className="w-auto underline text-orange-100 hover:text-orange-100/60 transition-all"
-  >
-    Email & Password
-  </a>
-</span>
+[OAuth](/kits/zeus/authentication/oauth) and [Email & Password](/kits/zeus/authentication/email-password)
