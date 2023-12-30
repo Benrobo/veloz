@@ -11,6 +11,7 @@ const titleIconMap = {
   "email & password": "📧",
   database: "🗄️",
   "private page": "🔐",
+  "error handling": "🚨",
 };
 
 export function RenderSidebarIcon({
@@ -28,7 +29,7 @@ export function RenderSidebarIcon({
         `group hover:text-white-100 transition-all gap-${
           icon === title ? "" : 2
         }`,
-        type === "separator" ? "font-ppSB text-white-100/30" : "font-ppReg"
+        type === "separator" ? "font-ppSB text-white-100" : "font-ppReg"
       )}
     >
       {icon} {title}
