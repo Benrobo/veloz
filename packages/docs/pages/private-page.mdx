@@ -1,0 +1,110 @@
+import { Callout } from "nextra/components";
+
+# Private Pages
+
+Veloz provides some set of utilities function mean't to protect `routes` either server or client from getting access. This utilities function / components can be found in `src/lib/auth-helpers` folder.
+
+## Client 🖥
+
+### `withAuth`
+
+`withAuth` is a higher order component that can be used to protect client side routes from getting access. It takes a component as an argument and returns a new and modified component that can be used to protect routes.
+
+When a user isn't authenticated, the component will redirect the user to the login page. If the user is authenticated, the component will render the passed in component.
+
+<Callout>
+  Only use this HOC (High Order Component) to protect pages / components that
+  are mean't to be accessed by authenticated users only.
+</Callout>
+
+<CH.Code showCopyButton={false}>
+```js withAuth.tsx
+import { FullPageLoader } from "@/components/Loader";
+import { DataContext } from "@/context/DataContext";
+import useAuthUser from "@/hooks/useAuthUser";
+import { useSession } from "next-auth/react";
+import React, { useCallback, useContext, useEffect } from "react";
+
+export default function withAuth<P extends { children: React.ReactNode }>(
+  Component: React.ComponentType<P>
+) {
+  const ComponentWithAuth = (props: P) => {...};
+  return ComponentWithAuth;
+}
+
+````
+
+```js withAuth.jsx
+// Coming Soon
+````
+
+</CH.Code>
+
+### `withoutAuth`
+
+As the name implies `withoutAuth` the opposite of `withAuth`. It is used to protect client side routes from getting access. It takes a component as an argument and returns a new and modified component that can be used to protect routes.
+
+When a user is authenticated, the component will redirect the user to the dashboard page. If the user isn't authenticated, the component will render the passed in component.
+
+<Callout>
+  Only use this HOC (High Order Component) to protect pages / components that
+  are mean't to be accessed by unauthenticated users only. for eg authentication
+  route / page
+</Callout>
+
+<CH.Code showCopyButton={false}>
+```js withoutAuth.tsx
+import { FullPageLoader } from "@/components/Loader";
+import { useSession } from "next-auth/react";
+import React, { useEffect } from "react";
+
+export function withoutAuth<P extends { children: React.ReactNode }>(
+  Component: React.ComponentType<P>
+) {
+  const ComponentWithAuth = (props: P) => {...};
+  return ComponentWithAuth;
+}
+
+````
+
+```js withoutAuth.jsx
+// Coming Soon
+````
+
+</CH.Code>
+
+#### Use Case
+
+Assuming we have a page called `dashboard.tsx` that should only be accessible by authenticated users only. We can use `withAuth` to protect the page from getting access by unauthenticated users. We can also use `withoutAuth` to protect a page that should only be accessible by unauthenticated users only.
+
+<CH.Code showCopyButton={false}>
+
+```js dashboard.(tsx / jsx) focus=1,11
+import { withAuth } from "@/lib/auth-helpers";
+
+function Dashboard() {
+  return (
+    <div>
+      <h1>Dashboard Page</h1>
+    </div>
+  );
+}
+
+export default withAuth(Dashboard);
+```
+
+```js auth.(tsx / jsx) focus=1,11
+import { withoutAuth } from "@/lib/auth-helpers";
+
+function Auth() {
+  return (
+    <div>
+      <h1>Authentication Page</h1>
+    </div>
+  );
+}
+
+export default withoutAuth(Auth);
+```
+
+</CH.Code>
