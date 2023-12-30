@@ -1,16 +1,21 @@
 {
   "index": "Introduction",
   "getting-started": "Getting Started",
-  "--": {
-    "title": "Starter Kits",
-    "type": "separator"
-  },
-  "zeus": "Zeus",
   "#tut": {
     "title": "Tutorials",
     "type": "separator"
   },
   "private-page": "Private page",
+  "#feat": {
+    "title": "Features",
+    "type": "separator"
+  },
+  "error-handling": "Error Handling",
+  "--": {
+    "title": "Starter Kits",
+    "type": "separator"
+  },
+  "zeus": "Zeus",
   "contact": {
     "title": "Contact ↗",
     "type": "page",
