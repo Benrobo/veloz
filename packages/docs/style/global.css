@@ -25,3 +25,12 @@ p {
 li {
   @apply text-sm dark:text-white-100/80 text-dark-200;
 }
+
+/* codehike */
+.ch-codeblock .ch-code-button {
+  display: none;
+}
+
+.ch-codeblock:hover .ch-code-button {
+  display: block;
+}

@@ -1,5 +1,6 @@
 import { ppReg, ppB, ppEB, ppSB, ppL, blEB, poppins } from "../config/font";
 import "../style/global.css";
+import "@code-hike/mdx/styles";
 
 export default function MyApp({ Component, pageProps }) {
   return (
