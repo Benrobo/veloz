@@ -108,3 +108,80 @@ export default withoutAuth(Auth);
 ```
 
 </CH.Code>
+
+## Server ☁️
+
+Protecting API routes / endpoints is quite handled differently from that of client side pages / routes. Endpoints are protected using `isAuthenticated` middleware HOF (High Order Function) and can be found in `/src/app/api/middlewares/auth.(ts / js)` file.
+
+### `isAuthenticated`
+
+<CH.Code lineNumbers={true}>
+```js auth.ts
+export function isAuthenticated(fn: Function) {
+    return async (req: NextApiRequest) => {
+        const session = await getServerSession(nextAuthOptions);
+        if (!session) {
+            throw new HttpException(RESPONSE_CODE.UNAUTHORIZED, "Unauthorized", 401);
+        }
+
+        let user = null;
+
+        // oauth provider like github sometimes dont include email
+        if (session.user.email) {
+            user = await prisma.users.findFirst({
+                where: { email: session.user?.email as string },
+            });
+        } else {
+            user = await prisma.users.findFirst({
+                where: { uId: session.user?.id as string },
+            });
+        }
+
+        if (!user) {
+            throw new HttpException(
+                RESPONSE_CODE.UNAUTHORIZED,
+                `Unauthorized, Invalid Token`,
+                403
+            );
+        }
+
+        (req as any)["user"] = { id: user.uId };
+        return await fn(req);
+
+    }
+
+};
+
+````
+
+```js auth.js
+// Coming Soon
+````
+
+</CH.Code>
+
+#### Use Case
+
+Simply wrap your API route handler with _`isAuthenticated()`_ middleware to protect it from getting access by unauthenticated users.
+
+<CH.Code showCopyButton={true} lineNumbers={true}>
+
+```js user/route.ts focus=2,8:10
+import { NextRequest } from "next/server";
+import { isAuthenticated } from "../middlewares/auth";
+import CatchError from "../utils/_error";
+import UserController from "../controllers/user.controller";
+
+const userController = new UserController();
+
+export const GET = CatchError(
+    // mark
+  isAuthenticated(async (req: NextRequest) => await userController.getUser(req))
+);
+```
+
+</CH.Code>
+
+Each time a request is made to the server for that specific endpoint and the user making the requests isn't authenticated, the server simply throw an error with status code `401` and message `Unauthorized`.
+
+More details about <span className="font-ppSB text-orange-100">Error Handling</span>, please checkout this 👉 [section](/error-handling).
