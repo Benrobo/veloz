@@ -1,0 +1,137 @@
+# Database
+
+Zeus makes support multiple `NoSQL` and `SQL` databases namely `MongoDB`, `MySQL`, `PostgreSQL`. You can choose any of them as per your need.
+
+All database read and write operations are managed using
+
+<a className="flex font-ppSB text-orange-100 underline" href="prisma.io/docs">
+  <span>Prisma ORM</span>
+</a>
+
+## Mongodb (`default`)
+
+By default Zeus uses `MongoDB` as it preferred database.
+
+#### Replica set Configurations
+
+When using MongoDB with Prisma, it's essential to have a configured replica set, as Prisma relies on transactions to prevent partial writes in nested queries. Without a replica set, you'll encounter an error stating: `"Error: Transactions not supported in this deployment."`
+
+Mongodb allows you to perform transactions. Transactions are like a series of actions that should happen together; they either all succeed or all fail. Think of it as a way to ensure data consistency.
+
+Since Prisma internally uses transactions to make sure that when you're working with nested queries (queries within other queries), everything is written correctly to the database. If you don't have a replica set, you'll get an error when you try to use nested queries.
+
+For eg - this query below will fail if you don't have a replica set connection.
+
+```js test.js
+const user = await prisma.user.create({
+  data: {
+    name: "Alice",
+    posts: {
+      create: [{ title: "Post 1" }, { title: "Post 2" }, { title: "Post 3" }],
+    },
+  },
+});
+```
+
+import { Callout } from "nextra/components";
+
+<Callout>
+  A replica set is a group of MongoDB servers that maintain the same data,
+  providing redundancy and ensuring high availability. In simpler terms, it's a
+  way to make sure your data is safe and accessible even if something goes wrong
+  with one server.
+</Callout>
+
+So to fix this, I've written a Dockerfile script for a mongodb docker image which set up a replica set connection for you locally. It can be found inside `./mongodb_replica_servers/Dockerfile` alongside a `docker-compose.yml` file which contains the configurations needed to initialize the replica set.
+
+<CH.Code>
+
+```bash mongodb_replica_servers/Dockerfile
+FROM mongo:4
+
+# we take over the default & start mongo in replica set mode in a background task
+ENTRYPOINT mongod --port $MONGO_REPLICA_PORT --replSet rs0 --bind_ip 0.0.0.0 & MONGOD_PID=$!; \
+# we prepare the replica set with a single node and prepare the root user config
+INIT_REPL_CMD="rs.initiate({ _id: 'rs0', members: [{ _id: 0, host: '$MONGO_REPLICA_HOST:$MONGO_REPLICA_PORT' }] })"; \
+INIT_USER_CMD="db.getUser('$MONGO_INITDB_ROOT_USERNAME') || db.createUser({ user: '$MONGO_INITDB_ROOT_USERNAME', pwd: '$MONGO_INITDB_ROOT_PASSWORD', roles: [ 'root' ] })"; \
+# we wait for the replica set to be ready and then submit the commands just above
+until (mongo admin --port $MONGO_REPLICA_PORT --eval "$INIT_REPL_CMD && $INIT_USER_CMD"); do sleep 1; done; \
+# we are done but we keep the container by waiting on signals from the mongo task
+echo "REPLICA SET ONLINE"; wait $MONGOD_PID;
+```
+
+```bash docker-compose.yml
+version: "3.1"
+services:
+  mongodb:
+    build: ./mongodb_replica_servers
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=12345
+      - MONGO_INITDB_DATABASE=veloz
+      - MONGO_REPLICA_HOST=localhost
+      - MONGO_REPLICA_PORT=27001
+    ports:
+      - 27001:27001
+```
+
+</CH.Code>
+
+You dont need to worry about the above code, just run the following command to start the replica set.
+
+```bash
+docker-compose up -d
+```
+
+This will start the replica set on port `27001` and you can use it in your `.env` file config.
+
+```bash .env
+DATABASE_URL="mongodb://root:12345@localhost:27001/veloz?authSource=admin"
+```
+
+## MySQL
+
+<Callout type="info">Coming Soon</Callout>
+
+## PostgreSQL
+
+<Callout type="info">Coming Soon</Callout>
+
+## Prisma Schema
+
+Your Prisma schema is the source of truth for your database schema. It's the single source of truth for your database schema and is used to generate the Prisma Client, the Prisma Migrate migration engine (only for relational-database).
+
+The prisma schema can be found in `/src/prisma/{mongo, postgres, mysql}.prisma` file.
+
+<Callout type="warning">
+  You don't need to reconfigure anything within the prisma schema file, except
+  you need to switch to another database.
+</Callout>
+
+## Switching to another database
+
+If you want to support another database aside the default `Mongodb`, simply update your `package.json` file with the supported prisma database schema.
+
+```json
+ "prisma": {
+    "schema": "./src/prisma/mongo.prisma" // mongo.schema, postgres.schema, mysql.schema
+  },
+```
+
+Then, Update your `.env` file with the new database url.
+
+```bash .env
+# mongo, postgres, mysql connection string
+DATABASE_URL="..."
+```
+
+And run the following command to generate the prisma client.
+
+```bash
+# yarn
+yarn dbPush
+
+# npm
+npm run dbPush
+```
