@@ -6,6 +6,8 @@ const titleIconMap = {
   authentication: "🔒",
   setup: "🔧",
   intro: "👋",
+  oauth: "🔑",
+  "email-password": "📧",
 };
 
 export function RenderSidebarIcon({ title }: { title: string }) {
