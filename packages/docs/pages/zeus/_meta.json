@@ -4,5 +4,7 @@
   },
   "intro": "Intro",
   "setup": "Setup",
-  "authentication": "Authentication"
+  "authentication": "Authentication",
+  "database": "Database",
+  "private-page": "Private page"
 }
