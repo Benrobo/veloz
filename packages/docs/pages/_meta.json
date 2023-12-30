@@ -1,6 +1,11 @@
 {
   "index": "Introduction",
   "getting-started": "Getting Started",
+  "#tut": {
+    "title": "Tutorials",
+    "type": "separator"
+  },
+  "private-page": "Private page",
   "--": {
     "title": "Starter Kits",
     "type": "separator"
