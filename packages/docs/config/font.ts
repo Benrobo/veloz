@@ -42,5 +42,20 @@ export const ppEB = Poppins({
 export const blEB = Bricolage_Grotesque({
   variable: "--font-blEB",
   weight: ["800"],
+  display: "swap",
+  subsets: ["latin", "latin-ext"],
+});
+
+export const blReg = Bricolage_Grotesque({
+  variable: "--font-blEB",
+  weight: ["400"],
+  display: "swap",
+  subsets: ["latin", "latin-ext"],
+});
+
+export const blSB = Bricolage_Grotesque({
+  variable: "--font-blSB",
+  weight: ["600"],
+  display: "swap",
   subsets: ["latin", "latin-ext"],
 });
