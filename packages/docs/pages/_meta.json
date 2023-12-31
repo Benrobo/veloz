@@ -10,6 +10,8 @@
     "title": "Features",
     "type": "separator"
   },
+  "seo": "SEO",
+  "emails": "Email",
   "error-handling": "Error Handling",
   "--": {
     "title": "Starter Kits",
