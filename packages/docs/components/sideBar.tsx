@@ -12,6 +12,8 @@ const titleIconMap = {
   database: "🗄️",
   "private page": "🔐",
   "error handling": "🚨",
+  seo: "🔍",
+  email: "📧",
 };
 
 export function RenderSidebarIcon({
