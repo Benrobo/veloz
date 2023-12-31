@@ -1,0 +1,50 @@
+import { Callout } from "nextra/components";
+
+<span className="font-ppSB text-white-100">SEO</span> is a very important part of
+any website. It helps search engines understand what your website is about and how
+to index it.
+
+## Seo Component
+
+Veloz kit provides reusable `Seo` component found in `src/components/Seo.(tsx / jsx)` which can be used to add meta tags to your website.
+
+## Usage
+
+Simply add your site configurations details at `src/data/site.(ts / js)`.
+
+```js
+// your site config data
+const SITE_CONFIG = {
+  name: "Veloz",
+  headline: "Veloz - Your SaaS Launchpad",
+  description: "Ship faster with veloz.",
+  keywords: "boilerplate, starter kit, saucecode",
+};
+```
+
+Then import `Seo` component into whatever page you want to add meta tags to.
+
+<CH.Code>
+
+```js app/page.tsx focus=4
+export default function Homepage() {
+  return (
+    <>
+      // mark
+      <Seo title="Home page" description="Home page description" />
+      <h1>Homepage</h1>
+    </>
+  );
+}
+```
+
+```js app/page.jsx
+// Coming Soon
+```
+
+</CH.Code>
+
+<Callout type="info">
+  You can as well modify the seo metatags in `src/components/Seo.(tsx / jsx)` to
+  suit your needs.
+</Callout>
