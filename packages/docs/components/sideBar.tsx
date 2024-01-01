@@ -14,6 +14,7 @@ const titleIconMap = {
   "error handling": "🚨",
   seo: "🔍",
   email: "📧",
+  payments: "💳",
 };
 
 export function RenderSidebarIcon({
