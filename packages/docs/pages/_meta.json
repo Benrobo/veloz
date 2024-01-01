@@ -12,6 +12,7 @@
   },
   "seo": "SEO",
   "emails": "Email",
+  "payments": "Payments",
   "error-handling": "Error Handling",
   "--": {
     "title": "Starter Kits",
