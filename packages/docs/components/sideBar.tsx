@@ -4,17 +4,9 @@ import { twMerge } from "tailwind-merge";
 
 const titleIconMap = {
   zeus: <Gem size={15} className=" mr-2" />,
-  authentication: "🔒",
-  setup: "🔧",
-  intro: "👋",
-  oauth: "🔑",
-  "email & password": "📧",
-  database: "🗄️",
-  "private page": "🔐",
-  "error handling": "🚨",
-  seo: "🔍",
-  email: "📧",
-  payments: "💳",
+  tutorials: "📚",
+  features: "🚀",
+  "starter kits": "📦",
 };
 
 export function RenderSidebarIcon({
