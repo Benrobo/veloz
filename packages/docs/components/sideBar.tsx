@@ -16,6 +16,12 @@ export function RenderSidebarIcon({
   title: string;
   type: string;
 }) {
+  const pagesWithExtendedSize = [
+    "lemonsqueezy",
+    "zeus",
+    "getting started",
+    "introduction",
+  ];
   const icon = titleIconMap[title.toLowerCase()] || null;
 
   return (
@@ -24,7 +30,11 @@ export function RenderSidebarIcon({
         `group hover:text-white-100 transition-all gap-${
           icon === title ? "" : 2
         }`,
-        type === "separator" ? "font-ppSB text-white-100" : "font-ppReg"
+        type === "separator"
+          ? "font-ppSB text-white-100"
+          : pagesWithExtendedSize.includes(title.toLowerCase())
+            ? "font-ppReg"
+            : "font-ppReg text-xs"
       )}
     >
       {icon} {title}
