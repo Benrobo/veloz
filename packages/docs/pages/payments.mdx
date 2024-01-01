@@ -1,5 +1,7 @@
 import { Callout } from "nextra/components";
 
+# Collecting Payment
+
 Veloz kits uses `Lemonsqueezy` for handling payment within the codebase.
 
 <Callout type="warning">
@@ -147,6 +149,78 @@ Calling each of those endpoints above should return a response like this:
     "plan": "Basic"
   }
 ]
+```
+
+</CH.Code>
+
+# Pricing Plan
+
+Veloz kit by default support 3 pricing plans, which are: `LITE`, `BASIC` & `PREMIUM`.
+
+Youre'nt limitted to this config, you could customize this plan based on your preferrence.
+
+## Updating Pricing Plan
+
+### Javascript Language
+
+Follow the instructions below based on the starter kit techstack you purchased.
+
+#### Nextjs
+
+If everything is set up correctly, it high time we update your pricing plan config on your app. Headover to `src/data/pricing/plan.(ts / js)`. Every plan is for your saas is managed within that file.
+
+<Callout type="info">
+  `Monthly` subscriptions only is supported for now.
+</Callout>
+
+Now simply update the pricing plans config based on the `priduct (id, amount, currency) , variants id, plan, name.` The `id` attribute on line 2 is just random and not part of lemonsqueezy product id.
+
+<CH.Code>
+
+```ts plan.ts
+export const pricingPlans = [
+  {
+    id: "lite_84507",
+    name: "Lite",
+    key: "lite",
+    duration: "monthly",
+    pricing: {
+      currency: "USD",
+      amount: 4,
+    },
+    product_id: 147184,
+    variant_id: 183156,
+  },
+  {
+    id: "basic_104548",
+    name: "Basic",
+    key: "basic",
+    duration: "monthly",
+    pricing: {
+      currency: "USD",
+      amount: 9,
+    },
+    product_id: 149209,
+    variant_id: 183213,
+    recommended: true,
+  },
+  {
+    id: "premium_123918",
+    name: "Premium",
+    key: "premium",
+    duration: "monthly",
+    pricing: {
+      currency: "USD",
+      amount: 20,
+    },
+    product_id: 147501,
+    variant_id: 180561,
+  },
+] satisfies PricingPlan[];
+```
+
+```js plan.js
+// Coming Soon
 ```
 
 </CH.Code>
