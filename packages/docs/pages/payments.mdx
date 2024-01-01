@@ -1,0 +1,152 @@
+import { Callout } from "nextra/components";
+
+Veloz kits uses `Lemonsqueezy` for handling payment within the codebase.
+
+<Callout type="warning">
+  Before we proceed, make sure you have a store on
+  [Lemonsqueezy](https://lemonsqueezy.com), if not [follow this
+  guide](/create-ls-store)
+</Callout>
+
+Before collecting payment in your app, you need to create products on your lemonsuqeezy store. This product are basically represented as pricing plans on your app. [Follow this guide](/create-ls-products)
+
+<Callout type="warning">
+  Make sure you have your `API_KEY` created already, if not [follow this
+  guide](/create-ls-api-key) before proceeding further.
+</Callout>
+
+Once you have your products created, you would need the following config from lemonsuqeezy:
+
+- `store_id` : This is the id of your store on lemonsqueezy.
+- `product_id` : This is the id of the product you want to collect payment for.
+- `variant_id` : This is the id of the variant of the product you want to collect payment for.
+
+In **development** mode, veloz kits provide you **3** urls which helps you get this details while in development.
+
+<Callout type="warning">
+  Calling this url's in production would return an error. It has been configured
+  to only work in development mode. Also make sure you are logged in before
+  calling this url's.
+</Callout>
+
+Click on each links below to see the response you get from each url.
+
+- **Store** [http://localhost:4000/api/lemonsqueezy/store](http://localhost:4000/api/lemonsqueezy/store)
+- **Products** [http://localhost:4000/api/lemonsqueezy/product](http://localhost:4000/api/lemonsqueezy/product)
+- **Variants** [http://localhost:4000/api/lemonsqueezy/variant](http://localhost:4000/api/lemonsqueezy/variant)
+
+Calling each of those endpoints above should return a response like this:
+
+<CH.Code>
+
+```json store focus=7,11,15
+// I have  3 stores on my lemonsqueezy account,
+// which is why you see 3 stores in the response below.
+// Take note of the store ID.
+
+[
+  {
+    "id": "32433",
+    "name": "Benrobo"
+  },
+  {
+    "id": "59718",
+    "name": "Test Demo"
+  },
+  {
+    "id": "59946",
+    "name": "Veloz"
+  }
+]
+```
+
+{/* focus=8,14,20 */}
+
+```json product
+// I have  3 products on my lemonsqueezy account,
+// each products representing the PLANS on my app,
+// which is why you see 3 products in the response below.
+// Take note of the product ID.
+
+[
+  {
+    // mark
+    "id": "147184",
+    "name": "Demo Product ( Lite )",
+    "price": 400,
+    "price_formatted": "$4.00/month"
+  },
+  {
+    // mark
+    "id": "147501",
+    "name": "Demo Product ( Premium )",
+    "price": 2000,
+    "price_formatted": "$20.00/month"
+  },
+  {
+    // mark
+    "id": "149209",
+    "name": "Demo Product ( Basic )",
+    "price": 900,
+    "price_formatted": "$9.00/month"
+  }
+]
+```
+
+{/* focus=9,11,12,17,20,19,25,27,28,33,35,36 */}
+
+```json variants
+// Take note: I only need the variants where "isSubscription" is true.
+// Also take note of the variant ID along side the product ID and Plan.
+// this two ID's are what you need to collect payment for a product.
+// each variant ID should be paired with the product ID alongside
+
+[
+  {
+    "type": "variants",
+    // mark
+    "variant_id": "172182",
+    "duration": "year",
+    // mark
+    "product_id": 142576,
+    // mark
+    "isSubscription": false,
+    "plan": null
+  },
+  {
+    "type": "variants",
+    // mark
+    "variant_id": "180561",
+    "duration": "month",
+    // mark
+    "product_id": 147501,
+    // mark
+    "isSubscription": true,
+    "plan": "Premium"
+  },
+  {
+    "type": "variants",
+    // mark
+    "variant_id": "183156",
+    "duration": "month",
+    // mark
+    "product_id": 147184,
+    // mark
+    "isSubscription": true,
+    "plan": "Lite"
+  },
+  {
+    "type": "variants",
+    // mark
+    "variant_id": "183213",
+    "duration": "month",
+    // mark
+    "product_id": 149209,
+    // mark
+    "isSubscription": true,
+    "plan": "Basic"
+  }
+]
+```
+
+</CH.Code>
