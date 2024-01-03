@@ -1,5 +1,61 @@
 import { Callout } from "nextra/components";
 
-<Callout type="info">Coming Soon</Callout>
+## Webhooks
 
-> soon
+Lemon Squeezy uses webhooks to notify your application when an event happens in your store, at the same time, customers right to certain features are managed on the kit based on this webhooks event.
+
+### Creating webhook
+
+Reflecting current subscription status and other information on your application requires you to create a webhook on your Lemon Squeezy store.
+
+By default, Veloz kit handles all webhooks for you related to subscription on lemonsqueezy, you just need to create a webhook url and insert it inside your Lemon Squeezy store webhook page.
+
+Navigate to **Settings > Webhooks** section on [Lemonsqueezy](https://app.lemonsqueezy.com) and click on **+** icon button.
+
+You will have to enter a Signing secret which you can get by running the following command in your terminal:
+
+```bash
+openssl rand -base64 32
+```
+
+Copy the generated signin secret and paste it into the input field present on the webhook creation page.
+
+![image](/images/screenshots/ls-wc.png)
+
+> You could add multiple webhook url, for this instance, we will be adding only one for development purpose.
+
+#### Testing Locally
+
+If you wanna test the webhook locally, you can use [ngrok](https://ngrok.com/) to expose your local server to the internet.
+
+```bash
+ngrok http http://localhost:4000
+```
+
+You should get a random url in your terminal as seen in the image below.
+
+![image](/images/screenshots/ngrok.png)
+
+Copy the url and paste it into the **URL** input field on the webhook creation page.
+Make sure to append `/api/webhooks/lemonsqueezy` to the url.
+
+#### Updating Env
+
+Update your `.env` file with the generated signing secret.
+
+```bash .env
+# lemonsqueezy webhook secret
+LEMONSQUEEZY_WEBHOOK_SECRET="xxxxx"
+```
+
+#### Production
+
+If you are deploying your application to production, you will need to add the webhook url to your production environment variables as well as create a new webhook url on your lemonsqueezy store.
+
+<Callout type="warning">
+  Ngrok webhook url isn't meant to be used in production.
+</Callout>
+
+Simply create a new webhook with the same signing secret as the one you created for development. As for the url, it should be the url of your production server with `/api/webhooks/lemonsqueezy` appended to it.
+
+i.e **`https://yourdomain.com/api/webhooks/lemonsqueezy`**
