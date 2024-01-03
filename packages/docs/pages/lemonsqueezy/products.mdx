@@ -5,3 +5,39 @@ import { Callout } from "nextra/components";
 According to [lemonsqueezy](https://docs.lemonsqueezy.com/api/products):
 
 > In Lemon Squeezy, products describe the digital goods you offer to your customers. A product belongs to a **Store** and can have many **Variants**.
+
+Navigate to your lemonsqueezy store you've created, if you haven't [learn more](/lemonsqueezy/store). Click on the **Store** dropdown and select **Products**. By default no product is created, click on the **Create Product** button to create a new product.
+
+![Create Product](/images/screenshots/ls-pc.png)
+
+I gave this product name **Demo Product ( Basic )** which signifies exactly what this product is for. `Basic` signifies the plan linked to this product.
+
+### Variants
+
+Variants let you add different versions of the same product to your store. This feature is used for products that come in different options for price, version, format, license type, size, shape, etc. Each combination of option values for a product can be a variant for that product.
+
+To create a variant simply click on the **Add Variant** button. I created two variants for this product, one for the **Monthly** plan and the other for the **Yearly** plan.
+
+<Callout type="warning">
+  Make sure **Subscription** is selected for each variant. This is important for
+  the subscription to work. If you plan to sell a one time product, then you
+  would have to change related subscription code in the starter kit.
+</Callout>
+
+![image](/images/screenshots/ls-vc.png)
+
+For this demo tutorial, I created _3_ different products namely:
+
+- Demo Product ( Basic )
+- Demo Product ( Lite )
+- Demo Product ( Premium )
+
+For each product contains _2_ variants namely **Monthly** and **Yearly**. This is how we would provide the user with different plans to choose from.
+
+**Variants** : Variants for each created products.
+![image](/images/screenshots/ls-vc-2.png)
+
+**Products**: List of products created. If you need to add an image to your product, click on the **Edit** button to add an image.
+![image](/images/screenshots/ls-pc-2.png)
+
+Once that completed, follow this [guide](/payments#collecting-payment) on how to collect payment from your customers and configure your pricing plans.
