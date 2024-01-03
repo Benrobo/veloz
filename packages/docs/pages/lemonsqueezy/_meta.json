@@ -1,7 +1,6 @@
 {
   "api-key": "API KEY",
   "products": "Products",
-  "store": "Store",
   "webhook": "Webhook",
   "index": {
     "display": "hidden"
