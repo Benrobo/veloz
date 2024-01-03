@@ -10,6 +10,10 @@ blockquote p {
   @apply text-xs md:not-italic;
 }
 
+strong {
+  @apply text-white-100 font-ppSB;
+}
+
 .nextra-callout {
   @apply text-xs py-4;
 }
