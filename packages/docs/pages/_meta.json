@@ -22,6 +22,7 @@
   },
   "waitlist": "Waitlist",
   "faq": "FAQ",
+  "trusted-by": "Trusted By",
   "--": {
     "title": "Starter Kits",
     "type": "separator"
