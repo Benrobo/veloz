@@ -46,7 +46,7 @@ So to fix this, I've written a Dockerfile script for a mongodb docker image whic
 
 <CH.Code>
 
-```bash mongodb_replica_servers/Dockerfile
+```bash docker/mongodb_replica_servers/Dockerfile
 FROM mongo:4
 
 # we take over the default & start mongo in replica set mode in a background task
@@ -60,7 +60,7 @@ until (mongo admin --port $MONGO_REPLICA_PORT --eval "$INIT_REPL_CMD && $INIT_US
 echo "REPLICA SET ONLINE"; wait $MONGOD_PID;
 ```
 
-```bash docker-compose.yml
+```bash docker/docker-compose.yml
 version: "3.1"
 services:
   mongodb:
