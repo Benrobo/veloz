@@ -2,6 +2,7 @@ import React from "react";
 import { DocsThemeConfig } from "nextra-theme-docs";
 import { Brand } from "./components/theme";
 import { RenderSidebarIcon } from "./components/sideBar";
+import Footer from "./components/footer";
 
 const config: DocsThemeConfig = {
   logo: <Brand />,
@@ -44,11 +45,3 @@ const config: DocsThemeConfig = {
 };
 
 export default config;
-
-function Footer() {
-  return (
-    <div className="w-full bg-red-200">
-      <p>Footer</p>
-    </div>
-  );
-}
