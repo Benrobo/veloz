@@ -92,11 +92,45 @@ DATABASE_URL="mongodb://root:12345@localhost:27001/veloz?authSource=admin"
 
 ## MySQL
 
-<Callout type="info">Coming Soon</Callout>
+<Callout type="info">
+  Make sure you have mysql installed locally on your machine before proceeding
+  further.
+</Callout>
+
+Update your `package.json` file with the supported prisma database schema.
+
+```json
+ "prisma": {
+    "schema": "./src/prisma/mysql.prisma"
+  },
+```
+
+Then, Update your `.env` file with the new database url.
+
+```bash .env
+DATABASE_URL="mysql://root@localhost:3306/veloz-kit"
+```
 
 ## PostgreSQL
 
-<Callout type="info">Coming Soon</Callout>
+<Callout type="info">
+  Make sure you have postgresql installed locally on your machine before
+  proceeding further.
+</Callout>
+
+Update your `package.json` file with the supported prisma database schema.
+
+```json
+ "prisma": {
+    "schema": "./src/prisma/postgres.prisma"
+  },
+```
+
+Then, Update your `.env` file with the new database url.
+
+```bash .env
+DATABASE_URL="postgres://postgres@localhost:5432/veloz-kit"
+```
 
 ## Prisma Schema
 
@@ -122,8 +156,14 @@ If you want to support another database aside the default `Mongodb`, simply upda
 Then, Update your `.env` file with the new database url.
 
 ```bash .env
-# mongo, postgres, mysql connection string
-DATABASE_URL="..."
+# mongodb
+DATABASE_URL="mongodb://root:12345@localhost:27001/veloz-kit?authSource=admin"
+
+# mysql
+DATABASE_URL="mysql://root@localhost:3306/veloz-kit"
+
+# postgresql
+DATABASE_URL="postgres://benrobo@localhost:5432/veloz-kit"
 ```
 
 And run the following command to generate the prisma client.
