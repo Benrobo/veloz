@@ -1,0 +1,41 @@
+import { Callout } from "nextra/components";
+
+# Trusted By
+
+![image](/images/screenshots/v-tb.png)
+
+Veloz provide a simple extendible component called `Trusted-By` which shows lists of trusted customers on your website.
+
+## Usage
+
+Simply edit the `src/data/landing/trustedBy.ts` by adding lists of trusted customers images to the lists:
+
+```js
+// trusted by data
+const TRUSTED_MAKERS = [
+  //   customer images
+];
+
+export default TRUSTED_MAKERS;
+```
+
+Then import the `TrustedBy` component in the `src/components/landing/testimonials/TrustedBy.tsx` and use within the header component.:
+
+```js focus=6
+import TrustedBy from "../testimonials/TrustedBy";
+
+function Header() {
+  return (
+    <>
+      <TrustedBy />
+    </>
+  );
+}
+```
+
+Update the `TRUSTED_CUSTOMERS_COUNT` to reflect the number of customers you want to show. **Be Honest** and don't show what you don't have. If possible, get rid of the component if you don't have any customers yet.
+
+<Callout type="info">
+  **Tip :** Include a variety of well-known clients, partners, or brands to
+  showcase the diversity and credibility of your customer base.
+</Callout>
