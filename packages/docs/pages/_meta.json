@@ -13,10 +13,15 @@
   },
   "seo": "SEO",
   "pricing-page": "Pricing Page",
-  "waitlist": "Waitlist",
   "emails": "Email",
   "payments": "Payments",
   "error-handling": "Error Handling",
+  "#comp": {
+    "title": "Components",
+    "type": "separator"
+  },
+  "waitlist": "Waitlist",
+  "faq": "FAQ",
   "--": {
     "title": "Starter Kits",
     "type": "separator"
