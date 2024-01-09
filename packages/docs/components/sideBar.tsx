@@ -6,6 +6,7 @@ const titleIconMap = {
   zeus: <Gem size={15} className=" mr-2" />,
   tutorials: "📚",
   features: "🚀",
+  components: "🧩",
   "starter kits": "📦",
 };
 
