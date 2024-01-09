@@ -9,7 +9,7 @@ import BlurBgRadial from "../BlurBgRadial";
 import Image from "next/image";
 
 function Header() {
-  const discordInviteLink = "https://discord.gg/JPCa4yq8";
+  const discordInviteLink = "https://discord.gg/d9Ywveuh25";
   return (
     <FlexColStartCenter className="relative w-full h-auto pattern-bg border-b-solid border-b-[1px] border-b-gray-100/30 ">
       <a id="home"></a>

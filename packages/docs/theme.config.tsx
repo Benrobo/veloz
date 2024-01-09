@@ -9,7 +9,7 @@ const config: DocsThemeConfig = {
     link: null,
   },
   chat: {
-    link: "https://discord.com",
+    link: "https://discord.gg/d9Ywveuh25",
   },
   // docsRepositoryBase: "",
   feedback: {
