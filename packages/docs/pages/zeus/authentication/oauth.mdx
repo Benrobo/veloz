@@ -4,7 +4,7 @@
 
 ### Sign-in with Google and Github (Only)
 
-If you want your users to sign-in with Google and Github only, you can do so by updating the `/app/auth/page.(tsx|jsx)` file.
+If you want your users to sign-in with Google and Github only, you can do so by updating the `/app/auth/page.(tsx|tsx)` file.
 
 Simply remove `<CredentialsAuth />` and the import statement for it.
 
@@ -42,10 +42,6 @@ export default withoutAuth(AuthPage);
 
 ````
 
-```js app/auth/page.jsx
-// Coming Soon
-````
-
 </CH.Code>
 
 ##### After
@@ -78,15 +74,11 @@ function AuthPage() {
 export default withoutAuth(AuthPage);
 ```
 
-```js app/auth/page.jsx
-// Coming Soon
-```
-
 </CH.Code>
 
 ### Using just one provider
 
-If you choose to use just one provider (e.g. Google), simply update the `supportedOAuthProviders` array in the `/src/components/auth/nextAuth/OAuth.(tsx | jsx)` file.
+If you choose to use just one provider (e.g. Google), simply update the `supportedOAuthProviders` array in the `/src/components/auth/nextAuth/OAuth.(tsx | tsx)` file.
 
 You could either set the `available` property to `false` or remove the provider from the array.
 
@@ -105,21 +97,6 @@ const supportedOAuthProviders = [
   },
 ];
 ```
-
-```js app/components/auth/nextAuth/OAuth.jsx
-// Supported OAuth providers
-const supportedOAuthProviders = [
-  {
-    name: "google",
-    available: true,
-  },
-  {
-    name: "github",
-    available: true,
-  },
-];
-```
-
 </CH.Code>
 
 Then update the `src/app/api/auth/[...nextauth]/options.(ts | js)` with the provider you want to use.
@@ -128,19 +105,6 @@ Then update the `src/app/api/auth/[...nextauth]/options.(ts | js)` with the prov
 ```js app/api/auth/[...nextauth]/options.ts
 // Manage your NextAuth options here
 export const nextAuthOptions: NextAuthOptions = {
-  providers: [
-    GoogleProvider({...}),
-    GitHubProvider({...}),
-    ... // other options
-  ],
-  ...
-};
-
-````
-
-```js app/api/auth/[...nextauth]/options.js
-// Manage your NextAuth options here
-export const nextAuthOptions = {
   providers: [
     GoogleProvider({...}),
     GitHubProvider({...}),

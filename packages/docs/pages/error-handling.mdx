@@ -16,7 +16,7 @@ We've taken the time to create a custom error handler for you to work with, be i
 
 #### Custom Error
 
-A custom error class that extends the default Error class called _`HttpException`_, this is used to throw custom errors in your codebase and can be found in the `/src/app/api/utils/exception.(ts / js)` file.
+A custom error class that extends the default Error class called _`HttpException`_, this is used to throw custom errors in your codebase and can be found in the `/src/app/api/utils/exception.(ts)` file.
 
 <CH.Code>
 
@@ -36,10 +36,6 @@ export default class HttpException extends Error {
   }
 }
 
-```
-
-```js exception.js
-// Coming Soon
 ```
 
 </CH.Code>
@@ -89,15 +85,11 @@ export enum RESPONSE_CODE {
 }
 ```
 
-```js responseCode.js
-// Coming Soon
-```
-
 </CH.Code>
 
 But, <span className="font-ppSB text-white-100">How then does the error get handled?</span> well, good question my friend.
 
-A custom error handler middleware called _`CatchError()`_ is used to handle all errors thrown from the server, this middleware can be found in the `src/app/api/utils/_error.(ts / js)` file. Notice the underscore before the `error` name, this is to prevent an override to default next.js custom `error` file.
+A custom error handler middleware called _`CatchError()`_ is used to handle all errors thrown from the server, this middleware can be found in the `src/app/api/utils/_error.(ts)` file. Notice the underscore before the `error` name, this is to prevent an override to default next.js custom `error` file.
 
 <CH.Code>
 
@@ -128,10 +120,6 @@ export default function CatchError(fn: Function) {
 
 ```
 
-```js error.js
-// Coming Soon
-```
-
 </CH.Code>
 
 This error handler is as simple as your Grade 8 math 😅. It an `HOF` which takes in a function, wraps the function in a _`try...catch`_ block and returns the function. If an error is thrown from the function, it is caught and handled by the _`catch()`_ block. Within the `catch` block, is where we simply send the errors to the client.
@@ -150,7 +138,7 @@ Veloz kits using javascript as preferred language uses `Zod` package for schema 
 
 It a reusable utility function which makes it easy to validate request body, query params and headers. It takes in a `schema` and `data` to validate, if the validation fails, it throws a `VALIDATION_ERROR` which is handled by the _`CatchError()`_ middleware.
 
-All related zod schema validation are stored within the `src/app/api/utils/schema_validation.(ts / js)`
+All related zod schema validation are stored within the `src/app/api/utils/schema_validation.(ts)`
 
 <CH.Code>
 
@@ -172,13 +160,9 @@ export default async function ZodValidation(
 
 ```
 
-```js zodValidation.js
-// Coming Soon
-```
-
 ---
 
-```js src/app/api/utils/schema_validation.(ts / js)
+```js src/app/api/utils/schema_validation.(ts)
 import zod from "zod";
 
 // Declare all your api server schema validations here
@@ -229,7 +213,7 @@ export default class AuthController {
 
 #### Sending Response 📦
 
-How about sending response to client? well we've got you covered, we've created a utility class called _`sendResponse()`_ which is used to send response to the client, this function can be found in the `src/app/api/utils/sendResponse.(ts / js)` file. This class exposes two methods namely _`error()`_ and _`success()`_.
+How about sending response to client? well we've got you covered, we've created a utility class called _`sendResponse()`_ which is used to send response to the client, this function can be found in the `src/app/api/utils/sendResponse.(ts)` file. This class exposes two methods namely _`error()`_ and _`success()`_.
 
 - _`error()`_ - This method is used to send error response to the client.
 - _`success()`_ - This method is used to send successfull response to the client.

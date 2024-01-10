@@ -77,11 +77,9 @@ const FAQ_DATA = [
   },
   {
     key: "8",
-    question: "I dont know Typescript, can i still use Veloz-kit?",
+    question: "Why Typescript and not Javascript?",
     answer: [
-      `${boldText(
-        "Yes"
-      )}, we offer a Javascript version of all kits to make it flexible and intuitive for other indie hackers as well.`,
+      `We prefer TypeScript over plain JavaScript because it makes coding easier, provides a better developer experience, and helps prevent bugs in your code.`,
     ],
   },
   {

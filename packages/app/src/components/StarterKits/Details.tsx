@@ -32,17 +32,20 @@ type TemplateDetailsProps = {
 };
 
 function ZeusDetails({ video, videoId }: TemplateDetailsProps) {
+  console.log({ video });
   return (
     <FlexColStart className="w-full">
       <FlexColCenter className="w-full">
-        <iframe
-          className="w-full"
-          width="560"
-          height="415"
-          src={`https://www.youtube.com/embed/${videoId}`}
-          title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        ></iframe>
+        {video && video?.length > 1 && (
+          <iframe
+            className="w-full"
+            width="560"
+            height="415"
+            src={`https://www.youtube.com/embed/${videoId}`}
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          ></iframe>
+        )}
       </FlexColCenter>
       <br />
       <p className="text-white-300 font-jbSB text-[13px]">

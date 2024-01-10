@@ -60,10 +60,10 @@ export const GENERAL_STACKS = [
         name: "Vue.js",
         key: "vuejs",
       },
-      {
-        name: "Javascript",
-        key: "javascript",
-      },
+      // {
+      //   name: "Javascript",
+      //   key: "javascript",
+      // },
       {
         name: "Typescript",
         key: "typescript",

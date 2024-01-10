@@ -34,7 +34,7 @@ export default function withAuth<P extends { children: React.ReactNode }>(
 
 ````
 
-```js withAuth.jsx
+```js withAuth.tsx
 // Coming Soon
 ````
 
@@ -67,7 +67,7 @@ export function withoutAuth<P extends { children: React.ReactNode }>(
 
 ````
 
-```js withoutAuth.jsx
+```js withoutAuth.tsx
 // Coming Soon
 ````
 
@@ -79,7 +79,7 @@ Assuming we have a page called `dashboard.tsx` that should only be accessible by
 
 <CH.Code showCopyButton={false}>
 
-```js dashboard.(tsx / jsx) focus=1,11
+```js dashboard.(tsx / tsx) focus=1,11
 import { withAuth } from "@/lib/auth-helpers";
 
 function Dashboard() {
@@ -93,7 +93,7 @@ function Dashboard() {
 export default withAuth(Dashboard);
 ```
 
-```js auth.(tsx / jsx) focus=1,11
+```js auth.(tsx / tsx) focus=1,11
 import { withoutAuth } from "@/lib/auth-helpers";
 
 function Auth() {
@@ -111,7 +111,7 @@ export default withoutAuth(Auth);
 
 ## Server ☁️
 
-Protecting API routes / endpoints is quite handled differently from that of client side pages / routes. Endpoints are protected using `isAuthenticated` middleware HOF (High Order Function) and can be found in `/src/app/api/middlewares/auth.(ts / js)` file.
+Protecting API routes / endpoints is quite handled differently from that of client side pages / routes. Endpoints are protected using `isAuthenticated` middleware HOF (High Order Function) and can be found in `/src/app/api/middlewares/auth.(ts)` file.
 
 ### `isAuthenticated`
 
