@@ -1,6 +1,5 @@
 {
-  "index": "Introduction",
-  "getting-started": "Getting Started",
+  "index": "Get Started",
   "#tut": {
     "title": "Tutorials",
     "type": "separator"
@@ -31,7 +30,7 @@
   "contact": {
     "title": "Contact ↗",
     "type": "page",
-    "href": "https://twitter.com/shuding_",
+    "href": "https://twitter.com/tryveloz",
     "newWindow": true
   }
 }
