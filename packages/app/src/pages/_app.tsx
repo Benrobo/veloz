@@ -27,7 +27,13 @@ export default function App({ Component, pageProps }: AppProps) {
   const pathname = router.pathname;
 
   // prevent the minimenu from showing on protected pages
-  const protectedPages = ["/dashboard", "/kits", "/settings"];
+  const protectedPages = [
+    "/dashboard",
+    "/kits",
+    "/settings",
+    "/kits/parent/[parent]",
+    "/kits/parent/child/[name]",
+  ];
 
   return (
     <>
