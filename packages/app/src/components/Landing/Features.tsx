@@ -72,7 +72,7 @@ function Features() {
 
   return (
     <FlexColCenter className="relative w-full h-auto md:h-auto py-[5em] mb-[10em] bg-dark-103 ">
-      <FlexColCenter className="text-center w-full h-full md:max-w-[60%]">
+      <FlexColCenter className="text-center w-full h-full md:max-w-[60%] z-[20]">
         <h1 className="text-white-100 text-[1.5em] md:text-[2em] font-ppEB">
           Your SaaS{" "}
           <span className=" relative left-5 whitespace-nowrap">
