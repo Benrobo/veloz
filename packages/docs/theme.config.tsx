@@ -3,6 +3,7 @@ import { DocsThemeConfig } from "nextra-theme-docs";
 import { Brand } from "./components/theme";
 import { RenderSidebarIcon } from "./components/sideBar";
 import Footer from "./components/footer";
+import siteConfig from "./config/site";
 
 const config: DocsThemeConfig = {
   logo: <Brand />,
@@ -10,7 +11,7 @@ const config: DocsThemeConfig = {
     link: null,
   },
   chat: {
-    link: "https://discord.gg/d9Ywveuh25",
+    link: siteConfig.social.discord,
   },
   // docsRepositoryBase: "",
   feedback: {
