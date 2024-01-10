@@ -12,7 +12,7 @@ export default function MiniMenu() {
   return (
     <div
       id="mobile-menu-container"
-      className="flex md:hidden fixed bottom-[20px] right-[15px] z-[999]"
+      className="flex md:hidden fixed bottom-[20px] right-[15px] z-[599]"
     >
       <div className="mobile-menu-container">
         <ul
