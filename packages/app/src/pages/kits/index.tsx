@@ -7,7 +7,7 @@ import {
   TechStackPricingPlan,
 } from "@veloz/shared/types";
 import { useQuery } from "@tanstack/react-query";
-import { getProjects, getKits } from "@/lib/http/requests";
+import { getKits } from "@/lib/http/requests";
 import {
   FlexColCenter,
   FlexColStart,
@@ -76,7 +76,7 @@ function Templates() {
 
         <br />
         {/* Template parents */}
-        <FlexRowStartCenter className="w-full flex-wrap">
+        <FlexRowStartCenter className="w-full flex-wrap gap-1">
           {!getTemplatesQuery.isPending &&
             templates.length > 0 &&
             templates.map((d) => (

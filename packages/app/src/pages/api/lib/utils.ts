@@ -84,3 +84,13 @@ export const _checkFineTunedStackAvailability = (name: string) => {
   if (!stack) return false;
   return stack.available;
 };
+
+// format: Thu, 11 Jan 2024
+export const hasDiscountExpired = (expiry: string) => {
+  const expiryDate = new Date(expiry);
+  const today = new Date();
+  return {
+    expired: expiryDate < today,
+    timeleft: expiryDate.getTime(),
+  };
+};
