@@ -27,6 +27,7 @@ interface IPARENT_KITS {
   tagline: string;
   image: string;
   pricing_plan: TechStackPricingPlan;
+  variant_id: string;
   available: boolean;
   shop_url: string;
   demo: {
@@ -35,6 +36,8 @@ interface IPARENT_KITS {
   };
   discount: {
     amount: number;
+    expires: string;
+    code: string;
   } | null;
   language: "JS" | "PY" | "GO";
 }
