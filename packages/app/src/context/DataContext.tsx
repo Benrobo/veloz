@@ -12,6 +12,8 @@ interface ContextValuesType {
   setUserInfo: React.Dispatch<React.SetStateAction<UserInfo>>;
   globalLoading: boolean;
   setGlobalLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  sidebarOpen: boolean;
+  setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const DataContext = createContext<ContextValuesType>(
@@ -30,6 +32,7 @@ function DataContextProvider({ children }: { children: ReactNode }) {
   >([]);
   const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
   const [globalLoading, setGlobalLoading] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const contextValues: ContextValuesType = {
     userInfo,
@@ -38,6 +41,8 @@ function DataContextProvider({ children }: { children: ReactNode }) {
     setGlobalLoading,
     purchasedKits,
     setPurchasedTemplates,
+    sidebarOpen,
+    setSidebarOpen,
   };
 
   return (
