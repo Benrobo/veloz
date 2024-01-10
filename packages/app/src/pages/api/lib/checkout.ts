@@ -52,13 +52,13 @@ export async function createCheckout(user_id: string, template_id: string) {
   let response = { error: null, data: null };
   try {
     // get variants
-    const variants = await getProductVariants();
-    if (variants.error) {
-      return variants;
-    }
+    const variants = PARENT_KITS.find((t) => t.id === template_id);
 
     payload.data.relationships.variant = {
-      data: variants?.data[0] as any,
+      data: {
+        type: "variants",
+        id: variants?.variant_id,
+      },
     };
 
     const url = `https://api.lemonsqueezy.com/v1/checkouts`;
@@ -80,33 +80,38 @@ export async function createCheckout(user_id: string, template_id: string) {
   return response;
 }
 
-async function getProductVariants() {
-  let response = { error: null, data: null } as any;
-  try {
-    const url = `https://api.lemonsqueezy.com/v1/variants`;
-    const res = await axios.get(url, {
-      headers: {
-        Accept: "application/vnd.api+json",
-        Authorization: `Bearer ${process.env.LEMONSQUEEZY_API_KEY}`,
-      },
-    });
-    const resp = res.data;
+// async function getProductVariants() {
+//   let response = { error: null, data: null } as any;
+//   try {
+//     const url = `https://api.lemonsqueezy.com/v1/variants`;
+//     const res = await axios.get(url, {
+//       headers: {
+//         Accept: "application/vnd.api+json",
+//         Authorization: `Bearer ${process.env.LEMONSQUEEZY_API_KEY}`,
+//       },
+//     });
+//     const resp = res.data;
 
-    const variantData = resp?.data.map((v: any) => {
-      return {
-        type: v.type,
-        id: v.id,
-      };
-    });
-    response.data = variantData as {
-      type: string;
-      id: string;
-    }[];
-    return response;
-  } catch (e: any) {
-    const msg = e.response?.data?.errors[0].detail ?? e.message;
-    console.log(msg);
-    response.error = `Error creating checkout.` as any;
-    return response;
-  }
-}
+//     const variantData = resp?.data
+//       .filter((v: any) => v.attributes.is_subscription === false)
+//       .map((v: any) => {
+//         return {
+//           type: v.type,
+//           id: v.id,
+//           price: v.attributes.price,
+//           name: v.attributes.name,
+//         };
+//       });
+//     console.log(variantData);
+//     response.data = variantData as {
+//       type: string;
+//       id: string;
+//     }[];
+//     return response;
+//   } catch (e: any) {
+//     const msg = e.response?.data?.errors[0].detail ?? e.message;
+//     console.log(msg);
+//     response.error = `Error creating checkout.` as any;
+//     return response;
+//   }
+// }
