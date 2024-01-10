@@ -31,7 +31,7 @@ function StarterKits() {
     };
   });
 
-  const tempDiscount = templates.map((t) => t.discount)[0] ?? null;
+  const kitDiscount = templates.map((t) => t.discount)[0] ?? null;
 
   return (
     <FlexColStart className="w-full h-auto py-[5em] border-t-solid border-t-[1px] border-t-gray-100/30">
@@ -51,21 +51,21 @@ function StarterKits() {
           . 😻
         </p>
         <br />
-        {tempDiscount && !hasDiscountExpired(tempDiscount.expires).expired && (
+        {kitDiscount && !hasDiscountExpired(kitDiscount.expires).expired && (
           <>
             <span className="text-orange-100 font-ppSB text-[14px] ">
               🎁{" "}
               <span className="text-white-200 text-xs">
                 Use the code{" "}
                 <span className="text-orange-100 text-sm">
-                  {tempDiscount.code}
+                  {kitDiscount.code}
                 </span>{" "}
                 to get
               </span>
               <span className=" relative left-5 whitespace-nowrap">
                 <span className="absolute bg-red-305 -left-3 -top-1 -bottom-1 -right-2 md:-left-3 md:-top-0 md:-bottom-0 md:-right-3 -rotate-1"></span>
                 <span className="relative text-white-100">
-                  ${tempDiscount?.amount}
+                  ${kitDiscount?.amount}
                 </span>
               </span>
               <span className="text-white-100 font-ppReg ml-[3em]">
@@ -73,7 +73,7 @@ function StarterKits() {
               </span>
             </span>
             <Countdown
-              countDownDate={new Date(tempDiscount.expires).getTime()}
+              countDownDate={new Date(kitDiscount.expires).getTime()}
             />
           </>
         )}
