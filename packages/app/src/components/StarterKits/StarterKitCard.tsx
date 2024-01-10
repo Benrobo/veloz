@@ -50,7 +50,7 @@ function StarterKitCard({
     hasTemplateBeenPurchased(purchasedKits, id, name);
 
   return (
-    <FlexColStart className="w-fit max-w-[450px] h-auto min-h-[300px] gap-0  rounded-md overflow-hidden scale-[.90] translate-x-[-20px] ">
+    <FlexColStart className="w-full md:w-fit md:max-w-[450px] h-auto min-h-[300px] gap-0  rounded-md overflow-hidden md:scale-[.90] md:translate-x-[-20px] ">
       <Image
         src={thumbnail}
         alt="template"
