@@ -48,17 +48,14 @@ function Layout({ children, activePage, className }: LayoutProps) {
         className
       )}
     >
-      {isMobile ? (
-        <NotMobile />
-      ) : (
-        <div className="w-full h-screen flex">
-          <SideBar activePage={activePage} />
-          <div className="w-full z-upper relative  overflow-hidden">
-            <TopBar />
-            {children}
-          </div>
+      {/* {isMobile && <NotMobile />} */}
+      <div className="w-full h-screen flex">
+        <SideBar activePage={activePage} />
+        <div className="w-full z-upper relative  overflow-hidden">
+          <TopBar />
+          {children}
         </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -70,7 +67,7 @@ function NotMobile() {
   const { status } = useSession();
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center">
+    <div className="w-full h-full z-[999] absolute top-0 flex flex-col items-center justify-center bg-dark-200">
       <span className="text-3xl">{"😔"}</span>
       <p className="text-white-100 font-ppSB text-[16px]">
         This page is not available on mobile yet
