@@ -1,0 +1,31 @@
+# Deployment
+
+You've finally made it to the end! Now it's time to deploy your app to the world and make your first sale with your SaaS app. Here are some few things that need to be done during deployment.
+
+Irrespective of the platform been deployed to, the following steps are required:
+
+- Set the `NODE_ENV` environmental variable to `production`
+
+### Database
+
+If you choose to use a mongodb database, simply create one on [mongodb atlas](https://www.mongodb.com/cloud/atlas) and set the following environmental variables:
+
+- `DATABASE_URL` - The connection string to your mongodb database, i.e:
+
+  ```bash
+  DATABASE_URL="mongodb+srv://<cluster-name>:<db-password>@<db-username>.ahadic5.mongodb.net/<database>"
+  ```
+
+- `NEXTAUTH_URL` - The url of your app, i.e:
+
+  ```bash
+  NEXTAUTH_URL="https://<your-app>.vercel.app"
+  ```
+
+### Payment
+
+Accepting real payments in your app requires that your lemonsqueezy store get activated as seen below.
+
+![image](/images/screenshots/ls-sac.png)
+
+To activate your store,navigate to your [lemonsqueezy dashboard](https://lemonsqueezy.com) and click on the `Activate Store` button, follow the provided instructions to activate your store.
