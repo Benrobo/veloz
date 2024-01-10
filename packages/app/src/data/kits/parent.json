@@ -5,6 +5,7 @@
     "image": "/images/templates/thumbnails/zeus.svg",
     "tagline": "Turbocharge Your Indie Hacker Journey",
     "pricing_plan": "LITE_PKG",
+    "variant_id": "172182",
     "available": true,
     "shop_url": "https://veloz.lemonsqueezy.com/checkout/buy/b341dd13-dd70-4829-9d59-fdace2b2e144",
     "demo": {
@@ -12,7 +13,9 @@
       "video_url": "#"
     },
     "discount": {
-      "amount": 100
+      "amount": 100,
+      "code": "AWNZAZOQ",
+      "expires": "Thu, 11 Jan 2024"
     },
     "language": "JS"
   },
@@ -22,6 +25,7 @@
     "image": "/images/templates/athena.jpeg",
     "tagline": "Empowering Indies, One Kit at a Time",
     "pricing_plan": "STANDARD_PKG",
+    "variant_id": "198726",
     "available": false,
     "shop_url": "#",
     "demo": {
