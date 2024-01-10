@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FlexColCenter,
   FlexColStart,
@@ -18,6 +18,7 @@ import { PARENT_KITS } from "@/data/stack";
 import Link from "next/link";
 import Image from "next/image";
 import Name from "@/pages/kits/parent/child/[name]";
+import { hasDiscountExpired } from "@/pages/api/lib/utils";
 
 function StarterKits() {
   const templates = PARENT_KITS.map((t) => {
@@ -50,19 +51,31 @@ function StarterKits() {
           . 😻
         </p>
         <br />
-        {tempDiscount && (
-          <span className="text-orange-100 font-ppSB text-[14px] ">
-            🎁
-            <span className=" relative left-5 whitespace-nowrap">
-              <span className="absolute bg-red-305 -left-3 -top-1 -bottom-1 -right-2 md:-left-3 md:-top-0 md:-bottom-0 md:-right-3 -rotate-1"></span>
-              <span className="relative text-white-100">
-                ${tempDiscount?.amount}
+        {tempDiscount && !hasDiscountExpired(tempDiscount.expires).expired && (
+          <>
+            <span className="text-orange-100 font-ppSB text-[14px] ">
+              🎁{" "}
+              <span className="text-white-200 text-xs">
+                Use the code{" "}
+                <span className="text-orange-100 text-sm">
+                  {tempDiscount.code}
+                </span>{" "}
+                to get
+              </span>
+              <span className=" relative left-5 whitespace-nowrap">
+                <span className="absolute bg-red-305 -left-3 -top-1 -bottom-1 -right-2 md:-left-3 md:-top-0 md:-bottom-0 md:-right-3 -rotate-1"></span>
+                <span className="relative text-white-100">
+                  ${tempDiscount?.amount}
+                </span>
+              </span>
+              <span className="text-white-100 font-ppReg ml-[3em]">
+                off for a limited time.
               </span>
             </span>
-            <span className="text-white-100 font-ppReg ml-[3em]">
-              off for a limited time.
-            </span>
-          </span>
+            <Countdown
+              countDownDate={new Date(tempDiscount.expires).getTime()}
+            />
+          </>
         )}
       </FlexColStartCenter>
       <br />
@@ -86,6 +99,37 @@ function StarterKits() {
 }
 
 export default StarterKits;
+
+function Countdown({ countDownDate }: { countDownDate: number }) {
+  const [timeleft, setTimeLeft] = useState("");
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      var now = new Date().getTime();
+
+      // Find the distance between now and the count down date
+      var distance = countDownDate - now;
+
+      // Time calculations for days, hours, minutes and seconds
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      setTimeLeft(days + "d " + hours + "h " + minutes + "m " + seconds + "s ");
+
+      if (distance < 0) {
+        clearInterval(timer);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  return <span className="text-white-100 font-ppSB text-md ">{timeleft}</span>;
+}
 
 type KitCardProps = {
   name: string;
