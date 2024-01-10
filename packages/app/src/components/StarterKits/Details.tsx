@@ -32,7 +32,6 @@ type TemplateDetailsProps = {
 };
 
 function ZeusDetails({ video, videoId }: TemplateDetailsProps) {
-  console.log({ video });
   return (
     <FlexColStart className="w-full">
       <FlexColCenter className="w-full">
@@ -49,14 +48,9 @@ function ZeusDetails({ video, videoId }: TemplateDetailsProps) {
       </FlexColCenter>
       <br />
       <p className="text-white-300 font-jbSB text-[13px]">
-        You're passionate about <Kbd>Next.js</Kbd> (<Kbd>Typescript</Kbd>,{" "}
-        <Kbd>Javascript</Kbd>), and your goal is to accelerate your project
-        delivery. Look no further – meet <Kbd>Zeus</Kbd>. Designed to streamline
-        your development process, Zeus empowers you to ship high-quality
-        applications faster. With a robust tech stack, seamless integrations,
-        and a focus on efficiency, Zeus is your ticket to swift and efficient
-        SaaS development. Choose Zeus to elevate your coding experience and
-        bring your innovative ideas to life with speed and precision.
+        Zeus streamlines development, enabling faster high-quality app delivery.
+        With a robust tech stack, seamless integrations, and a focus on
+        efficiency, Zeus is your ticket to swift SaaS development.
       </p>
     </FlexColStart>
   );
@@ -66,12 +60,10 @@ function AthenaDetails({ video }: TemplateDetailsProps) {
   return (
     <FlexColStart className="w-full">
       <p className="text-white-300 font-jbSB text-[13px]">
-        You love indie development. You crave the power of <Kbd>Node.js</Kbd>{" "}
-        and the versatility of <Kbd>React</Kbd> (both <Kbd>Typescript</Kbd> and{" "}
-        <Kbd>Javascript</Kbd>). If empowering indies is your game, then{" "}
-        <Kbd>Athena</Kbd> is your go-to kit. Fuel your projects with the dynamic
-        duo of <Kbd>Node.js + Express.js</Kbd> and <Kbd>React</Kbd>, and let
-        Athena be your guide to indie development success – one kit at a time.
+        If empowering indies is your game, then <Kbd>Athena</Kbd> is your go-to
+        kit. Fuel your projects with the dynamic duo of{" "}
+        <Kbd>Node.js + Express.js</Kbd> and <Kbd>React</Kbd>, and let Athena be
+        your guide to indie development success – one kit at a time.
       </p>
     </FlexColStart>
   );

@@ -126,7 +126,7 @@ function Page() {
       )}
 
       {parentTemplates && (
-        <FlexColStart className="w-full h-full overflow-y-scroll px-5 py-4 pb-[10em]">
+        <FlexColStart className="w-full h-full overflow-y-scroll px-2 md:px-5 py-4 pb-[10em]">
           <FlexRowStart className="px-4 py-4">
             <Link
               href="/kits"
@@ -141,10 +141,10 @@ function Page() {
               </span>
             </Link>
           </FlexRowStart>
-          <FlexColStart className="w-full px-5">
+          <FlexColStart className="w-full px-2 md:px-5">
             <FlexColStart className="w-full">
               <FlexColStart className="w-full mr-3">
-                <FlexRowStartBtw className="w-full">
+                <FlexRowStartBtw className="w-full flex-wrap">
                   <FlexColStart className="w-full">
                     <h1 className="text-white-100 font-jbEB text-2xl">
                       {parentName}
@@ -153,7 +153,7 @@ function Page() {
                       {parentKit?.tagline}
                     </p>
                   </FlexColStart>
-                  <FlexRowEnd className="w-full">
+                  <FlexRowEnd className="w-full mt-5 md:mt-0 px-0 items-start md:items-end justify-start md:justify-end">
                     {!alreadyPurchased && (
                       <Button
                         variant={"primary"}
@@ -199,7 +199,7 @@ function Page() {
                       href={parentKit?.demo?.live_url as string}
                       target="_blank"
                     >
-                      <FlexRowStartCenter className="gap-2 w-[120px] px-5 py-[10px] bg-dark-200 rounded-[30px] scale-[.85] ">
+                      <FlexRowStartCenter className="gap-2 w-[120px] px-5 py-[13px] bg-dark-200 rounded-[30px] scale-[.95] ">
                         <span className="p-[5px] rounded-[50%] bg-green-400 "></span>
                         <span className="text-orange-100 underline font-jbEB text-[11px] ">
                           Live Demo
@@ -226,7 +226,7 @@ function Page() {
                     Templates
                   </h1> */}
                 </FlexColCenter>
-                <FlexColEnd className="w-full gap-1 flex-wrap">
+                <FlexColEnd className="w-full gap-1 flex-wrap px-0">
                   {childTemplates.length > 0 ? (
                     childTemplates.map(
                       (d) =>
@@ -287,10 +287,10 @@ function FineTunedCard({
     <Link
       href={`/kits/parent/child/${name}`}
       className={cn(
-        "w-auto relative rounded-md border-solid border-[2px] border-transparent"
+        "w-full md:w-auto relative rounded-md border-solid border-[2px] border-transparent"
       )}
     >
-      <FlexColStart className="w-fit max-w-[350px] min-w-[300px] bg-dark-300 rounded-md overflow-hidden py-4 border-solid border-[.5px] border-gray-100  ">
+      <FlexColStart className="w-full md:w-fit md:max-w-[350px] min-w-[300px] bg-dark-300 rounded-md overflow-hidden py-4 border-solid border-[.5px] border-gray-100  ">
         <FlexRowStartBtw className="w-full px-4 pt-0 pb-4 py-3">
           <FlexRowStart>
             <RenderProjectIcons type={label} />

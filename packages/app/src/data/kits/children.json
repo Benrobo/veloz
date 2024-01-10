@@ -13,7 +13,7 @@
     "label": "Vortex",
     "tags": ["nextjs", "typescript", "saas"],
     "difficulty": "intermediate",
-    "tagline": "Typescript version of Zeus",
+    "tagline": "Swift SaaS development unlocked.",
     "tech_stacks": [
       {
         "title": "frontend",
@@ -33,13 +33,13 @@
       },
       {
         "title": "authentication",
-        "stacks": ["clerk", "nextauth"]
+        "stacks": ["nextauth"]
       },
       {
         "title": "payment",
         "stacks": ["lemonsqueezy"]
       }
     ],
-    "language": "JS"
+    "language": "TS"
   }
 ]
