@@ -10,12 +10,31 @@ import {
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { DataContext } from "@/context/DataContext";
+import { PanelRightClose, PanelRightOpen } from "lucide-react";
+import { FlexRowStart } from "../Flex";
 
 function TopBar() {
-  const { userInfo } = useContext(DataContext);
+  const { userInfo, sidebarOpen, setSidebarOpen } = useContext(DataContext);
 
   return (
     <div className="w-full flex items-center justify-end border-b-solid border-b-[1px] border-b-dark-400 py-1 px-4">
+      <FlexRowStart className="w-full">
+        {/* panel */}
+        <button className="" onClick={() => setSidebarOpen(!sidebarOpen)}>
+          {sidebarOpen ? (
+            <PanelRightOpen
+              size={15}
+              className="text-dark-105 dark:text-white-200"
+            />
+          ) : (
+            <PanelRightClose
+              size={15}
+              className="text-dark-105 dark:text-white-200"
+            />
+          )}
+        </button>
+      </FlexRowStart>
+
       <div className="w-auto flex">
         <DropdownMenu>
           <DropdownMenuTrigger className="w-[30px] h-[30px] bg-dark-200 font-ppReg text-white-100 border-solid border-[1px] border-dark-300 rounded-[50%] text-[13px] outline-none ">
