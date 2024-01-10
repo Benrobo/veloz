@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import { HomeIcon, MoneyIcon, ProjectIcon } from "../Icon";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
-import { Settings, Zap } from "lucide-react";
+import { PanelRightClose, PanelRightOpen, Settings, Zap } from "lucide-react";
 import { FlexColCenter, FlexColStart, FlexRowCenterBtw } from "../Flex";
 import { cn, getPlanTitle, planColor } from "@/lib/utils";
 import { DataContext } from "@/context/DataContext";
@@ -16,6 +16,7 @@ interface SidebarProps {
 }
 
 function SideBar({ activePage }: SidebarProps) {
+  const { setSidebarOpen, sidebarOpen } = useContext(DataContext);
   const buttonStyle = (pageName: string, compName: string) => {
     const notActive = "text-gray-100 bg-none",
       Active = "text-white-100 bg-dark-300",
@@ -27,7 +28,12 @@ function SideBar({ activePage }: SidebarProps) {
   };
 
   return (
-    <div className="w-full h-full max-w-[220px] relative border-r-solid border-r-[1px] border-r-dark-400 hideScrollBar py-1 ">
+    <div
+      className={cn(
+        "w-full h-full fixed top-0 left-0 md:relative max-w-[250px] border-r-solid border-r-[1px] border-r-dark-400 hideScrollBar py-1 z-[100] bg-dark-100 transition-all ease-in-out",
+        sidebarOpen ? "w-[250px]" : "w-0 overflow-hidden"
+      )}
+    >
       <div className="w-full flex items-center justify-start gap-3 py-2 px-4">
         <Image
           src={"/images/logo/logo.png"}
@@ -37,6 +43,17 @@ function SideBar({ activePage }: SidebarProps) {
           height={0}
         />
         <span className="font-ppSB text-white-100 text-[1em]">Veloz</span>
+
+        <button
+          className="md:hidden absolute top-2 right-2"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+        >
+          {sidebarOpen ? (
+            <PanelRightOpen size={15} className="text-white-100" />
+          ) : (
+            <PanelRightClose size={15} className="text-white-100" />
+          )}
+        </button>
       </div>
       <div className="w-full mt-5 px-4 flex flex-col items-center justify-center gap-3">
         {/* home item */}
