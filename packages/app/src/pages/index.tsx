@@ -1,14 +1,7 @@
 import Features from "@/components/Landing/Features";
-import {
-  FlexColCenter,
-  FlexColStart,
-  FlexRowCenter,
-  FlexRowCenterBtw,
-} from "@/components/Flex";
+import { FlexColStart } from "@/components/Flex";
 import Header from "@/components/Header";
-import Layout from "@/components/Layout";
 import HomeTopBar from "@/components/Navbar/HomeTopBar";
-import Why from "@/components/Landing/Why";
 import useScrollVisible from "@/hooks/useScrollVisible";
 import Overview from "@/components/Landing/Overview";
 import StarterKits from "@/components/Landing/StarterKit";
@@ -28,7 +21,6 @@ export default function Home() {
       />
       <HomeTopBar scrollVisible={scrollVisible} />
       <Header />
-      {/* <Why /> */}
       <Features />
       <Overview />
       <StarterKits />

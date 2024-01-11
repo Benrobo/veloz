@@ -51,7 +51,6 @@ function Templates() {
   ]);
 
   return (
-    // @ts-expect-error
     <Layout activePage="kits">
       <FlexColStart className="w-full px-4 py-4 ">
         <FlexRowCenterBtw className="w-full">

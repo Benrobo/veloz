@@ -97,7 +97,6 @@ function ProjectTemplate() {
   const _payment = stackDetails?.tech_stacks.find((s) => s.title === "payment");
 
   return (
-    // @ts-expect-error
     <Layout activePage="kits">
       <FlexColStart className="w-full h-full hideScrollBar2 overflow-y-scroll">
         <FlexRowStart className="px-4 py-4">

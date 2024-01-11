@@ -1,10 +1,7 @@
 import { FlexColCenter } from "@/components/Flex";
 import Layout from "@/components/Layout";
 import Modal from "@/components/Modal";
-import { DataContext } from "@/context/DataContext";
 import withAuth from "@/lib/auth/withAuth";
-import Image from "next/image";
-import { useContext } from "react";
 
 function Home() {
   return (
