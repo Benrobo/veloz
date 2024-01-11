@@ -37,7 +37,6 @@ function Accordion({
   };
 
   return (
-    // @ts-expect-error
     <button
       className={twMerge(
         "w-full h-auto group transition-all outline-none border-solid border-[1px] border-dark-200 px-4 py-4 rounded-lg flex items-start justify-start flex-col",
@@ -58,6 +57,7 @@ function Accordion({
         }
       }}
       onKeyDownCapture={preventAccordionFromClosing}
+      type="button"
     >
       <FlexRowStartBtw className="w-full">
         <FlexRowCenter>
