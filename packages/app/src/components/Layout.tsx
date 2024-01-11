@@ -60,7 +60,7 @@ function Layout({ children, activePage, className }: LayoutProps) {
   );
 }
 
-export default withAuth(Layout as any);
+export default withAuth(Layout);
 
 // component that get shown to let user knows this page isn;t for mobile yet
 function NotMobile() {
