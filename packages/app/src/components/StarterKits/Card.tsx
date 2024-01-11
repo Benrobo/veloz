@@ -20,12 +20,12 @@ function ProjectCard({
   ...props
 }: ProjectCardProps) {
   return (
-    // @ts-expect-error
     <button
       id={id}
       key={id}
       className="w-auto min-w-[300px] h-auto relative rounded-lg bg-dark-200 flex flex-col items-start justify-start gap-2 py-5 px-5 border-solid border-[1px] border-white-600 transition-colors hover:bg-dark-300 "
       {...props}
+      type="button"
     >
       <RenderProjectIcons type={label ?? "Odyssey"} />
       <div className="absolute top-1 right-2">
