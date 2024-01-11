@@ -1,10 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: "export",
+  output: "standalone",
   images: {
     unoptimized: true,
   },
+  transpilePackages: ["@veloz/shared"],
 };
 
 module.exports = nextConfig;

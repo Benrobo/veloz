@@ -1,0 +1,306 @@
+import { Callout } from "nextra/components";
+
+## Collecting Payment
+
+Veloz kits uses `Lemonsqueezy` for handling payment within the codebase.
+
+<Callout type="warning">
+  Before we proceed, make sure you have a store on
+  [Lemonsqueezy](https://lemonsqueezy.com)
+</Callout>
+
+Before collecting payment in your app, you need to create products on your lemonsuqeezy store. This product are basically represented as pricing plans on your app. [Follow this guide](/lemonsqueezy/products)
+
+<Callout type="warning">
+  Make sure you have your `API_KEY` created already, if not [follow this
+  guide](/lemonsqueezy/api-key) before proceeding further.
+</Callout>
+
+Once you have your products created, you would need the following config from lemonsuqeezy:
+
+- `store_id` : This is the id of your store on lemonsqueezy.
+- `product_id` : This is the id of the product you want to collect payment for.
+- `variant_id` : This is the id of the variant of the product you want to collect payment for.
+
+In **development** mode, veloz kits provide you **3** urls which helps you get this details while in development.
+
+<Callout type="warning">
+  Calling this url's in production would return an error. It has been configured
+  to only work in development mode. Also make sure you are logged in before
+  calling this url's.
+</Callout>
+
+Click on each links below to see the response you get from each url.
+
+- **Store** [http://localhost:4000/api/lemonsqueezy/store](http://localhost:4000/api/lemonsqueezy/store)
+- **Products** [http://localhost:4000/api/lemonsqueezy/product](http://localhost:4000/api/lemonsqueezy/product)
+- **Variants** [http://localhost:4000/api/lemonsqueezy/variant](http://localhost:4000/api/lemonsqueezy/variant)
+
+Calling each of those endpoints above should return a response like this:
+
+<CH.Code>
+
+```json store focus=7,11,15
+// I have  3 stores on my lemonsqueezy account,
+// which is why you see 3 stores in the response below.
+// Take note of the store ID.
+
+[
+  {
+    "id": "32433",
+    "name": "Benrobo"
+  },
+  {
+    "id": "59718",
+    "name": "Test Demo"
+  },
+  {
+    "id": "59946",
+    "name": "Veloz"
+  }
+]
+```
+
+{/* focus=8,14,20 */}
+
+```json product
+// I have  3 products on my lemonsqueezy account,
+// each products representing the PLANS on my app,
+// which is why you see 3 products in the response below.
+// Take note of the product ID.
+
+[
+  {
+    // mark
+    "prod_id": "149209",
+    "name": "Demo Product ( Basic )",
+    "price": 900,
+    "price_formatted": "$9.00 - $108.00"
+  },
+  {
+    // mark
+    "prod_id": "147184",
+    "name": "Demo Product ( Lite )",
+    "price": 400,
+    "price_formatted": "$4.00 - $48.00"
+  },
+  {
+    // mark
+    "prod_id": "147501",
+    "name": "Demo Product ( Premium )",
+    "price": 2000,
+    "price_formatted": "$20.00 - $240.00"
+  }
+]
+```
+
+{/* focus=9,11,12,17,20,19,25,27,28,33,35,36 */}
+
+```json variants
+// Take note of the `prod_id` attribute on each product, this is the product ID
+// you need to collect payment for. Also, take note of the `variant_id` alongside
+// the `product_id` and `plan` attribute. each variant ID should be paired with
+// the product ID alongside
+
+[
+  {
+    "type": "variants",
+    "price": 9,
+    "variant_id": "198720",
+    "duration": "month",
+    "product_id": 149209,
+    "isSubscription": true,
+    "plan": "Basic"
+  },
+  {
+    "type": "variants",
+    "price": 299,
+    "variant_id": "172182",
+    "duration": "year",
+    "product_id": 142576,
+    "isSubscription": false,
+    "plan": null
+  },
+  {
+    "type": "variants",
+    "price": 108,
+    "variant_id": "183213",
+    "duration": "year",
+    "product_id": 149209,
+    "isSubscription": true,
+    "plan": "Basic"
+  },
+  {
+    "type": "variants",
+    "price": 9.99,
+    "variant_id": "198726",
+    "duration": null,
+    "product_id": 147184,
+    "isSubscription": false,
+    "plan": "Lite"
+  },
+  {
+    "type": "variants",
+    "price": 20,
+    "variant_id": "180561",
+    "duration": "month",
+    "product_id": 147501,
+    "isSubscription": true,
+    "plan": "Premium"
+  },
+  {
+    "type": "variants",
+    "price": 4,
+    "variant_id": "183156",
+    "duration": "month",
+    "product_id": 147184,
+    "isSubscription": true,
+    "plan": "Lite"
+  },
+  {
+    "type": "variants",
+    "price": 48,
+    "variant_id": "198725",
+    "duration": "year",
+    "product_id": 147184,
+    "isSubscription": true,
+    "plan": "Lite"
+  },
+  {
+    "type": "variants",
+    "price": 240,
+    "variant_id": "198727",
+    "duration": "year",
+    "product_id": 147501,
+    "isSubscription": true,
+    "plan": "Premium"
+  }
+]
+```
+
+</CH.Code>
+
+<Callout type="info">
+  You would notice that each variant has a duration constituting of `month` or
+  `year`. This is the duration of the subscription plan.
+</Callout>
+
+# Pricing Plan
+
+Veloz kit by default support 3 pricing plans, which are: `LITE`, `BASIC` & `PREMIUM`.
+
+Youre'nt limitted to this config, you could customize this plan based on your preferrence.
+
+## Updating Pricing Plan
+
+Follow the instructions below based on the starter kit techstack you purchased.
+
+#### Nextjs
+
+If everything is set up correctly, it high time you update your pricing plan config on your app. Headover to `src/data/pricing/plan.ts`. Every plan for your saas is managed within that file.
+
+<Callout type="info">
+  `Monthly` & `Yearly` subscriptions only is supported for now.
+</Callout>
+
+Now simply update the pricing plans config based on the `priduct (id, amount, currency) , variants id, plan, name.` The `id` attribute on line 2 is just random and not part of lemonsqueezy product id. But when changed, make sure you update the `id` attribute of that specific plan features otherwise it won't reflect on landing page. [learn more](/pricing-page#customization) about this.
+
+<CH.Code>
+
+```ts plan.ts
+export const pricingPlans = [
+  {
+    id: "lite_84507",
+    name: "Lite",
+    key: "lite",
+    variants: [
+      {
+        id: 183156,
+        duration: "monthly",
+        pricing: {
+          currency: "USD",
+          amount: 4,
+        },
+      },
+      {
+        id: 198725,
+        duration: "yearly",
+        pricing: {
+          currency: "USD",
+          amount: 48,
+        },
+      },
+    ],
+    product_id: 147184,
+  },
+  {
+    id: "basic_104548",
+    name: "Basic",
+    key: "basic",
+    variants: [
+      {
+        id: 183213,
+        duration: "yearly",
+        pricing: {
+          currency: "USD",
+          amount: 108,
+        },
+      },
+      {
+        id: 198720,
+        duration: "monthly",
+        pricing: {
+          currency: "USD",
+          amount: 9,
+        },
+      },
+    ],
+    product_id: 149209,
+    recommended: true,
+  },
+  {
+    id: "premium_123918",
+    name: "Premium",
+    key: "premium",
+    variants: [
+      {
+        id: 180561,
+        duration: "monthly",
+        pricing: {
+          currency: "USD",
+          amount: 20,
+        },
+      },
+      {
+        id: 198727,
+        duration: "yearly",
+        pricing: {
+          currency: "USD",
+          amount: 240,
+        },
+      },
+    ],
+    product_id: 147501,
+  },
+] satisfies PricingPlan[];
+```
+
+</CH.Code>
+
+Once that has been completed, navigate to the **settings > billing** section of the app. A billing card should be present which shows the pricing plans available and provide you an option to switch to a specific plan.
+
+![image](/images/screenshots/v-pp.png)
+
+> If you already have an active subscription plan, one of the button with that active subscription plan would be disabled with a "Subscribed" label.
+
+Clicking one of the **Switch to this plan** button would create a lemonsqueezy checkout with the user details as `custom_data` and then redirect the user to lemonsqueezy store.
+
+![image](/images/screenshots/ls-pay.png)
+
+you could use the below `Test Cards` details
+
+- **card number** - `4242-4242-4242-4242`
+- **cvv** - `123`
+- **expiry date** - `12/25`
+
+Once payment has been made and was successfull lemonsqueezy sends a webhook containing the payment details. Learn more about [Lemonqueezy Webhooks](/lemonsqueezy/webhook)

@@ -1,0 +1,10 @@
+{
+  "index": {
+    "display": "hidden"
+  },
+  "intro": "Intro",
+  "setup": "Setup",
+  "authentication": "Authentication",
+  "database": "Database",
+  "deployment": "Deployment"
+}

@@ -1,0 +1,94 @@
+import { Callout } from "nextra/components";
+
+<Callout emoji="💡">
+  By now you should've the selected starter-kit on your local machine. If not,
+  please go back to the [Getting Started](/getting-started/setup) section and
+  follow the instructions.
+</Callout>
+
+## Start a local server
+
+> Since all starter-kits on veloz uses it own separate docker container, Make sure you have `Docker` installed on your machine before proceeding further.
+
+### 📝 Configuring environment variables
+
+1. Rename `.env.example` to `.env` and update the values with your own credentials.
+
+> By default, the starter-kit uses `Mongodb` as the database. You can aswell switch to other databases like `Postgres` or `MySQL` by updating the `DATABASE_URL` in the `.env` file. Follow this [instructions](/zeus/database)
+
+```bash .env
+NEXTAUTH_URL="http://localhost:4000"
+
+NODE_ENV="development"
+
+# local database url
+DATABASE_URL="mongodb://root:12345@localhost:27001/veloz-kit?authSource=admin"
+
+# jwt secret
+JWT_SECRET="xxxxxxx"
+
+# lemonsqueezy api key
+LEMONSQUEEZY_API_KEY="xxxxx.xxxxx.xxxx"
+
+# lemonsqueezy webhook secret
+LEMONSQUEEZY_WEBHOOK_SECRET="wh_xxxxxxx"
+
+# google oauth
+# if you choose to use google oauth, make sure you have the following
+GOOGLE_CLIENT_ID="xxxx-xxxxxxxxx.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET="GOCSPX-xxxx"
+
+# github oauth
+# if you choose to use github oauth, make sure you have the following
+GH_CLIENT_ID="Iv1.xxxx"
+GH_CLIENT_SECRET=""
+
+
+# resend email config
+RESEND_API_KEY="re_ErvDyEXi_Ka7ogG2HbKUH1UMm7dHJ659M"
+
+# mail
+# replace zlyst.site with your own domain on [Resend](https://resend.com)
+MAIL_FROM="Veloz <tryveloz@zlyst.site>"
+```
+
+2. Initialize docker container
+
+```bash filename="terminal"
+# make sure you are in the root directory of the starter-kit
+# run the following command to initialize the docker container
+docker-compose up -d
+
+# if you want to stop the container, run the following command
+docker-compose down
+```
+
+3. Start the local server
+
+```bash filename="terminal"
+# make sure you are in the root directory of the starter-kit
+# run the following command to start the local server
+
+# yarn
+yarn dev
+
+# npm
+npm run dev
+```
+
+> Your local server should be up and running on `http://localhost:4000`
+
+Visit [http://localhost:4000](http://localhost:4000) to see your app.
+
+![veloz-kit-homepage](/images/screenshots/v-home.png)
+
+🎉 Congratulations! You have successfully started your local server.
+
+### 📝 Next steps
+
+Let setup authentication for your app. Head over to the [Authentication](/zeus/authentication) section to learn more.
+
+**Zeus** uses [Nextauth](https://next-auth.js.org/) for authentication.
+
+By default **Zeus** comes with 2 built-in ways to authenticate users:
+[OAuth](/kits/zeus/authentication/oauth) and [Email & Password](/kits/zeus/authentication/email-password)

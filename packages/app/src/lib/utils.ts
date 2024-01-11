@@ -1,38 +1,33 @@
-import TECH_STACKS from "@/data/stacks";
+import { FINE_TUNED_STACKS, PARENT_KITS } from "@data/stack";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { TechStackPricingPlan } from "../../types";
+import { TechStackCategory, TechStackPricingPlan } from "@veloz/shared/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// check if user is eligible or not for a specific plan
-export function isUserEligibleForStack(
-  stackKey: string,
-  userPricingPlan: TechStackPricingPlan
+// check if user has bought a specific template
+export function hasTemplateBeenPurchased(
+  items: { name: string; id: string }[],
+  template_id: string,
+  template_name: string
 ) {
-  const techStack = TECH_STACKS.find((stack) => stack.key === stackKey);
-  if (techStack) {
-    const { pricing_plan } = techStack;
-    if (userPricingPlan === "BASIC_PKG" && pricing_plan !== "BASIC_PKG") {
-      // User on BASIC_PKG plan can't access other plans
-      return false;
-    } else if (
-      userPricingPlan === "STANDARD_PKG" &&
-      pricing_plan === "PRO_PKG"
+  if (!items || items?.length === 0) return false;
+  for (const item of items) {
+    const template = PARENT_KITS.find(
+      (t) =>
+        t.id === template_id ||
+        t.name.toLowerCase() === template_name.toLowerCase()
+    );
+    if (
+      item.id === template?.id ||
+      item.name.toLowerCase() === template?.name.toLowerCase()
     ) {
-      // User on STANDARD_PKG plan can't access PRO_PKG
-      return false;
-    } else {
-      // User is eligible for this stack
       return true;
     }
+    return false;
   }
-
-  // Stack not found
-  console.log("Stack not found");
-  return false;
 }
 
 export function parseEnvString(envString: string) {
@@ -59,10 +54,10 @@ export function parseEnvString(envString: string) {
 
 export function getPlanTitle(plan: TechStackPricingPlan) {
   switch (plan) {
-    case "BASIC_PKG":
-      return "Basic";
-    case "STANDARD_PKG":
-      return "Standard";
+    // case "FREE_PKG":
+    //   return "Free";
+    case "LITE_PKG":
+      return "Lite";
     case "PRO_PKG":
       return "Pro";
   }
@@ -71,13 +66,13 @@ export function getPlanTitle(plan: TechStackPricingPlan) {
 export const planColor = (plan: TechStackPricingPlan) => {
   let txtColor = "",
     bgColor = "";
-  if (plan === "BASIC_PKG") {
+  // if (plan === "FREE_PKG") {
+  //   txtColor = "text-green-100";
+  //   bgColor = "bg-green-100";
+  // }
+  if (plan === "LITE_PKG") {
     txtColor = "text-blue-100";
     bgColor = "bg-blue-100";
-  }
-  if (plan === "STANDARD_PKG") {
-    txtColor = "text-orange-100";
-    bgColor = "bg-orange-100";
   }
   if (plan === "PRO_PKG") {
     txtColor = "text-pink-100";
@@ -85,3 +80,28 @@ export const planColor = (plan: TechStackPricingPlan) => {
   }
   return { txtColor, bgColor };
 };
+
+type StackProps = Record<
+  TechStackCategory,
+  { category: TechStackCategory; name: string; stack: string }
+>;
+
+// format number to 100, 1k, 2.5k, 1m, 2.5m
+export function formatNumber(number: number) {
+  // International number formatting
+  let formatter = Intl.NumberFormat("en", { notation: "compact" });
+  return formatter.format(number);
+}
+
+// currency formatter
+export function formatCurrency(number: number, currency: string) {
+  // International number formatting
+  let formatter = Intl.NumberFormat("en", {
+    style: "currency",
+    currency,
+  });
+  return formatter.format(number);
+}
+
+export const sleep = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));

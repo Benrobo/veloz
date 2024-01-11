@@ -1,0 +1,13 @@
+version: "3.1"
+services:
+  veloz-main-mongodb:
+    build: ./mongodb_rs
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=12345
+      - MONGO_INITDB_DATABASE=veloz
+      - MONGO_REPLICA_HOST=localhost
+      - MONGO_REPLICA_PORT=27017
+    ports:
+      - 27001:27001

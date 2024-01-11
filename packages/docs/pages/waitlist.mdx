@@ -1,0 +1,66 @@
+import { Callout } from "nextra/components";
+
+# Waitlist
+
+![image](/images/screenshots/v-wlc.png)
+
+Most times, you'll want to collect emails from your users before you launch your product, in this case, Veloz has a built-in waitlist **component** and **page** that let you do just that.
+
+## How to use
+
+<Callout type="info">
+  Depending on the kit you purchase, you'll most likely find both the waitlist
+  component and page inside `src/components/waitlist`.
+</Callout>
+
+You could simply use the waitlist component inside any page you want, but if you want to use the waitlist page, you'll need to add it to your `src/pages` (Nextjs support) folder.
+
+<CH.Code showCopyButton={false}>
+
+```js page.tsx
+import WaitlistPage from "@/components/waitlist/page";
+
+export default function Home() {
+  return (
+    <>
+      {/* Make sure the rest of the components are commmented out if you choose to show the waitlist page only */}
+      {/* navigation section */}
+      {/* <TopBar /> */}
+
+      {/* components sections */}
+      {/* <Header />
+        <Features />
+        <Pricing />
+        <FAQ />
+        <Footer /> */}
+      <WaitlistPage />
+    </>
+  );
+}
+```
+
+---
+
+```js component.tsx
+import WaitlistFormComponent from "./component";
+
+export default function AnyPage() {
+  return <WaitlistFormComponent />;
+}
+```
+
+</CH.Code>
+
+#### Waitlist Page
+
+![IMAGE](/images/screenshots/v-wl.png)
+
+#### Waitlist Component
+
+![image](/images/screenshots/v-wlc.png)
+
+## Managing Waitlist
+
+By default, only user having `admin` role can manage waitlist users. If you want to view all signed up users, simply login and navigate to the `Waitlist` section on the sidebar (only Admin). There you would find lists of registered users and you can perform actions like `delete` or `exporting` the lists to csv file.
+
+![image](/images/screenshots/v-wlu.png)

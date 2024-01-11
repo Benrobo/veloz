@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { IoMdClose } from "react-icons/io";
-import { IoClose } from "react-icons/io5";
 import { Button } from "./ui/button";
 import { CloseSquare } from "iconsax-react";
 import { twMerge } from "tailwind-merge";
@@ -24,8 +22,6 @@ const Modal = ({
   scrollable,
 }: ModalProp) => {
   const [isVisible, setIsVisible] = useState(isOpen);
-  const blurBg = `backdrop-blur-xl opacity-[1]`;
-  const transBg = ``;
 
   React.useEffect(() => {
     setIsVisible(isOpen);
@@ -92,8 +88,6 @@ export const ChildBlurModal = ({
   scrollable,
 }: ModalProp) => {
   const [isVisible, setIsVisible] = useState(isOpen);
-  const blurBg = `backdrop-blur-xl opacity-[1]`;
-  const transBg = ``;
 
   React.useEffect(() => {
     setIsVisible(isOpen);

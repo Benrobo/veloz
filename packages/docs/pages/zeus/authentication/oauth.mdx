@@ -1,0 +1,124 @@
+![image](/images/screenshots/v-kit-auth.png)
+
+# 🛠 Configurations
+
+### Sign-in with Google and Github (Only)
+
+If you want your users to sign-in with Google and Github only, you can do so by updating the `/app/auth/page.(tsx|tsx)` file.
+
+Simply remove `<CredentialsAuth />` and the import statement for it.
+
+##### Before
+
+<CH.Code lineNumbers={true} showCopyButton={false}>
+```js app/auth/page.tsx focus=18,7
+"use client";
+import {
+  FlexColCenter,
+  FlexColStart,
+  FlexColStartCenter,
+} from "@/components/Flex";
+// mark
+import CredentialsAuth from "@/components/auth/nextAuth/CredentialsAuth";
+import OAuth from "@/components/auth/nextAuth/OAuth";
+import { withoutAuth } from "@/lib/auth-helpers/withoutAuth";
+import React from "react";
+
+function AuthPage() {
+return (
+
+<FlexColCenter className="w-full h-screen">
+  <FlexColStart className="w-full min-w-[350px] max-w-[400px] scale-[.90] md:scale-[1] ">
+    {/* Replace your prefer auth component */}
+    <OAuth />
+    // mark
+    <CredentialsAuth />
+  </FlexColStart>
+</FlexColCenter>
+); }
+
+// prevent user to access this page if they are already logged in
+export default withoutAuth(AuthPage);
+
+````
+
+</CH.Code>
+
+##### After
+
+<CH.Code lineNumbers={true} showCopyButton={true}>
+
+```js app/auth/page.tsx
+"use client";
+import {
+  FlexColCenter,
+  FlexColStart,
+  FlexColStartCenter,
+} from "@/components/Flex";
+import OAuth from "@/components/auth/nextAuth/OAuth";
+import { withoutAuth } from "@/lib/auth-helpers/withoutAuth";
+import React from "react";
+
+function AuthPage() {
+  return (
+    <FlexColCenter className="w-full h-screen">
+      <FlexColStart className="w-full min-w-[350px] max-w-[400px] scale-[.90] md:scale-[1] ">
+        {/* Replace your prefer auth component */}
+        <OAuth />
+      </FlexColStart>
+    </FlexColCenter>
+  );
+}
+
+// prevent user to access this page if they are already logged in
+export default withoutAuth(AuthPage);
+```
+
+</CH.Code>
+
+### Using just one provider
+
+If you choose to use just one provider (e.g. Google), simply update the `supportedOAuthProviders` array in the `/src/components/auth/nextAuth/OAuth.(tsx | tsx)` file.
+
+You could either set the `available` property to `false` or remove the provider from the array.
+
+<CH.Code lineNumbers={true} showCopyButton={true}>
+
+```js app/components/auth/nextAuth/OAuth.tsx
+// Supported OAuth providers
+const supportedOAuthProviders = [
+  {
+    name: "google",
+    available: true,
+  },
+  {
+    name: "github",
+    available: true,
+  },
+];
+```
+</CH.Code>
+
+Then update the `src/app/api/auth/[...nextauth]/options.(ts | js)` with the provider you want to use.
+
+<CH.Code showCopyButton={false}>
+```js app/api/auth/[...nextauth]/options.ts
+// Manage your NextAuth options here
+export const nextAuthOptions: NextAuthOptions = {
+  providers: [
+    GoogleProvider({...}),
+    GitHubProvider({...}),
+    ... // other options
+  ],
+  ...
+};
+
+````
+
+</CH.Code>
+
+> Which ever provider you choose to support make sure you have the environmental variables set inside `.env` file.
+
+If all has been done properly, you should be left with either of the providers you choose to support. 🎉
+
+Simply Visit the [`http://localhost:4000/auth`](http://localhost:4000/auth) route to see the changes.

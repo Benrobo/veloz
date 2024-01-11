@@ -1,0 +1,115 @@
+import { Callout } from "nextra/components";
+
+Veloz support sending of mails using `Resend` due to it simplicity. If you dont have a resend account , [create one here](https://resend.com).
+
+# Resend
+
+## Setup 🛠
+
+Head over to your resend dashboard and create a new **API Key** as seen in the image below.
+
+![image](/images/screenshots/resend-1.png)
+
+Once that completed, navigate to the **Domain** section and add a new domain. If you dont have one, you could purchase one from [Namecheap](https://namecheap.com) or [Godaddy](https://godaddy.com).
+
+![image](/images/screenshots/resend-2.png)
+
+<Callout type="warning">
+  Make sure it verified before proceeding further.
+</Callout>
+
+Now, Copy the **API Key** alongside your **Domain Name** and head over to your project `.env` file and update the following variable.
+
+```bash .env
+# resend email config
+RESEND_API_KEY="re_xxxxxxxxxxxx"
+
+# mail
+MAIL_FROM="Veloz <noreply@your-domain.com>"
+```
+
+## Usage 🚀
+
+Veloz provide a reusable promise base function based on the preferred mail provider. It differ based on the language of choice.
+
+### Javascript
+
+#### Next.js (app router)
+
+Simply headover to `src/app/api/config/email/resend.(ts)` a function called _`resendSendMail()`_ has been provided for you. It accept the following parameters.
+
+- `to` - The recipient email address or addresses.
+- `subject` - The subject of the mail.
+- `htmlData` - The html content of the mail.
+
+The `htmlData` variable holds the HTML content of the email.
+Veloz provides a base email template located in `src/email-template`.
+Find it in the `preview` folder for designing your HTML mail template.
+Once completed, copy it and create a function in `src/email-template/`.
+For mail templates with dynamic data, create a reusable function
+similar to the one in `src/email-template/welcome-template.(ts/js)`.
+
+![image](/images/screenshots/email-1.png)
+
+<Callout type="info">
+  If the current approach doesn't suit your comfort level, feel free to modify
+  this function according to your preferred approach.
+</Callout>
+
+Using the `resendSendMail()` function, you can send mail to a single or multiple recipients.
+
+<CH.Code>
+
+```js test.js focus=4,5,6
+import resendSendMail from "../config/email/resend";
+import waitlistWelcome from "@/email-template/waitlist-welcome";
+
+const email = "test@mail.com";
+const emailTemp = waitlistWelcome(email, "Veloz");
+await resendSendMail(email, "🥳 Waitlist", emailTemp);
+```
+
+---
+
+```js waitlist-welcome.ts
+const waitlistWelcome = (email: string, appName = "Veloz") => {
+  return `
+    <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Waitlist - Welcome</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .email-content {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-content">
+      <p style="font-size: 16px">Hi ${email},</p>
+
+      <p style="font-size: 16px">
+        Thank you for joining our waitlist. We will notify you when we are ready
+        to launch.
+      </p>
+
+      <p style="font-size: 16px">Regards,</p>
+
+      <p style="font-size: 16px">The ${appName} Team</p>
+    </div>
+  </body>
+</html>
+
+    `;
+};
+
+export default waitlistWelcome;
+```
+
+</CH.Code>

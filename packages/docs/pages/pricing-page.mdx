@@ -1,0 +1,68 @@
+import { Callout } from "nextra/components";
+
+## Pricing page
+
+Veloz kit provides a reusable pricing page component which can be imported into whatever page you want it to be used on.
+
+### Nextjs
+
+This component can be found **`src/components/landing/pricing/index.tsx`**.
+
+<CH.Code>
+
+```js page.tsx focus=4
+import { Pricing } from "@/components/landing";
+
+export default function Page() {
+  return <Pricing />;
+}
+```
+
+</CH.Code>
+
+You should get similar result below.
+
+![image](/images/screenshots/pricing.png)
+
+#### Customization
+
+The pricing plan component simply uses data coming from **`src/data/pricing/plan.ts`**.
+[Learn more](/payments#updating-pricing-plan) about configuring your pricing plans.
+
+As for the features listed on each pricing plan cards, they are also coming from **`src/data/pricing/features.ts`** file.
+
+<Callout type="warning">
+  Notice the feature has an `id`, this property must match what is in the plan
+  data, else it will not be displayed. Also the `isAvailable` property is used
+  to determine if the feature is available for that plan or not.
+</Callout>
+
+<CH.Code>
+
+```js features.ts
+const pricingPlanFeatures = [
+  {
+    id: "lite_84507",
+    features: [
+      {
+        title: "1 User",
+        isAvailable: true,
+      },
+      {
+        title: "3 Projects",
+        isAvailable: true,
+      },
+      {
+        title: "Email Support",
+        isAvailable: false,
+      },
+      {
+        title: "Lifetime Updates",
+        isAvailable: false,
+      },
+    ],
+  },
+];
+```
+
+</CH.Code>

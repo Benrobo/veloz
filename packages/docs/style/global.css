@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+blockquote {
+  @apply bg-dark-200/20 py-3;
+}
+
+blockquote p {
+  @apply text-xs md:not-italic;
+}
+
+strong {
+  @apply text-white-100 font-ppSB;
+}
+
+.nextra-callout {
+  @apply text-xs py-4;
+}
+
+.nextra-callout > div:nth-child(1) {
+  @apply text-xs;
+}
+
+p {
+  @apply text-sm text-white-100/60;
+}
+
+.nextra-callout p {
+  @apply text-sm text-white-100;
+}
+
+li {
+  @apply text-sm dark:text-white-100/80 text-dark-200;
+}
+
+/* codehike */
+.ch-codeblock .ch-code-button {
+  display: none;
+}
+
+.ch-codeblock:hover .ch-code-button {
+  display: block;
+}

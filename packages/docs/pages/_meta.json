@@ -1,0 +1,39 @@
+{
+  "index": "Get Started",
+  "#tut": {
+    "title": "Tutorials",
+    "type": "separator"
+  },
+  "lemonsqueezy": "Lemonsqueezy",
+  "private-page": "Private page",
+  "#feat": {
+    "title": "Features",
+    "type": "separator"
+  },
+  "seo": "SEO",
+  "pricing-page": "Pricing Page",
+  "emails": "Email",
+  "payments": "Payments",
+  "analytics": "Analytics",
+  "error-handling": "Error Handling",
+  "#comp": {
+    "title": "Components",
+    "type": "separator"
+  },
+  "waitlist": "Waitlist",
+  "faq": "FAQ",
+  "trusted-by": "Trusted By",
+  "hero": "Hero",
+  "pricing": "Pricing",
+  "--": {
+    "title": "Starter Kits",
+    "type": "separator"
+  },
+  "zeus": "Zeus",
+  "contact": {
+    "title": "Contact ↗",
+    "type": "page",
+    "href": "https://twitter.com/tryveloz",
+    "newWindow": true
+  }
+}

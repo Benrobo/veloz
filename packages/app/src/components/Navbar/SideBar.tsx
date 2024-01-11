@@ -4,11 +4,11 @@ import React, { useContext } from "react";
 import { HomeIcon, MoneyIcon, ProjectIcon } from "../Icon";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
-import { Settings, Zap } from "lucide-react";
-import { FlexColCenter, FlexColStart } from "../Flex";
+import { PanelRightClose, PanelRightOpen, Settings, Zap } from "lucide-react";
+import { FlexColCenter, FlexColStart, FlexRowCenterBtw } from "../Flex";
 import { cn, getPlanTitle, planColor } from "@/lib/utils";
 import { DataContext } from "@/context/DataContext";
-import { TechStackPricingPlan } from "../../../types";
+import { TechStackPricingPlan } from "@veloz/shared/types";
 import { Button } from "../ui/button";
 
 interface SidebarProps {
@@ -16,6 +16,7 @@ interface SidebarProps {
 }
 
 function SideBar({ activePage }: SidebarProps) {
+  const { setSidebarOpen, sidebarOpen } = useContext(DataContext);
   const buttonStyle = (pageName: string, compName: string) => {
     const notActive = "text-gray-100 bg-none",
       Active = "text-white-100 bg-dark-300",
@@ -27,7 +28,12 @@ function SideBar({ activePage }: SidebarProps) {
   };
 
   return (
-    <div className="w-full h-full max-w-[220px] relative border-r-solid border-r-[1px] border-r-dark-400 hideScrollBar py-1 ">
+    <div
+      className={cn(
+        "w-full h-full fixed top-0 left-0 md:relative max-w-[250px] border-r-solid border-r-[1px] border-r-dark-400 hideScrollBar py-1 z-[100] bg-dark-100 transition-all ease-in-out",
+        sidebarOpen ? "w-[250px]" : "w-0 overflow-hidden"
+      )}
+    >
       <div className="w-full flex items-center justify-start gap-3 py-2 px-4">
         <Image
           src={"/images/logo/logo.png"}
@@ -37,6 +43,17 @@ function SideBar({ activePage }: SidebarProps) {
           height={0}
         />
         <span className="font-ppSB text-white-100 text-[1em]">Veloz</span>
+
+        <button
+          className="md:hidden absolute top-2 right-2"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+        >
+          {sidebarOpen ? (
+            <PanelRightOpen size={15} className="text-white-100" />
+          ) : (
+            <PanelRightClose size={15} className="text-white-100" />
+          )}
+        </button>
       </div>
       <div className="w-full mt-5 px-4 flex flex-col items-center justify-center gap-3">
         {/* home item */}
@@ -60,20 +77,20 @@ function SideBar({ activePage }: SidebarProps) {
 
         {/* projects */}
         <Link
-          href="/projects"
+          href="/kits"
           className={twMerge(
             "w-full h-auto group px-4 py-3 rounded-lg flex items-center justify-start gap-2 font-ppReg transition ease-in-out text-[14px]",
-            buttonStyle(activePage, "projects").btn
+            buttonStyle(activePage, "kits").btn
           )}
         >
           <ProjectIcon
             pathCss="group-hover:fill-white-100 transition ease-in-out"
             width={15}
             height={15}
-            fill={buttonStyle(activePage, "projects").icon}
+            fill={buttonStyle(activePage, "kits").icon}
           />
           <span className="group-hover:text-white-100 transition ease-in-out">
-            Projects
+            Starter Kits
           </span>
         </Link>
 
@@ -117,7 +134,7 @@ function SideBar({ activePage }: SidebarProps) {
         </Link>
       </div>
 
-      <UpgradePlanWidget />
+      {/* <UpgradePlanWidget /> */}
     </div>
   );
 }
@@ -125,37 +142,29 @@ function SideBar({ activePage }: SidebarProps) {
 export default SideBar;
 
 function UpgradePlanWidget() {
-  const { userPlan } = useContext(DataContext);
-
-  if (!userPlan) return null;
-
   return (
     <FlexColCenter className="w-full px-5 py-4 absolute bottom-2">
       <FlexColStart className="w-full bg-dark-200 p-3 rounded-md border-solid border-[.5px] border-white-600 ">
-        <p className="text-gray-100 text-[10px] leading-none font-ppL">
-          Current Plan
-        </p>
-        <p
-          className={cn(
-            "text-white-100 text-[20px] leading-none font-jbEB",
-            planColor(userPlan).txtColor
-          )}
-        >
-          {getPlanTitle(userPlan)}
+        <FlexRowCenterBtw>
+          <p className="text-white-300 text-[10px] leading-none font-ppL">
+            Current Plan
+          </p>
+          <span
+            className={cn(
+              "text-white-100 text-[10px] px-3 py-1 rounded-[30px] border-solid border-[1px] border-white-600 leading-none font-jbSB"
+            )}
+          >
+            {/* {getPlanTitle(userPlan)} */}
+          </span>
+        </FlexRowCenterBtw>
+        <p className="text-gray-100 font-jbPR text-[10px] ">
+          Upgrade your account to get access to incredible features.
         </p>
         <FlexColCenter className="w-full mt-2">
           <Button
             variant={"primary"}
             className={cn(
-              "w-full font-ppSB text-[15px] gap-2 transition-opacity hover:opacity-[.85]",
-              userPlan === "BASIC_PKG"
-                ? "bg-blue-100"
-                : userPlan === "STANDARD_PKG"
-                ? "bg-orange-100"
-                : userPlan === "PRO_PKG"
-                ? "bg-pink-100"
-                : "",
-              `hover:${planColor(userPlan).bgColor}`
+              "w-full rounded-[30px] font-ppSB text-[15px] gap-2 premium-button"
             )}
           >
             <Zap size={15} /> Upgrade

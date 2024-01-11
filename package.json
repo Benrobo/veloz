@@ -11,7 +11,7 @@
     "test": "",
     "start": "cd packages/api && node ./dist/server.js",
     "api": "yarn workspace . run dev",
-    "dev": "yarn workspace app run dev",
+    "dev": "yarn workspaces run dev",
     "build": "yarn workspaces run build",
     "watch": "yarn workspaces run watch"
   },

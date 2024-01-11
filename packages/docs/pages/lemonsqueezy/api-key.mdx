@@ -1,0 +1,23 @@
+import { Callout } from "nextra/components";
+
+# Lemonsqueezy API Key
+
+Lemonsqueezy uses `API_KEY` in authenticating users request from your app to their server.
+
+## Creating API Key
+
+> Images below are from the lemonsqueezy docs.
+
+Navigate to your lemonsqueezy account dashboard. Click the dropdown sidebar item called `Settings`, scroll down till you find `API`, then click on it.
+
+![image](https://docs.lemonsqueezy.com/_next/image?url=/images/Docs-DevGuide-Create-Key.png&w=1920&q=75)
+
+![image](https://docs.lemonsqueezy.com/_next/image?url=/images/Docs-DevGuide-API-Key.png&w=1920&q=75)
+
+![image](https://docs.lemonsqueezy.com/_next/image?url=/images/Docs-DevGuide-API-Key-Copy.png&w=1920&q=75)
+
+Once created, update your `.env` variables with your api key.
+
+```bash .env
+LEMONSQUEEZY_API_KEY="xxx.xxx.xxx"
+```

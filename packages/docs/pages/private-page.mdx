@@ -1,0 +1,187 @@
+import { Callout } from "nextra/components";
+
+# Private Pages
+
+Veloz provides some set of utilities function mean't to protect `routes` either server or client from getting access. This utilities function / components can be found in `src/lib/auth-helpers` folder.
+
+## Client 🖥
+
+### `withAuth`
+
+`withAuth` is a higher order component that can be used to protect client side routes from getting access. It takes a component as an argument and returns a new and modified component that can be used to protect routes.
+
+When a user isn't authenticated, the component will redirect the user to the login page. If the user is authenticated, the component will render the passed in component.
+
+<Callout>
+  Only use this HOC (High Order Component) to protect pages / components that
+  are mean't to be accessed by authenticated users only.
+</Callout>
+
+<CH.Code showCopyButton={false}>
+```js withAuth.tsx
+import { FullPageLoader } from "@/components/Loader";
+import { DataContext } from "@/context/DataContext";
+import useAuthUser from "@/hooks/useAuthUser";
+import { useSession } from "next-auth/react";
+import React, { useCallback, useContext, useEffect } from "react";
+
+export default function withAuth<P extends { children: React.ReactNode }>(
+  Component: React.ComponentType<P>
+) {
+  const ComponentWithAuth = (props: P) => {...};
+  return ComponentWithAuth;
+}
+
+````
+
+```js withAuth.tsx
+// Coming Soon
+````
+
+</CH.Code>
+
+### `withoutAuth`
+
+As the name implies `withoutAuth` the opposite of `withAuth`. It is used to protect client side routes from getting access. It takes a component as an argument and returns a new and modified component that can be used to protect routes.
+
+When a user is authenticated, the component will redirect the user to the dashboard page. If the user isn't authenticated, the component will render the passed in component.
+
+<Callout>
+  Only use this HOC (High Order Component) to protect pages / components that
+  are mean't to be accessed by unauthenticated users only. for eg authentication
+  route / page
+</Callout>
+
+<CH.Code showCopyButton={false}>
+```js withoutAuth.tsx
+import { FullPageLoader } from "@/components/Loader";
+import { useSession } from "next-auth/react";
+import React, { useEffect } from "react";
+
+export function withoutAuth<P extends { children: React.ReactNode }>(
+  Component: React.ComponentType<P>
+) {
+  const ComponentWithAuth = (props: P) => {...};
+  return ComponentWithAuth;
+}
+
+````
+
+```js withoutAuth.tsx
+// Coming Soon
+````
+
+</CH.Code>
+
+#### Use Case
+
+Assuming we have a page called `dashboard.tsx` that should only be accessible by authenticated users only. We can use `withAuth` to protect the page from getting access by unauthenticated users. We can also use `withoutAuth` to protect a page that should only be accessible by unauthenticated users only.
+
+<CH.Code showCopyButton={false}>
+
+```js dashboard.(tsx / tsx) focus=1,11
+import { withAuth } from "@/lib/auth-helpers";
+
+function Dashboard() {
+  return (
+    <div>
+      <h1>Dashboard Page</h1>
+    </div>
+  );
+}
+
+export default withAuth(Dashboard);
+```
+
+```js auth.(tsx / tsx) focus=1,11
+import { withoutAuth } from "@/lib/auth-helpers";
+
+function Auth() {
+  return (
+    <div>
+      <h1>Authentication Page</h1>
+    </div>
+  );
+}
+
+export default withoutAuth(Auth);
+```
+
+</CH.Code>
+
+## Server ☁️
+
+Protecting API routes / endpoints is quite handled differently from that of client side pages / routes. Endpoints are protected using `isAuthenticated` middleware HOF (High Order Function) and can be found in `/src/app/api/middlewares/auth.(ts)` file.
+
+### `isAuthenticated`
+
+<CH.Code lineNumbers={true}>
+```js auth.ts
+export function isAuthenticated(fn: Function) {
+    return async (req: NextApiRequest) => {
+        const session = await getServerSession(nextAuthOptions);
+        if (!session) {
+            throw new HttpException(RESPONSE_CODE.UNAUTHORIZED, "Unauthorized", 401);
+        }
+
+        let user = null;
+
+        // oauth provider like github sometimes dont include email
+        if (session.user.email) {
+            user = await prisma.users.findFirst({
+                where: { email: session.user?.email as string },
+            });
+        } else {
+            user = await prisma.users.findFirst({
+                where: { uId: session.user?.id as string },
+            });
+        }
+
+        if (!user) {
+            throw new HttpException(
+                RESPONSE_CODE.UNAUTHORIZED,
+                `Unauthorized, Invalid Token`,
+                403
+            );
+        }
+
+        (req as any)["user"] = { id: user.uId };
+        return await fn(req);
+
+    }
+
+};
+
+````
+
+```js auth.js
+// Coming Soon
+````
+
+</CH.Code>
+
+#### Use Case
+
+Simply wrap your API route handler with _`isAuthenticated()`_ middleware to protect it from getting access by unauthenticated users.
+
+<CH.Code showCopyButton={true} lineNumbers={true}>
+
+```js user/route.ts focus=2,8:10
+import { NextRequest } from "next/server";
+import { isAuthenticated } from "../middlewares/auth";
+import CatchError from "../utils/_error";
+import UserController from "../controllers/user.controller";
+
+const userController = new UserController();
+
+export const GET = CatchError(
+    // mark
+  isAuthenticated(async (req: NextRequest) => await userController.getUser(req))
+);
+```
+
+</CH.Code>
+
+Each time a request is made to the server for that specific endpoint and the user making the requests isn't authenticated, the server simply throw an error with status code `401` and message `Unauthorized`.
+
+More details about <span className="font-ppSB text-orange-100">Error Handling</span>, please checkout this 👉 [section](/error-handling).

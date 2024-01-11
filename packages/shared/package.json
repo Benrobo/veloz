@@ -1,0 +1,24 @@
+{
+  "name": "@veloz/shared",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "",
+    "watch": "tsc --watch",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@veloz/shared": "*",
+    "axios": "^1.6.1",
+    "fs-extra": "^11.1.1",
+    "mongoose": "^8.0.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "typescript": "^5.2.2"
+  }
+}

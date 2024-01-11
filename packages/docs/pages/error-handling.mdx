@@ -1,0 +1,236 @@
+import { Callout } from "nextra/components";
+
+# Error Handling 🚨
+
+We know how complicating error handling can be, which is why we've taking the time to make this process seemlessly easy for you to work with.
+
+Veloz kits comes with <span className="font-ppSB text-white-100">built-in</span> error handlers done the right way for you hackers.
+
+The codebase contain some reusable utilities functions which tend to make this process a lot easier for you to work with.
+
+## Server Side Error Handling ☁️
+
+### Next.js App Router (API Routes)
+
+We've taken the time to create a custom error handler for you to work with, be it _`VALIDATION_ERROR`_, _`CUSTOM_ERROR`_ ..etc let take a look at some of them.
+
+#### Custom Error
+
+A custom error class that extends the default Error class called _`HttpException`_, this is used to throw custom errors in your codebase and can be found in the `/src/app/api/utils/exception.(ts)` file.
+
+<CH.Code>
+
+```js exception.ts
+
+import { RESPONSE_CODE } from "@/api/types";
+
+export default class HttpException extends Error {
+  public code: RESPONSE_CODE;
+  public statusCode: number;
+  constructor(code: RESPONSE_CODE, message: string, statusCode: number) {
+    super();
+    this.name = "HttpException";
+    this.code = code;
+    this.message = message;
+    this.statusCode = statusCode;
+  }
+}
+
+```
+
+</CH.Code>
+
+The code is self-explanatory, we're just extending the default Error class and adding some extra properties to it, which we'll be using later on. Whenever there's a need to throw an error to the client from the server, you simply invoke the class and pass in the required parameters.
+
+```js
+throw new HttpException(
+  RESPONSE_CODE.USER_ALREADY_EXIST, // error code (meant for debugging purpose)
+  "User already exist", // message
+  400 // status code
+);
+```
+
+You would notice the _`code`_ property which is of type _`RESPONSE_CODE`_, this is an enum that contains all the possible error codes that can be thrown from the server, you can find it in the `/src/app/api/types/index.ts` file.
+
+<CH.Code>
+
+```js types/index.ts
+export enum RESPONSE_CODE {
+  // Common Responses code
+  INVALID_FIELDS,
+  USER_NOT_FOUND,
+  USER_ALREADY_EXIST,
+  INVALID_EMAIL,
+  INVALID_LOGIN_CREDENTIALS,
+  INTERNAL_SERVER_ERROR,
+  VALIDATION_ERROR,
+  NOT_ELIGIBLE,
+  INVALID_PARAMS,
+  METHOD_NOT_ALLOWED,
+  ORDER_EXISTS,
+  CHECKOUT_ERROR,
+  ORDER_NOT_CREATED,
+  SIGNUP_SUCCESSFULL,
+  LOGIN_SUCCESSFULL,
+  UNAUTHORIZED,
+  FORBIDDEN,
+  SUCCESS,
+  INVALID_TOKEN,
+  PLAN_NOT_FOUND,
+  USER_ALREADY_SUBSCRIBED,
+  ERROR,
+  SUBSCRIPTION_NOT_FOUND,
+  ACCOUNT_ALREADY_LINKED,
+  EMAIL_FAILED_TO_SEND,
+}
+```
+
+</CH.Code>
+
+But, <span className="font-ppSB text-white-100">How then does the error get handled?</span> well, good question my friend.
+
+A custom error handler middleware called _`CatchError()`_ is used to handle all errors thrown from the server, this middleware can be found in the `src/app/api/utils/_error.(ts)` file. Notice the underscore before the `error` name, this is to prevent an override to default next.js custom `error` file.
+
+<CH.Code>
+
+```js _error.ts
+
+export default function CatchError(fn: Function) {
+  return async function (req: Request) {
+    try {
+      return await fn(req);
+    } catch (err: any) {
+      const code = RESPONSE_CODE[err.code as any];
+      console.log(`😥 Error [${code}]: ${err?.message}`);
+      console.log(err);
+      if (err instanceof HttpException) {
+        return sendResponse.error(err.code, err.message, err.statusCode, err);
+      }
+
+      return sendResponse.error(
+        RESPONSE_CODE.INTERNAL_SERVER_ERROR,
+        "INTERNAL SERVER ERROR",
+        500,
+        err
+      );
+    }
+  };
+}
+
+
+```
+
+</CH.Code>
+
+This error handler is as simple as your Grade 8 math 😅. It an `HOF` which takes in a function, wraps the function in a _`try...catch`_ block and returns the function. If an error is thrown from the function, it is caught and handled by the _`catch()`_ block. Within the `catch` block, is where we simply send the errors to the client.
+
+<span className="font-ppSB text-white-100">Why this Approach?</span> Good question,
+this approach{" "}
+
+- Get rid of unnecessary `try..catch` blocks in your `controller` files.
+- Stop using _`return new Response(...)`_ every time you need to send an error response to the client.
+- Centralize tracking of all server-thrown errors in one location, opening up the option to utilize `sentry` for comprehensive error tracking.
+- Enhance the readability and maintainability of your codebase.
+
+#### Validation Error (Zod) 🧪
+
+Veloz kits using javascript as preferred language uses `Zod` package for schema validation. This package is used to validate the request body, query params and headers. This package is used in the `src/app/api/utils/zodValidation.ts` file.
+
+It a reusable utility function which makes it easy to validate request body, query params and headers. It takes in a `schema` and `data` to validate, if the validation fails, it throws a `VALIDATION_ERROR` which is handled by the _`CatchError()`_ middleware.
+
+All related zod schema validation are stored within the `src/app/api/utils/schema_validation.(ts)`
+
+<CH.Code>
+
+```js zodValidation.ts
+export default async function ZodValidation(
+  schema: AnyZodObject,
+  body: object,
+  pathname: string
+) {
+  try {
+    const { searchParams } = new URL(pathname);
+    const query = searchParams;
+    schema.parse(body ?? query);
+  } catch (error: any) {
+    const msg = error?.issues[0]?.message as any;
+    throw new HttpException(RESPONSE_CODE.VALIDATION_ERROR, msg, 400);
+  }
+}
+
+```
+
+---
+
+```js src/app/api/utils/schema_validation.(ts)
+import zod from "zod";
+
+// Declare all your api server schema validations here
+
+// registeration schema
+export const registerSchema = zod.object({
+  username: zod
+    .string({
+      required_error: "Username is required",
+    })
+    .min(3)
+    .max(50),
+  email: zod
+    .string({
+      required_error: "Email is required",
+    })
+    .email(),
+  password: zod
+    .string({
+      required_error: "Password must be at least 6 characters long",
+    })
+    .refine((data) => data.length >= 6, {
+      message: "Password must be at least 6 characters long",
+    }),
+});
+```
+
+</CH.Code>
+
+**Usage:**
+This utility function is meant to be used in the `controller` files, for eg:
+
+```js focus=1,9
+import ZodValidation from "../utils/zodValidation";
+import { registerSchema } from "../utils/schema_validation";
+
+export default class AuthController {
+  // register user (nextauth, jwt)
+  public async register(req: NextRequest) {
+    const payload = (await req.json()) as RegisterPayload;
+    // validate payload
+    await ZodValidation(registerSchema, payload, req.url);
+  }
+}
+```
+
+---
+
+#### Sending Response 📦
+
+How about sending response to client? well we've got you covered, we've created a utility class called _`sendResponse()`_ which is used to send response to the client, this function can be found in the `src/app/api/utils/sendResponse.(ts)` file. This class exposes two methods namely _`error()`_ and _`success()`_.
+
+- _`error()`_ - This method is used to send error response to the client.
+- _`success()`_ - This method is used to send successfull response to the client.
+
+**Usage:**
+
+<Callout type="warning">
+  Since Nextjs app router expects an error response object to get returned,
+  always make sure to return the response object from the _`sendResponse()`_
+  function.
+</Callout>
+
+```js
+return sendResponse.error(
+  RESPONSE_CODE.INTERNAL_SERVER_ERROR,
+  "INTERNAL SERVER ERROR",
+  500,
+  err
+);
+```

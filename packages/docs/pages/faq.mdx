@@ -1,0 +1,40 @@
+import { Callout } from "nextra/components";
+
+# FAQ
+
+![image](/images/screenshots/v-faq.png)
+
+The FAQ (Frequently Asked Questions) section on your website serves as a valuable resource for your customers. It helps address common queries, provide essential information, and contribute to a seamless user experience.
+
+## Usage
+
+Veloz offers a comprehensive solution for creating a professional FAQ section on your website. With its built-in FAQ component, you can easily address common queries, provide essential information, and enhance the overall user experience. To use the component simply import it from `src/components/landing/faq/index.tsx` and use it in your page like so:
+
+```js focus=4
+import { FAQ } from "src/components/landing/faq";
+
+function Page() {
+  return <FAQ />;
+}
+```
+
+To update the FAQ questions and answers, simply edit the `src/data/landing/faq.ts` file.
+
+```js
+// FAQ DATA
+export const FAQ_DATA = [
+  {
+    key: "faq1",
+    question: "What is a good way to learn React?",
+    answer:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque.",
+  },
+  ...
+]
+```
+
+<Callout type="info">
+  **Tip:** Align your FAQ section with customer needs and pain points.
+  Prioritize questions that address potential customer concerns and provide
+  valuable information to enhance user experience and build trust.
+</Callout>

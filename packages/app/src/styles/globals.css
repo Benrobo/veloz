@@ -106,3 +106,155 @@ input[type="number"]::-webkit-outer-spin-button {
 .--test {
   color: rgb(143, 99, 243);
 }
+
+#showccial-spinner {
+  animation: spinner 0.5s linear infinite;
+  border-radius: 30px;
+  /* transition: .2s ease; */
+}
+/* 
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+} */
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.premium-button {
+  position: relative;
+  border: none;
+  background: #1c1a1c;
+  cursor: pointer;
+  transition: all 450ms ease-in-out;
+  background: linear-gradient(0deg, #a47cf3, #683fea);
+  transform: translateY(-2px);
+  overflow: hidden;
+}
+
+.premium-button:hover {
+  background: linear-gradient(0deg, #a47cf3, #683fea);
+  box-shadow:
+    inset 0px 1px 0px 0px rgba(255, 255, 255, 0.4),
+    inset 0px -4px 0px 0px rgba(0, 0, 0, 0.2),
+    0px 0px 0px 1px rgba(255, 255, 255, 0.2),
+    0px 0px 180px 0px #9917ff;
+}
+
+.premium-button:hover::before {
+  animation: shine 1.5s ease-out infinite;
+}
+
+.premium-button::before {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 100%;
+  background-image: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0) 70%
+  );
+  top: 0;
+  left: -100px;
+  opacity: 0.6;
+}
+
+@keyframes shine {
+  0% {
+    left: -100px;
+  }
+
+  60% {
+    left: 100%;
+  }
+
+  to {
+    left: 100%;
+  }
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer:hover::before {
+  animation: shine 1.5s ease-out infinite;
+}
+.shimmer::before {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 100%;
+  background-image: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0) 70%
+  );
+  top: 0;
+  left: -100px;
+  opacity: 0.6;
+}
+
+@keyframes shine {
+  0% {
+    left: -100px;
+  }
+
+  60% {
+    left: 100%;
+  }
+
+  to {
+    left: 100%;
+  }
+}
+
+.rainbowBorder {
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #02fcef70, #ffb52b70 50%, #a02bfe70);
+  height: 35px;
+  line-height: 0;
+  transition: transform 0.2s ease-in-out;
+  transform-origin: 0 100%;
+}
+
+.rainbowBorder span {
+  line-height: 1;
+  margin: 1px;
+  border-radius: 9999px;
+  width: calc(100% - 2px);
+  height: calc(32px - 2px);
+}
+
+a {
+  /* color: #100d14; */
+}
+
+.pattern-bg:before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100vh;
+  opacity: 0.01;
+  z-index: -2px;
+  background-image: url("/images/pattern.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
