@@ -99,7 +99,6 @@ function Page() {
 
   if (!pageLoaded || userInfoQuery.isPending) {
     return (
-      // @ts-expect-error
       <Layout activePage="templates">
         <FlexColCenter className="w-full h-screen">
           <Spinner />
@@ -117,7 +116,6 @@ function Page() {
     );
 
   return (
-    // @ts-expect-error
     <Layout activePage="kits">
       {!parentTemplates && (
         <div className="w-full h-full flex justify-center items-center">
