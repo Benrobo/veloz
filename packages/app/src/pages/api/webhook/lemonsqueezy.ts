@@ -39,7 +39,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const { user_id, template_id } = custom_data;
 
       // check if user and template exists
-      const user = await prisma.user.findFirst({ where: { uId: user_id } });
+      const user = await prisma.users.findFirst({ where: { uId: user_id } });
 
       if (!user) {
         const msg = `User ${user_email} with id ${user_id} not found`;
@@ -108,7 +108,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const repositories = [];
       for (const stack of FINE_TUNED_STACKS) {
         const name = stack.name.toLowerCase();
-        const repo = TEMPLATES_REPOSITORY.find((r) => r.template_name === name);
+        const repo = TEMPLATES_REPOSITORY.find((r) => r.kit_name === name);
         if (repo) {
           repositories.push(repo);
         }
@@ -119,7 +119,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       for (const repo of repositories) {
         const invitedToRepo = await addCollaboratorToRepo(
           gh_username as string,
-          repo.template_name
+          repo.kit_name
         );
         if (invitedToRepo) {
           console.log(`✅ ${gh_username} invited to veloz repo [${repo.repo}]`);

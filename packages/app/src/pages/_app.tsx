@@ -1,7 +1,7 @@
 import { jbEB, jbR, jbSB, ppB, ppEB, ppL, ppReg, ppSB } from "@/config/font";
 import DataContextProvider from "@/context/DataContext";
 import LayoutContextProvider from "@/context/LayoutContext";
-import ProjectContextProvider from "@/context/ProjectContext";
+// import ProjectContextProvider from "@/context/ProjectContext";
 import "@/styles/globals.css";
 import "@radix-ui/themes/styles.css";
 import type { AppProps } from "next/app";
@@ -55,16 +55,16 @@ export default function App({ Component, pageProps }: AppProps) {
         <QueryClientProvider client={queryClient}>
           <DataContextProvider>
             <LayoutContextProvider>
-              <ProjectContextProvider>
-                {/* <ComponentLayout> */}
-                <Theme>
-                  <Component {...pageProps} />
+              {/* <ProjectContextProvider> */}
+              {/* <ComponentLayout> */}
+              <Theme>
+                <Component {...pageProps} />
 
-                  {!protectedPages.includes(pathname) && <MiniMenu />}
-                </Theme>
-                {/* </ComponentLayout> */}
-                <Toaster />
-              </ProjectContextProvider>
+                {!protectedPages.includes(pathname) && <MiniMenu />}
+              </Theme>
+              {/* </ComponentLayout> */}
+              <Toaster />
+              {/* </ProjectContextProvider> */}
             </LayoutContextProvider>
           </DataContextProvider>
         </QueryClientProvider>

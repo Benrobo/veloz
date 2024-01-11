@@ -20,14 +20,12 @@ import {
 } from "@/components/Flex";
 import { Spinner } from "@/components/Spinner";
 import DataContext from "@/context/DataContext";
-import { ProjectContext } from "@/context/ProjectContext";
 import { ResponseData, ReturnedTemplatesType } from "@/types";
 import toast from "react-hot-toast";
 import StarterKitCard from "@/components/StarterKits/StarterKitCard";
 import withAuth from "@/lib/auth/withAuth";
 
 function Templates() {
-  const {} = useContext(ProjectContext);
   const [templates, setTemplates] = useState<ReturnedTemplatesType[]>([]);
   const getTemplatesQuery = useQuery({
     queryKey: ["getKits"],

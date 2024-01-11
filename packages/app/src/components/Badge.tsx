@@ -10,36 +10,20 @@ interface PricingBadgeProps {
 export function PricingBadge({ pricing_plan }: PricingBadgeProps) {
   return (
     <FlexRowCenterBtw className="w-auto px-4 py-1 rounded-[30px] bg-dark-200 scale-[.85] border-solid border-white-600 border-[1px]">
-      <p
-        className={cn(
-          "text-[12px] font-ppB text-white-100"
-          // pricing_plan === "FREE_PKG"
-          //   ? "text-white-100"
-          //   : pricing_plan === "LITE_PKG"
-          //     ? "text-blue-100"
-          //     : pricing_plan === "STANDARD_PKG"
-          //       ? "text-orange-100"
-          //       : pricing_plan === "PRO_PKG"
-          //         ? "text-pink-100"
-          //         : ""
-        )}
-      >
+      <p className={cn("text-[12px] font-ppB text-white-100")}>
         {getPlanTitle(pricing_plan)}
       </p>
-      {pricing_plan !== "FREE_PKG" ? (
-        <Image
-          src={
-            pricing_plan === "LITE_PKG"
-              ? "/images/diamond.png"
-              : "/images/diamond-2.png"
-          }
-          width={15}
-          height={0}
-          alt="premium"
-        />
-      ) : (
-        "🚀"
-      )}
+
+      <Image
+        src={
+          pricing_plan === "LITE_PKG"
+            ? "/images/diamond.png"
+            : "/images/diamond-2.png"
+        }
+        width={15}
+        height={0}
+        alt="premium"
+      />
     </FlexRowCenterBtw>
   );
 }
