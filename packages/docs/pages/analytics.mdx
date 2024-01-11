@@ -1,0 +1,32 @@
+# Analytics
+
+Collecting and analyzing data is a key part of the development process. We use a variety of tools to help us understand how our users interact with our products.
+
+One of this tools is [Pirsch](https://pirsch.io/), a self-hosted, privacy-friendly alternative to Google Analytics. It is a simple, lightweight, and privacy-friendly web analytics alternative to Google Analytics.
+
+![image](https://pirsch.io/static/img/dashboard-retro-dark.svg)
+
+## Usage
+
+### Pirsh
+
+- Create a new account on [Pirsch](https://pirsch.io/).
+- Add your domain.
+- Copy the tracking code presented.
+
+```js app.jsx
+<script
+  defer
+  type="text/javascript"
+  src="https://api.pirsch.io/pirsch.js"
+  id="pirschjs"
+  data-code="YOUR_IDENTIFICATION_CODE"
+  data-exclude="\/exact\/match,\/exclude\/page\/(en|de)\/.*"
+></script>
+```
+
+[Follow the instructions](https://pirsch.io/docs/getting-started) to add the tracking code to your website.
+
+### Simpleanalytics
+
+[simpleanalytics.com](https://simpleanalytics.com)
