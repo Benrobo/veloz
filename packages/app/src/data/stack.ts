@@ -28,6 +28,7 @@ interface IPARENT_KITS {
   image: string;
   pricing_plan: TechStackPricingPlan;
   variant_id: string;
+  test_variant_id: string;
   available: boolean;
   shop_url: string;
   demo: {

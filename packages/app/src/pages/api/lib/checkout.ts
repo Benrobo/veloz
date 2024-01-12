@@ -1,9 +1,9 @@
-import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
 import { PARENT_KITS } from "@/data/stack";
 import axios from "axios";
 import env from "../config/env";
 
 const IN_TEST_MODE = process.env.NODE_ENV === "development";
+const STORE_ID = "58246";
 
 // create checkout session
 export async function createCheckout(user_id: string, template_id: string) {
@@ -35,18 +35,16 @@ export async function createCheckout(user_id: string, template_id: string) {
             template_id: template_id,
           },
         },
-        preview: true,
       },
       relationships: {
         store: {
           data: {
             type: "stores",
-            id: "58246",
+            id: STORE_ID,
           },
         },
         variant: {},
       },
-      test_mode: IN_TEST_MODE,
     },
   };
   let response = { error: null, data: null };
@@ -57,7 +55,7 @@ export async function createCheckout(user_id: string, template_id: string) {
     payload.data.relationships.variant = {
       data: {
         type: "variants",
-        id: variants?.variant_id,
+        id: IN_TEST_MODE ? variants?.test_variant_id : variants?.variant_id,
       },
     };
 
@@ -72,6 +70,8 @@ export async function createCheckout(user_id: string, template_id: string) {
 
     const checkoutUrl = resp?.data?.attributes?.url;
     response.data = { url: checkoutUrl } as any;
+
+    // console.log("checkout created", resp.data);
   } catch (e: any) {
     const msg = e.response?.data?.errors[0].detail ?? e.message;
     console.log(msg);
@@ -80,38 +80,73 @@ export async function createCheckout(user_id: string, template_id: string) {
   return response;
 }
 
-// async function getProductVariants() {
-//   let response = { error: null, data: null } as any;
-//   try {
-//     const url = `https://api.lemonsqueezy.com/v1/variants`;
-//     const res = await axios.get(url, {
-//       headers: {
-//         Accept: "application/vnd.api+json",
-//         Authorization: `Bearer ${process.env.LEMONSQUEEZY_API_KEY}`,
-//       },
-//     });
-//     const resp = res.data;
+export async function getProductVariants() {
+  let response = { error: null, data: null } as any;
+  try {
+    const url = `https://api.lemonsqueezy.com/v1/variants`;
+    const res = await axios.get(url, {
+      headers: {
+        Accept: "application/vnd.api+json",
+        Authorization: `Bearer ${process.env.LEMONSQUEEZY_API_KEY}`,
+      },
+    });
+    const resp = res.data;
 
-//     const variantData = resp?.data
-//       .filter((v: any) => v.attributes.is_subscription === false)
-//       .map((v: any) => {
-//         return {
-//           type: v.type,
-//           id: v.id,
-//           price: v.attributes.price,
-//           name: v.attributes.name,
-//         };
-//       });
-//     console.log(variantData);
-//     response.data = variantData as {
-//       type: string;
-//       id: string;
-//     }[];
-//     return response;
-//   } catch (e: any) {
-//     const msg = e.response?.data?.errors[0].detail ?? e.message;
-//     console.log(msg);
-//     response.error = `Error creating checkout.` as any;
-//     return response;
-//   }
-// }
+    const variantData = resp?.data
+      .filter(
+        (v: any) =>
+          v.attributes.is_subscription === false && v.attributes.name.length > 0
+      )
+      .map((v: any) => {
+        return {
+          type: v.type,
+          id: v.id,
+          price: v.attributes.price,
+          name: v.attributes.name,
+          prod_id: v.attributes.product_id,
+        };
+      });
+    console.log(variantData);
+    response.data = variantData as {
+      type: string;
+      id: string;
+    }[];
+    return response;
+  } catch (e: any) {
+    const msg = e.response?.data?.errors[0].detail ?? e.message;
+    console.log(msg);
+    response.error = `Error creating checkout.` as any;
+    return response;
+  }
+}
+
+export async function getProducts() {
+  let response = { error: null, data: null } as any;
+  try {
+    const url = `https://api.lemonsqueezy.com/v1/products?filter[store_id]=${STORE_ID}`;
+    const res = await axios.get(url, {
+      headers: {
+        Accept: "application/vnd.api+json",
+        Authorization: `Bearer ${process.env.LEMONSQUEEZY_API_KEY}`,
+      },
+    });
+    const resp = res.data;
+
+    const data = resp?.data.map((p: any) => {
+      return {
+        prod_id: p?.id,
+        name: p?.attributes?.name,
+        price: p?.attributes?.price,
+        price_formatted: p?.attributes?.price_formatted,
+      };
+    });
+
+    response.data = data;
+    return response;
+  } catch (e: any) {
+    const msg = e.response?.data?.errors[0].detail ?? e.message;
+    console.log(msg);
+    response.error = `Error creating checkout.` as any;
+    return response;
+  }
+}
