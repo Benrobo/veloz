@@ -1,13 +1,10 @@
-const siteConfig = {
-  domain: "https://tryveloz.com",
-  social: {
-    discord: "https://discord.com/invite/d9Ywveuh25",
-  },
+// your site config data
+const SITE_CONFIG = {
   name: "Veloz",
-  headline: "Veloz Documentation",
+  headline: "Veloz",
   description: "Your saas launchpad",
   keywords: "boilerplate, starter kit, saucecode",
-  image: "/images/og-image.png",
+  image: "/images/og/og-image.png",
 };
 
-export default siteConfig;
+export default SITE_CONFIG;
