@@ -12,12 +12,13 @@ import { signOut, useSession } from "next-auth/react";
 import { DataContext } from "@/context/DataContext";
 import { PanelRightClose, PanelRightOpen } from "lucide-react";
 import { FlexRowStart } from "../Flex";
+import SITE_CONFIG from "@/config/site";
 
 function TopBar() {
   const { userInfo, sidebarOpen, setSidebarOpen } = useContext(DataContext);
 
   return (
-    <div className="w-full flex items-center justify-end border-b-solid border-b-[1px] border-b-dark-400 py-1 px-4">
+    <div className="w-full flex items-center justify-end border-b-solid border-b-[1px] border-b-dark-400 py-2 px-4">
       <FlexRowStart className="w-full">
         {/* panel */}
         <button className="" onClick={() => setSidebarOpen(!sidebarOpen)}>
@@ -58,7 +59,10 @@ function TopBar() {
               </p>
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-dark-300 h-[1px]" />
-            <DropdownMenuItem className="hover:!bg-dark-200 hover:!text-white-300 cursor-pointer">
+            <DropdownMenuItem
+              className="hover:!bg-dark-200 hover:!text-white-300 cursor-pointer"
+              onClick={() => window.open(SITE_CONFIG.documentation)}
+            >
               Documentation
             </DropdownMenuItem>
             <DropdownMenuSeparator className="bg-dark-300 h-[1px]" />

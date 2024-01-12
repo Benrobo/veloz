@@ -142,6 +142,7 @@ type KitCardProps = {
   thumbnail: string;
   discount: {
     amount: number;
+    expires: string;
   } | null;
   available?: boolean;
 };
@@ -166,13 +167,13 @@ function KitCard({ name, plan, thumbnail, tagline, discount }: KitCardProps) {
           </p>
         </FlexColStart>
         <FlexRowEndCenter className="w-auto">
-          {discount && (
+          {discount && !hasDiscountExpired(discount.expires).expired && (
             <h1 className={cn("text-white-400 text-md line-through font-ppSB")}>
               {formatCurrency(plan?.price as number, plan?.currency as string)}
             </h1>
           )}
           <h1 className="text-white-100 text-1xl md:text-3xl font-ppSB">
-            {discount
+            {discount && !hasDiscountExpired(discount.expires).expired
               ? formatCurrency(
                   plan?.price - discount?.amount || 0,
                   plan?.currency as string

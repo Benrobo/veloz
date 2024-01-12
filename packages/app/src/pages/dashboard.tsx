@@ -6,10 +6,11 @@ import withAuth from "@/lib/auth/withAuth";
 function Home() {
   return (
     <Layout activePage="home">
-      <p className="text-white-100">Dashboard</p>
       <Modal isBlurBg isOpen fixed={false}>
         <FlexColCenter className="w-full h-full">
-          <h1 className="text-white-100 text-3xl font-ppEB">Coming Soon</h1>
+          <h1 className="text-white-100 text-1xl md:text-3xl font-ppEB">
+            Coming Soon
+          </h1>
         </FlexColCenter>
       </Modal>
     </Layout>
