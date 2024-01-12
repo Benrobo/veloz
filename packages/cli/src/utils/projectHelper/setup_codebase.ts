@@ -11,6 +11,7 @@ import { sleep } from "../index.js";
 import { inviteToRepo, storeKitsConsumption } from "../../https/index.js";
 import chalk from "chalk";
 import { createDir, isDirEmpty } from "../filemanager.js";
+import KIT_REPOSITORY from "../../data/kit_repo.js";
 
 //! Remember to use the "lang" property to generate monorepo architecture based on the lang type. as different languages have different folder structure.
 
@@ -70,10 +71,20 @@ export default class CodebaseSetup extends BaseSetup {
           s.start(`🚀 Creating project...`);
 
           // clone the repo
-          const gh_url = `https://github.com/veloz-org/veloz-${this._kitName.toLowerCase()}.git`;
+          // get kit repo url
+          const kitRepo = KIT_REPOSITORY.find(
+            (k) => k.name.toLowerCase() === this._kitName?.toLowerCase()
+          );
+
+          if (!kitRepo) {
+            s.stop(`🚩 ${chalk.redBright("Aborted, kit not found.")}`);
+            cancel(`Operation cancelled.`);
+            return;
+          }
+
           const hasCloned = await this.githubActions.cloneRepo(
             _project_path,
-            gh_url
+            kitRepo.url
           );
 
           if (!hasCloned.success) {
