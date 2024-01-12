@@ -1,7 +1,5 @@
-import { RESPONSE_CODE } from "@veloz/shared/types";
 import shortUUID from "short-uuid";
 import prisma from "../config/prisma";
-import HttpException from "../lib/exception";
 import GitHubProvider from "next-auth/providers/github";
 import { NextAuthOptions } from "next-auth";
 
