@@ -12,6 +12,7 @@ import { cn, formatCurrency } from "@/lib/utils";
 import { PARENT_KITS } from "@/data/stack";
 import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
 import { DataContext } from "@/context/DataContext";
+import { hasDiscountExpired } from "@/pages/api/lib/utils";
 
 const features = [
   "One Time purchase",
@@ -61,20 +62,22 @@ function Pricing({ name }: Props) {
               Unlimited projects.
             </p>
             <FlexRowEndCenter className="w-auto">
-              {tempDiscount && (
-                <h1
-                  className={cn(
-                    "text-white-400 text-md line-through font-ppSB"
-                  )}
-                >
-                  {formatCurrency(
-                    tempModel?.pricing?.price as number,
-                    tempModel?.pricing?.currency as string
-                  )}
-                </h1>
-              )}
+              {tempDiscount &&
+                !hasDiscountExpired(tempDiscount.expires).expired && (
+                  <h1
+                    className={cn(
+                      "text-white-400 text-md line-through font-ppSB"
+                    )}
+                  >
+                    {formatCurrency(
+                      tempModel?.pricing?.price as number,
+                      tempModel?.pricing?.currency as string
+                    )}
+                  </h1>
+                )}
               <h1 className="text-white-100 text-3xl font-ppSB">
-                {tempDiscount
+                {tempDiscount &&
+                !hasDiscountExpired(tempDiscount.expires).expired
                   ? formatCurrency(
                       ((tempModel?.pricing?.price as number) -
                         tempDiscount?.amount) as number,

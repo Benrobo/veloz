@@ -53,9 +53,9 @@ const Modal = ({
   return (
     <div
       className={twMerge(
-        `w-full hideScrollBar backdrop-blur bg-dark-600 bg-opacity-85 h-[100vh] ${
-          fixed ? "fixed z-[250px]" : "absolute"
-        } top-0 left-0 z-[50] py-5`,
+        `w-full hideScrollBar backdrop-blur bg-dark-600 bg-opacity-85 h-[100vh] z-[500] ${
+          fixed ? "fixed" : "relative"
+        } top-0 left-0 py-5`,
         scrollable ? "overflow-y-auto hideScollBar" : "overflow-hidden"
       )}
       data-name="main-modal"

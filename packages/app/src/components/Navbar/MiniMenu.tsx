@@ -17,7 +17,7 @@ export default function MiniMenu() {
       <div className="mobile-menu-container">
         <ul
           className={cn(
-            "fixed bottom-[8em] right-[15px] z-[100]",
+            "fixed bottom-[7em] md:bottom-[6em] right-[15px] z-[100]",
             menuOpen ? "visible" : "invisible"
           )}
         >
@@ -70,7 +70,7 @@ export default function MiniMenu() {
 
         <div
           className={cn(
-            " transition-all ease-in-out w-[70px] h-[70px] fixed bg-dark-200 z-[99] rounded-[50%]",
+            " transition-all ease-in-out w-[70px] h-[70px] fixed bg-dark-200 z-[99] rounded-[50%] drop-shadow-2xl",
             menuOpen ? "scale-[9] -translate-x-[20px]" : "scale-[0]"
           )}
         ></div>

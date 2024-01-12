@@ -15,6 +15,12 @@ import SITE_CONFIG from "@/config/site";
 
 export const navigations = [
   {
+    link: "#home",
+    visible: true,
+    title: "Home",
+    external: false,
+  },
+  {
     link: "#starter-kits",
     visible: true,
     title: "Starter Kits",
@@ -32,6 +38,7 @@ export const navigations = [
     title: "Changelog",
     external: false,
   },
+
   {
     link: "#faq",
     visible: true,
