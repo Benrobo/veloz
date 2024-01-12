@@ -140,7 +140,7 @@ input[type="number"]::-webkit-outer-spin-button {
   cursor: pointer;
   transition: all 450ms ease-in-out;
   background: linear-gradient(0deg, #a47cf3, #683fea);
-  transform: translateY(-2px);
+  transform: translateY(1px) scale(0.95);
   overflow: hidden;
 }
 

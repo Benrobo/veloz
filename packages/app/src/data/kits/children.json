@@ -8,7 +8,7 @@
       "thumbnail": "",
       "video": ""
     },
-    "documentation": "",
+    "documentation": "https://docs.tryveloz.com/zeus",
     "description": "Zeus isn't just a template, it's your accelerator in the indie hacker race. Crafted for speed and innovation, Zeus is the go-to starter-kit for indie hackers looking to ship their products faster. \n Beyond a sleek landing page, Zeus equips you with essential SaaS features, meticulously built from scratch. Powered by Next.js, React, TypeScript, and TailwindCSS, Zeus ensures a rapid and efficient development journey. \n Seamlessly handle backend intricacies with Nextjs (Pages API Router) and lot other technologies mentioned in the technology section. \n Choose Zeus and propel your indie product to success at lightning speed. Ship Fast 🚤",
     "label": "Vortex",
     "tags": ["nextjs", "typescript", "saas"],

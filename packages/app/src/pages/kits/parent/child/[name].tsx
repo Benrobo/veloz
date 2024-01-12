@@ -130,7 +130,7 @@ function ProjectTemplate() {
                         className="text-xs underline font-ppReg text-white-200"
                       >
                         <FlexRowStartCenter className="gap-1">
-                          documentation <Link1 size={15} />
+                          Documentation ↗
                         </FlexRowStartCenter>
                       </Link>
                     )}

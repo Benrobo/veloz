@@ -140,7 +140,7 @@ function Page() {
             </Link>
           </FlexRowStart>
           <FlexColStart className="w-full px-2 md:px-5">
-            <FlexColStart className="w-full">
+            <FlexRowStartBtw className="w-full flex-col md:flex-row">
               <FlexColStart className="w-full mr-3">
                 <FlexRowStartBtw className="w-full flex-wrap">
                   <FlexColStart className="w-full">
@@ -150,81 +150,84 @@ function Page() {
                     <p className="text-white-300 font-jbR text-[12px]">
                       {parentKit?.tagline}
                     </p>
-                  </FlexColStart>
-                  <FlexRowEnd className="w-full mt-5 md:mt-0 px-0 items-start md:items-end justify-start md:justify-end">
-                    {!alreadyPurchased && (
-                      <Button
-                        variant={"primary"}
-                        className={cn(
-                          "w-fit min-w-[150px] rounded-[30px] font-ppSB text-[15px] gap-2",
-                          createCheckoutMut.isPending
-                            ? "bg-purple-100/50 hover:cursor-not-allowed"
-                            : "premium-button"
-                        )}
-                        onClick={() => {
-                          const parentTempId = parentKit?.id as string;
-                          createCheckoutMut.mutate(parentTempId);
-                        }}
-                        disabled={createCheckoutMut.isPending}
+                    <FlexRowStart className="w-full mt-5 md:mt-0 px-0">
+                      {!alreadyPurchased && (
+                        <Button
+                          variant={"primary"}
+                          className={cn(
+                            "w-fit min-w-[150px] rounded-[30px] font-ppSB text-[15px] gap-2",
+                            createCheckoutMut.isPending
+                              ? "bg-purple-100/50 hover:cursor-not-allowed"
+                              : "premium-button"
+                          )}
+                          onClick={() => {
+                            const parentTempId = parentKit?.id as string;
+                            createCheckoutMut.mutate(parentTempId);
+                          }}
+                          disabled={createCheckoutMut.isPending}
+                        >
+                          {createCheckoutMut.isPending ? (
+                            <FlexRowCenter className="w-full py-10">
+                              <Spinner color="#fff" size={16} />
+                            </FlexRowCenter>
+                          ) : (
+                            <>
+                              <Zap size={15} />{" "}
+                              <span className="text-xs">Buy Now</span>
+                            </>
+                          )}
+                        </Button>
+                      )}
+
+                      {alreadyPurchased && (
+                        <FlexRowStartCenter className="gap-1 w-auto px-5 py-[10px] bg-dark-200 rounded-[30px] scale-[.85] ">
+                          <CheckCheck
+                            size={15}
+                            strokeWidth={"3px"}
+                            className="text-orange-100"
+                          />
+                          <span className="text-orange-100 font-jbEB text-[11px] ">
+                            Purchased
+                          </span>
+                        </FlexRowStartCenter>
+                      )}
+
+                      <Link
+                        href={parentKit?.demo?.live_url as string}
+                        target="_blank"
                       >
-                        {createCheckoutMut.isPending ? (
-                          <FlexRowCenter className="w-full py-10">
-                            <Spinner color="#fff" size={16} />
-                          </FlexRowCenter>
-                        ) : (
-                          <>
-                            <Zap size={15} />{" "}
-                            <span className="text-xs">Buy Now</span>
-                          </>
-                        )}
-                      </Button>
-                    )}
-
-                    {alreadyPurchased && (
-                      <FlexRowStartCenter className="gap-1 w-auto px-5 py-[10px] bg-dark-200 rounded-[30px] scale-[.85] ">
-                        <CheckCheck
-                          size={15}
-                          strokeWidth={"3px"}
-                          className="text-orange-100"
-                        />
-                        <span className="text-orange-100 font-jbEB text-[11px] ">
-                          Purchased
-                        </span>
-                      </FlexRowStartCenter>
-                    )}
-
-                    <Link
-                      href={parentKit?.demo?.live_url as string}
-                      target="_blank"
-                    >
-                      <FlexRowStartCenter className="gap-2 w-[120px] px-5 py-[13px] bg-dark-200 rounded-[30px] scale-[.95] ">
-                        <span className="p-[5px] rounded-[50%] bg-green-400 "></span>
-                        <span className="text-orange-100 underline font-jbEB text-[11px] ">
-                          Live Demo
-                        </span>
-                      </FlexRowStartCenter>
-                    </Link>
-                  </FlexRowEnd>
+                        <FlexRowStartCenter className="gap-2 w-[120px] px-5 py-[13px] bg-dark-200 rounded-[30px] scale-[.95] ">
+                          <span className="p-[5px] rounded-[50%] bg-green-400 "></span>
+                          <span className="text-orange-100 underline font-jbEB text-[11px] ">
+                            Live Demo
+                          </span>
+                        </FlexRowStartCenter>
+                      </Link>
+                    </FlexRowStart>
+                  </FlexColStart>
                 </FlexRowStartBtw>
 
                 {/* Template description */}
                 <TemplateDetails name={parentName} />
-                <br />
                 <blockquote className="w-full bg-dark-200/50 px-3 py-3 border-l-solid border-l-[3px] border-l-orange-100 ">
-                  <p className="text-white-300 font-jbSB text-[13px]">
-                    Purchasing this template will give you access to all related
-                    templates listed.
+                  <p className="text-white-300 font-jbSB text-xs">
+                    Purchasing {parentName} will give you access to all related
+                    kits added now and in future.
                   </p>
                 </blockquote>
               </FlexColStart>
-              <FlexColStart className="w-fit h-full min-w-[320px]  ">
-                {/* Template cards */}
-                <FlexColCenter className="w-full mt-4">
-                  {/* <h1 className="text-white-100 text-[14px] font-jbEB">
-                    Templates
-                  </h1> */}
-                </FlexColCenter>
-                <FlexColEnd className="w-full gap-1 flex-wrap px-0">
+              <FlexColStart className="w-full md:w-fit h-full min-w-[320px] mt-3 md:mt-0  ">
+                {/* Kits cards */}
+                <FlexColStart className="w-fit">
+                  <h1 className="font-ppSB text-white-100">
+                    Related Kits: {childTemplates.length}
+                  </h1>
+                  <p className="text-white-300 text-xs font-jbR">
+                    Here are some kits related to {parentName}
+                  </p>
+                </FlexColStart>
+                <br />
+                <FlexColStart className="w-full gap-1 flex-wrap px-0">
                   {childTemplates.length > 0 ? (
                     childTemplates.map(
                       (d) =>
@@ -242,13 +245,13 @@ function Page() {
                   ) : (
                     <FlexColCenter className="w-full h-full">
                       <p className="text-white-100 font-jbSB text-[15px]">
-                        No templates found. Check back later.
+                        No kits found. Check back later.
                       </p>
                     </FlexColCenter>
                   )}
-                </FlexColEnd>
+                </FlexColStart>
               </FlexColStart>
-            </FlexColStart>
+            </FlexRowStartBtw>
           </FlexColStart>
         </FlexColStart>
       )}
