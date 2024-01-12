@@ -8,7 +8,7 @@ type Props = {
 
 export function FullPageLoader({ showText, text }: Props) {
   return (
-    <FlexColCenter className="w-full min-h-screen bg-dark-100/30 z-[999] fixed top-0 left-0 backdrop-blur-lg">
+    <FlexColCenter className="w-full min-h-screen bg-dark-100 z-[999] fixed top-0 left-0 backdrop-blur-lg">
       <FlexRowStartCenter className="w-auto">
         <Spinner size={20} color={"#fff"} />
         {showText && (

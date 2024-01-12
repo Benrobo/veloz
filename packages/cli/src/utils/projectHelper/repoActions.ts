@@ -27,7 +27,7 @@ class GithubRepoActions {
     }
 
     try {
-      await execa("git", ["clone", url, path]);
+      await execa("git", ["clone", url, path], { cwd: path });
       response["success"] = true;
       return response;
     } catch (e: any) {

@@ -70,7 +70,11 @@ class KitService {
 
     const user = await prisma.users.findFirst({ where: { uId: id } });
 
-    if (user?.role !== "admin") {
+    // check if user is eligible for this kit (admin, tester)
+    const defaultEligibleUsers = ["admin", "tester"];
+
+    // if user is not admin or tester, check if user has purchased this kit
+    if (user && !defaultEligibleUsers.includes(user?.role as string)) {
       const purchasedKits = await prisma.purchasedItem.findMany({
         where: { uId: id },
       });
