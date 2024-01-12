@@ -14,6 +14,8 @@ import nProgress from "nprogress";
 import "../styles/globals.css";
 import "../styles/nprogress.css";
 import MiniMenu from "@/components/Navbar/MiniMenu";
+import Head from "next/head";
+import Seo from "@/components/Seo";
 
 const queryClient = new QueryClient();
 
@@ -37,20 +39,23 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <style jsx global>
-        {`
-          :root {
-            --font-ppReg: ${ppReg.style.fontFamily};
-            --font-ppB: ${ppB.style.fontFamily};
-            --font-ppEB: ${ppEB.style.fontFamily};
-            --font-ppSB: ${ppSB.style.fontFamily};
-            --font-ppL: ${ppL.style.fontFamily};
-            --font-jbR: ${jbR.style.fontFamily};
-            --font-jbSB: ${jbSB.style.fontFamily};
-            --font-jbEB: ${jbEB.style.fontFamily};
-          }
-        `}
-      </style>
+      <Head>
+        <style jsx global>
+          {`
+            :root {
+              --font-ppReg: ${ppReg.style.fontFamily};
+              --font-ppB: ${ppB.style.fontFamily};
+              --font-ppEB: ${ppEB.style.fontFamily};
+              --font-ppSB: ${ppSB.style.fontFamily};
+              --font-ppL: ${ppL.style.fontFamily};
+              --font-jbR: ${jbR.style.fontFamily};
+              --font-jbSB: ${jbSB.style.fontFamily};
+              --font-jbEB: ${jbEB.style.fontFamily};
+            }
+          `}
+        </style>
+        <Seo />
+      </Head>
       <SessionProvider>
         <QueryClientProvider client={queryClient}>
           <DataContextProvider>

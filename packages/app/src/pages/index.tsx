@@ -15,10 +15,7 @@ export default function Home() {
 
   return (
     <FlexColStart className="w-full h-screen min-h-screen gap-0 overflow-y-scroll hideScrollBar bg-dark-103 scroll-smooth">
-      <Seo
-        title="Veloz"
-        description="A simple, fast, and reliable starter kit for your SaaS project."
-      />
+      <Seo />
       <HomeTopBar scrollVisible={scrollVisible} />
       <Header />
       <Features />
