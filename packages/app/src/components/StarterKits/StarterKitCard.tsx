@@ -18,6 +18,7 @@ import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
 import { formatCurrency, hasTemplateBeenPurchased } from "@/lib/utils";
 import Image from "next/image";
 import { DataContext } from "@/context/DataContext";
+import { hasDiscountExpired } from "@/pages/api/lib/utils";
 
 type StarterKitsProps = {
   name: string;
@@ -28,6 +29,7 @@ type StarterKitsProps = {
   thumbnail: string;
   discount: {
     amount: number;
+    expires: string;
   } | null;
 };
 
@@ -81,7 +83,7 @@ function StarterKitCard({
               </FlexRowStartCenter>
             ) : (
               <FlexRowStartCenter>
-                {discount && (
+                {discount && !hasDiscountExpired(discount.expires).expired && (
                   <span className="text-sm text-white-300 line-through">
                     {formatCurrency(
                       pricingModel?.pricing.price as number,
@@ -89,7 +91,7 @@ function StarterKitCard({
                     )}
                   </span>
                 )}
-                {discount
+                {discount && !hasDiscountExpired(discount.expires).expired
                   ? formatCurrency(
                       ((pricingModel?.pricing.price as number) -
                         discount?.amount) as number,

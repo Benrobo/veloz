@@ -100,5 +100,6 @@ export type ReturnedTemplatesType = {
   };
   discount: {
     amount: number;
+    expires: string;
   } | null;
 };
