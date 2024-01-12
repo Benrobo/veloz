@@ -7,7 +7,7 @@ const siteConfig = {
   headline: "Veloz Documentation",
   description: "Your saas launchpad",
   keywords: "boilerplate, starter kit, saucecode",
-  image: "/images/og/og-image.png",
+  image: "/images/og-image.png",
 };
 
 export default siteConfig;
