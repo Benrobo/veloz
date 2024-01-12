@@ -66,10 +66,9 @@ function Header() {
       <FlexColCenter className="w-full h-full">
         <Image
           src={"/images/thumbnails/1.png"}
-          width={50}
+          width={0}
           height={0}
-          layout="responsive"
-          className="rounded-md"
+          className="w-[100%] rounded-md"
           alt="veloz starter kit"
         />
       </FlexColCenter>

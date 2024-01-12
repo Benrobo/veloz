@@ -125,8 +125,8 @@ function FAQ() {
         <FlexColStart className="w-full border-[.5px] border-white-300/20 rounded-md">
           {FAQ_DATA.map((f, i) => (
             <FAQDropdown
-              key={f.key}
-              _key={f.key}
+              key={Math.random() * 10e2}
+              _key={i}
               question={f.question}
               answer={f.answer}
             />
@@ -142,14 +142,14 @@ export default FAQ;
 type FAQDropdownProps = {
   question: string;
   answer: string[];
-  _key: string;
+  _key: any;
 };
 
 function FAQDropdown({ question, answer, _key }: FAQDropdownProps) {
   const [activeFaq, setActiveFaq] = React.useState<string[]>([]);
 
   return (
-    <FlexColStart className="w-full">
+    <FlexColStart className="w-full" key={Math.random() * 10e4}>
       <FlexColStart className="w-full border-b-[1px] border-b-white-600">
         <button
           className="w-full px-8 py-4"

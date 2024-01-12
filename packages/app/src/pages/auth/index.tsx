@@ -69,7 +69,7 @@ function Auth(props: AuthProps) {
               defaultValue={props.csrfToken}
             /> */}
             <Button
-              className="w-[280px] px-8 py-5 rounded-md bg-white-100 dark:bg-dark-102/70 hover:bg-white-100/70 border-solid border-[1px] border-white-400/40 dark:hover:bg-dark-102/70 dark:bg-dark-102 disabled:opacity-[.5] disabled:cursor-not-allowed "
+              className="w-[280px] px-8 py-5 rounded-full bg-white-100 dark:bg-dark-102/70 hover:bg-white-100/70 border-solid border-[1px] border-white-400/40 dark:hover:bg-dark-102/70 dark:bg-dark-102 disabled:opacity-[.5] disabled:cursor-not-allowed "
               disabled={loading}
               onClick={handleAuth}
             >

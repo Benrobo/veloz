@@ -1,5 +1,5 @@
 datasource db {
-    provider = "mongodb"
+    provider = "postgresql"
     url      = env("DATABASE_URL")
     // relationMode = "prisma"
 }
@@ -14,7 +14,7 @@ enum Role {
 }
 
 model Users {
-    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    id          String   @id @default(cuid())
     uId         String   @unique
     name        String
     email       String?  @unique
@@ -37,7 +37,7 @@ model Users {
 }
 
 model TemplateConsumption {
-    id         String   @id @default(auto()) @map("_id") @db.ObjectId
+    id         String   @id @default(cuid())
     uId        String
     name       String
     used_count Int      @default(0)
@@ -49,7 +49,7 @@ model TemplateConsumption {
 }
 
 model PurchasedItem {
-    id            String   @id @default(auto()) @map("_id") @db.ObjectId
+    id            String   @id @default(cuid())
     uId           String
     temp_id       String
     template_name String?
@@ -61,7 +61,7 @@ model PurchasedItem {
 }
 
 model Order {
-    id             String   @id @default(auto()) @map("_id") @db.ObjectId
+    id             String   @id @default(cuid())
     uId            String
     temp_id        String
     template_name  String?
@@ -81,7 +81,7 @@ model Order {
 
 // github invites
 model Invites {
-    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    id        String   @id @default(cuid())
     uId       String
     repo_name String?
     kit_name  String?
@@ -94,7 +94,7 @@ model Invites {
 }
 
 model CollaboratedTemplates {
-    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    id          String   @id @default(cuid())
     template_id String
     sender_id   String
     receiver_id String

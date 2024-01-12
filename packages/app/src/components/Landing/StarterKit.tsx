@@ -81,7 +81,7 @@ function StarterKits() {
       <br />
       <FlexRowStartCenter className="w-full h-auto px-1 md:px-[2em] flex-wrap gap-5">
         {templates.map((t) => (
-          <>
+          <div key={t.id}>
             <KitCard
               key={t.id}
               name={t.name}
@@ -90,7 +90,7 @@ function StarterKits() {
               thumbnail={t.image}
               discount={t.discount}
             />
-          </>
+          </div>
         ))}
         <EmptyStarterKit name="Athena" />
       </FlexRowStartCenter>
@@ -154,8 +154,8 @@ function KitCard({ name, plan, thumbnail, tagline, discount }: KitCardProps) {
         src={thumbnail}
         alt="template"
         width={0}
-        height={0}
-        className="rounded-md w-full"
+        height={50}
+        className="rounded-md w-full min-h-[250px] bg-dark-100"
       />
       <br />
       <FlexRowCenterBtw className="w-full px-1">
