@@ -71,7 +71,7 @@ export async function createCheckout(user_id: string, template_id: string) {
     const checkoutUrl = resp?.data?.attributes?.url;
     response.data = { url: checkoutUrl } as any;
 
-    console.log("checkout created", resp.data);
+    // console.log("checkout created", resp.data);
   } catch (e: any) {
     const msg = e.response?.data?.errors[0].detail ?? e.message;
     console.log(msg);
