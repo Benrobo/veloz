@@ -46,7 +46,7 @@ export async function createCheckout(user_id: string, template_id: string) {
         },
         variant: {},
       },
-      test_mode: IN_TEST_MODE,
+      // test_mode: IN_TEST_MODE,
     },
   };
   let response = { error: null, data: null };
