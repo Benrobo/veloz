@@ -4,7 +4,7 @@ const SITE_CONFIG = {
   headline: "Veloz",
   description: "Your saas launchpad",
   keywords: "boilerplate, starter kit, saucecode",
-  image: "/images/og/og-image.png",
+  image: "https://tryveloz.vercel.app/images/og/og-image1.png",
 };
 
 export default SITE_CONFIG;
