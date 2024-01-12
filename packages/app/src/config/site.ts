@@ -1,4 +1,3 @@
-// test3
 const SITE_CONFIG = {
   name: "Veloz",
   headline: "Veloz",
