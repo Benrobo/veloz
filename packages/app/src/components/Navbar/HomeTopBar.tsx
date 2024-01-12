@@ -11,6 +11,7 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import SITE_CONFIG from "@/config/site";
 
 export const navigations = [
   {
@@ -20,7 +21,7 @@ export const navigations = [
     external: false,
   },
   {
-    link: "#",
+    link: SITE_CONFIG.documentation,
     visible: true,
     title: "Documentation",
     external: true,

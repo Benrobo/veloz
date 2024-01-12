@@ -125,11 +125,8 @@ function Features() {
             <FlexRowStart className="w-full h-0 flex-wrap mt-9 gap-3 md:gap-9">
               {_features?.includeStacks &&
                 activeStacksByAvailability.map((d, i) => (
-                  <FlexColCenter>
-                    <FlexColCenter
-                      key={i}
-                      className="w-auto h-auto p-3 relative border-solid border-white-600 border-[.5px] rounded-lg "
-                    >
+                  <FlexColCenter key={i}>
+                    <FlexColCenter className="w-auto h-auto p-3 relative border-solid border-white-600 border-[.5px] rounded-lg ">
                       {STACKS_NOT_AVAILABLE.includes(d.key) && (
                         <span className="px-2 py-[2px] rounded-[30px] text-[8px] font-ppSB text-white-100 bg-red-305 absolute top-[-17%] right-[-5%]">
                           soon!

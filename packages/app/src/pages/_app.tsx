@@ -40,22 +40,22 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <style jsx global>
-          {`
-            :root {
-              --font-ppReg: ${ppReg.style.fontFamily};
-              --font-ppB: ${ppB.style.fontFamily};
-              --font-ppEB: ${ppEB.style.fontFamily};
-              --font-ppSB: ${ppSB.style.fontFamily};
-              --font-ppL: ${ppL.style.fontFamily};
-              --font-jbR: ${jbR.style.fontFamily};
-              --font-jbSB: ${jbSB.style.fontFamily};
-              --font-jbEB: ${jbEB.style.fontFamily};
-            }
-          `}
-        </style>
         <Seo />
       </Head>
+      <style jsx global>
+        {`
+          :root {
+            --font-ppReg: ${ppReg.style.fontFamily};
+            --font-ppB: ${ppB.style.fontFamily};
+            --font-ppEB: ${ppEB.style.fontFamily};
+            --font-ppSB: ${ppSB.style.fontFamily};
+            --font-ppL: ${ppL.style.fontFamily};
+            --font-jbR: ${jbR.style.fontFamily};
+            --font-jbSB: ${jbSB.style.fontFamily};
+            --font-jbEB: ${jbEB.style.fontFamily};
+          }
+        `}
+      </style>
       <SessionProvider>
         <QueryClientProvider client={queryClient}>
           <DataContextProvider>
