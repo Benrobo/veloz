@@ -13,6 +13,7 @@ import {
 import "../style/global.css";
 import "@code-hike/mdx/styles";
 import Seo from "../components/seo";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function MyApp({ Component, pageProps }) {
   return (
@@ -36,6 +37,7 @@ export default function MyApp({ Component, pageProps }) {
       </Head>
       <div className={ppReg.className}>
         <Component {...pageProps} />
+        <Analytics />
       </div>
     </>
   );

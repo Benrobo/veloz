@@ -16,6 +16,7 @@ import "../styles/nprogress.css";
 import MiniMenu from "@/components/Navbar/MiniMenu";
 import Head from "next/head";
 import Seo from "@/components/Seo";
+import { Analytics } from "@vercel/analytics/react";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,14 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <Seo />
+        <script
+          defer
+          type="text/javascript"
+          src="https://api.pirsch.io/pirsch-extended.js"
+          id="pirschextendedjs"
+          data-code="TLjbfbXrvpqyWi4t8ZrTSPOvgwl3hbd1"
+          // data-dev="tryveloz.com"
+        ></script>
       </Head>
       <style jsx global>
         {`
@@ -60,7 +69,6 @@ export default function App({ Component, pageProps }: AppProps) {
         <QueryClientProvider client={queryClient}>
           <DataContextProvider>
             <LayoutContextProvider>
-              {/* <ProjectContextProvider> */}
               {/* <ComponentLayout> */}
               <Theme>
                 <Component {...pageProps} />
@@ -69,7 +77,7 @@ export default function App({ Component, pageProps }: AppProps) {
               </Theme>
               {/* </ComponentLayout> */}
               <Toaster />
-              {/* </ProjectContextProvider> */}
+              <Analytics />
             </LayoutContextProvider>
           </DataContextProvider>
         </QueryClientProvider>
