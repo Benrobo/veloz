@@ -1,4 +1,3 @@
-// your site config data
 const SITE_CONFIG = {
   name: "Veloz",
   headline: "Veloz",
