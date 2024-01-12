@@ -16,7 +16,7 @@ export async function createCheckout(user_id: string, template_id: string) {
     };
   }
 
-  const custom_redirect_url = `${env.BASE_URL}/templates/parent/${parentKit.name}`;
+  const custom_redirect_url = `${env.BASE_URL}/kits/parent/${parentKit.name}`;
 
   const payload = {
     data: {
