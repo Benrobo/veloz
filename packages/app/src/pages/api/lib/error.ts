@@ -17,7 +17,7 @@ export default function CatchError(fn: Function) {
           code: RESPONSE_CODE[err?.code as any],
           message: err?.message,
           details: {
-            stacks: process.env.NODE_ENV !== "production" && err,
+            stacks: process.env.DEV_ENV !== "production" && err,
           },
         });
         return;
@@ -29,7 +29,7 @@ export default function CatchError(fn: Function) {
         code,
         message: "Something went wrong",
         details: {
-          stacks: process.env.NODE_ENV !== "production" && err?.stack,
+          stacks: process.env.DEV_ENV !== "production" && err?.stack,
         },
       });
     }
