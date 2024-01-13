@@ -115,7 +115,7 @@ function ProjectTemplate() {
         </FlexRowStart>
         <br />
         {returnFineTunedStackDetails(name as FineTunedStacksName) ? (
-          <FlexRowStartBtw className="w-full px-9 py-5">
+          <FlexRowStartBtw className="w-full px-9 py-5 flex-col md:flex-row">
             <FlexColStart className="w-full">
               <FlexColStart className="w-full">
                 <FlexRowStartBtw className="w-full pr-7">

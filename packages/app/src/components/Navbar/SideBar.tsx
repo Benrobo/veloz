@@ -27,6 +27,12 @@ function SideBar({ activePage }: SidebarProps) {
     else return { btn: notActive, icon: iconNotActive };
   };
 
+  const sidebarLinkClicked = () => {
+    if (window.innerWidth < 768) {
+      sidebarOpen && setSidebarOpen(false);
+    }
+  };
+
   return (
     <div
       className={cn(
@@ -63,6 +69,7 @@ function SideBar({ activePage }: SidebarProps) {
             "w-full h-auto group px-4 py-3 rounded-lg  flex items-center justify-start gap-2 font-ppReg transition ease-in-out text-[14px]",
             buttonStyle(activePage, "home").btn
           )}
+          onClick={sidebarLinkClicked}
         >
           <HomeIcon
             pathCss="group-hover:fill-white-100 transition ease-in-out"
@@ -82,6 +89,7 @@ function SideBar({ activePage }: SidebarProps) {
             "w-full h-auto group px-4 py-3 rounded-lg flex items-center justify-start gap-2 font-ppReg transition ease-in-out text-[14px]",
             buttonStyle(activePage, "kits").btn
           )}
+          onClick={sidebarLinkClicked}
         >
           <ProjectIcon
             pathCss="group-hover:fill-white-100 transition ease-in-out"
@@ -94,25 +102,6 @@ function SideBar({ activePage }: SidebarProps) {
           </span>
         </Link>
 
-        {/* Billing */}
-        {/* <Link
-          href="/billing"
-          className={twMerge(
-            "w-full h-auto group px-4 py-3 rounded-lg flex items-center justify-start gap-2 font-ppReg transition ease-in-out text-[14px]",
-            buttonStyle(activePage, "billing").btn
-          )}
-        >
-          <MoneyIcon
-            pathCss="group-hover:fill-white-100 transition ease-in-out"
-            width={15}
-            height={15}
-            fill={buttonStyle(activePage, "billing").icon}
-          />
-          <span className="group-hover:text-white-100 transition ease-in-out">
-            Billing
-          </span>
-        </Link> */}
-
         {/* Settings */}
         <Link
           href="/settings"
@@ -120,6 +109,7 @@ function SideBar({ activePage }: SidebarProps) {
             "w-full h-auto group px-4 py-3 rounded-lg flex items-center justify-start gap-2 font-ppReg transition ease-in-out text-[14px]",
             buttonStyle(activePage, "settings").btn
           )}
+          onClick={sidebarLinkClicked}
         >
           <Settings
             size={15}
