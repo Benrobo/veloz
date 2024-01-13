@@ -2,7 +2,7 @@ import { PARENT_KITS } from "@/data/stack";
 import axios from "axios";
 import env from "../config/env";
 
-const IN_TEST_MODE = process.env.NODE_ENV === "development";
+const IN_TEST_MODE = process.env.DEV_ENV === "development";
 const STORE_ID = "58246";
 
 // create checkout session
