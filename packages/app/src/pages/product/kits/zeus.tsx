@@ -11,16 +11,19 @@ import HomeTopBar from "@/components/Navbar/HomeTopBar";
 import Seo from "@/components/Seo";
 import Pricing from "@/components/StarterKits/Pricing";
 import SideBySideFeatures from "@/components/StarterKits/SideBySideFeatures";
+import Head from "next/head";
 import React from "react";
 
 function ZeusKit() {
   return (
     <KitsLayout>
-      <Seo
-        title="Zeus kit"
-        description="Zeus - Nextjs starter kit"
-        image="https://tryveloz.com/images/og/zeus.png"
-      />
+      <Head>
+        <Seo
+          title="Zeus kit"
+          description="Zeus - Nextjs starter kit"
+          image="https://tryveloz.com/images/og/zeus.png"
+        />
+      </Head>
       <HomeTopBar />
       <KitHeader name="zeus" />
       <FlexColCenter className="relative w-full bg-dark-100 py-9 gap-[10em] pb-[10em]">

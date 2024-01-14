@@ -41,7 +41,6 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <Seo />
         <script
           defer
           type="text/javascript"
