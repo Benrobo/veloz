@@ -7,7 +7,6 @@ import Overview from "@/components/Landing/Overview";
 import StarterKits from "@/components/Landing/StarterKit";
 import TemplateSection from "@/components/Landing/Template";
 import Footer from "@/components/Footer";
-import Seo from "@/components/Seo";
 import FAQ from "@/components/FAQ";
 
 export default function Home() {
@@ -15,7 +14,6 @@ export default function Home() {
 
   return (
     <FlexColStart className="w-full h-screen min-h-screen gap-0 overflow-y-scroll hideScrollBar bg-dark-103 scroll-smooth">
-      <Seo />
       <HomeTopBar scrollVisible={scrollVisible} />
       <Header />
       <Features />
