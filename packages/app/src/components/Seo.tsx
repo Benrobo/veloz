@@ -55,7 +55,7 @@ function Seo({ title, description, image, url, keywords }: SeoProps) {
       {/* Apple Touch Icon */}
       <meta name="apple-mobile-web-app-title" content="Veloz" />
 
-      {/* Google search */}
+      {/* Google search indexing */}
       <meta
         name="google-site-verification"
         content="ocD59DwPr5QESyBF5Mcje4y9ucq_I9ZCXN0cgJGAKBQ"
