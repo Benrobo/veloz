@@ -8,12 +8,14 @@ import StarterKits from "@/components/Landing/StarterKit";
 import TemplateSection from "@/components/Landing/Template";
 import Footer from "@/components/Footer";
 import FAQ from "@/components/FAQ";
+import Seo from "@/components/Seo";
 
 export default function Home() {
   const scrollVisible = useScrollVisible();
 
   return (
     <FlexColStart className="w-full h-screen min-h-screen gap-0 overflow-y-scroll hideScrollBar bg-dark-103 scroll-smooth">
+      <Seo />
       <HomeTopBar scrollVisible={scrollVisible} />
       <Header />
       <Features />
