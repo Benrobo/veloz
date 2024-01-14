@@ -19,7 +19,7 @@ function ZeusKit() {
       <Seo
         title="Zeus kit"
         description="Zeus - Nextjs starter kit"
-        image="https://9d5f-102-89-44-177.ngrok-free.app/images/templates/thumbnails/zeus.svg"
+        image="https://tryveloz.com/images/og/zeus.png"
       />
       <HomeTopBar />
       <KitHeader name="zeus" />
