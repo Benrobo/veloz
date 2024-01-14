@@ -17,13 +17,11 @@ import React from "react";
 function ZeusKit() {
   return (
     <KitsLayout>
-      <Head>
-        <Seo
-          title="Zeus kit"
-          description="Zeus - Nextjs starter kit"
-          image="https://tryveloz.com/images/og/zeus.png"
-        />
-      </Head>
+      <Seo
+        title="Zeus kit"
+        description="Zeus - Nextjs starter kit"
+        image="https://tryveloz.com/images/og/zeus.png"
+      />
       <HomeTopBar />
       <KitHeader name="zeus" />
       <FlexColCenter className="relative w-full bg-dark-100 py-9 gap-[10em] pb-[10em]">
