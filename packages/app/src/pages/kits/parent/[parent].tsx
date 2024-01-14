@@ -192,20 +192,19 @@ function Page() {
                         </FlexRowStartCenter>
                       )}
 
-                      {parentKit?.demo.live_url ||
-                        ((parentKit?.demo?.live_url as string)?.length > 0 && (
-                          <Link
-                            href={parentKit?.demo?.live_url as string}
-                            target="_blank"
-                          >
-                            <FlexRowStartCenter className="gap-2 w-[120px] px-5 py-[13px] bg-dark-200 rounded-[30px] scale-[.95] ">
-                              <span className="p-[5px] rounded-[50%] bg-green-400 "></span>
-                              <span className="text-orange-100 underline font-jbEB text-[11px] ">
-                                Live Demo
-                              </span>
-                            </FlexRowStartCenter>
-                          </Link>
-                        ))}
+                      {(parentKit?.demo?.live_url as string)?.length > 0 && (
+                        <Link
+                          href={parentKit?.demo?.live_url as string}
+                          target="_blank"
+                        >
+                          <FlexRowStartCenter className="gap-2 w-[120px] px-5 py-[13px] bg-dark-200 rounded-[30px] scale-[.95] ">
+                            <span className="p-[5px] rounded-[50%] bg-green-400 "></span>
+                            <span className="text-orange-100 underline font-jbEB text-[11px] ">
+                              Live Demo
+                            </span>
+                          </FlexRowStartCenter>
+                        </Link>
+                      )}
                     </FlexRowStart>
                   </FlexColStart>
                 </FlexRowStartBtw>
