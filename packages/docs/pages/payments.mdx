@@ -216,6 +216,7 @@ export const pricingPlans = [
     variants: [
       {
         id: 183156,
+        test_variant_id: 183156,
         duration: "monthly",
         pricing: {
           currency: "USD",
@@ -224,6 +225,7 @@ export const pricingPlans = [
       },
       {
         id: 198725,
+        test_variant_id: 198725,
         duration: "yearly",
         pricing: {
           currency: "USD",
@@ -240,6 +242,7 @@ export const pricingPlans = [
     variants: [
       {
         id: 183213,
+        test_variant_id: 183213,
         duration: "yearly",
         pricing: {
           currency: "USD",
@@ -248,6 +251,7 @@ export const pricingPlans = [
       },
       {
         id: 198720,
+        test_variant_id: 198720,
         duration: "monthly",
         pricing: {
           currency: "USD",
@@ -265,6 +269,7 @@ export const pricingPlans = [
     variants: [
       {
         id: 180561,
+        test_variant_id: 180561,
         duration: "monthly",
         pricing: {
           currency: "USD",
@@ -273,6 +278,7 @@ export const pricingPlans = [
       },
       {
         id: 198727,
+        test_variant_id: 198727,
         duration: "yearly",
         pricing: {
           currency: "USD",
@@ -286,6 +292,15 @@ export const pricingPlans = [
 ```
 
 </CH.Code>
+
+Notice the variants `id` and `test_variant_id`, this two id are used for same purpose, the only difference is that the `id` would be used in production and when your store has been activated.
+
+<Callout type="warning">
+  When a store is **Activated**, everything changes, you would need to recreate
+  a new product, create a new API KEY and update the `id` attribute **Only** of
+  each variant to the new variant ID and update your `.env` file based on the
+  new API_KEY and webhook secret. [**learn more**]()
+</Callout>
 
 Once that has been completed, navigate to the **settings > billing** section of the app. A billing card should be present which shows the pricing plans available and provide you an option to switch to a specific plan.
 
