@@ -1,9 +1,10 @@
 {
   "name": "veeloz",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./dist/index.js",
   "license": "MIT",
   "type": "module",
+  "description": "Veloz cli @ https://tryveloz.com",
   "scripts": {
     "clean": "rimraf ./dist",
     "build": "tsc && tsc-alias",
