@@ -17,7 +17,7 @@ model Users {
     id          String   @id @default(cuid())
     uId         String   @unique
     name        String
-    email       String?  @unique
+    email       String?
     avatar      String?
     role        Role     @default(user)
     isTester    Boolean  @default(false)

@@ -40,6 +40,8 @@ function Auth(props: AuthProps) {
       }
       if (errorParams === "AccessDenied") {
         toast.error("Access denied. Please try again later.");
+      } else {
+        toast.error("Something went wrong. Please try again later.");
       }
     }
   }, [errorParams]);
