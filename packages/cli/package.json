@@ -1,6 +1,6 @@
 {
   "name": "veeloz",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "./dist/index.js",
   "license": "MIT",
   "type": "module",
@@ -10,7 +10,8 @@
     "build": "tsc && tsc-alias",
     "start": "npm run build && node -r tsconfig-paths/register -r ts-node/register ./src/index.ts",
     "watch": "tsc --watch",
-    "dev": "ts-node ./src/index.ts"
+    "dev": "ts-node ./src/index.ts",
+    "publish:script": ""
   },
   "devDependencies": {
     "@types/figlet": "^1.5.8",
@@ -20,14 +21,14 @@
     "@types/rimraf": "^4.0.5",
     "ts-node": "^10.9.1",
     "tsc-alias": "^1.8.8",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "@veloz/shared": "1.0.0"
   },
   "bin": {
     "veeloz": "./dist/index.js"
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
-    "@veloz/shared": "1.0.0",
     "axios": "^1.6.2",
     "chalk": "^5.3.0",
     "commander": "^11.1.0",
