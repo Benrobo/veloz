@@ -10,8 +10,7 @@
     "build": "tsc && tsc-alias",
     "start": "npm run build && node -r tsconfig-paths/register -r ts-node/register ./src/index.ts",
     "watch": "tsc --watch",
-    "dev": "ts-node ./src/index.ts",
-    "publish:script": ""
+    "dev": "ts-node ./src/index.ts"
   },
   "devDependencies": {
     "@types/figlet": "^1.5.8",
