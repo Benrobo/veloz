@@ -60,6 +60,18 @@ function Header() {
               </span>
             </FlexRowCenterBtw>
           </button>
+          <a
+            href="https://www.producthunt.com/posts/veloz?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-veloz"
+            target="_blank"
+          >
+            <Image
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=434617&theme=light"
+              alt="Veloz - Your&#0032;SaaS&#0032;Launchpad | Product Hunt"
+              className="w-[250px] h-[54px]"
+              width="250"
+              height="54"
+            />
+          </a>
         </FlexColCenter>
       </FlexColCenter>
       <br />
