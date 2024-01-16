@@ -111,11 +111,13 @@ function Pricing({ name }: Props) {
               "w-full rounded-[30px] py-5 font-ppSB text-[15px] gap-2 premium-button"
             )}
             onClick={() => {
-              if (!userInfo) {
-                window.location.href = "/auth";
-              } else {
-                window.location.href = `/kits/parent/${name.toLowerCase()}`;
-              }
+              window.location.href =
+                "https://veloz.lemonsqueezy.com/checkout/buy/2818dba9-52c3-4274-b332-e3edc54a6eb0";
+              // if (!userInfo) {
+              //   window.location.href = "/auth";
+              // } else {
+              //   window.location.href = `/kits/parent/${name.toLowerCase()}`;
+              // }
             }}
           >
             <Zap size={15} /> Buy Now
