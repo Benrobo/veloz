@@ -4,6 +4,7 @@ import { RESPONSE_CODE } from "@veloz/shared/types";
 
 const GET = (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
+    console.log("AUTH ERROR");
     const { error } = req?.query;
     const encodedError = encodeURIComponent(error as string);
 
