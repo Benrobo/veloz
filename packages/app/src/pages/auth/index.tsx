@@ -30,7 +30,9 @@ function Auth(props: AuthProps) {
 
   const handleAuth = async () => {
     setLoading(true);
-    signIn(props.providers["github"].id).then(() => setLoading(false));
+    signIn(props.providers["github"].id ?? "github").then(() =>
+      setLoading(false)
+    );
   };
 
   useEffect(() => {
