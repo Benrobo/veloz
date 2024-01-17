@@ -4,7 +4,7 @@ import prisma from "../../../../prisma/prisma";
 import GitHubProvider from "next-auth/providers/github";
 import { NextAuthOptions } from "next-auth";
 
-export const nextAuthOptions: NextAuthOptions = {
+const nextAuthOptions: NextAuthOptions = {
   providers: [
     GitHubProvider({
       name: "github",
