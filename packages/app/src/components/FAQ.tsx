@@ -77,9 +77,9 @@ const FAQ_DATA = [
     key: "9",
     question: "Can I get a refund?",
     answer: [
-      `${boldText(
-        "No"
-      )}. due to the nature of the product, we do not offer refunds. After purchase, you get access to the source code and repo which is why we do not offer refunds.`,
+      `Due to the nature of the product, ${boldText(
+        "we do not offer refunds"
+      )} . After purchase, you get access to the source code and repo which is why we do not offer refunds.`,
       `However, Feel free to reach out with any questions about the product! Whether you're looking for coding snippets or a product workthrough, I'm here to help.`,
     ],
   },
