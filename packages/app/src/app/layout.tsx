@@ -10,6 +10,7 @@ import NextTopLoader from "@/components/TopLoader";
 import Seo from "@/components/Seo";
 import Head from "next/head";
 import { PropsWithChildren } from "react";
+import { Analytics } from "@vercel/analytics/react";
 
 // tanstack reqct query
 const queryClient = new QueryClient();
@@ -56,6 +57,8 @@ export default function RootLayout({ children }: PropsWithChildren) {
             <Toaster />
           </NextAuthProvider>
         </QueryClientProvider>
+
+        <Analytics />
 
         {/* Show loading state during page navigation */}
         <NextTopLoader color="#3770fe" showSpinner />
