@@ -1,9 +1,8 @@
+"use client";
 import React from "react";
 import {
   FlexColCenter,
   FlexColStart,
-  FlexColStartCenter,
-  FlexRowCenterBtw,
   FlexRowStart,
   FlexRowStartCenter,
 } from "../Flex";
@@ -208,14 +207,7 @@ function RenderStackFeatureIcon(
   const iconSize = 25;
 
   if (category === "frontend") {
-    icon = (
-      <Bezier
-        size={iconSize}
-        className={cn(
-          active === "frontend" ? "text-orange-100" : "text-white-400"
-        )}
-      />
-    );
+    icon = null;
   }
   if (category === "backend") {
     icon = (

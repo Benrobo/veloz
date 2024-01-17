@@ -1,6 +1,6 @@
+"use client";
 import { Box, CloudFog, Convertshape, Crown, Nebulas } from "iconsax-react";
 import React from "react";
-import ProjectStatus from "./Badge";
 import { ProjectType } from "@veloz/shared/types";
 
 interface ProjectCardProps extends React.HTMLProps<HTMLButtonElement> {
@@ -28,9 +28,6 @@ function ProjectCard({
       type="button"
     >
       <RenderProjectIcons type={label ?? "Odyssey"} />
-      <div className="absolute top-1 right-2">
-        <ProjectStatus status={status} />
-      </div>
       <p className="text-white-100 font-ppSB">{name ?? "Project Name"}</p>
       <p className="text-white-300 font-ppR text-[12px] ">
         {description ?? "Project description"}
@@ -45,6 +42,7 @@ export function RenderProjectIcons({ type }: { type: ProjectType }) {
   let icon = null;
   if (type === "Vortex") {
     icon = (
+      // @ts-ignore
       <Box
         size="40"
         className="text-orange-100 p-[8px] bg-orange-200 rounded-md "
@@ -54,6 +52,7 @@ export function RenderProjectIcons({ type }: { type: ProjectType }) {
   }
   if (type === "Apex") {
     icon = (
+      // @ts-ignore
       <Convertshape
         size="40"
         className="text-green-100 p-[8px] bg-green-200 rounded-md "
@@ -63,6 +62,7 @@ export function RenderProjectIcons({ type }: { type: ProjectType }) {
   }
   if (type === "Nebula") {
     icon = (
+      // @ts-ignore
       <Nebulas
         size="40"
         className="text-blue-100 p-[8px] bg-blue-200 rounded-md "
@@ -72,6 +72,7 @@ export function RenderProjectIcons({ type }: { type: ProjectType }) {
   }
   if (type === "Serenity") {
     icon = (
+      // @ts-ignore
       <CloudFog
         size="40"
         className="text-pink-100 p-[8px] bg-pink-200 rounded-md "
@@ -81,6 +82,7 @@ export function RenderProjectIcons({ type }: { type: ProjectType }) {
   }
   if (type === "Odyssey") {
     icon = (
+      // @ts-ignore
       <Crown
         size="40"
         className="text-teal-100 p-[8px] bg-teal-200 rounded-md "

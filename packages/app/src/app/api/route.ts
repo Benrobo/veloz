@@ -1,9 +1,5 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest } from "next/server";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  // handle reloading db schema
-  res.json({ message: "Hello from API" });
-}
+export const GET = (req: NextRequest) => {
+  return new Response("Hello from API");
+};

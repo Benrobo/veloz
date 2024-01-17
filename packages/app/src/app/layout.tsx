@@ -9,16 +9,12 @@ import DataContextProvider from "@/context/DataContext";
 import NextTopLoader from "@/components/TopLoader";
 import Seo from "@/components/Seo";
 import Head from "next/head";
+import { PropsWithChildren } from "react";
 
 // tanstack reqct query
 const queryClient = new QueryClient();
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-  pageProps: any;
-}) {
+export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en" className="dark">
       <Seo />
@@ -56,6 +52,7 @@ export default function RootLayout({
             <LayoutContextProvider>
               <DataContextProvider>{children}</DataContextProvider>
             </LayoutContextProvider>
+            {/* @ts-expect-error */}
             <Toaster />
           </NextAuthProvider>
         </QueryClientProvider>

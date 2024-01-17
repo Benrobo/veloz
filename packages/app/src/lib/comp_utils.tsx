@@ -25,6 +25,7 @@ export function renderAccdIcon(category: TechStackCategory) {
     icon = <Mails className="group-hover:text-white-100 text-white-300" />;
   }
   if (category === "authentication") {
+    // @ts-ignore
     icon = <Shield className="group-hover:text-white-100 text-white-300" />;
   }
 
