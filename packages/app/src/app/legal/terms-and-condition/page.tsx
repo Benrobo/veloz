@@ -78,8 +78,10 @@ function TermsAndCondition() {
             users, and other parties you represent that you will not:
           </p>
           <ul className=" list-decimal  ">
-            {limitationOfUse.map((d) => (
-              <li className="text-white-300 font-ppReg text-[14px] ">{d}</li>
+            {limitationOfUse.map((d, i) => (
+              <li key={i} className="text-white-300 font-ppReg text-[14px] ">
+                {d}
+              </li>
             ))}
           </ul>
           <br />

@@ -127,6 +127,7 @@ function Countdown({ countDownDate }: { countDownDate: number }) {
     }, 1000);
 
     return () => clearInterval(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <span className="text-white-100 font-ppSB text-md ">{timeleft}</span>;
