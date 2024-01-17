@@ -16,7 +16,7 @@ function Header() {
       {/* Blur radius */}
       <BlurBgRadial className=" w-[100%] lg:w-[60%] h-[300px] absolute top-[10%] lg:top-[-10%] bg-white-300/10 " />
 
-      <FlexColCenter className="relative w-full h-auto md:mt-[8em] text-center">
+      <FlexColCenter className="relative w-full h-full mt-[10em] md:mt-[8em] text-center">
         <FlexRowCenter className="w-full relative top-[-2em]">
           <a
             href="https://www.producthunt.com/posts/veloz?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-veloz"
