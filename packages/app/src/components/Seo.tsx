@@ -1,5 +1,3 @@
-"use client";
-import Head from "next/head";
 import SITE_CONFIG from "../config/site";
 import React from "react";
 
@@ -13,7 +11,7 @@ type SeoProps = {
 
 function Seo({ title, description, image, url, keywords }: SeoProps) {
   return (
-    <Head>
+    <>
       {/* General Meta Tags */}
       <title>{title ?? SITE_CONFIG.headline}</title>
       <meta
@@ -68,7 +66,7 @@ function Seo({ title, description, image, url, keywords }: SeoProps) {
       <meta name="application-name" content="Veloz" />
       <meta name="msapplication-TileImage" content="/images/logo/logo.png" />
       {/* <meta name="msapplication-config" content="/browserconfig.xml" /> */}
-    </Head>
+    </>
   );
 }
 
