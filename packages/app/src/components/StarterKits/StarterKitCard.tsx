@@ -1,3 +1,4 @@
+"use client";
 import React, { useContext } from "react";
 import {
   FlexColCenter,
@@ -18,7 +19,7 @@ import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
 import { formatCurrency, hasTemplateBeenPurchased } from "@/lib/utils";
 import Image from "next/image";
 import { DataContext } from "@/context/DataContext";
-import { hasDiscountExpired } from "@/pages/api/lib/utils";
+import { hasDiscountExpired } from "@/app/api/lib/utils";
 
 type StarterKitsProps = {
   name: string;
@@ -109,7 +110,7 @@ function StarterKitCard({
       <FlexRowCenterBtw className="w-full mt-4 px-1">
         <FlexRowStart>
           <Link
-            href={`/kits/parent/${name}`}
+            href={`/kits/parent/${name?.toLowerCase()}`}
             className="underline flex gap-1 text-white-100 text-[10px] font-jbSB"
           >
             Learn more

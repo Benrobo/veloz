@@ -1,3 +1,4 @@
+"use client";
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import {
@@ -10,7 +11,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import SITE_CONFIG from "@/config/site";
 
 export const navigations = [

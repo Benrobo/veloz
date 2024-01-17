@@ -1,7 +1,7 @@
+"use client";
 import React, { useState } from "react";
-import { Button } from "./ui/button";
-import { CloseSquare } from "iconsax-react";
 import { twMerge } from "tailwind-merge";
+import { X } from "lucide-react";
 
 interface ModalProp {
   isOpen?: boolean;
@@ -63,10 +63,9 @@ const Modal = ({
       <div className={`${isVisible ? "opacity-100" : "opacity-0"}`}>
         {showCloseIcon && (
           <div className="absolute top-5 right-0 p-1 z-[70]">
-            <CloseSquare
+            <X
               size="32"
               className="cursor-pointer text-red-305 "
-              variant="Bold"
               onClick={onClose}
             />
           </div>
@@ -110,6 +109,7 @@ export const ChildBlurModal = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   if (!isVisible) {
@@ -128,7 +128,7 @@ export const ChildBlurModal = ({
       <div className={`${isVisible ? "opacity-100" : "opacity-0"}`}>
         {showCloseIcon && (
           <div className="absolute top-3 right-0 p-1 z-[70]">
-            <CloseSquare />
+            <X />
           </div>
         )}
         <div className="relative h-full">{children}</div>

@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unescaped-entities */
+"use client";
 import React, { useState } from "react";
 import {
   FlexColCenter,
@@ -17,8 +19,7 @@ import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
 import { PARENT_KITS } from "@/data/stack";
 import Link from "next/link";
 import Image from "next/image";
-import Name from "@/pages/kits/parent/child/[name]";
-import { hasDiscountExpired } from "@/pages/api/lib/utils";
+import { hasDiscountExpired } from "@/app/api/lib/utils";
 
 function StarterKits() {
   const templates = PARENT_KITS.map((t) => {

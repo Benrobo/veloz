@@ -49,16 +49,6 @@ const FAQ_DATA = [
     ],
   },
   {
-    key: "5",
-    question: "Do i need to be an expert to use Veloz-kit?",
-    answer: [
-      `${boldText(
-        "No"
-      )}, Even your younger brother (who once struggled to operate a toaster) can conquer Veloz-Kit! 🚀 Veloz-Kit was created with simplicity in mind—no rocket science required.`,
-      `It so user-friendly that it feels like cheating. You can easily customize the kit to suit your needs.`,
-    ],
-  },
-  {
     key: "6",
     question: "Do i need to be an expert to use Veloz-kit?",
     answer: [
@@ -181,6 +171,7 @@ function FAQDropdown({ question, answer, _key }: FAQDropdownProps) {
         >
           {answer.map((a, i) => (
             <span
+              key={i}
               className="text-white-300 text-[12px] font-ppReg md:text-sm"
               dangerouslySetInnerHTML={{ __html: a }}
             ></span>

@@ -1,3 +1,4 @@
+"use client";
 import Head from "next/head";
 import SITE_CONFIG from "../config/site";
 import React from "react";

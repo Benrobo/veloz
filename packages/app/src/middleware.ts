@@ -9,8 +9,5 @@ export function middleware(request: NextRequest) {
 
 // default config
 export const config = {
-  pages: {
-    signIn: "/auth",
-  },
   matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };

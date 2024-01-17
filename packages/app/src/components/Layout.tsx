@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 import React, { useContext, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import SideBar from "./Navbar/SideBar";
@@ -39,7 +39,7 @@ function Layout({ children, activePage, className }: LayoutProps) {
 
   useEffect(() => {
     setActivePage(activePage);
-  }, [activePage]);
+  }, [activePage, setActivePage]);
 
   return (
     <div

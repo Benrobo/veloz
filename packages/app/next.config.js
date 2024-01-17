@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-
 const { withSentryConfig } = require("@sentry/nextjs");
 
 const nextConfig = {
@@ -7,6 +6,11 @@ const nextConfig = {
   output: "standalone",
   images: {
     unoptimized: true,
+    remotePatterns: [
+      {
+        hostname: "api.producthunt.com",
+      },
+    ],
   },
   transpilePackages: ["@veloz/shared"],
 };

@@ -1,3 +1,4 @@
+"use client";
 import { FullPageLoader } from "@/components/Loader";
 import { DataContext } from "@/context/DataContext";
 import useAuthUser from "@/hooks/useAuthUser";

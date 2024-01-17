@@ -1,8 +1,8 @@
+"use client";
 import React, { useContext } from "react";
 import {
   FlexColCenter,
   FlexColStart,
-  FlexColStartCenter,
   FlexRowEndCenter,
   FlexRowStartCenter,
 } from "../Flex";
@@ -12,7 +12,7 @@ import { cn, formatCurrency } from "@/lib/utils";
 import { PARENT_KITS } from "@/data/stack";
 import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
 import { DataContext } from "@/context/DataContext";
-import { hasDiscountExpired } from "@/pages/api/lib/utils";
+import { hasDiscountExpired } from "@/app/api/lib/utils";
 
 const features = [
   "One Time purchase",
@@ -111,13 +111,13 @@ function Pricing({ name }: Props) {
               "w-full rounded-[30px] py-5 font-ppSB text-[15px] gap-2 premium-button"
             )}
             onClick={() => {
-              window.location.href =
-                "https://veloz.lemonsqueezy.com/checkout/buy/2818dba9-52c3-4274-b332-e3edc54a6eb0";
-              // if (!userInfo) {
-              //   window.location.href = "/auth";
-              // } else {
-              //   window.location.href = `/kits/parent/${name.toLowerCase()}`;
-              // }
+              // window.location.href =
+              //   "https://veloz.lemonsqueezy.com/checkout/buy/2818dba9-52c3-4274-b332-e3edc54a6eb0";
+              if (!userInfo) {
+                window.location.href = "/auth";
+              } else {
+                window.location.href = `/kits/parent/${name.toLowerCase()}`;
+              }
             }}
           >
             <Zap size={15} /> Buy Now

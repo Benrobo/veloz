@@ -9,15 +9,15 @@ type Props = {
 function TemplateDetails({ name }: Props) {
   let component = null;
   const templateInfo = PARENT_KITS.find(
-    (t) => t.name.toLowerCase() === name.toLowerCase()
+    (t) => t.name.toLowerCase() === name?.toLowerCase()
   );
   const videoUrl = templateInfo?.demo.video_url;
   const videoId = videoUrl?.split("v=")[1];
 
-  if (name.toLowerCase() === "zeus") {
+  if (name?.toLowerCase() === "zeus") {
     component = <ZeusDetails video={videoUrl} videoId={videoId} />;
   }
-  if (name.toLowerCase() === "athena") {
+  if (name?.toLowerCase() === "athena") {
     component = <AthenaDetails video={videoUrl} videoId={videoId} />;
   }
 

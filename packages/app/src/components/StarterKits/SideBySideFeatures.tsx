@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import { FlexColStart, FlexRowStart } from "../Flex";
 import { CheckCheck } from "lucide-react";
@@ -32,6 +33,7 @@ export default function SideBySideFeatures({
               <div className="relative">
                 {thumbnail.map((img, i) => (
                   <Image
+                    key={i}
                     src={img}
                     width={i === 0 ? 900 : 400}
                     height={0}
@@ -93,6 +95,7 @@ export default function SideBySideFeatures({
               <div className="relative">
                 {thumbnail.map((img, i) => (
                   <Image
+                    key={i}
                     src={img}
                     width={i === 0 ? 900 : 400}
                     height={0}

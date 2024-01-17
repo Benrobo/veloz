@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { FlexColStart, FlexColStartCenter, FlexRowStartCenter } from "./Flex";
 import Image from "next/image";
