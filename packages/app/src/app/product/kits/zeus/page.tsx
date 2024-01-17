@@ -35,7 +35,7 @@ function ZeusKit() {
             {
               title: "OAuth",
               description:
-                "Zeus supports OAuth providers like Googlea and Github. You can also add your own OAuth provider.",
+                "Zeus supports OAuth providers like Google and Github. Flexibility to add your prefer auth providers.",
             },
             {
               title: "Email / Password",
