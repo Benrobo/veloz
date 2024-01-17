@@ -1,6 +1,11 @@
 import { TEMPLATES_REPOSITORY } from "@/data/stack";
 import axios from "axios";
 import prisma from "../../../prisma/prisma";
+import HttpException from "../lib/exception";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
+import { RESPONSE_CODE } from "@veloz/shared/types";
 
 // [ref](https://stackoverflow.com/questions/64371517/how-to-invite-a-user-to-a-private-github-repo-within-an-organisation-using-the-c)
 // gh api -X PUT repos/:org/:repo/collaborators/:username -f permission=:perm
@@ -85,5 +90,31 @@ export async function addCollaboratorToRepo(
       `❌ [Collaborator Invite]: Invitation failed for ${username} for [template: ${_tempName}]`
     );
     return false;
+  }
+}
+
+export async function getLastRepoCommit(template_name: string): Promise<{
+  message: string;
+  date: string;
+  formatted: string;
+} | null> {
+  try {
+    const url = `https://api.github.com/repos/veloz-org/veloz-${template_name.toLowerCase()}/branches/main`;
+    const resp = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${process.env.GH_PAT}`,
+      },
+    });
+    const data = resp.data;
+    const lastCommit = data.commit;
+    const commit_date = lastCommit.commit.committer.date;
+    return {
+      message: lastCommit.commit.message,
+      date: commit_date,
+      formatted: dayjs(commit_date).fromNow(),
+    };
+  } catch (e: any) {
+    const msg = e?.response?.data?.message ?? e?.message;
+    throw new HttpException(RESPONSE_CODE.KIT_NOT_FOUND, msg, 400);
   }
 }
