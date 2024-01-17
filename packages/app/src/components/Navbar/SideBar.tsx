@@ -5,7 +5,12 @@ import { HomeIcon, MoneyIcon, ProjectIcon } from "../Icon";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 import { PanelRightClose, PanelRightOpen, Settings, Zap } from "lucide-react";
-import { FlexColCenter, FlexColStart, FlexRowCenterBtw } from "../Flex";
+import {
+  FlexColCenter,
+  FlexColStart,
+  FlexRowCenterBtw,
+  FlexRowStartCenter,
+} from "../Flex";
 import { cn, getPlanTitle, planColor } from "@/lib/utils";
 import { DataContext } from "@/context/DataContext";
 import { TechStackPricingPlan } from "@veloz/shared/types";
@@ -41,14 +46,18 @@ function SideBar({ activePage }: SidebarProps) {
       )}
     >
       <div className="w-full flex items-center justify-start gap-3 py-2 px-4">
-        <Image
-          src={"/images/logo/logo.png"}
-          className=""
-          alt="logo"
-          width={45}
-          height={0}
-        />
-        <span className="font-ppSB text-white-100 text-[1em]">Veloz</span>
+        <Link href="/" className="w-fit">
+          <FlexRowStartCenter>
+            <Image
+              src={"/images/logo/logo.png"}
+              className="scale-[.85]"
+              alt="logo"
+              width={45}
+              height={0}
+            />
+            <span className="font-ppSB text-white-100 text-[1em]">Veloz</span>
+          </FlexRowStartCenter>
+        </Link>
 
         <button
           className="md:hidden absolute top-2 right-2"
