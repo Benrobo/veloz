@@ -95,8 +95,11 @@ function HomeTopBar({ scrollVisible }: Props) {
           ))}
       </FlexRowCenter>
       <FlexRowEnd className="w-full ">
-        <Link
-          href={status === "authenticated" && data ? "/dashboard" : "/auth"}
+        <button
+          onClick={() => {
+            window.location.href =
+              status === "authenticated" && data ? "/dashboard" : "/auth";
+          }}
           className="w-auto px-5 py-3 rounded-[30px] group bg-white-100 hover:bg-white-100/40  transition-all scale-[1] md:scale-[.90] "
         >
           <FlexRowStartCenter className="gap-2">
@@ -108,7 +111,7 @@ function HomeTopBar({ scrollVisible }: Props) {
               className="text-dark-100 group-hover:translate-x-2 translate-x-0 transition-all"
             />
           </FlexRowStartCenter>
-        </Link>
+        </button>
       </FlexRowEnd>
     </FlexRowCenterBtw>
   );
