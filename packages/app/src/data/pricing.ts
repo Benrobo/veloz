@@ -40,3 +40,22 @@ export const PRICING_PAGE_DATA = [
     isMostPopular: false,
   },
 ] satisfies PricingPlan[];
+
+export const KIT_PRICING_PLAN = [
+  {
+    name: "zeus",
+    plans: [
+      "Custom Waitlist page and component",
+      "Prebuilt UI Components",
+      "Authentication support",
+      "Clean, well written and structure code",
+      "Own your data",
+      "Lemonsqueezy payment integration",
+      "Lifetime updates",
+      "Discord community",
+      "Unlimited projects",
+      "Buy now use forever",
+      "Unlimited projects",
+    ],
+  },
+];

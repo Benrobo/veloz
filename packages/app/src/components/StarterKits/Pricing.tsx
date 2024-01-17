@@ -13,15 +13,7 @@ import { PARENT_KITS } from "@/data/stack";
 import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
 import { DataContext } from "@/context/DataContext";
 import { hasDiscountExpired } from "@/app/api/lib/utils";
-
-const features = [
-  "One Time purchase",
-  "Unlimited projects",
-  "Access to prebuilt UI components",
-  "Discord community support",
-  "Plugins",
-  "Lifetime updates",
-];
+import { KIT_PRICING_PLAN } from "@/data/pricing";
 
 type Props = {
   name: string;
@@ -37,9 +29,12 @@ function Pricing({ name }: Props) {
     (m) => m.plan === template?.pricing_plan
   );
   const tempDiscount = template?.discount ?? null;
+  const features =
+    KIT_PRICING_PLAN.find((p) => p.name.toLowerCase() === name.toLowerCase())
+      ?.plans ?? [];
 
   return (
-    <FlexColStart className="w-full h-full ">
+    <FlexColStart className="w-full h-auto ">
       <FlexColCenter className="w-full text-center z-[20]">
         <h1 className="text-white-100 font-ppEB text-2xl md:text-4xl">
           One Time Purchase
@@ -90,7 +85,6 @@ function Pricing({ name }: Props) {
               </h1>
             </FlexRowEndCenter>
           </FlexColStart>
-          <br />
           <FlexColStart className="w-full h-auto">
             {features.map((d, i) => (
               <FlexRowStartCenter key={i} className="w-auto">
