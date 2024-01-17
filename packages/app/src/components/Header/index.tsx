@@ -16,7 +16,21 @@ function Header() {
       {/* Blur radius */}
       <BlurBgRadial className=" w-[100%] lg:w-[60%] h-[300px] absolute top-[10%] lg:top-[-10%] bg-white-300/10 " />
 
-      <FlexColCenter className="relative w-full h-auto mt-[10em] text-center">
+      <FlexColCenter className="relative w-full h-auto md:mt-[8em] text-center">
+        <FlexRowCenter className="w-full relative top-[-2em]">
+          <a
+            href="https://www.producthunt.com/posts/veloz?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-veloz"
+            target="_blank"
+          >
+            <Image
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=434617&theme=light"
+              alt="Veloz - Your&#0032;SaaS&#0032;Launchpad | Product Hunt"
+              className="w-[200px] h-[54px] "
+              width="200"
+              height="54"
+            />
+          </a>
+        </FlexRowCenter>
         <FlexRowCenter className="rainbowBorder mb-10 inline-flex items-center justify-center text-[14px] px-[2px] ">
           <span className="inline-flex items-center gap-1 whitespace-nowrap px-6 py-2 bg-dark-100 font-ppReg text-[12px] text-white-100">
             The last starter kit you'll ever need!.
@@ -60,18 +74,6 @@ function Header() {
               </span>
             </FlexRowCenterBtw>
           </button>
-          <a
-            href="https://www.producthunt.com/posts/veloz?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-veloz"
-            target="_blank"
-          >
-            <Image
-              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=434617&theme=light"
-              alt="Veloz - Your&#0032;SaaS&#0032;Launchpad | Product Hunt"
-              className="w-[250px] h-[54px]"
-              width="250"
-              height="54"
-            />
-          </a>
         </FlexColCenter>
       </FlexColCenter>
       <br />
