@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
-import nextAuthOptions from "../auth/options";
+import { nextAuthOptions } from "../auth/[...nextauth]";
 import { RESPONSE_CODE } from "@veloz/shared/types";
 import prisma from "../config/prisma";
 import HttpException from "../lib/exception";
@@ -14,7 +14,7 @@ export function isAuthenticated(fn: Function) {
 
     // console.log({ session });
 
-    const user = await prisma.users.findFirst({
+    const user = await prisma?.users.findFirst({
       where: { uId: session.user?.id },
     });
 
@@ -40,7 +40,7 @@ export function isAdmin(fn: Function) {
       throw new HttpException(RESPONSE_CODE.UNAUTHORIZED, "Unauthorized", 401);
     }
 
-    const admin = await prisma.users.findFirst({
+    const admin = await prisma?.users.findFirst({
       where: { uId: userId, role: "admin" },
     });
 
@@ -63,7 +63,7 @@ export function isCliAuth(fn: Function) {
     }
 
     // check if token exists
-    const user = await prisma.users.findFirst({
+    const user = await prisma?.users.findFirst({
       where: { veloz_token: token as string },
     });
 

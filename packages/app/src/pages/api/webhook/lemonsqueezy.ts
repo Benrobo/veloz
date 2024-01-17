@@ -7,7 +7,7 @@ import {
   PARENT_KITS,
   TEMPLATES_REPOSITORY,
 } from "@/data/stack";
-import CatchError from "../lib/error";
+import CatchError from "../lib/_error";
 import HttpException from "../lib/exception";
 import prisma from "../config/prisma";
 import { addCollaboratorToRepo } from "../lib/github";

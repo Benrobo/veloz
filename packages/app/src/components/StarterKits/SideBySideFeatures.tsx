@@ -21,8 +21,6 @@ export default function SideBySideFeatures({
   features,
   direction = "ltr",
 }: SideBySideFeaturesProps) {
-  console.log(typeof thumbnail);
-
   return (
     <div className="w-full max-w-[90%] grid grid-cols-1 md:grid-cols-2 gap-10 mx-auto z-[100] ">
       {direction === "ltr" ? (

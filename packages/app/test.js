@@ -4,10 +4,10 @@ const globalForPrisma = globalThis;
 
 const prisma = globalForPrisma.prisma || new PrismaClient();
 
-if (process.env.SERVER_ENV !== "production") globalForPrisma.prisma = prisma;
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
 (async () => {
-  const users = await prisma.user.findMany();
+  const users = await prisma.users.findMany();
 
   console.log(users);
 })();

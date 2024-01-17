@@ -1,0 +1,40 @@
+[
+  {
+    "id": "zeus_11209",
+    "name": "Zeus",
+    "image": "/images/templates/thumbnails/zeus.svg",
+    "tagline": "Turbocharge Your Indie Hacker Journey",
+    "pricing_plan": "LITE_PKG",
+    "variant_id": "211688",
+    "test_variant_id": "172182",
+    "available": true,
+    "shop_url": "https://veloz.lemonsqueezy.com/checkout/buy/b341dd13-dd70-4829-9d59-fdace2b2e144",
+    "demo": {
+      "live_url": "https://veloz-zeus.tryveloz.com",
+      "video_url": "#"
+    },
+    "discount": {
+      "amount": 200,
+      "code": "AWNZAZOQ",
+      "expires": "Mon, 29 Jan 2024"
+    },
+    "language": "JS"
+  },
+  {
+    "id": "athena_10294",
+    "name": "Athena",
+    "image": "/images/templates/athena.jpeg",
+    "tagline": "Empowering Indies, One Kit at a Time",
+    "pricing_plan": "STANDARD_PKG",
+    "variant_id": "198726",
+    "test_variant_id": "172182",
+    "available": false,
+    "shop_url": "#",
+    "demo": {
+      "live_url": "",
+      "video_url": "#"
+    },
+    "discount": null,
+    "language": "JS"
+  }
+]

@@ -1,7 +1,7 @@
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
-    // relationMode = "prisma"
+    provider     = "postgresql"
+    url          = env("DATABASE_URL")
+    relationMode = "prisma"
 }
 
 generator client {
@@ -45,6 +45,8 @@ model TemplateConsumption {
 
     user Users @relation(fields: [uId], references: [uId], onDelete: Cascade)
 
+    @@index([id])
+    @@index([uId])
     @@map("template_consumption")
 }
 
@@ -57,6 +59,8 @@ model PurchasedItem {
 
     user Users @relation(fields: [uId], references: [uId], onDelete: Cascade)
 
+    @@index([id])
+    @@index([uId])
     @@map("purchased_items")
 }
 
@@ -76,6 +80,8 @@ model Order {
 
     user Users @relation(fields: [uId], references: [uId], onDelete: Cascade)
 
+    @@index([id])
+    @@index([uId])
     @@map("orders")
 }
 
@@ -90,6 +96,8 @@ model Invites {
 
     user Users @relation(fields: [uId], references: [uId], onDelete: Cascade)
 
+    @@index([id])
+    @@index([uId])
     @@map("invites")
 }
 
@@ -105,5 +113,8 @@ model CollaboratedTemplates {
     sender   Users @relation(name: "SENDER", fields: [sender_id], references: [uId], onDelete: Cascade)
     receiver Users @relation(name: "RECEIVER", fields: [receiver_id], references: [uId], onDelete: Cascade)
 
+    @@index([id])
+    @@index([sender_id])
+    @@index([receiver_id])
     @@map("collaborated_templates")
 }

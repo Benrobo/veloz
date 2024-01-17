@@ -108,15 +108,16 @@ function Auth(props: AuthProps) {
   );
 }
 
-export default withoutAuth(Auth as any);
+// export default withoutAuth(Auth as any);
+export default Auth;
 
-export async function getServerSideProps({ context }: any) {
-  const providers = await getProviders();
-  // const csrfToken = await getCsrfToken(context);
-  return {
-    props: {
-      providers,
-      // csrfToken,
-    },
-  };
-}
+// export async function getServerSideProps({ context }: any) {
+//   const providers = await getProviders();
+//   // const csrfToken = await getCsrfToken(context);
+//   return {
+//     props: {
+//       providers,
+//       // csrfToken,
+//     },
+//   };
+// }

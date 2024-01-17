@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import CatchError from "../lib/error";
+import CatchError from "../lib/_error";
 import { isAuthenticated } from "../middlewares/auth";
 import userServices from "../services/user.services";
 import env from "../config/env";

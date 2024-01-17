@@ -1,0 +1,120 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+    // relationMode = "prisma"
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+enum Role {
+    user
+    admin
+}
+
+model Users {
+    id          String   @id @default(cuid())
+    uId         String   @unique
+    name        String
+    email       String?
+    avatar      String?
+    role        Role     @default(user)
+    isTester    Boolean  @default(false)
+    veloz_token String
+    veloz_plan  String?  @default("FREE_PKG")
+    gh_username String?
+    createdAt   DateTime @default(now())
+
+    templateConsumption    TemplateConsumption[]
+    purchasedItem          PurchasedItem[]
+    order                  Order[]
+    invites                Invites[]
+    templateInviteSent     CollaboratedTemplates[] @relation("SENDER")
+    templateInviteReceived CollaboratedTemplates[] @relation("RECEIVER")
+
+    @@map("users")
+}
+
+model TemplateConsumption {
+    id         String   @id @default(cuid())
+    uId        String
+    name       String
+    used_count Int      @default(0)
+    createdAt  DateTime @default(now())
+
+    user Users @relation(fields: [uId], references: [uId], onDelete: Cascade)
+
+    @@index([id])
+    @@index([uId])
+    @@map("template_consumption")
+}
+
+model PurchasedItem {
+    id            String   @id @default(cuid())
+    uId           String
+    temp_id       String
+    template_name String?
+    createdAt     DateTime @default(now())
+
+    user Users @relation(fields: [uId], references: [uId], onDelete: Cascade)
+
+    @@index([id])
+    @@index([uId])
+    @@map("purchased_items")
+}
+
+model Order {
+    id             String   @id @default(cuid())
+    uId            String
+    temp_id        String
+    template_name  String?
+    order_id       String?
+    payment_status String?
+    payment_amount Float?
+    user_name      String?
+    user_email     String?
+    product_id     String?
+    variant_id     String?
+    createdAt      DateTime @default(now())
+
+    user Users @relation(fields: [uId], references: [uId], onDelete: Cascade)
+
+    @@index([id])
+    @@index([uId])
+    @@map("orders")
+}
+
+// github invites
+model Invites {
+    id        String   @id @default(cuid())
+    uId       String
+    repo_name String?
+    kit_name  String?
+    type      String
+    createdAt DateTime @default(now())
+
+    user Users @relation(fields: [uId], references: [uId], onDelete: Cascade)
+
+    @@index([id])
+    @@index([uId])
+    @@map("invites")
+}
+
+model CollaboratedTemplates {
+    id          String   @id @default(cuid())
+    template_id String
+    sender_id   String
+    receiver_id String
+    status      String   @default("pending")
+    revoked     Boolean  @default(false)
+    createdAt   DateTime @default(now())
+
+    sender   Users @relation(name: "SENDER", fields: [sender_id], references: [uId], onDelete: Cascade)
+    receiver Users @relation(name: "RECEIVER", fields: [receiver_id], references: [uId], onDelete: Cascade)
+
+    @@index([id])
+    @@index([sender_id])
+    @@index([receiver_id])
+    @@map("collaborated_templates")
+}

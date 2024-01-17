@@ -1,9 +1,10 @@
+import NextAuth from "next-auth";
 import shortUUID from "short-uuid";
-import prisma from "../config/prisma";
+import prisma from "../../../../prisma/prisma";
 import GitHubProvider from "next-auth/providers/github";
 import { NextAuthOptions } from "next-auth";
 
-const nextAuthOptions: NextAuthOptions = {
+export const nextAuthOptions: NextAuthOptions = {
   providers: [
     GitHubProvider({
       name: "github",
@@ -22,22 +23,22 @@ const nextAuthOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user, account }) {
+      const users = await prisma.users.findMany();
+      console.log({ users });
       if (account?.provider === "github") {
         const { image, username, name, id } = user as any;
 
-        // check if user exist
-        const users = await prisma.users.findMany();
         const accountWithGithubAuth =
-          users.length > 0 ? users.find((u) => u.uId === id) : null;
+          users && users.length > 0 ? users.find((u) => u.uId === id) : null;
 
         if (!accountWithGithubAuth) {
           // create user
-          await prisma.users.create({
+          await prisma?.users?.create({
             data: {
               email: "",
               name: name?.toLowerCase() as string,
               avatar: image as string,
-              role: users.length === 0 ? "admin" : "user",
+              role: !users || (users && users.length === 0) ? "admin" : "user",
               uId: id,
               gh_username: username,
               veloz_token: shortUUID.generate(),
@@ -47,7 +48,7 @@ const nextAuthOptions: NextAuthOptions = {
         }
 
         if (accountWithGithubAuth) {
-          return true;
+          return false;
         }
       }
       return true;
@@ -78,4 +79,6 @@ const nextAuthOptions: NextAuthOptions = {
   },
 };
 
-export default nextAuthOptions;
+const handler = NextAuth(nextAuthOptions);
+
+export { handler as GET, handler as POST };

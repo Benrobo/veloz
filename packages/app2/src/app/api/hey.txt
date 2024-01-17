@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import HttpException from "../lib/exception";
+import HttpException from "./lib/exception";
 import { RESPONSE_CODE } from "@veloz/shared/types";
 
 const GET = (req: NextApiRequest, res: NextApiResponse) => {
@@ -9,7 +9,7 @@ const GET = (req: NextApiRequest, res: NextApiResponse) => {
     const encodedError = encodeURIComponent(error as string);
 
     // redirect to auth page
-    res.redirect(`/auth?error=${encodedError}`);
+    res.redirect(`/auth?error=${encodedError ?? "Something went wrong"}`);
 
     // throw error for capturing by sentry
     throw new HttpException(

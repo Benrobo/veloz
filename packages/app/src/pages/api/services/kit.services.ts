@@ -1,4 +1,3 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import sendResponse from "../lib/sendResponse";
 import { RESPONSE_CODE } from "@veloz/shared/types";
 import { _checkFineTunedStackAvailability } from "../lib/utils";
@@ -10,6 +9,7 @@ import {
 import HttpException from "../lib/exception";
 import { addCollaboratorToRepo } from "../lib/github";
 import prisma from "../config/prisma";
+import { NextRequest } from "next/server";
 
 class KitService {
   // get child template consumptions
@@ -32,7 +32,10 @@ class KitService {
       },
     });
 
-    const totalInstall = _kits.reduce((acc, curr) => acc + curr.used_count, 0);
+    const totalInstall = _kits.reduce(
+      (acc: any, curr: any) => acc + curr.used_count,
+      0
+    );
 
     // get used by avatars
     const usersAvatars: string[] = [];
@@ -54,9 +57,10 @@ class KitService {
     };
   }
 
-  async kitDetails(req: NextApiRequest, res: NextApiResponse) {
+  async kitDetails(req: NextRequest) {
     const { id } = (req as any)?.user;
-    const kit_name = (req?.query?.kit_name as string)?.toLowerCase();
+    const { searchParams } = new URL(req.url);
+    const kit_name = searchParams.get("kit_name")?.toLowerCase();
     const kit =
       FINE_TUNED_STACKS.find((t) => t.name.toLowerCase() === kit_name) ?? null;
 
@@ -81,8 +85,9 @@ class KitService {
 
       // compare if user has purchased this template based on the template parent_id not name.
       const purchased =
-        purchasedKits.find((t) => t.temp_id?.toLowerCase() === kit.parent_id) ??
-        null;
+        purchasedKits.find(
+          (t: any) => t.temp_id?.toLowerCase() === kit.parent_id
+        ) ?? null;
 
       if (!purchased) {
         throw new HttpException(
@@ -93,16 +98,16 @@ class KitService {
       }
     }
 
-    sendResponse.success(res, RESPONSE_CODE.SUCCESS, "success", 200, {
+    return sendResponse.success(RESPONSE_CODE.SUCCESS, "success", 200, {
       name: kit?.name.toLowerCase(),
       available: kit?.available,
       lang: kit.language ?? null,
     });
   }
 
-  async inviteToRepo(req: NextApiRequest, res: NextApiResponse) {
+  async inviteToRepo(req: NextRequest) {
     const userId = (req as any)?.user?.id;
-    const kitName = req?.body?.kit_name;
+    const kitName = (await req.json())?.kit_name?.toLowerCase();
     const user = await prisma.users.findFirst({ where: { uId: userId } });
     const gh_name = user?.gh_username;
 
@@ -133,7 +138,6 @@ class KitService {
       );
       if (collabInvited) {
         return sendResponse.success(
-          res,
           RESPONSE_CODE.SUCCESS,
           "Collaborator invited",
           200
@@ -146,7 +150,6 @@ class KitService {
       );
     }
     sendResponse.success(
-      res,
       RESPONSE_CODE.SUCCESS,
       "Collaborator invited already",
       200
@@ -154,9 +157,10 @@ class KitService {
   }
 
   // invoke from cli
-  async storeKitsConsumption(req: NextApiRequest, res: NextApiResponse) {
+  async storeKitsConsumption(req: NextRequest) {
     const userId = (req as any)?.user?.id;
-    const tempName = req?.query?.template;
+    const { searchParams } = new URL(req.url);
+    const tempName = searchParams.get("template")?.toLowerCase();
 
     // check if tempName is valid
     const template =
@@ -192,8 +196,8 @@ class KitService {
       console.log(
         `Template consumption stored for [user: @${user?.gh_username}] [template: ${tempName}]`
       );
-      sendResponse.success(res, RESPONSE_CODE.SUCCESS, `success`, 200);
-      return;
+
+      return sendResponse.success(RESPONSE_CODE.SUCCESS, `success`, 200);
     }
 
     // update template consumption
@@ -208,17 +212,17 @@ class KitService {
     console.log(
       `Template consumption updated for [user: @${user?.gh_username}] [template: ${tempName}]`
     );
-    sendResponse.success(res, RESPONSE_CODE.SUCCESS, `success`, 200);
+
+    return sendResponse.success(RESPONSE_CODE.SUCCESS, `success`, 200);
   }
 
   // get specific template consumption/installs
-  async getKitConsumption(req: NextApiRequest, res: NextApiResponse) {
-    const consumptions = await this.getUsersConsumptions(
-      req?.query?.template as string
-    );
+  async getKitConsumption(req: NextRequest) {
+    const { searchParams } = new URL(req.url);
+    const tempName = searchParams.get("template")?.toLowerCase();
+    const consumptions = await this.getUsersConsumptions(tempName as string);
 
-    sendResponse.success(
-      res,
+    return sendResponse.success(
       RESPONSE_CODE.SUCCESS,
       `success`,
       200,
@@ -226,7 +230,7 @@ class KitService {
     );
   }
 
-  async getKits(req: NextApiRequest, res: NextApiResponse) {
+  async getKits(req: NextRequest) {
     const child_templates: IFINE_TUNED_STACKS_TEMP[] = [];
 
     // get child templates
@@ -263,7 +267,6 @@ class KitService {
     }
 
     return sendResponse.success(
-      res,
       RESPONSE_CODE.SUCCESS,
       "success",
       200,

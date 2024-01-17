@@ -1,4 +1,7 @@
 /** @type {import('next').NextConfig} */
+
+const { withSentryConfig } = require("@sentry/nextjs");
+
 const nextConfig = {
   reactStrictMode: true,
   output: "standalone",
@@ -10,10 +13,7 @@ const nextConfig = {
 
 module.exports = nextConfig;
 
-
 // Injected content via Sentry wizard below
-
-const { withSentryConfig } = require("@sentry/nextjs");
 
 module.exports = withSentryConfig(
   module.exports,
