@@ -4,6 +4,7 @@ const { withSentryConfig } = require("@sentry/nextjs");
 const nextConfig = {
   reactStrictMode: true,
   output: "standalone",
+  staticPageGenerationTimeout: 100,
   images: {
     unoptimized: true,
     remotePatterns: [

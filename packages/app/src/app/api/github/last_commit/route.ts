@@ -4,6 +4,8 @@ import { RESPONSE_CODE } from "@veloz/shared/types";
 import { NextRequest } from "next/server";
 import { getLastRepoCommit } from "../../lib/github";
 
+export const dynamic = "force-dynamic";
+
 export const GET = CatchError(async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
   const template = searchParams.get("template");

@@ -5,6 +5,8 @@ import { RESPONSE_CODE } from "@veloz/shared/types";
 import sendResponse from "../../lib/sendResponse";
 import { NextRequest } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export const GET = CatchError(
   isAuthenticated(async (req: NextRequest) => {
     const userId = (req as any).user?.id;

@@ -1,8 +1,9 @@
+"use client";
+/* eslint-disable react/no-unescaped-entities */
 import { FlexColStart, FlexRowStart } from "@/components/Flex";
 import Footer from "@/components/Footer";
 import { ArrowLeftToLine } from "lucide-react";
 import Link from "next/link";
-import React from "react";
 
 const limitationOfUse = [
   "Modify, copy, prepare derivative works of, decompile, or reverse engineer any materials and software contained on this website.",
@@ -19,12 +20,11 @@ const limitationOfUse = [
 function TermsAndCondition() {
   return (
     <>
-      <FlexColStart className="w-full h-full gap-0 bg-dark-200 scroll-smooth ">
+      <FlexColStart className="w-full h-auto gap-0 bg-dark-200 scroll-smooth ">
         <FlexColStart className="w-full h-full md:max-w-[60%] px-9 py-9 mx-auto ">
           <FlexRowStart className="py-4">
             <Link
-              href="#"
-              onClick={() => window.history.back()}
+              href="/#"
               className="underline w-auto flex gap-2 items-center justify-start"
             >
               <ArrowLeftToLine
