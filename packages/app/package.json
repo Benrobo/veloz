@@ -28,6 +28,7 @@
     "iconsax-react": "^0.0.8",
     "lucide-react": "^0.309.0",
     "next": "14.0.4",
+    "next-auth": "^4.24.5",
     "prisma": "5.7.0",
     "react": "^18",
     "react-dom": "^18",
