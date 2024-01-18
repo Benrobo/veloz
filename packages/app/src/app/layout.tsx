@@ -43,7 +43,6 @@ export default function RootLayout({ children }: PropsWithChildren) {
             <LayoutContextProvider>
               <DataContextProvider>{children}</DataContextProvider>
             </LayoutContextProvider>
-            {/* @ts-expect-error */}
             <Toaster />
           </NextAuthProvider>
         </QueryClientProvider>
