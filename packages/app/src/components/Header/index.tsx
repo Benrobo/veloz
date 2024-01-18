@@ -30,6 +30,7 @@ function Header() {
           <a
             href="https://www.producthunt.com/posts/veloz?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-veloz"
             target="_blank"
+            className="z-[20]"
           >
             <Image
               src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=434617&theme=light"
@@ -41,12 +42,12 @@ function Header() {
           </a>
         </FlexRowCenter>
         <FlexRowCenter className="rainbowBorder mb-10 inline-flex items-center justify-center text-[14px] px-[2px] ">
-          <span className="inline-flex items-center gap-1 whitespace-nowrap px-6 py-2 bg-dark-100 font-ppReg text-[12px] text-white-100">
+          <span className="inline-flex items-center gap-1 whitespace-nowrap px-6 py-2 bg-dark-100 font-ppReg text-[12px] z-[20] text-white-100">
             The last starter kit you'll ever need!.
           </span>
         </FlexRowCenter>
         <FlexColCenter className="w-auto md:max-w-[70%]">
-          <h1 className=" text-4xl md:text-6xl text-white-100 mt-2 font-ppEB">
+          <h1 className=" text-4xl md:text-6xl z-[20] text-white-100 mt-2 font-ppEB">
             Ship Your Product Faster.
           </h1>
           <p className="text-white-300 text-[12px] md:text-[14px] w-full px-6 md:0 md:max-w-[60%] font-ppReg">
