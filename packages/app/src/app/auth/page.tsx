@@ -3,6 +3,8 @@ import {
   FlexColCenter,
   FlexColStart,
   FlexColStartCenter,
+  FlexRowCenter,
+  FlexRowStart,
   FlexRowStartCenter,
 } from "@/components/Flex";
 import React, { useEffect, useState } from "react";
@@ -15,6 +17,8 @@ import { withoutAuth } from "@/lib/auth/withoutAuth";
 import { getCsrfToken, signIn } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useSearchParams } from "next/navigation";
+import { HelpCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type AuthProps = {
   providers: Record<string, { id: string }>;
@@ -54,10 +58,52 @@ function Auth(props: AuthProps) {
       <FlexColCenter className="w-full mt-[10em] px-6">
         <FlexColStartCenter className="w-full md:max-w-[400px]">
           <FlexColStart className="w-full">
-            <h1 className="font-ppSB text-2xl text-white-100">
-              Create a <span className="font-ppEB">Veloz</span> account.
-            </h1>
-            <p className="text-sm font-ppReg text-white-300">
+            <FlexRowStart className="relative">
+              <h1 className="font-ppSB text-2xl text-white-100 z-20">
+                Create a <span className="font-ppEB">Veloz</span> account.
+              </h1>
+              <button
+                type="button"
+                className="w-fit text-orange-100 border-none outline-none cursor-pointer "
+                onClick={() => {
+                  toast.custom((t) => (
+                    <div
+                      className={`${t.visible ? " animate-enter " : "animate-leave"} bg-dark-200 max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-white-600 ring-opacity-5 transition-all ease-in",
+                        `}
+                    >
+                      <div className="flex-1 w-0 p-4">
+                        <div className="flex items-start">
+                          <div className="flex-shrink-0 pt-0.5">⁉️</div>
+                          <div className="ml-3 flex-1">
+                            <p className="text-sm font-ppReg text-white-900">
+                              Why github ?
+                            </p>
+                            <p className="mt-1 font-ppL text-xs text-white-200">
+                              So you can get invited to the private repo
+                              automatically once you purchase one of the starter
+                              kits.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex border-l border-gray-200">
+                        <button
+                          onClick={() => {
+                            toast.dismiss(t.id);
+                          }}
+                          className="w-full border border-transparent rounded-none rounded-r-lg p-2 flex items-center justify-center text-sm font-ppReg text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        >
+                          Close
+                        </button>
+                      </div>
+                    </div>
+                  ));
+                }}
+              >
+                <HelpCircle size={15} />
+              </button>
+            </FlexRowStart>
+            <p className="text-xs font-ppReg text-white-300 z-20">
               Get started by signing in with your github account.
             </p>
           </FlexColStart>
@@ -69,14 +115,14 @@ function Auth(props: AuthProps) {
               defaultValue={props.csrfToken}
             /> */}
             <Button
-              className="w-[280px] px-8 py-5 rounded-full bg-white-100 dark:bg-dark-102/70 hover:bg-white-100/70 border-solid border-[1px] border-white-400/40 dark:hover:bg-dark-102/70 dark:bg-dark-102 disabled:opacity-[.5] disabled:cursor-not-allowed "
+              className="w-full md:w-[280px] px-8 py-6 rounded-full bg-white-100 dark:bg-dark-102/70 hover:bg-white-100/70 border-solid border-[1px] border-white-400/40 dark:hover:bg-dark-102/70 dark:bg-dark-102 disabled:opacity-[.5] disabled:cursor-not-allowed "
               disabled={loading}
               onClick={handleAuth}
             >
               {loading ? (
                 <Spinner color="#fff" size={15} />
               ) : (
-                <FlexRowStartCenter className="w-full gap-5">
+                <FlexRowCenter className="w-full gap-5">
                   <svg
                     width={20}
                     height={20}
@@ -96,7 +142,7 @@ function Auth(props: AuthProps) {
                   <span className="text-xs text-dark-300 dark:text-white-300 font-ppReg">
                     Continue with Github
                   </span>
-                </FlexRowStartCenter>
+                </FlexRowCenter>
               )}
             </Button>
           </FlexColStart>

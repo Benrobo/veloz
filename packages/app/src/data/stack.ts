@@ -36,7 +36,7 @@ interface IPARENT_KITS {
     video_url: string;
   };
   discount: {
-    amount: number;
+    percentage: number;
     expires: string;
     code: string;
   } | null;

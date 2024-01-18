@@ -105,3 +105,8 @@ export function formatCurrency(number: number, currency: string) {
 
 export const sleep = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
+
+export const calculateDiscountedPrice = (price: number, percentage: number) => {
+  const percentageCalc = (price * percentage) / 100;
+  return price - percentageCalc;
+};

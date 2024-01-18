@@ -14,9 +14,9 @@
       "video_url": "#"
     },
     "discount": {
-      "amount": 200,
+      "percentage": 75,
       "code": "AWNZAZOQ",
-      "expires": "Mon, 29 Jan 2024"
+      "expires": "Wed, 31 Jan 2024"
     },
     "language": "JS"
   },

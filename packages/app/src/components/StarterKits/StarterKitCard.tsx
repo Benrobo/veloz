@@ -16,7 +16,11 @@ import { PricingBadge, StackedAvatar } from "../Badge";
 import Link from "next/link";
 import { BadgeCheck, CheckCheck, ExternalLink } from "lucide-react";
 import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
-import { formatCurrency, hasTemplateBeenPurchased } from "@/lib/utils";
+import {
+  calculateDiscountedPrice,
+  formatCurrency,
+  hasTemplateBeenPurchased,
+} from "@/lib/utils";
 import Image from "next/image";
 import { DataContext } from "@/context/DataContext";
 import { hasDiscountExpired } from "@/app/api/lib/utils";
@@ -29,7 +33,7 @@ type StarterKitsProps = {
   userImages: string[];
   thumbnail: string;
   discount: {
-    amount: number;
+    percentage: number;
     expires: string;
   } | null;
 };
@@ -46,6 +50,11 @@ function StarterKitCard({
   const { purchasedKits } = useContext(DataContext);
   const pricingModel = TEMPLATES_PRICING_MODEL.find(
     (m) => m.plan === pricing_plan
+  );
+
+  const discountedPrice = calculateDiscountedPrice(
+    pricingModel?.pricing.price as number,
+    discount?.percentage as number
   );
 
   const alreadyPurchased =
@@ -94,8 +103,7 @@ function StarterKitCard({
                 )}
                 {discount && !hasDiscountExpired(discount.expires).expired
                   ? formatCurrency(
-                      ((pricingModel?.pricing.price as number) -
-                        discount?.amount) as number,
+                      discountedPrice,
                       pricingModel?.pricing.currency as string
                     )
                   : formatCurrency(

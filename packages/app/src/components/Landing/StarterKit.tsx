@@ -13,7 +13,7 @@ import {
   FlexRowStartCenter,
 } from "../Flex";
 import { TechStackPricingPlan } from "@veloz/shared/types";
-import { cn, formatCurrency } from "@/lib/utils";
+import { calculateDiscountedPrice, cn, formatCurrency } from "@/lib/utils";
 import { CheckCheck, MoveRight } from "lucide-react";
 import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
 import { PARENT_KITS } from "@/data/stack";
@@ -66,12 +66,10 @@ function StarterKits() {
               <span className=" relative left-5 whitespace-nowrap">
                 <span className="absolute bg-red-305 -left-3 -top-1 -bottom-1 -right-2 md:-left-3 md:-top-0 md:-bottom-0 md:-right-3 -rotate-1"></span>
                 <span className="relative text-white-100">
-                  ${kitDiscount?.amount}
+                  {kitDiscount?.percentage}%
                 </span>
               </span>
-              <span className="text-white-100 font-ppReg ml-[3em]">
-                off for a limited time.
-              </span>
+              <span className="text-white-100 font-ppReg ml-[3em]">off.</span>
             </span>
             <Countdown
               countDownDate={new Date(kitDiscount.expires).getTime()}
@@ -143,7 +141,7 @@ type KitCardProps = {
   tagline: string;
   thumbnail: string;
   discount: {
-    amount: number;
+    percentage: number;
     expires: string;
   } | null;
   available?: boolean;
@@ -151,6 +149,12 @@ type KitCardProps = {
 
 function KitCard({ name, plan, thumbnail, tagline, discount }: KitCardProps) {
   if (!plan) return null;
+
+  const discountedPrice = calculateDiscountedPrice(
+    plan.price,
+    discount?.percentage as number
+  );
+
   return (
     <FlexColStart className="w-full md:max-w-[450px] h-auto min-h-[300px] gap-0  rounded-md scale-[.95] md:scale-[.90] md:translate-x-[-20px] relative">
       <Image
@@ -176,10 +180,7 @@ function KitCard({ name, plan, thumbnail, tagline, discount }: KitCardProps) {
           )}
           <h1 className="text-white-100 text-1xl md:text-3xl font-ppSB">
             {discount && !hasDiscountExpired(discount.expires).expired
-              ? formatCurrency(
-                  plan?.price - discount?.amount || 0,
-                  plan?.currency as string
-                )
+              ? formatCurrency(discountedPrice || 0, plan?.currency as string)
               : formatCurrency(plan?.price as number, plan?.currency as string)}
           </h1>
         </FlexRowEndCenter>

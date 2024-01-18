@@ -41,10 +41,11 @@ export const PRICING_PAGE_DATA = [
   },
 ] satisfies PricingPlan[];
 
-export const KIT_PRICING_PLAN = [
+export const KIT_PRICING_PLAN_FEATURES = [
   {
     name: "zeus",
     plans: [
+      "Next 14 (App Router)",
       "Custom Waitlist page and component",
       "Prebuilt UI Components",
       "Authentication support",

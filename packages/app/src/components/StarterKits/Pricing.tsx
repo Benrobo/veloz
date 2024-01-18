@@ -8,12 +8,12 @@ import {
 } from "../Flex";
 import { CheckCheck, Zap } from "lucide-react";
 import { Button } from "../ui/button";
-import { cn, formatCurrency } from "@/lib/utils";
+import { calculateDiscountedPrice, cn, formatCurrency } from "@/lib/utils";
 import { PARENT_KITS } from "@/data/stack";
 import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
 import { DataContext } from "@/context/DataContext";
 import { hasDiscountExpired } from "@/app/api/lib/utils";
-import { KIT_PRICING_PLAN } from "@/data/pricing";
+import { KIT_PRICING_PLAN_FEATURES } from "@/data/pricing";
 
 type Props = {
   name: string;
@@ -28,10 +28,19 @@ function Pricing({ name }: Props) {
   const tempModel = TEMPLATES_PRICING_MODEL.find(
     (m) => m.plan === template?.pricing_plan
   );
+  const plan = TEMPLATES_PRICING_MODEL.find(
+    (tp) => tp.plan.toLowerCase() === template?.pricing_plan.toLowerCase()
+  );
   const tempDiscount = template?.discount ?? null;
   const features =
-    KIT_PRICING_PLAN.find((p) => p.name.toLowerCase() === name.toLowerCase())
-      ?.plans ?? [];
+    KIT_PRICING_PLAN_FEATURES.find(
+      (p) => p.name.toLowerCase() === name.toLowerCase()
+    )?.plans ?? [];
+
+  const discountedPrice = calculateDiscountedPrice(
+    plan?.pricing.price as number,
+    tempDiscount?.percentage as number
+  );
 
   return (
     <FlexColStart className="w-full h-auto ">
@@ -74,8 +83,7 @@ function Pricing({ name }: Props) {
                 {tempDiscount &&
                 !hasDiscountExpired(tempDiscount.expires).expired
                   ? formatCurrency(
-                      ((tempModel?.pricing?.price as number) -
-                        tempDiscount?.amount) as number,
+                      discountedPrice as number,
                       tempModel?.pricing?.currency as string
                     )
                   : formatCurrency(
@@ -105,9 +113,7 @@ function Pricing({ name }: Props) {
               "w-full rounded-[30px] py-5 font-ppSB text-[15px] gap-2 premium-button"
             )}
             onClick={() => {
-              // window.location.href =
-              //   "https://veloz.lemonsqueezy.com/checkout/buy/2818dba9-52c3-4274-b332-e3edc54a6eb0";
-              if (!userInfo) {
+              if (Object.entries(userInfo).length === 0) {
                 window.location.href = "/auth";
               } else {
                 window.location.href = `/kits/parent/${name.toLowerCase()}`;

@@ -99,7 +99,7 @@ export type ReturnedTemplatesType = {
     count: number;
   };
   discount: {
-    amount: number;
+    percentage: number;
     expires: string;
   } | null;
 };
