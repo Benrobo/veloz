@@ -11,16 +11,16 @@ import { Button } from "../ui/button";
 import { calculateDiscountedPrice, cn, formatCurrency } from "@/lib/utils";
 import { PARENT_KITS } from "@/data/stack";
 import { TEMPLATES_PRICING_MODEL } from "@/constant/starter-kit";
-import { DataContext } from "@/context/DataContext";
 import { hasDiscountExpired } from "@/app/api/lib/utils";
 import { KIT_PRICING_PLAN_FEATURES } from "@/data/pricing";
+import { useSession } from "next-auth/react";
 
 type Props = {
   name: string;
 };
 
 function Pricing({ name }: Props) {
-  const { userInfo } = useContext(DataContext);
+  const { data } = useSession();
 
   const template = PARENT_KITS.find(
     (t) => t.name.toLowerCase() === name.toLowerCase()
@@ -113,7 +113,7 @@ function Pricing({ name }: Props) {
               "w-full rounded-[30px] py-5 font-ppSB text-[15px] gap-2 premium-button"
             )}
             onClick={() => {
-              if (Object.entries(userInfo).length === 0) {
+              if (!data) {
                 window.location.href = "/auth";
               } else {
                 window.location.href = `/kits/parent/${name.toLowerCase()}`;
