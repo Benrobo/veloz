@@ -62,6 +62,8 @@ class KitService {
     const kit =
       FINE_TUNED_STACKS.find((t) => t.name.toLowerCase() === kit_name) ?? null;
 
+    console.log(FINE_TUNED_STACKS);
+
     if (!kit) {
       throw new HttpException(
         RESPONSE_CODE.KIT_NOT_FOUND,
