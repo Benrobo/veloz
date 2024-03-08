@@ -20,6 +20,7 @@ export default class CodebaseSetup extends BaseSetup {
   private projName: string | null = null;
   private _cwd: string;
 
+  // @ts-ignore
   constructor(kitName: string, lang: string) {
     super();
     this._kitName = kitName;
