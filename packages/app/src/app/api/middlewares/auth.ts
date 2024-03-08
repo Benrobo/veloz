@@ -1,11 +1,11 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 import { RESPONSE_CODE } from "@veloz/shared/types";
 import prisma from "@/prisma/prisma";
 import HttpException from "../lib/exception";
+import { NextRequest, NextResponse } from "next/server";
 
 export function isAuthenticated(fn: Function) {
-  return async (req: NextApiRequest) => {
+  return async (req: NextRequest) => {
     const jwtToken = await getToken({
       req,
       secret: process.env.NEXTAUTH_SECRET,
@@ -33,7 +33,7 @@ export function isAuthenticated(fn: Function) {
 }
 
 export function isAdmin(fn: Function) {
-  return async (req: NextApiRequest) => {
+  return async (req: NextRequest) => {
     const userId = (req as any)?.user?.id;
 
     // console.log({ userId });
@@ -53,13 +53,12 @@ export function isAdmin(fn: Function) {
 }
 
 export function isCliAuth(fn: Function) {
-  return async (req: NextApiRequest, res: NextApiResponse) => {
-    const token = req.headers["x-veloz-token"];
-    console.log({ token });
+  return async (req: NextRequest, res: NextResponse) => {
+    const token = req.headers.get("x-veloz-token");
     if (!token) {
       throw new HttpException(
         RESPONSE_CODE.UNAUTHORIZED,
-        `Token is notfound`,
+        `Token notfound`,
         401
       );
     }
