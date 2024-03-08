@@ -77,6 +77,6 @@ export function isCliAuth(fn: Function) {
     }
 
     (req as any)["user"] = { id: user.uId };
-    await fn(req, res);
+    return await fn(req, res);
   };
 }
