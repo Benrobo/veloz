@@ -55,6 +55,7 @@ export function isAdmin(fn: Function) {
 export function isCliAuth(fn: Function) {
   return async (req: NextApiRequest, res: NextApiResponse) => {
     const token = req.headers["x-veloz-token"];
+    console.log({ token });
     if (!token) {
       throw new HttpException(
         RESPONSE_CODE.UNAUTHORIZED,
