@@ -16,7 +16,6 @@ const $http = axios.create({
 export const authenticate = async (token: string) => {
   try {
     $http.defaults.headers["x-veloz-token"] = token;
-    console.log({ token });
     const resp = await $http.post(`/user/cliAuth`, {
       headers: {
         "x-veloz-token": token,
