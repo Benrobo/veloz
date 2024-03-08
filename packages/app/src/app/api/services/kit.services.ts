@@ -58,6 +58,7 @@ class KitService {
   async kitDetails(req: NextRequest) {
     const { id } = (req as any)?.user;
     const { searchParams } = new URL(req.url);
+    console.log({ searchParams });
     const kit_name = searchParams.get("kit_name")?.toLowerCase();
     const kit =
       FINE_TUNED_STACKS.find((t) => t.name.toLowerCase() === kit_name) ?? null;
